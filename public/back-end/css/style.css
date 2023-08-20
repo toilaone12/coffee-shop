@@ -1,0 +1,99 @@
+.fs-10 {
+    font-size: 10px;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-14 {
+    font-size: 14px;
+}
+
+.fs-16 {
+    font-size: 16px;
+}
+
+.fs-18 {
+    font-size: 18px;
+}
+
+.fs-20 {
+    font-size: 20px;
+}
+
+.fs-22 {
+    font-size: 22px;
+}
+
+.fs-24 {
+    font-size: 24px;
+}
+
+.fs-26 {
+    font-size: 26px;
+}
+
+.fs-28 {
+    font-size: 28px;
+}
+
+.fs-30 {
+    font-size: 30px;
+}
+
+/* Tùy chỉnh màu sắc chung */
+table.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    color: #6c757d;
+}
+
+/* Tùy chỉnh màu nền của header */
+table.dataTable thead th {
+    background-color: #6c757d;
+    color: #ffffff;
+    border-bottom: 0;
+}
+
+/* Tùy chỉnh màu nền của dòng chẵn và lẻ */
+table.dataTable tbody tr.odd {
+    background-color: #f8f9fa;
+}
+
+table.dataTable tbody tr.even {
+    background-color: #ffffff;
+}
+
+/* Tùy chỉnh màu nền khi hover */
+table.dataTable tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+/* Tùy chỉnh màu cho phần tử thẻ <a> trong các ô chứa nút */
+table.dataTable tbody td a {
+    color: #007bff;
+}
+
+/* Tùy chỉnh phân trang */
+div.dataTables_paginate {
+    margin-top: 10px;
+}
+
+/* Tùy chỉnh màu nền của phân trang */
+div.dataTables_paginate ul.pagination {
+    background-color: #ffffff;
+}
+
+/* Tùy chỉnh màu chữ và background nút phân trang */
+div.dataTables_paginate ul.pagination li a {
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+
+/* Tùy chỉnh màu chữ khi hover nút phân trang */
+div.dataTables_paginate ul.pagination li a:hover {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
