@@ -60,7 +60,20 @@
                 Thao tác
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory" aria-expanded="true" aria-controls="collapseCategory">
+                    <i class="fa-solid fa-shop"></i>
+                    <span>Danh mục</span>
+                </a>
+                <div id="collapseCategory" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('category.list')}}">Danh sách danh mục</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Supplier -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-truck-field"></i>
@@ -99,39 +112,12 @@
                 Addons
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
             </div>
 
         </ul>
@@ -246,50 +232,6 @@
                                 <h6 class="dropdown-header">
                                     Message Center
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="" alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="" alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="" alt="...">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
@@ -306,20 +248,16 @@
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Hồ sơ
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Cài đặt
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Đăng xuất
                                 </a>
                             </div>
                         </li>
@@ -379,6 +317,9 @@
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('./back-end/js/jquery.min.js')}}"></script>
     <script src="{{asset('./back-end/js/bootstrap.bundle.min.js')}}"></script>
+    <script>
+        var listParent = {!! json_encode($listParent) !!};
+    </script>
     <script src="{{asset('./back-end/js/main.js')}}"></script>
     <!-- Core plugin JavaScript-->
     <script src="{{asset('./back-end/js/jquery.easing.min.js')}}"></script>
@@ -398,7 +339,7 @@
     <script>
         $(document).ready(function(){
             //sua nha cung cap
-            $('.update-supplier').click(function(){
+            $('#myTable').on('click', '.delete-supplier', function() {
                 let url = "{{route('supplier.update')}}";
                 let method = "POST";
                 let data = {
@@ -431,7 +372,7 @@
                 );
             })
             //xoa nha cung cap
-            $('.delete-supplier').click(function(){
+            $('#myTable').on('click', '.delete-supplier', function() {
                 let name = $('.name-'+$(this).data('id')).text();
                 let url = '{{route("supplier.delete")}}';
                 let method = "POST";
@@ -442,6 +383,70 @@
                     id: $(this).data('id'),
                 };
                 swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà cung cấp '+name+' không</span>',function (alert) {
+                    if(alert){
+                        callAjax(url,method,data,headers,
+                            function(data){
+                                if(data.res === 'success'){
+                                    swalNotification('Xóa thành công!','Bạn đã xóa thành công.','success',
+                                        function(callback){
+                                            if(callback){
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                }else{
+                                    swalNotification('Xóa không thành công!','Bạn đã xóa không thành công.','error');
+                                }
+                            },
+                            function(err){
+                                console.log(err);
+                            }
+                        );
+                    }else{
+                    }
+                });
+            })
+            //sua danh muc
+            $('#myTable').on('click', '.udpate-category', function() {
+                let url = "{{route('category.update')}}";
+                let method = "POST";
+                let data = {
+                    id_category: $('.update-category').attr('data-id'),
+                    name_category: $('.name-update').val() ,
+                    id_parent_category: $('.id-parent-update').val(),
+                }
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                callAjax(url,method,data,headers,
+                    function(data){
+                        if(data.res === 'success' || data.res === 'error'){
+                            $('.message-category').text(data.status);
+                            if($('.error-name').text() != ''){
+                                $('.error-name').text('');
+                            }
+                        }else if(data.res === 'warning'){
+                            $('.error-name').text(data.status.name ? data.status.name : '');
+                        }
+                    },  
+                    function(err){
+                        console.log(err);
+                    }
+                );
+            })
+            //xoa danh muc
+            $('#myTable').on('click', '.delete-category', function() { // su kien click ben trong id myTable va bat click co class la delete-category
+                let name = $('.name-'+$(this).data('id')).text();
+                let url = '{{route("category.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                // console.log('a');
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà danh mục '+name+' không</span>',function (alert) {
                     if(alert){
                         callAjax(url,method,data,headers,
                             function(data){

@@ -49,6 +49,7 @@ function swalNotification(title,text,icon,callback){
     });
 }
 
+
 $(document).ready(function() {
     $('#myTable').DataTable({
         "responsive": true,
@@ -65,6 +66,21 @@ $(document).ready(function() {
             $('.phone-update').val(phone);
             $('.address-update').val(address);
             $('.update-supplier').attr('data-id',$(value).data('id'))
+        })
+    })
+
+    $('.category').each(function(key, value){
+        $('.update-category-'+$(value).data('id')).click(function(key, val){
+            let name = $('.name-'+$(value).data('id')).text();
+            let idParent = $('.id-parent-'+$(value).data('id')).data('id');
+            let selectOptions = '';
+            selectOptions += `<option value="0" ${idParent === 0 ? 'selected' : ''}>Danh mục gốc</option>`
+            listParent.forEach(category => {
+                selectOptions += `<option value="${category.id_category}" ${category.id_category === idParent ? 'selected' : ''}>${category.name_category}</option>`;
+            });
+            $('.name-update').val(name);
+            $('.id-parent-update').html(selectOptions);
+            $('.update-category').attr('data-id',$(value).data('id'))
         })
     })
 });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,13 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('admin')->group(function(){
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    //Danh muc san pham
+    Route::prefix('category')->group(function(){
+        Route::get('/list',[CategoryController::class, 'list'])->name('category.list');
+        Route::post('/insert',[CategoryController::class, 'insert'])->name('category.insert');
+        Route::post('/update',[CategoryController::class, 'update'])->name('category.update');
+        Route::post('/delete',[CategoryController::class, 'delete'])->name('category.delete');
+    });
     //Nha cung cap
     Route::prefix('supplier')->group(function(){
         Route::get('/list',[SupplierController::class, 'list'])->name('supplier.list');
