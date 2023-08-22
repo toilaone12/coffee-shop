@@ -73,6 +73,20 @@
                 </div>
             </li>
 
+            <!-- Slide -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSlide" aria-expanded="true" aria-controls="collapseSlide">
+                    <i class="fa-brands fa-adversal"></i>
+                    <span>Quảng cáo</span>
+                </a>
+                <div id="collapseSlide" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('slide.list')}}">Danh sách quảng cáo</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Supplier -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -317,9 +331,11 @@
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('./back-end/js/jquery.min.js')}}"></script>
     <script src="{{asset('./back-end/js/bootstrap.bundle.min.js')}}"></script>
+    @if(request()->is('admin/category/list'))
     <script>
         var listParent = {!! json_encode($listParent) !!};
     </script>
+    @endif
     <script src="{{asset('./back-end/js/main.js')}}"></script>
     <!-- Core plugin JavaScript-->
     <script src="{{asset('./back-end/js/jquery.easing.min.js')}}"></script>
@@ -470,6 +486,44 @@
                     }
                 });
             })
+            //sua quang cao
+            //xoa quang cao
+            $('#myTable').on('click', '.delete-slide', function() { // su kien click ben trong id myTable va bat click co class la delete-category
+                let name = $('.name-'+$(this).data('id')).text();
+                let url = '{{route("slide.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                // console.log('a');
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh có tên là '+name+' không</span>',function (alert) {
+                    if(alert){
+                        callAjax(url,method,data,headers,
+                            function(data){
+                                if(data.res === 'success'){
+                                    swalNotification('Xóa thành công!','Bạn đã xóa thành công.','success',
+                                        function(callback){
+                                            if(callback){
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                }else{
+                                    swalNotification('Xóa không thành công!','Bạn đã xóa không thành công.','error');
+                                }
+                            },
+                            function(err){
+                                console.log(err);
+                            }
+                        );
+                    }else{
+                    }
+                });
+            })
+
         })
     </script>
 

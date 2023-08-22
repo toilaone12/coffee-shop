@@ -83,4 +83,21 @@ $(document).ready(function() {
             $('.update-category').attr('data-id',$(value).data('id'))
         })
     })
+
+    $('.change-image').change(function(){
+        let fileName = $(this).val().split('\\').pop();
+        $('.imagePath').text(fileName);
+    })
+
+    $('.slide').each(function(key, value){
+        $('.update-slide-'+$(value).data('id')).click(function(key, val){
+            let image = $('.image-'+$(value).data('id')).attr('src');;
+            let name = $('.name-'+$(value).data('id')).text();
+            let slug = $('.slug-'+$(value).data('id')).text();
+            $('.image-update').attr('src',image);
+            $('.name-update').val(name);
+            $('.slug-update').val(slug);
+            $('.update-slide').attr('data-id',$(value).data('id'))
+        })
+    })
 });

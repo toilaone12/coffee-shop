@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SupplierController;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,13 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[CategoryController::class, 'insert'])->name('category.insert');
         Route::post('/update',[CategoryController::class, 'update'])->name('category.update');
         Route::post('/delete',[CategoryController::class, 'delete'])->name('category.delete');
+    });
+    //Quang cao
+    Route::prefix('slide')->group(function(){
+        Route::get('/list',[SlideController::class, 'list'])->name('slide.list');
+        Route::post('/insert',[SlideController::class, 'insert'])->name('slide.insert');
+        Route::post('/update',[SlideController::class, 'update'])->name('slide.update');
+        Route::post('/delete',[SlideController::class, 'delete'])->name('slide.delete');
     });
     //Nha cung cap
     Route::prefix('supplier')->group(function(){
