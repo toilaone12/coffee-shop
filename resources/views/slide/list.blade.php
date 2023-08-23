@@ -28,7 +28,7 @@
                                     <td><input type="checkbox" name="" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td>
-                                        <img loading="lazy" src="{{ asset($one->image_slide) }}" class="image-{{$one->id_slide}}" width="220" height="100" alt="" srcset="">
+                                        <img loading="lazy" src="{{ asset($one->image_slide) }}" data-name="{{$one->image_slide}}" class="image-{{$one->id_slide}}" width="220" height="100" alt="" srcset="">
                                     </td>
                                     <td class="name-{{$one->id_slide}}">{{$one->name_slide}}</td>
                                     <td class="slug-{{$one->id_slide}}">{{$one->slug_slide}}</td>
@@ -80,22 +80,23 @@
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-7">
                                     <label>Hình ảnh quảng cáo</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input change-image" name="image_slide" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
                                     </div>
+                                    <p class="imagePath" class="mt-5"></p>
                                     @error('image_slide')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="custom-file">
-                                        <label>Tên ảnh</label>
-                                        <p class="imagePath" class="mt-5"></p>
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label>Hình ảnh gốc</label>
+                                        <img loading="lazy" class="image-update img-thumbnail d-block" style="height: 100px;" width="150" src="https://s2s.co.th/wp-content/uploads/2019/09/photo-icon-1.jpg" class="mt-5">
                                     </div>
-                                </div>
+                            </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -133,43 +134,46 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <span class="text-success message-supplier mx-3"></span>
-                <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label>Hình ảnh quảng cáo</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input change-image" name="image_slide" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
+                <span class="text-success message-slide mx-3"></span>
+                <form class="update-slide" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <input type="hidden" name="id_slide" class="id-slide" >
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label>Hình ảnh gốc</label>
+                                        <img class="image-update img-thumbnail d-block" width="200" height="100" src="" class="mt-5">
+                                        <input type="hidden" name="image_original_slide" class="image-original">
+                                    </div>
                                 </div>
-                                @error('image_slide')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Tên ảnh</label>
-                                    <img class="image-update" width="100" height="50" src="" class="mt-5">
+                                <div class="col-lg-7">
+                                    <label>Hình ảnh quảng cáo</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input change-original-image" name="image_slide" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                        <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
+                                    </div>
+                                    <div class="fs-16 mt-2 name-image"></div>
+                                    <span class="text-danger error-image"></span>
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="name">Tên quảng cáo</label>
+                            <input type="text" name="name_slide" id="name" class="form-control name-update">
+                            <span class="text-danger error-name"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="slug">Địa chỉ</label>
+                            <input type="text" name="slug_slide" id="slug" class="form-control slug-update">
+                            <span class="text-danger error-slug"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="name">Tên quảng cáo</label>
-                        <input type="text" name="" id="name" class="form-control name-update">
-                        <span class="text-danger error-name"></span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
                     </div>
-                    <div class="form-group">
-                        <label for="slug">Địa chỉ</label>
-                        <input type="text" name="slug_slide" id="slug" class="form-control slug-update">
-                        <span class="text-danger error-slug"></span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary update-slide">Sửa</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>

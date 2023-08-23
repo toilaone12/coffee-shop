@@ -20,7 +20,7 @@ class SlideController extends Controller
         $data = $request->all();
         $image = $request->file('image_slide');
         $slug = Str::slug($data['slug_slide'], '-');
-        $fileName = Str::slug($this->removeAccents($slug), '') . '-' . strtotime(now()) . '.jpg';
+        $fileName = $slug . '-' . strtotime(now()) . '.jpg';
         Validator::make($data,[
             'image_slide' => ['required','image','mimes:jpeg,png,jpg,gif'],
             'name_slide' => ['required'],
@@ -46,35 +46,44 @@ class SlideController extends Controller
         }
     }
 
-    // function update(Request $request){
-    //     $data = $request->all();
-    //     $errors = [];
-    //     if($data['name_supplier'] == ''){
-    //         $errors['name'] = 'Tên nhà cung cấp bắt buộc phải có';
-    //     }
-    //     if($data['phone_supplier'] == ''){
-    //         $errors['phone'] = 'Số điện thoại nhà cung cấp bắt buộc phải có';
-    //     }else if(!preg_match('/^(03[2-9]|05[6-9]|07[06-9]|08[1-9]|09[0-9]|01[2-9])[0-9]{7}$/',$data['phone_supplier'])){
-    //         $errors['phone'] = 'Số điện thoại phải đủ 10 số và nằm trong quốc gia Việt Nam';
-    //     }
-    //     if($data['address_supplier'] == ''){
-    //         $errors['address'] = 'Địa chỉ nhà cung cấp bắt buộc phải có';
-    //     }
-    //     if(count($errors) == 0){
-    //         $supplier = Supplier::find($data['id_supplier']);
-    //         $supplier->name_supplier = $data['name_supplier'];
-    //         $supplier->phone_supplier = $data['phone_supplier'];
-    //         $supplier->address_supplier = $data['address_supplier'];
-    //         $update = $supplier->save();
-    //         if($update){
-    //             return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành nhà cung cấp '.$data['name_supplier'].' thành công']);
-    //         }else{
-    //             return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
-    //         }
-    //     }else{
-    //         return response()->json(['res' => 'warning', 'status' => $errors]);
-    //     }
-    // }
+    function update(Request $request){
+        $data = $request->all();
+        $image = $request->file('image_slide');
+        $errors = [];
+        $validator = Validator::make($data,[
+            'image_slide' => ['required','image','mimes:jpeg,png,jpg,gif'],
+            'name_slide' => ['required'],
+            'slug_slide' => ['required']
+        ],[
+            'image_slide.required' => 'Vui lòng chọn một tệp ảnh.',
+            'image_slide.image' => 'Tệp phải là hình ảnh.',
+            'image_slide.mimes' => 'Định dạng tệp không hợp lệ. Chấp nhận định dạng jpeg, png, jpg, gif.',
+            'name_slide.required' => 'Tên của ảnh bắt buộc phải có',
+            'slug_slide.required' => 'Địa chỉ sau URL bắt buộc phải có'
+        ]);
+        if(!$validator->fails()){
+            $slug = Str::slug($data['slug_slide'], '-');
+            $fileName = $slug . '-' . strtotime(now()) . '.jpg';
+            $checkImageOriginal = Storage::disk('public')->exists($data['image_original_slide']);
+            $image->storeAs('public', $fileName); // se luu vao storage/app
+            // $data['image_slide']->storeAs('public', $fileName);
+            if($checkImageOriginal){
+                Storage::disk('public')->delete($data['image_original_slide']);
+            }
+            $slide = Slide::find($data['id_slide']);
+            $slide->image_slide = 'storage/'.$fileName;
+            $slide->name_slide = $data['name_slide'];
+            $slide->slug_slide = $data['slug_slide'];
+            $update = $slide->save();
+            if($update){
+                return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành quảng cáo về '.$data['name_slide'].' thành công']);
+            }else{
+                return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
+            }
+        }else{
+            return response()->json(['res' => 'warning', 'status' => $validator->errors()]);
+        }
+    }
 
     function delete(Request $request){
         $data = $request->all();

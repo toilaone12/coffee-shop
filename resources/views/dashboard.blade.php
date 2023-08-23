@@ -333,9 +333,10 @@
     <script src="{{asset('./back-end/js/bootstrap.bundle.min.js')}}"></script>
     @if(request()->is('admin/category/list'))
     <script>
-        var listParent = {!! json_encode($listParent) !!};
+        var listParent = {!!json_encode($listParent) !!};
     </script>
     @endif
+    <script src="{{asset('./back-end/js/function.js')}}"></script>
     <script src="{{asset('./back-end/js/main.js')}}"></script>
     <!-- Core plugin JavaScript-->
     <script src="{{asset('./back-end/js/jquery.easing.min.js')}}"></script>
@@ -353,43 +354,43 @@
     <!-- SwalAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             //sua nha cung cap
-            $('#myTable').on('click', '.delete-supplier', function() {
+            $('.update-supplier').on('click', function() {
                 let url = "{{route('supplier.update')}}";
                 let method = "POST";
                 let data = {
                     id_supplier: $('.update-supplier').attr('data-id'),
-                    name_supplier: $('.name-update').val() ,
+                    name_supplier: $('.name-update').val(),
                     phone_supplier: $('.phone-update').val(),
                     address_supplier: $('.address-update').val(),
                 }
                 let headers = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-                callAjax(url,method,data,headers,
-                    function(data){
-                        if(data.res === 'success' || data.res === 'error'){
+                callAjax(url, method, data, headers,
+                    function(data) {
+                        if (data.res === 'success' || data.res === 'error') {
                             $('.message-supplier').text(data.status);
-                            if($('.error-name').text() != '' || $('.error-phone').text() != '' || $('.error-address').text() != ''){
+                            if ($('.error-name').text() != '' || $('.error-phone').text() != '' || $('.error-address').text() != '') {
                                 $('.error-name').text('');
                                 $('.error-phone').text('');
                                 $('.error-address').text('');
                             }
-                        }else if(data.res === 'warning'){
+                        } else if (data.res === 'warning') {
                             $('.error-name').text(data.status.name ? data.status.name : '');
                             $('.error-phone').text(data.status.phone ? data.status.phone : '');
                             $('.error-address').text(data.status.address ? data.status.address : '');
                         }
-                    },  
-                    function(err){
+                    },
+                    function(err) {
                         console.log(err);
                     }
                 );
             })
             //xoa nha cung cap
             $('#myTable').on('click', '.delete-supplier', function() {
-                let name = $('.name-'+$(this).data('id')).text();
+                let name = $('.name-' + $(this).data('id')).text();
                 let url = '{{route("supplier.delete")}}';
                 let method = "POST";
                 let headers = {
@@ -398,44 +399,43 @@
                 let data = {
                     id: $(this).data('id'),
                 };
-                swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà cung cấp '+name+' không</span>',function (alert) {
-                    if(alert){
-                        callAjax(url,method,data,headers,
-                            function(data){
-                                if(data.res === 'success'){
-                                    swalNotification('Xóa thành công!','Bạn đã xóa thành công.','success',
-                                        function(callback){
-                                            if(callback){
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà cung cấp ' + name + ' không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
                                                 location.reload();
                                             }
                                         }
                                     );
-                                }else{
-                                    swalNotification('Xóa không thành công!','Bạn đã xóa không thành công.','error');
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
                                 }
                             },
-                            function(err){
+                            function(err) {
                                 console.log(err);
                             }
                         );
-                    }else{
-                    }
+                    } else {}
                 });
             })
             //sua danh muc
-            $('#myTable').on('click', '.udpate-category', function() {
+            $('.update-category').on('click', function() {
                 let url = "{{route('category.update')}}";
                 let method = "POST";
                 let data = {
                     id_category: $('.update-category').attr('data-id'),
-                    name_category: $('.name-update').val() ,
+                    name_category: $('.name-update').val(),
                     id_parent_category: $('.id-parent-update').val(),
                 }
                 let headers = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-                callAjax(url,method,data,headers,
-                    function(data){
+                callAjax(url, method, data, headers,
+                    function(data) {
                         if(data.res === 'success' || data.res === 'error'){
                             $('.message-category').text(data.status);
                             if($('.error-name').text() != ''){
@@ -444,15 +444,15 @@
                         }else if(data.res === 'warning'){
                             $('.error-name').text(data.status.name ? data.status.name : '');
                         }
-                    },  
-                    function(err){
+                    },
+                    function(err) {
                         console.log(err);
                     }
                 );
             })
             //xoa danh muc
             $('#myTable').on('click', '.delete-category', function() { // su kien click ben trong id myTable va bat click co class la delete-category
-                let name = $('.name-'+$(this).data('id')).text();
+                let name = $('.name-' + $(this).data('id')).text();
                 let url = '{{route("category.delete")}}';
                 let method = "POST";
                 let headers = {
@@ -462,34 +462,62 @@
                     id: $(this).data('id'),
                 };
                 // console.log('a');
-                swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà danh mục '+name+' không</span>',function (alert) {
-                    if(alert){
-                        callAjax(url,method,data,headers,
-                            function(data){
-                                if(data.res === 'success'){
-                                    swalNotification('Xóa thành công!','Bạn đã xóa thành công.','success',
-                                        function(callback){
-                                            if(callback){
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà danh mục ' + name + ' không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
                                                 location.reload();
                                             }
                                         }
                                     );
-                                }else{
-                                    swalNotification('Xóa không thành công!','Bạn đã xóa không thành công.','error');
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
                                 }
                             },
-                            function(err){
+                            function(err) {
                                 console.log(err);
                             }
                         );
-                    }else{
-                    }
+                    } else {}
                 });
             })
             //sua quang cao
+            $('.update-slide').submit(function(e) {
+                e.preventDefault()
+                let url = "{{route('slide.update')}}";
+                let method = "POST";
+                let formData = new FormData($('.update-slide')[0]);
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                
+                callAjax(url,method,formData,headers,
+                    function(data){
+                        if (data.res === 'success' || data.res === 'error') {
+                            $('.message-slide').text(data.status);
+                            if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-slug').text() != '') {
+                                $('.error-name').text('');
+                                $('.error-image').text('');
+                                $('.error-slug').text('');
+                            }
+                        } else if (data.res === 'warning') {
+                            $('.error-image').text(data.status.image_slide ? data.status.image_slide : '');
+                            $('.error-name').text(data.status.name_slide ? data.status.name_slide : '');
+                            $('.error-slug').text(data.status.slug_slide ? data.status.slug_slide : '');
+                        }
+                    },  
+                    function(err){
+                        console.log(err);
+                    }
+                ,1);
+            })
             //xoa quang cao
             $('#myTable').on('click', '.delete-slide', function() { // su kien click ben trong id myTable va bat click co class la delete-category
-                let name = $('.name-'+$(this).data('id')).text();
+                let name = $('.name-' + $(this).data('id')).text();
                 let url = '{{route("slide.delete")}}';
                 let method = "POST";
                 let headers = {
@@ -499,28 +527,27 @@
                     id: $(this).data('id'),
                 };
                 // console.log('a');
-                swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh có tên là '+name+' không</span>',function (alert) {
-                    if(alert){
-                        callAjax(url,method,data,headers,
-                            function(data){
-                                if(data.res === 'success'){
-                                    swalNotification('Xóa thành công!','Bạn đã xóa thành công.','success',
-                                        function(callback){
-                                            if(callback){
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh có tên là ' + name + ' không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
                                                 location.reload();
                                             }
                                         }
                                     );
-                                }else{
-                                    swalNotification('Xóa không thành công!','Bạn đã xóa không thành công.','error');
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
                                 }
                             },
-                            function(err){
+                            function(err) {
                                 console.log(err);
                             }
                         );
-                    }else{
-                    }
+                    } else {}
                 });
             })
 
