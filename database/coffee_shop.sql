@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 22, 2023 lúc 06:14 PM
+-- Thời gian đã tạo: Th8 24, 2023 lúc 06:03 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -67,7 +67,17 @@ INSERT INTO `category` (`id_category`, `name_category`, `id_parent_category`, `c
 (8, 'Salad', 3, '2023-08-21 15:02:21', '2023-08-21 15:02:21'),
 (9, 'Bò bít tết', 3, '2023-08-21 15:02:28', '2023-08-21 15:02:28'),
 (10, 'Mì Ý', 3, '2023-08-21 15:02:39', '2023-08-21 15:02:39'),
-(11, 'Pasta', 4, '2023-08-21 16:00:50', '2023-08-21 16:00:50');
+(11, 'Pasta', 4, '2023-08-21 16:00:50', '2023-08-21 16:00:50'),
+(15, 'Cà phê phin', 1, '2023-08-24 14:34:19', '2023-08-24 14:34:19'),
+(16, 'Cà phê pha máy', 1, '2023-08-24 14:34:30', '2023-08-24 14:34:30'),
+(17, 'Cà phê giấy lọc', 1, '2023-08-24 14:34:39', '2023-08-24 14:34:39'),
+(18, 'Cà phê ủ lạnh', 1, '2023-08-24 14:34:46', '2023-08-24 14:34:46'),
+(19, 'Trà ấm', 1, '2023-08-24 14:34:53', '2023-08-24 14:34:53'),
+(20, 'Trà hoa quả', 1, '2023-08-24 14:35:01', '2023-08-24 14:35:01'),
+(21, 'Nước ép hoa quả', 1, '2023-08-24 14:35:11', '2023-08-24 14:35:11'),
+(22, 'Sinh tố', 1, '2023-08-24 14:35:18', '2023-08-24 14:35:18'),
+(23, 'Đá xay', 1, '2023-08-24 14:35:24', '2023-08-24 14:36:05'),
+(24, 'Đồ uống khác', 1, '2023-08-24 14:35:39', '2023-08-24 14:35:39');
 
 -- --------------------------------------------------------
 
@@ -108,7 +118,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2023_08_20_101033_create_supplier', 1),
 (5, '2023_08_20_101549_create_admin', 1),
 (6, '2023_08_21_213642_create_category', 2),
-(7, '2023_08_22_215140_create_slide', 3);
+(7, '2023_08_22_215140_create_slide', 3),
+(8, '2023_08_24_205413_create_product', 4);
 
 -- --------------------------------------------------------
 
@@ -121,6 +132,34 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product`
+--
+
+CREATE TABLE `product` (
+  `id_product` int(10) UNSIGNED NOT NULL,
+  `id_category` int(11) NOT NULL,
+  `image_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subname_product` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `quantity_product` int(11) NOT NULL,
+  `quantity_sold_product` int(11) DEFAULT NULL,
+  `price_product` int(11) NOT NULL,
+  `description_product` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `number_reviews_product` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product`
+--
+
+INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_product`, `subname_product`, `quantity_product`, `quantity_sold_product`, `price_product`, `description_product`, `number_reviews_product`, `created_at`, `updated_at`) VALUES
+(1, 15, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 'Black Coffee Filter', 10, NULL, 35000, '<p>Black Coffee Filter</p>', NULL, '2023-08-24 14:44:49', '2023-08-24 14:44:49');
 
 -- --------------------------------------------------------
 
@@ -142,7 +181,8 @@ CREATE TABLE `slide` (
 --
 
 INSERT INTO `slide` (`id_slide`, `image_slide`, `name_slide`, `slug_slide`, `created_at`, `updated_at`) VALUES
-(2, 'storage/khaitruong-1692720174.jpg', 'ảnh khai trương', 'khai-truong', '2023-08-22 16:02:55', '2023-08-22 16:02:55');
+(2, 'storage/khaitruong-1692720174.jpg', 'ảnh khai trương', 'khai-truong', '2023-08-22 16:02:55', '2023-08-22 16:02:55'),
+(3, 'storage/gioi-thieu-menu-1692805319.jpg', 'menu cua hang', 'gioi thieu menu', '2023-08-23 14:34:23', '2023-08-23 15:41:59');
 
 -- --------------------------------------------------------
 
@@ -165,7 +205,8 @@ CREATE TABLE `supplier` (
 
 INSERT INTO `supplier` (`id_supplier`, `name_supplier`, `phone_supplier`, `address_supplier`, `created_at`, `updated_at`) VALUES
 (2, 'Thái Công', '0387221123', 'Thành Phố Hồ Chí Minh', '2023-08-20 08:18:35', '2023-08-20 08:18:35'),
-(3, 'WinEco', '0399123331', 'Thành Phố Hồ Chí Minh', '2023-08-20 17:26:31', '2023-08-20 17:26:31');
+(3, 'WinEco', '0399123331', 'Thành Phố Hồ Chí Minh', '2023-08-20 17:26:31', '2023-08-20 17:26:31'),
+(4, 'asdsad', '0387221124', 'asdasdasd', '2023-08-23 15:43:09', '2023-08-23 15:48:54');
 
 -- --------------------------------------------------------
 
@@ -220,6 +261,12 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
+-- Chỉ mục cho bảng `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`id_product`);
+
+--
 -- Chỉ mục cho bảng `slide`
 --
 ALTER TABLE `slide`
@@ -252,7 +299,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `failed_jobs`
@@ -264,19 +311,25 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT cho bảng `product`
+--
+ALTER TABLE `product`
+  MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `slide`
 --
 ALTER TABLE `slide`
-  MODIFY `id_slide` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_slide` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id_supplier` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_supplier` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `users`

@@ -149,9 +149,6 @@
                                 <label for="option">Thuộc danh mục</label>
                                 <select name="id_parent_category" id="" class="form-control id-parent-update">
                                 </select>
-                                @error('id_parent_category')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
                             </div>
                         </div>
                     </div>

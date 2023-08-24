@@ -1,18 +1,3 @@
-function handleUpdateCategoryClick() {
-    let id = $(this).data('id');
-    let name = $('.name-' + id).text();
-    let idParent = $('.id-parent-' + id).data('id');
-    
-    let selectOptions = `<option value="0" ${idParent === 0 ? 'selected' : ''}>Danh mục gốc</option>`;
-    listParent.forEach(category => {
-        selectOptions += `<option value="${category.id_category}" ${category.id_category === idParent ? 'selected' : ''}>${category.name_category}</option>`;
-    });
-    
-    $('.name-update').val(name);
-    $('.id-parent-update').html(selectOptions);
-    $('.update-category').attr('data-id', id);
-}
-
 $(document).ready(function() {
     $('#myTable').DataTable({
         "responsive": true,
@@ -21,15 +6,13 @@ $(document).ready(function() {
     
     //nha cung cap
     $('.supplier').each(function(key, value){
-        $('.update-supplier-'+$(value).data('id')).click(function(key, val){
-            let name = $('.name-'+$(value).data('id')).text();
-            let phone = $('.phone-'+$(value).data('id')).text();
-            let address = $('.address-'+$(value).data('id')).text();
-            $('.name-update').val(name);
-            $('.phone-update').val(phone);
-            $('.address-update').val(address);
-            $('.update-supplier').attr('data-id',$(value).data('id'))
+        $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);
+    })
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('.supplier').each(function(key, value){
+            $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);
         })
+
     })
     //danh muc
     $('.category').each(function(key, value){
@@ -42,7 +25,7 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-category-' + $(value).data('id'), handleUpdateCategoryClick);
         });
     });
-
+    //phan quang cao
     $('.change-image').change(function(e){
         let fileName = $(this).val().split('\\').pop();
         $('.imagePath').text(fileName);
@@ -57,17 +40,22 @@ $(document).ready(function() {
     })
 
     $('.slide').each(function(key, value){
-        $('.update-slide-'+$(value).data('id')).click(function(key, val){
-            let id = $(value).data('id');
-            let image = $('.image-'+$(value).data('id')).attr('src');
-            let nameImage = $('.image-'+$(value).data('id')).attr('data-name');
-            let name = $('.name-'+$(value).data('id')).text();
-            let slug = $('.slug-'+$(value).data('id')).text();
-            $('.image-update').attr('src',image);
-            $('.id-slide').val(id);
-            $('.image-original').val(nameImage.replace('storage/',''));
-            $('.name-update').val(name);
-            $('.slug-update').val(slug);
+        $('#myTable').on('click', '.update-slide-' + $(value).data('id'), handleUpdateSlideClick);
+    })
+
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('.slide').each(function(key, value){
+            $('#myTable').on('click', '.update-slide-' + $(value).data('id'), handleUpdateSlideClick);
+        })
+    })
+    //phan san pham
+    $('.product').each(function(key, value){
+        $('#myTable').on('click', '.update-product-' + $(value).data('id'), handleUpdateProductClick);
+    })
+
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('.product').each(function(key, value){
+            $('#myTable').on('click', '.update-product-' + $(value).data('id'), handleUpdateProductClick);
         })
     })
 });

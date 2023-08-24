@@ -73,6 +73,20 @@
                 </div>
             </li>
 
+            <!-- Product -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="true" aria-controls="collapseProduct">
+                    <i class="fa-solid fa-truck-field"></i>
+                    <span>Sản phẩm</span>
+                </a>
+                <div id="collapseProduct" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('product.list')}}">Danh sách sản phẩm</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Slide -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSlide" aria-expanded="true" aria-controls="collapseSlide">
@@ -333,7 +347,11 @@
     <script src="{{asset('./back-end/js/bootstrap.bundle.min.js')}}"></script>
     @if(request()->is('admin/category/list'))
     <script>
-        var listParent = {!!json_encode($listParent) !!};
+        var listParent = {!!json_encode($listParent)!!};
+    </script>
+    @elseif(request()->is('admin/product/list'))
+    <script>
+        var listCate = {!!json_encode($listCate)!!};
     </script>
     @endif
     <script src="{{asset('./back-end/js/function.js')}}"></script>
@@ -348,12 +366,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.3/chart.min.js" integrity="sha512-fMPPLjF/Xr7Ga0679WgtqoSyfUoQgdt8IIxJymStR5zV3Fyb6B3u/8DcaZ6R6sXexk5Z64bCgo2TYyn760EdcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-    <!-- Page level custom scripts -->
-    <!-- <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script> -->
+    <!-- CKEditor -->
+    <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <!-- SwalAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.js"></script>
     <script>
+        CKEDITOR.replace('ckeditor');
+        CKEDITOR.replace('ckeditor1');
+        CKEDITOR.config.pasteFormWordPromptCleanup = true;
+        CKEDITOR.config.pasteFormWordRemoveFontStyles = false;
+        CKEDITOR.config.pasteFormWordRemoveStyles = false;
+        CKEDITOR.config.language = 'vi';
+        CKEDITOR.config.htmlEncodeOutput = false;
+        CKEDITOR.config.ProcessHTMLEntities = false;
+        CKEDITOR.config.entities = false;
+        CKEDITOR.config.entities_latin = false;
+        CKEDITOR.config.ForceSimpleAmpersand = true;
         $(document).ready(function() {
             //sua nha cung cap
             $('.update-supplier').on('click', function() {
@@ -550,7 +578,76 @@
                     } else {}
                 });
             })
-
+            //sua san pham
+            $('.update-product').submit(function(e) {
+                e.preventDefault()
+                let url = "{{route('product.update')}}";
+                let method = "POST";
+                let formData = new FormData($('.update-product')[0]);
+                formData.append('description_product',CKEDITOR.instances['ckeditor'].getData())
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                callAjax(url,method,formData,headers,
+                    function(data){
+                        if (data.res === 'success' || data.res === 'error') {
+                            $('.message-product').text(data.status);
+                            if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-subname').text() != ''
+                            || $('.error-quantity').text() != '' || $('.error-price').text() != '') {
+                                $('.error-name').text('');
+                                $('.error-image').text('');
+                                $('.error-subname').text('');
+                                $('.error-quantity').text('');
+                                $('.error-price').text('');
+                            }
+                        } else if (data.res === 'warning') {
+                            $('.error-image').text(data.status.image_product ? data.status.image_product : '');
+                            $('.error-name').text(data.status.name_product ? data.status.name_product : '');
+                            $('.error-subname').text(data.status.subname_product ? data.status.subname_product : '');
+                            $('.error-quantity').text(data.status.quantity_product ? data.status.quantity_product : '');
+                            $('.error-price').text(data.status.price_product ? data.status.price_product : '');
+                        }
+                    },  
+                    function(err){
+                        console.log(err);
+                    }
+                ,1);
+            })
+            //xoa san pham
+            $('#myTable').on('click', '.delete-product', function() { // su kien click ben trong id myTable va bat click co class la delete-category
+                let name = $('.name-' + $(this).data('id')).text();
+                let url = '{{route("product.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                // console.log('a');
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh có tên là ' + name + ' không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    } else {}
+                });
+            })
         })
     </script>
 

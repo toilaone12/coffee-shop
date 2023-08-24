@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SupplierController;
 use App\Models\Supplier;
@@ -25,6 +26,13 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[CategoryController::class, 'insert'])->name('category.insert');
         Route::post('/update',[CategoryController::class, 'update'])->name('category.update');
         Route::post('/delete',[CategoryController::class, 'delete'])->name('category.delete');
+    });
+    //San pahm
+    Route::prefix('product')->group(function(){
+        Route::get('/list',[ProductController::class, 'list'])->name('product.list');
+        Route::post('/insert',[ProductController::class, 'insert'])->name('product.insert');
+        Route::post('/update',[ProductController::class, 'update'])->name('product.update');
+        Route::post('/delete',[ProductController::class, 'delete'])->name('product.delete');
     });
     //Quang cao
     Route::prefix('slide')->group(function(){
