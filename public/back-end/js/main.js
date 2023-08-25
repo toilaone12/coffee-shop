@@ -58,4 +58,26 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-product-' + $(value).data('id'), handleUpdateProductClick);
         })
     })
+    //phan danh muc anh
+    $('.change-multi-image').change(function(){
+        var selectedImages = '';
+        var selectedPath = '';
+        var files = $(this)[0].files;
+        for (var i = 0; i < files.length; i++) {
+            selectedPath += '<span class="d-block">' + files[i].name + '</span>';
+            var imageSrc = URL.createObjectURL(files[i]);
+            let className = "img-thumbnail d-block";
+            selectedImages += '<img loading="lazy" class="'+className+'"';
+            selectedImages += 'style="height: 100px;" width="150" src="'+imageSrc+'" class="mt-5">';
+        }
+        $('.gallery-array').html(selectedImages);
+        $('.image-update').removeClass('d-block')
+        $('.image-update').addClass('d-none')
+        $('.imagePath').html(selectedPath);
+    })
+    $('#myTable').on('click', '.update-gallery', handleUpdateGalleryClick)
+
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').on('click', '.update-gallery', handleUpdateGalleryClick)
+    })
 });

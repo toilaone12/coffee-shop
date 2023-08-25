@@ -57,9 +57,9 @@
                                         <button style="width: 45px;" class="btn mb-1 btn-danger delete-product" data-id="{{$one->id_product}}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
-                                        <button style="width: 45px;" class="btn mb-1 btn-danger add-gallery-product" data-id="{{$one->id_product}}">
+                                        <a href="{{route('gallery.list',['id'=>$one->id_product])}}" style="width: 45px;" class="btn mb-1 btn-danger add-gallery-product">
                                             <i class="fa-solid fa-images"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 24, 2023 lúc 06:03 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th8 25, 2023 lúc 12:31 PM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -98,6 +98,29 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `gallery`
+--
+
+CREATE TABLE `gallery` (
+  `id_gallery` int(10) UNSIGNED NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `image_gallery` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `gallery`
+--
+
+INSERT INTO `gallery` (`id_gallery`, `id_product`, `image_gallery`, `created_at`, `updated_at`) VALUES
+(3, 1, 'storage/gallery/related-a2b-1-1692958032.jpg', '2023-08-25 10:07:12', '2023-08-25 10:07:12'),
+(4, 1, 'storage/gallery/share-1692958032.jpg', '2023-08-25 10:07:12', '2023-08-25 10:07:12'),
+(5, 1, 'storage/gallery/home-1692958032.jpg', '2023-08-25 10:07:12', '2023-08-25 10:07:12');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `migrations`
 --
 
@@ -119,7 +142,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2023_08_20_101549_create_admin', 1),
 (6, '2023_08_21_213642_create_category', 2),
 (7, '2023_08_22_215140_create_slide', 3),
-(8, '2023_08_24_205413_create_product', 4);
+(8, '2023_08_24_205413_create_product', 4),
+(9, '2023_08_25_161252_create_gallery', 5);
 
 -- --------------------------------------------------------
 
@@ -249,6 +273,12 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Chỉ mục cho bảng `gallery`
+--
+ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`id_gallery`);
+
+--
 -- Chỉ mục cho bảng `migrations`
 --
 ALTER TABLE `migrations`
@@ -308,10 +338,16 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT cho bảng `gallery`
+--
+ALTER TABLE `gallery`
+  MODIFY `id_gallery` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `product`

@@ -22,6 +22,7 @@
     <link href="{{asset('./back-end/css/style.css')}}" rel="stylesheet">
     <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <!-- SwalAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.css">
 </head>
@@ -353,6 +354,10 @@
     <script>
         var listCate = {!!json_encode($listCate)!!};
     </script>
+    @elseif(request()->is('admin/gallery/list'))
+    <script>
+        var routeUpdateGallery = "{{route('gallery.update')}}";
+    </script>
     @endif
     <script src="{{asset('./back-end/js/function.js')}}"></script>
     <script src="{{asset('./back-end/js/main.js')}}"></script>
@@ -366,6 +371,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.3/chart.min.js" integrity="sha512-fMPPLjF/Xr7Ga0679WgtqoSyfUoQgdt8IIxJymStR5zV3Fyb6B3u/8DcaZ6R6sXexk5Z64bCgo2TYyn760EdcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <!-- CKEditor -->
     <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <!-- SwalAlert2 -->

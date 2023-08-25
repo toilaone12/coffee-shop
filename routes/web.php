@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SupplierController;
@@ -27,12 +28,19 @@ Route::prefix('admin')->group(function(){
         Route::post('/update',[CategoryController::class, 'update'])->name('category.update');
         Route::post('/delete',[CategoryController::class, 'delete'])->name('category.delete');
     });
-    //San pahm
+    //San pham
     Route::prefix('product')->group(function(){
         Route::get('/list',[ProductController::class, 'list'])->name('product.list');
         Route::post('/insert',[ProductController::class, 'insert'])->name('product.insert');
         Route::post('/update',[ProductController::class, 'update'])->name('product.update');
         Route::post('/delete',[ProductController::class, 'delete'])->name('product.delete');
+    });
+    //Danh muc anh san pham
+    Route::prefix('gallery')->group(function(){
+        Route::get('/list',[GalleryController::class, 'list'])->name('gallery.list');
+        Route::post('/insert',[GalleryController::class, 'insert'])->name('gallery.insert');
+        Route::post('/update',[GalleryController::class, 'update'])->name('gallery.update');
+        Route::post('/delete',[GalleryController::class, 'delete'])->name('gallery.delete');
     });
     //Quang cao
     Route::prefix('slide')->group(function(){
