@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 25, 2023 lúc 12:31 PM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th8 27, 2023 lúc 05:25 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,19 +24,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `admin`
+-- Cấu trúc bảng cho bảng `account`
 --
 
-CREATE TABLE `admin` (
-  `id_admin` int(10) UNSIGNED NOT NULL,
-  `fullname_admin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_admin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password_admin` text COLLATE utf8mb4_unicode_ci NOT NULL,
+CREATE TABLE `account` (
+  `id_account` int(10) UNSIGNED NOT NULL,
+  `fullname_account` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username_account` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_account` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password_account` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `otp_account` int(11) NOT NULL,
   `id_role` int(11) NOT NULL,
   `is_online` tinyint(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `account`
+--
+
+INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
+(1, 'UID-91467', 'son', 'baooson3005@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 464358, 1, 0, '2023-08-27 11:08:11', '2023-08-27 11:08:11'),
+(3, 'UID-55243', 'son1', 'toilaone12@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 292481, 4, 0, '2023-08-27 14:03:46', '2023-08-27 14:03:46');
 
 -- --------------------------------------------------------
 
@@ -114,9 +124,8 @@ CREATE TABLE `gallery` (
 --
 
 INSERT INTO `gallery` (`id_gallery`, `id_product`, `image_gallery`, `created_at`, `updated_at`) VALUES
-(3, 1, 'storage/gallery/related-a2b-1-1692958032.jpg', '2023-08-25 10:07:12', '2023-08-25 10:07:12'),
-(4, 1, 'storage/gallery/share-1692958032.jpg', '2023-08-25 10:07:12', '2023-08-25 10:07:12'),
-(5, 1, 'storage/gallery/home-1692958032.jpg', '2023-08-25 10:07:12', '2023-08-25 10:07:12');
+(3, 1, 'storage/gallery/banner-utt-1693024246.jpg', '2023-08-25 10:07:12', '2023-08-26 04:30:47'),
+(5, 1, 'storage/gallery/capture-1693024260.jpg', '2023-08-25 10:07:12', '2023-08-26 04:31:00');
 
 -- --------------------------------------------------------
 
@@ -143,7 +152,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6, '2023_08_21_213642_create_category', 2),
 (7, '2023_08_22_215140_create_slide', 3),
 (8, '2023_08_24_205413_create_product', 4),
-(9, '2023_08_25_161252_create_gallery', 5);
+(9, '2023_08_25_161252_create_gallery', 5),
+(10, '2023_08_27_164316_create_role', 6),
+(11, '2023_08_27_172051_create_account', 7);
 
 -- --------------------------------------------------------
 
@@ -184,6 +195,27 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_product`, `subname_product`, `quantity_product`, `quantity_sold_product`, `price_product`, `description_product`, `number_reviews_product`, `created_at`, `updated_at`) VALUES
 (1, 15, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 'Black Coffee Filter', 10, NULL, 35000, '<p>Black Coffee Filter</p>', NULL, '2023-08-24 14:44:49', '2023-08-24 14:44:49');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `role`
+--
+
+CREATE TABLE `role` (
+  `id_role` int(10) UNSIGNED NOT NULL,
+  `name_role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `role`
+--
+
+INSERT INTO `role` (`id_role`, `name_role`, `created_at`, `updated_at`) VALUES
+(1, 'Quản lý', '2023-08-27 10:01:21', '2023-08-27 10:01:21'),
+(4, 'Nhân viên bán hàng', '2023-08-27 14:03:24', '2023-08-27 14:03:24');
 
 -- --------------------------------------------------------
 
@@ -254,10 +286,10 @@ CREATE TABLE `users` (
 --
 
 --
--- Chỉ mục cho bảng `admin`
+-- Chỉ mục cho bảng `account`
 --
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id_admin`);
+ALTER TABLE `account`
+  ADD PRIMARY KEY (`id_account`);
 
 --
 -- Chỉ mục cho bảng `category`
@@ -297,6 +329,12 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id_product`);
 
 --
+-- Chỉ mục cho bảng `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`id_role`);
+
+--
 -- Chỉ mục cho bảng `slide`
 --
 ALTER TABLE `slide`
@@ -320,10 +358,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT cho bảng `admin`
+-- AUTO_INCREMENT cho bảng `account`
 --
-ALTER TABLE `admin`
-  MODIFY `id_admin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `account`
+  MODIFY `id_account` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -347,13 +385,19 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
   MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `role`
+--
+ALTER TABLE `role`
+  MODIFY `id_role` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `slide`

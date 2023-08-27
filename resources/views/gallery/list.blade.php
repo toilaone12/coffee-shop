@@ -27,12 +27,31 @@
                                     <td>{{$key + 1}}</td>
                                     <td>
                                         <label for="file-{{$one->id_gallery}}">
-                                            <img loading="lazy" src="{{ asset($one->image_gallery) }}" data-name="{{$one->image_gallery}}" class="" width="220" height="100" alt="" srcset="">
+                                            <img
+                                                loading="lazy" 
+                                                src="{{ asset($one->image_gallery) }}" 
+                                                data-name="{{$one->image_gallery}}" 
+                                                class="image-original-{{$one->id_gallery}}" 
+                                                width="220" 
+                                                height="100" 
+                                            >
                                         </label>
-                                        <input type="file" class="mt-3 d-none update-gallery"  data-gallery="{{$one->id_gallery}}" name="image_gallery" id="file-{{$one->id_gallery}}">
+                                        <input 
+                                            type="file" 
+                                            class="mt-3 d-none update-gallery" 
+                                            data-gallery="{{$one->id_gallery}}" 
+                                            name="image_gallery" 
+                                            id="file-{{$one->id_gallery}}"
+                                        >
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger delete-gallery" data-id="{{$one->id_gallery}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button 
+                                            class="btn btn-danger delete-gallery" 
+                                            data-index="{{$key + 1}}" 
+                                            data-id="{{$one->id_gallery}}"
+                                        >
+                                            <i class="fa-solid fa-trash-can"></i>  
+                                        </button>
                                     </td>
                                 </tr>
                                 @endforeach

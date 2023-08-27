@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SupplierController;
 use App\Models\Supplier;
@@ -21,6 +23,23 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('admin')->group(function(){
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
+    Route::post('/sign-in', [AdminController::class, 'signIn'])->name('admin.signIn');
+    Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+    //Chức vụ
+    Route::prefix('role')->group(function(){
+        Route::get('/list',[RoleController::class, 'list'])->name('role.list');
+        Route::post('/insert',[RoleController::class, 'insert'])->name('role.insert');
+        Route::post('/update',[RoleController::class, 'update'])->name('role.update');
+        Route::post('/delete',[RoleController::class, 'delete'])->name('role.delete');
+    });
+    //Chức vụ
+    Route::prefix('account')->group(function(){
+        Route::get('/list',[AccountController::class, 'list'])->name('account.list');
+        Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert');
+        Route::post('/update',[AccountController::class, 'update'])->name('account.update');
+        Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete');
+    });
     //Danh muc san pham
     Route::prefix('category')->group(function(){
         Route::get('/list',[CategoryController::class, 'list'])->name('category.list');

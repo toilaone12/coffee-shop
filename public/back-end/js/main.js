@@ -75,9 +75,54 @@ $(document).ready(function() {
         $('.image-update').addClass('d-none')
         $('.imagePath').html(selectedPath);
     })
-    $('#myTable').on('click', '.update-gallery', handleUpdateGalleryClick)
+    $('#myTable').on('change', '.update-gallery', handleUpdateGalleryClick)
 
     $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-        $('#myTable').on('click', '.update-gallery', handleUpdateGalleryClick)
+        $('#myTable').on('change', '.update-gallery', handleUpdateGalleryClick)
     })
+
+    //phan chuc vu
+    $('.role').each(function(key, value){
+        $('#myTable').on('click', '.update-role-' + $(value).data('id'), handleUpdateRoleClick)
+    })
+    $('.role').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.update-role-' + $(value).data('id'), handleUpdateRoleClick)
+        })
+    })
+
+    //phan tai khoan
+    $('.password-toggle-btn').click(function(){
+        if($('#password').attr('type') === 'password'){
+            $('#password').attr('type','text');
+            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+        }else{
+            $('#password').attr('type','password');
+            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
+        }
+    })
+    $('.re-password-toggle-btn').click(function(){
+        if($('#re-password').attr('type') === 'password'){
+            $('#re-password').attr('type','text');
+            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+        }else{
+            $('#re-password').attr('type','password');
+            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
+        }
+    })
+    //phan dang nhap
+    $('.password-toggle-login').click(function(){
+        if($('#password-login').attr('type') === 'password'){
+            $('#password-login').attr('type','text');
+            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+        }else{
+            $('#password-login').attr('type','password');
+            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
+        }
+    })
+
+    $('.register').click(function(){
+        alert('Hãy liên hệ với quản trị viên của bạn để có thể đăng ký tài khoản')
+    })
+    
 });

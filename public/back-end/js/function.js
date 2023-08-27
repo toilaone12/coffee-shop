@@ -1,4 +1,4 @@
-function callAjax(url,method='GET',data,headers,success,error,isFormData = 0){
+function callAjax(url,method,data,headers,success,error,isFormData = 0){
     $.ajax({
         method: method,
         url: url,
@@ -115,7 +115,7 @@ function handleUpdateProductClick() {
     $('.update-category').attr('data-id', id);
     CKEDITOR.instances['ckeditor'].setData(description); // set noi dung tren Ckeditor
 }
-//xu ly danh muc anh san pham
+//xu ly sua danh muc anh san pham
 function handleUpdateGalleryClick(){
     let idGallery = $(this).data('gallery');
     let formData = new FormData();
@@ -124,36 +124,44 @@ function handleUpdateGalleryClick(){
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
     let fileInput = $('#file-' + idGallery)[0];
-    console.log(fileInput.files.length);
+    let imageOriginal = $('.image-original-'+idGallery).data('name').replace('storage/gallery/','');
     if (fileInput.files.length > 0) {
         let file = fileInput.files[0];
         formData.append('id_gallery', idGallery);
         formData.append('image_gallery', file, file.name);
+        formData.append('image_original_gallery',imageOriginal)
         callAjax(routeUpdateGallery,method,formData,headers,
             function(data){
-                console.log(data);
-                // if (data.res === 'success' || data.res === 'error') {
-                //     $('.message-product').text(data.status);
-                //     if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-subname').text() != ''
-                //     || $('.error-quantity').text() != '' || $('.error-price').text() != '') {
-                //         $('.error-name').text('');
-                //         $('.error-image').text('');
-                //         $('.error-subname').text('');
-                //         $('.error-quantity').text('');
-                //         $('.error-price').text('');
-                //     }
-                // } else if (data.res === 'warning') {
-                //     $('.error-image').text(data.status.image_product ? data.status.image_product : '');
-                //     $('.error-name').text(data.status.name_product ? data.status.name_product : '');
-                //     $('.error-subname').text(data.status.subname_product ? data.status.subname_product : '');
-                //     $('.error-quantity').text(data.status.quantity_product ? data.status.quantity_product : '');
-                //     $('.error-price').text(data.status.price_product ? data.status.price_product : '');
-                // }
+                let title = 'Cập nhật dữ liệu danh mục ảnh';
+                let text = '';
+                let icon = '';
+                if(data.res === 'success'){
+                    icon = 'success';
+                    text = data.status;
+                }else if(data.res === 'warning'){
+                    icon = 'warning';
+                    text = data.status.image_gallery;
+                }else{
+                    icon = 'error';
+                    text = data.status;
+                }
+                swalNotification(title,text,icon,function(callback){
+                    if(callback){
+                        location.reload();
+                    }
+                })
             },  
             function(err){
                 console.log(err);
             }
         ,1);
     }
+}
+//xu ly sua chuc vu
+function handleUpdateRoleClick(){
+    let id = $(this).data('id');
+    let name = $('.name-' + id).text();
+    $('.name-update').val(name);
+    $('.update-role').attr('data-id', id);
 }
 

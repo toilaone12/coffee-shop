@@ -76,10 +76,10 @@ class ProductController extends Controller
         if(!$validator->fails()){
             $pathStorage = 'storage/product/';
             if($image){
-                $checkImageOriginal = Storage::disk('public')->exists($data['image_original_product']);
+                $checkImageOriginal = Storage::disk('public')->exists('product/'.$data['image_original_product']);
                 $image->storeAs('public/product', $fileName); // se luu vao storage/app
                 if($checkImageOriginal){
-                    Storage::disk('public/product')->delete($data['image_original_product']);
+                    Storage::disk('public')->delete('product/'.$data['image_original_product']);
                 }
             }
             $product = Product::find($data['id_product']);
@@ -92,7 +92,7 @@ class ProductController extends Controller
             $product->description_product = $data['description_product'];
             $update = $product->save();
             if($update){
-                return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành quảng cáo về '.$data['name_product'].' thành công']);
+                return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu của sản phẩm về '.$data['name_product'].' thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
             }

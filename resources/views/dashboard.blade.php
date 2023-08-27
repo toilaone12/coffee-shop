@@ -1,3 +1,12 @@
+<?php
+
+use Illuminate\Support\Facades\Cookie;
+$username = Cookie::get('username');
+if(!isset($username)){
+    header('Location: ' . route('admin.login'));
+    exit; // Dừng thực hiện mã lệnh tiếp theo
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,7 +69,33 @@
             <div class="sidebar-heading">
                 Thao tác
             </div>
-
+            <!-- Role -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRole" aria-expanded="true" aria-controls="collapseRole">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Chức vụ</span>
+                </a>
+                <div id="collapseRole" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('role.list')}}">Danh sách chức vụ</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Account -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccount" aria-expanded="true" aria-controls="collapseAccount">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Tài khoản</span>
+                </a>
+                <div id="collapseAccount" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('account.list')}}">Danh sách tài khoản</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Category -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory" aria-expanded="true" aria-controls="collapseCategory">
                     <i class="fa-solid fa-shop"></i>
@@ -77,7 +112,7 @@
             <!-- Product -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="true" aria-controls="collapseProduct">
-                    <i class="fa-solid fa-truck-field"></i>
+                    <i class="fa-solid fa-cake-candles"></i>
                     <span>Sản phẩm</span>
                 </a>
                 <div id="collapseProduct" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -116,33 +151,8 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -249,29 +259,15 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{ isset($username) ? $username : ''}}
+                                </span>
+                                <img class="img-profile rounded-circle" src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -329,15 +325,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Bạn muốn đăng xuất?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Bạn đồng ý đăng xuất tài khoản này!</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy bỏ</button>
+                    <a class="btn btn-primary logout">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -389,6 +385,25 @@
         CKEDITOR.config.entities_latin = false;
         CKEDITOR.config.ForceSimpleAmpersand = true;
         $(document).ready(function() {
+            //dang xuat tai khoan
+            $('.logout').click(function(){
+                let url = "{{route('admin.logout')}}";
+                let method = "GET";
+                let data = {};     
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                callAjax(url,method,data,headers,
+                    function(data){
+                        if(data.res === 'success'){
+                            location.href = '{{route("admin.login")}}'
+                        }
+                    },
+                    function(err){
+                        console.log(err);
+                    }
+                );
+            })
             //sua nha cung cap
             $('.update-supplier').on('click', function() {
                 let url = "{{route('supplier.update')}}";
@@ -620,7 +635,7 @@
                 ,1);
             })
             //xoa san pham
-            $('#myTable').on('click', '.delete-product', function() { // su kien click ben trong id myTable va bat click co class la delete-category
+            $('#myTable').on('click', '.delete-product', function() { 
                 let name = $('.name-' + $(this).data('id')).text();
                 let url = '{{route("product.delete")}}';
                 let method = "POST";
@@ -652,6 +667,135 @@
                             }
                         );
                     } else {}
+                });
+            })
+            //xoa danh muc hinh anh san pham
+            $('#myTable').on('click', '.delete-gallery', function() {
+                let index = $(this).data('index');
+                let url = '{{route("gallery.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh số '+index+' không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //sua chuc vu
+            $('.update-role').on('click', function() {
+                let url = "{{route('role.update')}}";
+                let method = "POST";
+                let data = {
+                    id_role: $('.update-role').attr('data-id'),
+                    name_role: $('.name-update').val(),
+                }
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                callAjax(url, method, data, headers,
+                    function(data) {
+                        if(data.res === 'success' || data.res === 'error'){
+                            $('.message-role').text(data.status);
+                            if($('.error-name').text() != ''){
+                                $('.error-name').text('');
+                            }
+                        }else if(data.res === 'warning'){
+                            $('.error-name').text(data.status.name ? data.status.name : '');
+                        }
+                    },
+                    function(err) {
+                        console.log(err);
+                    }
+                );
+            })
+            //xoa chuc vu
+            $('#myTable').on('click', '.delete-role', function() {
+                let name = $('.name-' + $(this).data('id')).text();
+                let url = '{{route("role.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa chức vụ '+name+' không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //xoa tai khoan
+            $('#myTable').on('click', '.delete-account', function() {
+                let name = $('.name-' + $(this).data('id')).text();
+                let url = '{{route("account.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa tài khoản '+name+' này không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
                 });
             })
         })
