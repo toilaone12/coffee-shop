@@ -97,6 +97,7 @@ div.dataTables_paginate ul.pagination li a:hover {
     background-color: #f8f9fa;
     color: #6c757d;
 }
+
 .password-container {
     position: relative;
 }
@@ -122,4 +123,20 @@ div.dataTables_paginate ul.pagination li a:hover {
 
 .password-toggle-btn:focus {
     outline: none;
+}
+
+.otp-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.otp-input {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }

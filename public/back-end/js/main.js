@@ -124,5 +124,16 @@ $(document).ready(function() {
     $('.register').click(function(){
         alert('Hãy liên hệ với quản trị viên của bạn để có thể đăng ký tài khoản')
     })
+
+    $('.otp-input').on('input', function() { //su kien danh cho o input
+        if ($(this).val().length == $(this).attr('maxlength')) { //neu gia tri truyen vao bang gtri attr maxlength
+          $(this).next('.otp-input').focus(); //thi se nhay sang otp-input tiep theo
+        }
+        let otp = '';
+        $('.otp-input').each(function(){
+            otp += $(this).val();
+        })
+        $('.otp-account').val(otp);
+    });
     
 });

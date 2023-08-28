@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Cookie;
+
 $username = Cookie::get('username');
-if(!isset($username)){
+if (!isset($username)) {
     header('Location: ' . route('admin.login'));
     exit; // Dừng thực hiện mã lệnh tiếp theo
 }
@@ -151,6 +152,20 @@ if(!isset($username)){
                 </div>
             </li>
 
+            <!-- Customer -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer" aria-expanded="true" aria-controls="collapseCustomer">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>Khách hàng</span>
+                </a>
+                <div id="collapseCustomer" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('customer.list')}}">Danh sách khách hàng</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -275,7 +290,7 @@ if(!isset($username)){
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Hồ sơ
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{route('account.setting')}}">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Cài đặt
                                 </a>
@@ -344,11 +359,15 @@ if(!isset($username)){
     <script src="{{asset('./back-end/js/bootstrap.bundle.min.js')}}"></script>
     @if(request()->is('admin/category/list'))
     <script>
-        var listParent = {!!json_encode($listParent)!!};
+        var listParent = {
+            !!json_encode($listParent) !!
+        };
     </script>
     @elseif(request()->is('admin/product/list'))
     <script>
-        var listCate = {!!json_encode($listCate)!!};
+        var listCate = {
+            !!json_encode($listCate) !!
+        };
     </script>
     @elseif(request()->is('admin/gallery/list'))
     <script>
@@ -386,20 +405,20 @@ if(!isset($username)){
         CKEDITOR.config.ForceSimpleAmpersand = true;
         $(document).ready(function() {
             //dang xuat tai khoan
-            $('.logout').click(function(){
+            $('.logout').click(function() {
                 let url = "{{route('admin.logout')}}";
                 let method = "GET";
-                let data = {};     
+                let data = {};
                 let headers = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-                callAjax(url,method,data,headers,
-                    function(data){
-                        if(data.res === 'success'){
+                callAjax(url, method, data, headers,
+                    function(data) {
+                        if (data.res === 'success') {
                             location.href = '{{route("admin.login")}}'
                         }
                     },
-                    function(err){
+                    function(err) {
                         console.log(err);
                     }
                 );
@@ -485,12 +504,12 @@ if(!isset($username)){
                 }
                 callAjax(url, method, data, headers,
                     function(data) {
-                        if(data.res === 'success' || data.res === 'error'){
+                        if (data.res === 'success' || data.res === 'error') {
                             $('.message-category').text(data.status);
-                            if($('.error-name').text() != ''){
+                            if ($('.error-name').text() != '') {
                                 $('.error-name').text('');
                             }
-                        }else if(data.res === 'warning'){
+                        } else if (data.res === 'warning') {
                             $('.error-name').text(data.status.name ? data.status.name : '');
                         }
                     },
@@ -543,9 +562,9 @@ if(!isset($username)){
                 let headers = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-                
-                callAjax(url,method,formData,headers,
-                    function(data){
+
+                callAjax(url, method, formData, headers,
+                    function(data) {
                         if (data.res === 'success' || data.res === 'error') {
                             $('.message-slide').text(data.status);
                             if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-slug').text() != '') {
@@ -558,11 +577,10 @@ if(!isset($username)){
                             $('.error-name').text(data.status.name_slide ? data.status.name_slide : '');
                             $('.error-slug').text(data.status.slug_slide ? data.status.slug_slide : '');
                         }
-                    },  
-                    function(err){
+                    },
+                    function(err) {
                         console.log(err);
-                    }
-                ,1);
+                    }, 1);
             })
             //xoa quang cao
             $('#myTable').on('click', '.delete-slide', function() { // su kien click ben trong id myTable va bat click co class la delete-category
@@ -605,16 +623,16 @@ if(!isset($username)){
                 let url = "{{route('product.update')}}";
                 let method = "POST";
                 let formData = new FormData($('.update-product')[0]);
-                formData.append('description_product',CKEDITOR.instances['ckeditor'].getData())
+                formData.append('description_product', CKEDITOR.instances['ckeditor'].getData())
                 let headers = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-                callAjax(url,method,formData,headers,
-                    function(data){
+                callAjax(url, method, formData, headers,
+                    function(data) {
                         if (data.res === 'success' || data.res === 'error') {
                             $('.message-product').text(data.status);
-                            if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-subname').text() != ''
-                            || $('.error-quantity').text() != '' || $('.error-price').text() != '') {
+                            if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-subname').text() != '' ||
+                                $('.error-quantity').text() != '' || $('.error-price').text() != '') {
                                 $('.error-name').text('');
                                 $('.error-image').text('');
                                 $('.error-subname').text('');
@@ -628,14 +646,13 @@ if(!isset($username)){
                             $('.error-quantity').text(data.status.quantity_product ? data.status.quantity_product : '');
                             $('.error-price').text(data.status.price_product ? data.status.price_product : '');
                         }
-                    },  
-                    function(err){
+                    },
+                    function(err) {
                         console.log(err);
-                    }
-                ,1);
+                    }, 1);
             })
             //xoa san pham
-            $('#myTable').on('click', '.delete-product', function() { 
+            $('#myTable').on('click', '.delete-product', function() {
                 let name = $('.name-' + $(this).data('id')).text();
                 let url = '{{route("product.delete")}}';
                 let method = "POST";
@@ -680,7 +697,7 @@ if(!isset($username)){
                 let data = {
                     id: $(this).data('id'),
                 };
-                swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh số '+index+' không</span>', function(alert) {
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh số ' + index + ' không</span>', function(alert) {
                     if (alert) {
                         callAjax(url, method, data, headers,
                             function(data) {
@@ -716,12 +733,12 @@ if(!isset($username)){
                 }
                 callAjax(url, method, data, headers,
                     function(data) {
-                        if(data.res === 'success' || data.res === 'error'){
+                        if (data.res === 'success' || data.res === 'error') {
                             $('.message-role').text(data.status);
-                            if($('.error-name').text() != ''){
+                            if ($('.error-name').text() != '') {
                                 $('.error-name').text('');
                             }
-                        }else if(data.res === 'warning'){
+                        } else if (data.res === 'warning') {
                             $('.error-name').text(data.status.name ? data.status.name : '');
                         }
                     },
@@ -741,7 +758,7 @@ if(!isset($username)){
                 let data = {
                     id: $(this).data('id'),
                 };
-                swalQuestion('<span class="fs-16">Bạn có muốn xóa chức vụ '+name+' không</span>', function(alert) {
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa chức vụ ' + name + ' không</span>', function(alert) {
                     if (alert) {
                         callAjax(url, method, data, headers,
                             function(data) {
@@ -775,7 +792,7 @@ if(!isset($username)){
                 let data = {
                     id: $(this).data('id'),
                 };
-                swalQuestion('<span class="fs-16">Bạn có muốn xóa tài khoản '+name+' này không</span>', function(alert) {
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa tài khoản ' + name + ' này không</span>', function(alert) {
                     if (alert) {
                         callAjax(url, method, data, headers,
                             function(data) {

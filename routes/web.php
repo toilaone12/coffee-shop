@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
@@ -33,11 +34,12 @@ Route::prefix('admin')->group(function(){
         Route::post('/update',[RoleController::class, 'update'])->name('role.update');
         Route::post('/delete',[RoleController::class, 'delete'])->name('role.delete');
     });
-    //Chức vụ
+    //Tài khoản
     Route::prefix('account')->group(function(){
         Route::get('/list',[AccountController::class, 'list'])->name('account.list');
+        Route::get('/setting',[AccountController::class, 'setting'])->name('account.setting');
         Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert');
-        Route::post('/update',[AccountController::class, 'update'])->name('account.update');
+        Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update');
         Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete');
     });
     //Danh muc san pham
@@ -74,5 +76,9 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[SupplierController::class, 'insert'])->name('supplier.insert');
         Route::post('/update',[SupplierController::class, 'update'])->name('supplier.update');
         Route::post('/delete',[SupplierController::class, 'delete'])->name('supplier.delete');
+    });
+    //Chức vụ
+    Route::prefix('customer')->group(function(){
+        Route::get('/list',[CustomerController::class, 'list'])->name('customer.list');
     });
 });

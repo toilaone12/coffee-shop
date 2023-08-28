@@ -62,7 +62,7 @@
                                                 id="exampleInputEmail" name="username_account" value="{{$username}}" aria-describedby="emailHelp"
                                                 placeholder="Nhập tài khoản...">
                                             @error('username_account')
-                                            <span class="text-danger small ml-3">{{$message}}</span>
+                                            <p class="text-danger small ml-3 mt-1">{{$message}}</p>
                                             @enderror
                                         </div>
                                         <div class="mb-3 password-container">
@@ -72,8 +72,19 @@
                                                 <i class="fa-solid fa-eye text-secondary fs-22"></i>
                                             </button>
                                             @error('password_account')
-                                            <span class="text-danger small ml-3">{{$message}}</span>
+                                            <p class="text-danger small ml-3 mt-1">{{$message}}</p>
                                             @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="otp-container">
+                                                <input type="phone" class="otp-input" maxlength="1" />
+                                                <input type="phone" class="otp-input" maxlength="1" />
+                                                <input type="phone" class="otp-input" maxlength="1" />
+                                                <input type="phone" class="otp-input" maxlength="1" />
+                                                <input type="phone" class="otp-input" maxlength="1" />
+                                                <input type="phone" class="otp-input" maxlength="1" />
+                                            </div>
+                                            <input type="hidden" class="otp-account" name="otp_account">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -81,6 +92,9 @@
                                                 <label class="custom-control-label" for="customCheck">Nhớ tài khoản</label>
                                             </div>
                                         </div>
+                                        @error('otp_account')
+                                            <p class="text-danger small mb-2">{{$message}}</p>
+                                        @enderror
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Đăng nhập
                                         </button>
