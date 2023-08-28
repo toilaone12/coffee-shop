@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 27, 2023 lúc 05:25 PM
+-- Thời gian đã tạo: Th8 28, 2023 lúc 05:58 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -45,8 +45,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
-(1, 'UID-91467', 'son', 'baooson3005@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 464358, 1, 0, '2023-08-27 11:08:11', '2023-08-27 11:08:11'),
-(3, 'UID-55243', 'son1', 'toilaone12@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 292481, 4, 0, '2023-08-27 14:03:46', '2023-08-27 14:03:46');
+(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 1, 1, '2023-08-27 11:08:11', '2023-08-28 15:55:59'),
+(3, 'UID-55243', 'son1', 'toilaone12@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 292481, 4, 0, '2023-08-27 14:03:46', '2023-08-28 14:59:53');
 
 -- --------------------------------------------------------
 
@@ -88,6 +88,25 @@ INSERT INTO `category` (`id_category`, `name_category`, `id_parent_category`, `c
 (22, 'Sinh tố', 1, '2023-08-24 14:35:18', '2023-08-24 14:35:18'),
 (23, 'Đá xay', 1, '2023-08-24 14:35:24', '2023-08-24 14:36:05'),
 (24, 'Đồ uống khác', 1, '2023-08-24 14:35:39', '2023-08-24 14:35:39');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `customer`
+--
+
+CREATE TABLE `customer` (
+  `id_customer` int(10) UNSIGNED NOT NULL,
+  `image_customer` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_customer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gentle_customer` tinyint(4) NOT NULL,
+  `email_customer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_customer` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password_customer` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_vip` tinyint(4) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -154,7 +173,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2023_08_24_205413_create_product', 4),
 (9, '2023_08_25_161252_create_gallery', 5),
 (10, '2023_08_27_164316_create_role', 6),
-(11, '2023_08_27_172051_create_account', 7);
+(11, '2023_08_27_172051_create_account', 7),
+(12, '2023_08_28_213236_create_customer', 8);
 
 -- --------------------------------------------------------
 
@@ -298,6 +318,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id_category`);
 
 --
+-- Chỉ mục cho bảng `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id_customer`);
+
+--
 -- Chỉ mục cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -370,6 +396,12 @@ ALTER TABLE `category`
   MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
+-- AUTO_INCREMENT cho bảng `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -385,7 +417,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
