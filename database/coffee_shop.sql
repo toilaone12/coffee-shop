@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 28, 2023 lúc 05:58 PM
+-- Thời gian đã tạo: Th8 29, 2023 lúc 05:43 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -45,8 +45,7 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
-(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 1, 1, '2023-08-27 11:08:11', '2023-08-28 15:55:59'),
-(3, 'UID-55243', 'son1', 'toilaone12@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 292481, 4, 0, '2023-08-27 14:03:46', '2023-08-28 14:59:53');
+(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 5, 1, '2023-08-27 11:08:11', '2023-08-28 15:55:59');
 
 -- --------------------------------------------------------
 
@@ -234,8 +233,8 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`id_role`, `name_role`, `created_at`, `updated_at`) VALUES
-(1, 'Quản lý', '2023-08-27 10:01:21', '2023-08-27 10:01:21'),
-(4, 'Nhân viên bán hàng', '2023-08-27 14:03:24', '2023-08-27 14:03:24');
+(5, 'Quản lý', '2023-08-29 15:23:03', '2023-08-29 15:23:03'),
+(7, 'Nhân viên bán hàng', '2023-08-29 15:39:48', '2023-08-29 15:39:48');
 
 -- --------------------------------------------------------
 
@@ -251,14 +250,6 @@ CREATE TABLE `slide` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `slide`
---
-
-INSERT INTO `slide` (`id_slide`, `image_slide`, `name_slide`, `slug_slide`, `created_at`, `updated_at`) VALUES
-(2, 'storage/khaitruong-1692720174.jpg', 'ảnh khai trương', 'khai-truong', '2023-08-22 16:02:55', '2023-08-22 16:02:55'),
-(3, 'storage/gioi-thieu-menu-1692805319.jpg', 'menu cua hang', 'gioi thieu menu', '2023-08-23 14:34:23', '2023-08-23 15:41:59');
 
 -- --------------------------------------------------------
 
@@ -429,7 +420,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT cho bảng `role`
 --
 ALTER TABLE `role`
-  MODIFY `id_role` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_role` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `slide`

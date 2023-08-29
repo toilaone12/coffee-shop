@@ -33,6 +33,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[RoleController::class, 'insert'])->name('role.insert');
         Route::post('/update',[RoleController::class, 'update'])->name('role.update');
         Route::post('/delete',[RoleController::class, 'delete'])->name('role.delete');
+        Route::post('/delete-all',[RoleController::class, 'deleteAll'])->name('role.deleteAll');
     });
     //Tài khoản
     Route::prefix('account')->group(function(){
@@ -69,6 +70,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[SlideController::class, 'insert'])->name('slide.insert');
         Route::post('/update',[SlideController::class, 'update'])->name('slide.update');
         Route::post('/delete',[SlideController::class, 'delete'])->name('slide.delete');
+        Route::post('/delete-all',[SlideController::class, 'deleteAll'])->name('slide.deleteAll');
     });
     //Nha cung cap
     Route::prefix('supplier')->group(function(){

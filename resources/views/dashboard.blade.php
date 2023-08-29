@@ -617,6 +617,48 @@ if (!isset($username)) {
                     } else {}
                 });
             })
+            //xoa nhieu quang cao
+            $('.delete-all-slide').click(function(){
+                let arrId = [];
+                let url = '{{route("slide.deleteAll")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let html = '<span class="fs-16">Bạn có muốn xóa quảng cáo';
+                $('input[type="checkbox"]:checked').each(function(k,v){
+                    let id = parseInt($(this).val());
+                    arrId.push({id: id});
+                    let name = $('.name-'+id).text();
+                    html += ' ' + name + ' ';
+                })
+                html += 'không</span>';
+                let data = {
+                    arrId,
+                };
+                swalQuestion(html, function(alert) {
+                    if(alert){
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
             //sua san pham
             $('.update-product').submit(function(e) {
                 e.preventDefault()
@@ -760,6 +802,48 @@ if (!isset($username)) {
                 };
                 swalQuestion('<span class="fs-16">Bạn có muốn xóa chức vụ ' + name + ' không</span>', function(alert) {
                     if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //xoa nhieu chuc vu
+            $('.delete-all-role').click(function(){
+                let arrId = [];
+                let url = '{{route("role.deleteAll")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let html = '<span class="fs-16">Bạn có muốn xóa chức vụ';
+                $('input[type="checkbox"]:checked').each(function(k,v){
+                    let id = parseInt($(this).val());
+                    arrId.push({id: id});
+                    let name = $('.name-'+id).text();
+                    html += ' ' + name + ' ';
+                })
+                html += 'không</span>';
+                let data = {
+                    arrId,
+                };
+                swalQuestion(html, function(alert) {
+                    if(alert){
                         callAjax(url, method, data, headers,
                             function(data) {
                                 if (data.res === 'success') {

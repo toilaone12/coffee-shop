@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -59,6 +60,34 @@ class RoleController extends Controller
         $data = $request->all();
         $delete = Role::find($data['id'])->delete();
         if($delete){
+            $deleteAccount = Account::where('id_role',$data['id'])->delete();
+            if($deleteAccount){
+                return response()->json(['res' => 'success'],200);
+            }else{
+                return response()->json(['res' => 'fail'],200);
+            }
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
+
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $delete = Role::where('id_role',$id)->delete();
+            if($delete){
+                $deleteAccount = Account::where('id_role',$id)->delete();
+                if($deleteAccount){
+                    $noti += ['res' => 'success'];
+                }else{
+                    $noti += ['res' => 'fail'];
+                }
+            }else{
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if($noti['res'] == 'success'){
             return response()->json(['res' => 'success'],200);
         }else{
             return response()->json(['res' => 'fail'],200);

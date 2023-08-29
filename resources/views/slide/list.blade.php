@@ -25,7 +25,7 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td><input type="checkbox" name="" value="{{$one->id_slide}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td>
                                         <img loading="lazy" src="{{ asset($one->image_slide) }}" data-name="{{$one->image_slide}}" class="image-{{$one->id_slide}}" width="220" height="100" alt="" srcset="">
@@ -49,8 +49,8 @@
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
                         <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Thêm quảng cáo</button>
-                        <a href="#" class="btn btn-primary delete-all d-block mb-3">Xóa nhiều</a>
-                        <a href="#" class="btn btn-primary choose-all d-block">Chọn nhiều</a>
+                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-slide d-block mb-3">Xóa nhiều</button>
+                        <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>
                 </div>
             </div>

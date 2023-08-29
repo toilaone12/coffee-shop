@@ -3,7 +3,31 @@ $(document).ready(function() {
         "responsive": true,
         // Các tùy chọn khác...
     }); // Thay #myTable bằng ID của bảng bạn muốn biến thành DataTable
-    
+    //chon mot
+    $('input[type="checkbox"]').click(function(){
+        let arrId = [];
+        $('input[type="checkbox"]:checked').each(function(k,v){
+            let id = parseInt($(this).val());
+            arrId.push({id: id});
+        })
+        if(arrId.length >= 2){
+            $('.delete-all').removeClass('disabled').removeAttr('disabled')
+        }else{
+            $('.delete-all').addClass('disabled').attr('disabled','disabled')
+        }
+    })
+    //chon nhieu
+
+    $('.choose-all').click(function(){
+        var isChecked = $('input[type="checkbox"]').not(':checked').length !== 0; // b1: true b2: false
+        $('input[type="checkbox"]').prop('checked', isChecked); //ktra
+        if ($('input[type="checkbox"]:checked').length >= 2) {
+            $('.delete-all').removeClass('disabled').removeAttr('disabled')
+        } else {
+            $('.delete-all').addClass('disabled').attr('disabled','disabled')
+        }
+    })
+
     //nha cung cap
     $('.supplier').each(function(key, value){
         $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);

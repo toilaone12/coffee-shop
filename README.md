@@ -1,6 +1,6 @@
 * Thiếu: </br>
 - Mục: </br>
-+ Sản phẩm: Chưa làm chức năng danh mục ảnh của sản phẩm </br>
++ Chức năng xóa tất cả: Thiếu trang danh mục, sản phẩm, danh mục hình ảnh, tài khoản
 - Còn lại: </br>
 Còn chức năng Xóa nhiều và chọn nhiều chưa áp dụng cho tất cả các phần </br>
 * Lưu ý: </br>

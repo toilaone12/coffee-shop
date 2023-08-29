@@ -23,7 +23,7 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td><input type="checkbox" value="{{$one->id_role}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="name-{{$one->id_role}}">{{$one->name_role}}</td>
                                     <td>
@@ -50,8 +50,8 @@
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
                         <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Thêm chức vụ</button>
-                        <a href="#" class="btn btn-primary delete-all d-block mb-3">Xóa nhiều</a>
-                        <a href="#" class="btn btn-primary choose-all d-block">Chọn nhiều</a>
+                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-role d-block mb-3">Xóa nhiều</button>
+                        <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>
                 </div>
             </div>

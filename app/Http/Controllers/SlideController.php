@@ -95,4 +95,21 @@ class SlideController extends Controller
         }
     }
 
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $delete = Slide::where('id_slide',$id)->delete();
+            if($delete){
+                $noti += ['res' => 'success'];
+            }else{
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if($noti['res'] == 'success'){
+            return response()->json(['res' => 'success'],200);
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
 }
