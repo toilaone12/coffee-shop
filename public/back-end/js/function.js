@@ -173,4 +173,39 @@ function handleUpdateUnitClick(){
     $('.abbreviation-update').val(abbreviation);
     $('.update-unit').attr('data-id', id);
 }
+//xu ly phan hien danh sach chi tiet phieu
+function listDetailNote(data){
+    let html = '<div class="row">';
+    let selectOptions = '';
+    listUnit.forEach(unit => {
+        selectOptions += `<option value="${unit.id_unit}">${unit.fullname_unit}</option>`;
+    });
+    for (let i = 0; i < parseInt(data.quantity_note); i++){
+        html += `<div class="col-lg-4 border-success border-right border-bottom pt-3 ${i%3 == 0 ? 'border-left' : ''} ${i < 3 ? 'border-top' : ''}">`;
+        html += `<div class="form-group">`;
+        html += `<label for="name">Tên nguyên liệu</label>`;
+        html += `<input type="text" name="name_ingredients" id="name" class="form-control">`;
+        html += `</div>`;
+        html += `<div class="form-group">`;
+        html += `<label for="id">Đơn vị tính</label>`;
+        html += `<select name="id_unit" id="id" class="form-control">`;
+        html += selectOptions;
+        html += `</select>`;
+        html += `</div>`;
+        html += `<div class="form-group">`;
+        html += `<label for="quantity">Số lượng</label>`;
+        html += `<input type="number" min=1 name="quantity_ingredients" id="quantity" class="form-control">`;
+        html += `</div>`;
+        html += `<div class="form-group">`;
+        html += `<label for="price">Giá thành (Trên 1 nguyên liệu)</label>`;
+        html += `<input type="phone" min=1 name="price_ingredients" id="price" class="form-control">`;
+        html += `</div>`;
+        html += `</div>`;
+    }
+    html += '</div>';
+    $('.list-detail-note').attr('data-count',data.quantity_note)
+    .attr('data-code',data.code_note)
+    .attr('data-id',data.id_note)
+    .html(html);
+}
 

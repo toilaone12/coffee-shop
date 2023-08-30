@@ -17,7 +17,6 @@ $(document).ready(function() {
         }
     })
     //chon nhieu
-
     $('.choose-all').click(function(){
         var isChecked = $('input[type="checkbox"]').not(':checked').length !== 0; // b1: true b2: false
         $('input[type="checkbox"]').prop('checked', isChecked); //ktra
@@ -169,4 +168,13 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-unit-' + $(value).data('id'), handleUpdateUnitClick)
         })
     })
+
+    //phan phieu hang 
+    //quay lai modal truoc
+    $('#anotherModal').on('hide.bs.modal', function() {
+        $('#exampleModal').modal('show'); // Khi exampleModal được đóng, mở lại anotherModal
+    });
+    //hien danh sach chi tiet nguyen lieu
+    
+
 });

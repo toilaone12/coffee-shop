@@ -217,7 +217,7 @@ if (!isset($username)) {
                 <div id="collapseNote" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('customer.list')}}">Danh sách phiếu hàng</a>
+                        <a class="collapse-item" href="{{route('notes.list')}}">Danh sách phiếu hàng</a>
                     </div>
                 </div>
             </li>
@@ -429,19 +429,19 @@ if (!isset($username)) {
     <script src="{{asset('./back-end/js/bootstrap.bundle.min.js')}}"></script>
     @if(request()->is('admin/category/list'))
     <script>
-        var listParent = {
-            !!json_encode($listParent) !!
-        };
+        var listParent = {!!json_encode($listParent) !!};
     </script>
     @elseif(request()->is('admin/product/list'))
     <script>
-        var listCate = {
-            !!json_encode($listCate) !!
-        };
+        var listCate = {!!json_encode($listCate) !!};
     </script>
     @elseif(request()->is('admin/gallery/list'))
     <script>
         var routeUpdateGallery = "{{route('gallery.update')}}";
+    </script>
+    @elseif(request()->is('admin/notes/list'))
+    <script>
+        var listUnit = {!!json_encode($listUnit) !!};
     </script>
     @endif
     <script src="{{asset('./back-end/js/function.js')}}"></script>
@@ -688,7 +688,7 @@ if (!isset($username)) {
                 });
             })
             //xoa nhieu quang cao
-            $('.delete-all-slide').click(function(){
+            $('.delete-all-slide').click(function() {
                 let arrId = [];
                 let url = '{{route("slide.deleteAll")}}';
                 let method = "POST";
@@ -696,16 +696,18 @@ if (!isset($username)) {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
                 let html = '<span class="fs-16">Bạn có muốn xóa quảng cáo';
-                $('input[type="checkbox"]:checked').each(function(k,v){
+                $('input[type="checkbox"]:checked').each(function(k, v) {
                     let id = parseInt($(this).val());
-                    arrId.push({id: id});
+                    arrId.push({
+                        id: id
+                    });
                 })
                 html += ' không</span>';
                 let data = {
                     arrId,
                 };
                 swalQuestion(html, function(alert) {
-                    if(alert){
+                    if (alert) {
                         callAjax(url, method, data, headers,
                             function(data) {
                                 if (data.res === 'success') {
@@ -892,7 +894,7 @@ if (!isset($username)) {
                 });
             })
             //xoa nhieu chuc vu
-            $('.delete-all-role').click(function(){
+            $('.delete-all-role').click(function() {
                 let arrId = [];
                 let url = '{{route("role.deleteAll")}}';
                 let method = "POST";
@@ -900,16 +902,18 @@ if (!isset($username)) {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
                 let html = '<span class="fs-16">Bạn có muốn xóa chức vụ';
-                $('input[type="checkbox"]:checked').each(function(k,v){
+                $('input[type="checkbox"]:checked').each(function(k, v) {
                     let id = parseInt($(this).val());
-                    arrId.push({id: id});
+                    arrId.push({
+                        id: id
+                    });
                 })
                 html += ' không</span>';
                 let data = {
                     arrId,
                 };
                 swalQuestion(html, function(alert) {
-                    if(alert){
+                    if (alert) {
                         callAjax(url, method, data, headers,
                             function(data) {
                                 if (data.res === 'success') {
@@ -1030,7 +1034,7 @@ if (!isset($username)) {
                 });
             })
             //xoa nhieu don vi tinh
-            $('.delete-all-unit').click(function(){
+            $('.delete-all-unit').click(function() {
                 let arrId = [];
                 let url = '{{route("units.deleteAll")}}';
                 let method = "POST";
@@ -1038,16 +1042,18 @@ if (!isset($username)) {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
                 let html = '<span class="fs-16">Bạn có muốn xóa chức vụ';
-                $('input[type="checkbox"]:checked').each(function(k,v){
+                $('input[type="checkbox"]:checked').each(function(k, v) {
                     let id = parseInt($(this).val());
-                    arrId.push({id: id});
+                    arrId.push({
+                        id: id
+                    });
                 })
                 html += ' không</span>';
                 let data = {
                     arrId,
                 };
                 swalQuestion(html, function(alert) {
-                    if(alert){
+                    if (alert) {
                         callAjax(url, method, data, headers,
                             function(data) {
                                 if (data.res === 'success') {
@@ -1069,6 +1075,44 @@ if (!isset($username)) {
                     }
                 });
             })
+            //them phieu hang
+            $('.insert-note').submit(function(event) {
+                event.preventDefault(); // Ngăn chặn việc gửi form mặc định
+                let name = $('.name-insert').val();
+                let idSupplier = $('.id-supplier-insert:selected').val();
+                let url = "{{route('notes.insert')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let formData = new FormData($('.insert-note')[0]);
+                callAjax(url, method, formData, headers,
+                    function(data) {
+                        if(data.res === 'success' || data.res === 'fail'){
+                            swalNotification(data.title, data.status, data.icon,
+                                function(callback) {
+                                    if (callback) {
+                                        // Đóng modal hiện tại
+                                        $('#exampleModal').modal('hide');                  
+                                        // Mở modal khác
+                                        $('#anotherModal').modal('show');
+                                        $('.error-insert-name').text('');
+                                        $('.error-insert-quantity').text('');
+                                        listDetailNote(data.result);
+                                    }
+                                }
+                            );
+                        }else{
+                            $('.error-insert-name').text(data.status.name_note);
+                            $('.error-insert-quantity').text(data.status.quantity_note);
+                        }
+                    },
+                    function(err) {
+                        console.log(err);
+                    }
+                ,1)
+            
+            });
         })
     </script>
 

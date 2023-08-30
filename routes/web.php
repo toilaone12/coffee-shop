@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\NotesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RoleController;
@@ -108,5 +109,12 @@ Route::prefix('admin')->group(function(){
     //Chức vụ
     Route::prefix('customer')->group(function(){
         Route::get('/list',[CustomerController::class, 'list'])->name('customer.list');
+    });
+    //Phieu hang
+    Route::prefix('notes')->group(function(){
+        Route::get('/list',[NotesController::class, 'list'])->name('notes.list');
+        Route::post('/insert',[NotesController::class, 'insert'])->name('notes.insert');
+        Route::post('/update',[NotesController::class, 'update'])->name('notes.update');
+        Route::post('/delete',[NotesController::class, 'delete'])->name('notes.delete');
     });
 });
