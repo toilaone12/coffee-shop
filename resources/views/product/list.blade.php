@@ -20,8 +20,6 @@
                                     <th>Hình ảnh</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Tiêu đề</th>
-                                    <th>Tồn</th>
-                                    <th>Đã bán</th>
                                     <th>Giá cả</th>
                                     <th>Mô tả</th>
                                     <th>Số lần đánh giá</th>
@@ -45,8 +43,6 @@
                                     </td>
                                     <td class="name-{{$one->id_product}}">{{$one->name_product}}</td>
                                     <td class="subname-{{$one->id_product}}">{{$one->subname_product}}</td>
-                                    <td class="quantity-{{$one->id_product}}">{{$one->quantity_product}}</td>
-                                    <td class="quantity-sold-{{$one->id_product}}">{{$one->quantity_sold_product ? $one->quantity_sold_product : 0}}</td>
                                     <td class="price-{{$one->id_product}}">{{$one->price_product}}</td>
                                     <td class="description-{{$one->id_product}}">{{$one->description_product}}</td>
                                     <td class="number-reviews-{{$one->id_product}}">{{$one->number_reviews_product}}</td>
@@ -158,16 +154,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-5">
-                                <div class="form-group">
-                                    <label for="quantity">Số lượng sản phẩm</label>
-                                    <input type="number" min=0 name="quantity_product" id="quantity" class="form-control">
-                                    @error('quantity_product')
-                                    <span class="text-danger">{{$message}}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-lg-7">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="price">Giá cả sản phẩm</label>
                                     <input type="number" min=0 name="price_product" id="price" class="form-control">
@@ -252,14 +239,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-5">
-                                <div class="form-group">
-                                    <label for="quantity">Số lượng sản phẩm</label>
-                                    <input type="number" min=0 name="quantity_product" id="quantity" class="form-control quantity-update">
-                                    <span class="text-danger error-quantity"></span>
-                                </div>
-                            </div>
-                            <div class="col-lg-7">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="price">Giá sản phẩm</label>
                                     <input type="number" min=0 name="price_product" id="price" class="form-control price-update">

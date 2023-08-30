@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 29, 2023 lúc 05:43 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th8 30, 2023 lúc 12:19 PM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -110,6 +110,24 @@ CREATE TABLE `customer` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `detail_import_notes`
+--
+
+CREATE TABLE `detail_import_notes` (
+  `id_detail` int(10) UNSIGNED NOT NULL,
+  `id_notes` int(11) NOT NULL,
+  `id_units` int(11) NOT NULL,
+  `code_notes` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_ingredient` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity_ingredient` int(11) NOT NULL,
+  `price_ingredient` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `failed_jobs`
 --
 
@@ -148,6 +166,37 @@ INSERT INTO `gallery` (`id_gallery`, `id_product`, `image_gallery`, `created_at`
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `import_notes`
+--
+
+CREATE TABLE `import_notes` (
+  `id_notes` int(10) UNSIGNED NOT NULL,
+  `id_supplier` int(11) NOT NULL,
+  `code_notes` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity_notes` int(11) NOT NULL,
+  `status_notes` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `ingredients`
+--
+
+CREATE TABLE `ingredients` (
+  `id_ingredients` int(20) UNSIGNED NOT NULL,
+  `id_unit` int(50) NOT NULL,
+  `name_ingredients` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity_ingredients` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `migrations`
 --
 
@@ -173,7 +222,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2023_08_25_161252_create_gallery', 5),
 (10, '2023_08_27_164316_create_role', 6),
 (11, '2023_08_27_172051_create_account', 7),
-(12, '2023_08_28_213236_create_customer', 8);
+(12, '2023_08_28_213236_create_customer', 8),
+(13, '2023_08_30_144513_create_ingredients', 9),
+(14, '2023_08_30_152136_create_recipe', 10),
+(15, '2023_08_30_155806_create_import_notes', 11),
+(16, '2023_08_30_155815_create_detail_import_notes', 11),
+(17, '2023_08_30_160821_create_units', 11);
 
 -- --------------------------------------------------------
 
@@ -199,8 +253,6 @@ CREATE TABLE `product` (
   `image_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subname_product` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `quantity_product` int(11) NOT NULL,
-  `quantity_sold_product` int(11) DEFAULT NULL,
   `price_product` int(11) NOT NULL,
   `description_product` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `number_reviews_product` int(11) DEFAULT NULL,
@@ -212,8 +264,23 @@ CREATE TABLE `product` (
 -- Đang đổ dữ liệu cho bảng `product`
 --
 
-INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_product`, `subname_product`, `quantity_product`, `quantity_sold_product`, `price_product`, `description_product`, `number_reviews_product`, `created_at`, `updated_at`) VALUES
-(1, 15, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 'Black Coffee Filter', 10, NULL, 35000, '<p>Black Coffee Filter</p>', NULL, '2023-08-24 14:44:49', '2023-08-24 14:44:49');
+INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_product`, `subname_product`, `price_product`, `description_product`, `number_reviews_product`, `created_at`, `updated_at`) VALUES
+(1, 15, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 'Black Coffee Filter', 35000, '<p>Black Coffee Filter</p>', NULL, '2023-08-24 14:44:49', '2023-08-24 14:44:49');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `recipe`
+--
+
+CREATE TABLE `recipe` (
+  `id_recipe` int(10) UNSIGNED NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `id_ingredients` int(11) NOT NULL,
+  `quantity_required_recipe` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -278,6 +345,31 @@ INSERT INTO `supplier` (`id_supplier`, `name_supplier`, `phone_supplier`, `addre
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `units`
+--
+
+CREATE TABLE `units` (
+  `id_unit` int(10) UNSIGNED NOT NULL,
+  `fullname_unit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abbreviation_unit` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `units`
+--
+
+INSERT INTO `units` (`id_unit`, `fullname_unit`, `abbreviation_unit`, `created_at`, `updated_at`) VALUES
+(1, 'Kilogram', 'Kg', '2023-08-30 09:55:42', '2023-08-30 09:55:42'),
+(2, 'Gram', 'g', '2023-08-30 09:56:02', '2023-08-30 09:56:02'),
+(3, 'Liter', 'l', '2023-08-30 09:56:10', '2023-08-30 09:56:10'),
+(4, 'Milliliter', 'ml', '2023-08-30 09:56:17', '2023-08-30 09:56:17'),
+(5, 'Chiếc/Cái/Cốc', 'c', '2023-08-30 09:56:40', '2023-08-30 10:13:07');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `users`
 --
 
@@ -315,6 +407,12 @@ ALTER TABLE `customer`
   ADD PRIMARY KEY (`id_customer`);
 
 --
+-- Chỉ mục cho bảng `detail_import_notes`
+--
+ALTER TABLE `detail_import_notes`
+  ADD PRIMARY KEY (`id_detail`);
+
+--
 -- Chỉ mục cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -326,6 +424,18 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `gallery`
   ADD PRIMARY KEY (`id_gallery`);
+
+--
+-- Chỉ mục cho bảng `import_notes`
+--
+ALTER TABLE `import_notes`
+  ADD PRIMARY KEY (`id_notes`);
+
+--
+-- Chỉ mục cho bảng `ingredients`
+--
+ALTER TABLE `ingredients`
+  ADD PRIMARY KEY (`id_ingredients`);
 
 --
 -- Chỉ mục cho bảng `migrations`
@@ -346,6 +456,12 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id_product`);
 
 --
+-- Chỉ mục cho bảng `recipe`
+--
+ALTER TABLE `recipe`
+  ADD PRIMARY KEY (`id_recipe`);
+
+--
 -- Chỉ mục cho bảng `role`
 --
 ALTER TABLE `role`
@@ -362,6 +478,12 @@ ALTER TABLE `slide`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`id_supplier`);
+
+--
+-- Chỉ mục cho bảng `units`
+--
+ALTER TABLE `units`
+  ADD PRIMARY KEY (`id_unit`);
 
 --
 -- Chỉ mục cho bảng `users`
@@ -393,6 +515,12 @@ ALTER TABLE `customer`
   MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT cho bảng `detail_import_notes`
+--
+ALTER TABLE `detail_import_notes`
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -405,16 +533,34 @@ ALTER TABLE `gallery`
   MODIFY `id_gallery` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT cho bảng `import_notes`
+--
+ALTER TABLE `import_notes`
+  MODIFY `id_notes` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `ingredients`
+--
+ALTER TABLE `ingredients`
+  MODIFY `id_ingredients` int(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
   MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `recipe`
+--
+ALTER TABLE `recipe`
+  MODIFY `id_recipe` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `role`
@@ -433,6 +579,12 @@ ALTER TABLE `slide`
 --
 ALTER TABLE `supplier`
   MODIFY `id_supplier` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `units`
+--
+ALTER TABLE `units`
+  MODIFY `id_unit` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `users`

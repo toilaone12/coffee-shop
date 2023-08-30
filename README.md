@@ -1,7 +1,10 @@
 * Thiếu: </br>
 - Mục: </br>
 + Chức năng xóa tất cả: Thiếu trang danh mục, sản phẩm, danh mục hình ảnh, tài khoản
++ Chưa làm phần nguyên liệu, công thức (chỉ mới ra danh sách)
++ Chưa tạo model, controller và các chức năng ImportNote và DetailImportNote (chỉ mới tạo db và ở dashboard thôi)
 - Còn lại: </br>
+Xem lại cái chức năng xóa để tránh k bị lỗi dữ liệu
 Còn chức năng Xóa nhiều và chọn nhiều chưa áp dụng cho tất cả các phần </br>
 * Lưu ý: </br>
 - Đối với việc sử dụng CKEditor, nếu bạn muốn render ra dữ liệu để gán vào html thì hãy sử dụng CKEDITOR.instances["tên class hoặc tên id"].setData();. Còn nếu bạn muốn lấy thì hãy sử dụng CKEDITOR.instances['tên class hoặc tên id'].getData() </br>

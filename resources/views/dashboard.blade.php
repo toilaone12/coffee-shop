@@ -110,6 +110,20 @@ if (!isset($username)) {
                 </div>
             </li>
 
+            <!--  Units -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUnit" aria-expanded="true" aria-controls="collapseUnit">
+                    <i class="fa-solid fa-weight-scale"></i>
+                    <span>Đơn vị tính</span>
+                </a>
+                <div id="collapseUnit" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('units.list')}}">Danh sách đơn vị</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Product -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="true" aria-controls="collapseProduct">
@@ -120,6 +134,34 @@ if (!isset($username)) {
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Các thao tác:</h6>
                         <a class="collapse-item" href="{{route('product.list')}}">Danh sách sản phẩm</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Ingredients -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseIngredients" aria-expanded="true" aria-controls="collapseIngredients">
+                    <i class="fa-solid fa-seedling"></i>
+                    <span>Nguyên liệu</span>
+                </a>
+                <div id="collapseIngredients" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('ingredients.list')}}">Danh sách nguyên liệu</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Recipe -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRecipe" aria-expanded="true" aria-controls="collapseRecipe">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Công thức</span>
+                </a>
+                <div id="collapseRecipe" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('recipe.list')}}">Danh sách công thức</a>
                     </div>
                 </div>
             </li>
@@ -152,7 +194,7 @@ if (!isset($username)) {
                 </div>
             </li>
 
-            <!-- Customer -->
+            <!-- Customers -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer" aria-expanded="true" aria-controls="collapseCustomer">
                     <i class="fa-solid fa-user-tie"></i>
@@ -162,6 +204,34 @@ if (!isset($username)) {
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Các thao tác:</h6>
                         <a class="collapse-item" href="{{route('customer.list')}}">Danh sách khách hàng</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Import Note -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNote" aria-expanded="true" aria-controls="collapseNote">
+                    <i class="fa-regular fa-clipboard"></i>
+                    <span>Phiếu hàng</span>
+                </a>
+                <div id="collapseNote" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('customer.list')}}">Danh sách phiếu hàng</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Warehouse -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWarehouse" aria-expanded="true" aria-controls="collapseWarehouse">
+                    <i class="fa-solid fa-warehouse"></i>
+                    <span>Kho hàng</span>
+                </a>
+                <div id="collapseWarehouse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Các thao tác:</h6>
+                        <a class="collapse-item" href="{{route('customer.list')}}">Danh sách kho hàng</a>
                     </div>
                 </div>
             </li>
@@ -629,10 +699,8 @@ if (!isset($username)) {
                 $('input[type="checkbox"]:checked').each(function(k,v){
                     let id = parseInt($(this).val());
                     arrId.push({id: id});
-                    let name = $('.name-'+id).text();
-                    html += ' ' + name + ' ';
                 })
-                html += 'không</span>';
+                html += ' không</span>';
                 let data = {
                     arrId,
                 };
@@ -835,10 +903,8 @@ if (!isset($username)) {
                 $('input[type="checkbox"]:checked').each(function(k,v){
                     let id = parseInt($(this).val());
                     arrId.push({id: id});
-                    let name = $('.name-'+id).text();
-                    html += ' ' + name + ' ';
                 })
-                html += 'không</span>';
+                html += ' không</span>';
                 let data = {
                     arrId,
                 };
@@ -878,6 +944,110 @@ if (!isset($username)) {
                 };
                 swalQuestion('<span class="fs-16">Bạn có muốn xóa tài khoản ' + name + ' này không</span>', function(alert) {
                     if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //sua don vi tinh
+            $('.update-unit').on('click', function() {
+                let url = "{{route('units.update')}}";
+                let method = "POST";
+                let data = {
+                    id_unit: $('.update-unit').attr('data-id'),
+                    fullname_unit: $('.fullname-update').val(),
+                    abbreviation_unit: $('.abbreviation-update').val(),
+                }
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                callAjax(url, method, data, headers,
+                    function(data) {
+                        if (data.res === 'success' || data.res === 'error') {
+                            $('.message-unit').text(data.status);
+                            if ($('.error-fullname').text() != '' || $('.error-abbreviation').text() != '') {
+                                $('.error-fullname').text('');
+                                $('.error-abbreviation').text('');
+                            }
+                        } else if (data.res === 'warning') {
+                            $('.error-fullname').text(data.status.fullname ? data.status.fullname : '');
+                            $('.error-abbreviation').text(data.status.abbreviation ? data.status.abbreviation : '');
+                        }
+                    },
+                    function(err) {
+                        console.log(err);
+                    }
+                );
+            })
+            //xoa don vi tinh
+            $('#myTable').on('click', '.delete-unit', function() {
+                let fullname = $('.fullname-' + $(this).data('id')).text();
+                let url = '{{route("units.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa đơn vị ' + fullname + ' này không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //xoa nhieu don vi tinh
+            $('.delete-all-unit').click(function(){
+                let arrId = [];
+                let url = '{{route("units.deleteAll")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let html = '<span class="fs-16">Bạn có muốn xóa chức vụ';
+                $('input[type="checkbox"]:checked').each(function(k,v){
+                    let id = parseInt($(this).val());
+                    arrId.push({id: id});
+                })
+                html += ' không</span>';
+                let data = {
+                    arrId,
+                };
+                swalQuestion(html, function(alert) {
+                    if(alert){
                         callAjax(url, method, data, headers,
                             function(data) {
                                 if (data.res === 'success') {

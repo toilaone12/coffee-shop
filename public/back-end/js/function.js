@@ -164,4 +164,13 @@ function handleUpdateRoleClick(){
     $('.name-update').val(name);
     $('.update-role').attr('data-id', id);
 }
+//xu ly sua chuc vu
+function handleUpdateUnitClick(){
+    let id = $(this).data('id');
+    let fullname = $('.fullname-' + id).text();
+    let abbreviation = $('.abbreviation-' + id).text();
+    $('.fullname-update').val(fullname);
+    $('.abbreviation-update').val(abbreviation);
+    $('.update-unit').attr('data-id', id);
+}
 

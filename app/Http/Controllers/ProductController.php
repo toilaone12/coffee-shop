@@ -27,14 +27,12 @@ class ProductController extends Controller
         Validator::make($data,[
             'image_product' => ['required','image','mimes:jpeg,png,jpg,gif'],
             'name_product' => ['required'],
-            'quantity_product' => ['required'],
             'price_product' => ['required']
         ],[
             'image_product.required' => 'Vui lòng chọn một tệp ảnh.',
             'image_product.image' => 'Tệp phải là hình ảnh.',
             'image_product.mimes' => 'Định dạng tệp không hợp lệ. Chấp nhận định dạng jpeg, png, jpg, gif.',
             'name_product.required' => 'Tên của ảnh bắt buộc phải có',
-            'quantity_product.required' => 'Số lượng sản phẩm bắt buộc phải có',
             'price_product.required' => 'Giá sản phẩm bắt buộc phải có',
         ])->validate();
         $image->storeAs('public/product', $fileName); // se luu vao storage/app/product va storage/product tren folder public
@@ -43,7 +41,6 @@ class ProductController extends Controller
             'image_product' => 'storage/product/'.$fileName,
             'name_product' => $data['name_product'],
             'subname_product' => $data['subname_product'],
-            'quantity_product' => $data['quantity_product'],
             'price_product' => $data['price_product'],
             'description_product' => $data['description_product'],
         ];
@@ -63,14 +60,12 @@ class ProductController extends Controller
         $validator = Validator::make($data,[
             'image_product' => ['image','mimes:jpeg,png,jpg,gif'],
             'name_product' => ['required'],
-            'quantity_product' => ['required'],
             'price_product' => ['required']
         ],[
             'image_product.required' => 'Vui lòng chọn một tệp ảnh.',
             'image_product.image' => 'Tệp phải là hình ảnh.',
             'image_product.mimes' => 'Định dạng tệp không hợp lệ. Chấp nhận định dạng jpeg, png, jpg, gif.',
             'name_product.required' => 'Tên của ảnh bắt buộc phải có',
-            'quantity_product.required' => 'Số lượng sản phẩm bắt buộc phải có',
             'price_product.required' => 'Giá sản phẩm bắt buộc phải có',
         ]);
         if(!$validator->fails()){
@@ -87,7 +82,6 @@ class ProductController extends Controller
             $product->id_category = $data['id_category'];
             $product->name_product = $data['name_product'];
             $product->subname_product = $data['subname_product'];
-            $product->quantity_product = $data['quantity_product'];
             $product->price_product = $data['price_product'];
             $product->description_product = $data['description_product'];
             $update = $product->save();

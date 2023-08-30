@@ -160,4 +160,13 @@ $(document).ready(function() {
         $('.otp-account').val(otp);
     });
     
+    // phan don vi tinh
+    $('.unit').each(function(key, value){
+        $('#myTable').on('click', '.update-unit-' + $(value).data('id'), handleUpdateUnitClick)
+    })
+    $('.unit').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.update-unit-' + $(value).data('id'), handleUpdateUnitClick)
+        })
+    })
 });

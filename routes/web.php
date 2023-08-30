@@ -5,10 +5,13 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UnitsController;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +66,29 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[GalleryController::class, 'insert'])->name('gallery.insert');
         Route::post('/update',[GalleryController::class, 'update'])->name('gallery.update');
         Route::post('/delete',[GalleryController::class, 'delete'])->name('gallery.delete');
+    });
+    //Nguyen lieu
+    Route::prefix('ingredients')->group(function(){
+        Route::get('/list',[IngredientsController::class, 'list'])->name('ingredients.list');
+        Route::post('/insert',[IngredientsController::class, 'insert'])->name('ingredients.insert');
+        Route::post('/update',[IngredientsController::class, 'update'])->name('ingredients.update');
+        Route::post('/delete',[IngredientsController::class, 'delete'])->name('ingredients.delete');
+    });
+    //Cong thuc
+    Route::prefix('recipe')->group(function(){
+        Route::get('/list',[RecipeController::class, 'list'])->name('recipe.list');
+        Route::post('/insert',[RecipeController::class, 'insert'])->name('recipe.insert');
+        Route::post('/update',[RecipeController::class, 'update'])->name('recipe.update');
+        Route::post('/delete',[RecipeController::class, 'delete'])->name('recipe.delete');
+        
+    });
+    //Cong thuc
+    Route::prefix('units')->group(function(){
+        Route::get('/list',[UnitsController::class, 'list'])->name('units.list');
+        Route::post('/insert',[UnitsController::class, 'insert'])->name('units.insert');
+        Route::post('/update',[UnitsController::class, 'update'])->name('units.update');
+        Route::post('/delete',[UnitsController::class, 'delete'])->name('units.delete');
+        Route::post('/delete-all',[UnitsController::class, 'deleteAll'])->name('units.deleteAll');
     });
     //Quang cao
     Route::prefix('slide')->group(function(){
