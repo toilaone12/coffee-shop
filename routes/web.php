@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DetailNoteController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\NotesController;
@@ -116,5 +117,12 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[NotesController::class, 'insert'])->name('notes.insert');
         Route::post('/update',[NotesController::class, 'update'])->name('notes.update');
         Route::post('/delete',[NotesController::class, 'delete'])->name('notes.delete');
+    });
+    //Chi tiet phieu hang
+    Route::prefix('detail')->group(function(){
+        Route::get('/list',[DetailNoteController::class, 'list'])->name('detail.list');
+        Route::post('/insert',[DetailNoteController::class, 'insert'])->name('detail.insert');
+        Route::post('/update',[DetailNoteController::class, 'update'])->name('detail.update');
+        Route::post('/delete',[DetailNoteController::class, 'delete'])->name('detail.delete');
     });
 });

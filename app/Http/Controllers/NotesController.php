@@ -22,7 +22,7 @@ class NotesController extends Controller
 
     function insert(Request $request){
         $data = $request->all();
-        $codeNote = $this->randomCode();
+        $codeNote = $data['code_note'] ? $data['code_note'] : $this->randomCode();
         $validator = Validator::make($data,[
             'name_note' => ['required'],
             'quantity_note' => ['required'],
@@ -30,26 +30,14 @@ class NotesController extends Controller
             'name_note.required' => 'Tên phiếu hàng bắt buộc phải điền vào',
             'quantity_note.required' => 'Tổng số lượng các nguyên liệu bắt buộc phải điền vào',
         ]);
+
         if(!$validator->fails()){
-            // $db = [
-            //     'id_supplier' => $data['id_supplier'],
-            //     'code_note' => $codeNote,
-            //     'name_note' => $data['name_note'],
-            //     'quantity_note' => $data['quantity_note'],
-            //     'status_note' => 0
-            // ];
-            // $insert = Notes::create($db);
-            $insert = true;
-            if($insert){
-                $result = [
-                    'id_note' => 1,
-                    'code_note' => $codeNote,
-                    'quantity_note' => $data['quantity_note']
-                ];
-                return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Thêm thành công', 'status' => 'Bạn đã thêm phiếu thành công.', 'result' => $result],200);           
-            }else{
-                return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Thêm thất bại', 'status' => 'Lỗi truy vấn dữ liệu']);
-            }
+            $result = [
+                'id_supplier' => $data['id_supplier'],
+                'code_note' => $codeNote,
+                'quantity_note' => $data['quantity_note']
+            ];
+            return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Thêm thành công', 'status' => 'Bạn đã thêm phiếu thành công.', 'result' => $result],200);           
         }else{
             return response()->json(['res' => 'warning', 'status' => $validator->errors()]);
         }

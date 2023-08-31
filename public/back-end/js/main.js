@@ -174,7 +174,5 @@ $(document).ready(function() {
     $('#anotherModal').on('hide.bs.modal', function() {
         $('#exampleModal').modal('show'); // Khi exampleModal được đóng, mở lại anotherModal
     });
-    //hien danh sach chi tiet nguyen lieu
-    
 
 });

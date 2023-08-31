@@ -461,6 +461,8 @@ if (!isset($username)) {
     <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <!-- SwalAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.js"></script>
+    <!-- AutoNumeric -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
     <script>
         CKEDITOR.replace('ckeditor');
         CKEDITOR.replace('ckeditor1');
@@ -1086,6 +1088,7 @@ if (!isset($username)) {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
                 let formData = new FormData($('.insert-note')[0]);
+                formData.append('code_note',$('.list-detail-note').attr('data-code'))
                 callAjax(url, method, formData, headers,
                     function(data) {
                         if(data.res === 'success' || data.res === 'fail'){
@@ -1113,6 +1116,58 @@ if (!isset($username)) {
                 ,1)
             
             });
+            //them danh sach chi tiet nguyen lieu
+            $('.insert-detail-note').click(function(){
+                let formDataArray = []; // Mảng chứa các dữ liệu từ form-detail-note
+                $('.form-detail-note').each(function() {
+                    //tim cac class co trong tung form-detail-note
+                    let name = $(this).find('.name-ingredients-insert').val(); 
+                    let unit = $(this).find('.id-unit-insert').val();
+                    let quantity = $(this).find('.quantity-ingredients-insert').val();
+                    let price = $(this).find('.price-ingredients-insert').val();
+                    let formData = {
+                        name_ingredient: name,
+                        id_unit: unit,
+                        quantity_ingredient: quantity,
+                        price_ingredient: price
+                    };
+                    formDataArray.push(formData);
+                });
+                let url = "{{route('detail.insert')}}";
+                let method = "POST";
+                let header = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    name_note: $('.name-insert').val(),
+                    quantity_note: $('.quantity-insert').val(),
+                    id_supplier: $('.list-detail-note').attr('data-id'),
+                    code_note: $('.list-detail-note').attr('data-code'),
+                    formDataArray
+                }
+                callAjax(url,method,data,header,
+                    function(data){
+                        if(data.res === 'success' || data.res === 'fail'){
+                            swalNotification(data.title, data.status, data.icon,
+                                function(callback){
+                                    $('.list-detail-note').attr('data-id','').attr('data-code','').attr('data-count','');
+                                    location.reload();
+                                }
+                            )
+                        }else{
+                            $('.error-name').text(data.status.name);
+                            $('.error-quantity').text(data.status.quantity);
+                            $('.error-price').text(data.status.price);
+                        }
+                    },
+                    function(err){
+                        console.log(err);
+                    })
+            })
+            //mo trang chi tiet
+            $('#myTable').on('click', '.open-detail', function() {
+                location.href = '{{route("detail.list")}}';
+            })
         })
     </script>
 

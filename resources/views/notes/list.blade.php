@@ -38,10 +38,11 @@
                                     @endif
                                     @endforeach
                                     <td class="quantity-{{$one->id_note}}">{{$one->quantity_note}}</td>
-                                    <td class="status-{{$one->id_note}}">{{$one->status_note}}</td>
-                                    <td class="">{{date(strtotime($one->status_note,'d/M/y H:i'))}}</td>
+                                    <td class="status-{{$one->id_note}}">{{$one->status_note ? 'Đã xuất về kho' : 'Chưa xuất về kho'}}</td>
+                                    <td class="">{{date('d/m/Y H:i',strtotime($one->created_at))}}</td>
                                     <td>
                                         <button class="btn btn-primary update-note-{{$one->id_note}} note" data-id="{{$one->id_note}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-info open-detail"><i class="fa-solid fa-list"></i></button>
                                         <button class="btn btn-danger delete-note" data-id="{{$one->id_note}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
@@ -119,19 +120,19 @@
         <div class="modal-dialog overflow-auto" role="document" style="max-height: 900px">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nhập chi tiết phiếu hàng</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Nhập chi tiết phiếu hàng (Mã phiếu: <span class="code-detail-note fs-20"></span>)</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post">
+                <!-- <form method="post"> -->
                     <div class="modal-body list-detail-note" data-count="" data-code="" data-id="">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Thêm</button>
+                        <button type="submit" class="btn btn-primary insert-detail-note">Thêm</button>
                     </div>
-                </form>
+                <!-- </form> -->
             </div>
         </div>
     </div>
