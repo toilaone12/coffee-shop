@@ -222,4 +222,71 @@ function listDetailNote(data){
         });
     });
 }
+function listUpdateDetailNote(data){
+    let html = '<div class="row">';
+    
+    for (let i = 0; i < parseInt(data.quantity_note); i++){
+        let selectOptions = '';
+        let name = data.list.length > i ? data.list[i].name_ingredient : ''
+        let quantity = data.list.length > i ? data.list[i].quantity_ingredient : ''
+        let price = data.list.length > i ? data.list[i].price_ingredient : ''
+        let id = data.list.length > i ? data.list[i].id_unit : 0
+        listUnit.forEach(unit => {
+            selectOptions += `<option value="${unit.id_unit}" ${unit.id_unit === id ? 'selected' : ''}>${unit.fullname_unit}</option>`;
+        });
+        html += `<div class="col-lg-4 border-success form-update-detail-note border-right border-bottom pt-3 ${i%3 == 0 ? 'border-left' : ''} ${i < 3 ? 'border-top' : ''}">`;
+        html += `<div class="form-group">`;
+        html += `<label for="name">Tên nguyên liệu</label>`;
+        html += `<input type="text" name="name_ingredients" id="name" value="${name}" class="form-control name-ingredients-update">`;
+        html += `<span class="text-danger error-name"></span>`
+        html += `</div>`;
+        html += `<div class="form-group">`;
+        html += `<label for="id">Đơn vị tính</label>`;
+        html += `<select name="id_unit" id="id" class="id-unit-update form-control">`;
+        html += selectOptions;
+        html += `</select>`;
+        html += `</div>`;
+        html += `<div class="form-group">`;
+        html += `<label for="quantity">Số lượng</label>`;
+        html += `<input type="number" min=1 name="quantity_ingredients" id="quantity" value="${quantity}" class="form-control quantity-ingredients-update">`;
+        html += `<span class="text-danger error-quantity"></span>`
+        html += `</div>`;
+        html += `<div class="form-group">`;
+        html += `<label for="price">Giá thành (Trên 1 đơn vị)</label>`;
+        html += `<input type="phone" min=1 name="price_ingredients" id="price" value="${price}" class="form-control price-autonumeric price-ingredients-update">`;
+        html += `<span class="text-danger error-price"></span>`
+        html += `</div>`;
+        html += `</div>`;
+    }
+    html += '</div>';
+    $('.list-update-detail-note').attr('data-count',data.quantity_note)
+    .attr('data-code',data.code_note)
+    .attr('data-id',data.id_supplier)
+    .html(html);
+    $('.code-detail-note').text(data.code_note);
+    $('.price-autonumeric').each(function () {
+        new AutoNumeric(this, {
+            digitGroupSeparator: '.',
+            decimalCharacter: ',',
+            decimalPlaces: 0, // Điều chỉnh số lượng chữ số thập phân theo nhu cầu
+            minimumValue: '0',
+            allowDecimalPadding: true // Giữ nguyên giá trị này
+        });
+    });
+}
+//xu ly phan sua phieu hang
+function handleUpdateNoteClick(){
+    let id = $(this).data('id');
+    let idSupplier = $('.id-supplier-' + id).data('id');
+    let name = $('.name-' + id).text();
+    let quantity = $('.quantity-' + id).text();
+    let selectOptions = '';
+    listSupplier.forEach(supplier => {
+        selectOptions += `<option value="${supplier.id_supplier}" ${supplier.id_supplier === idSupplier ? 'selected' : ''}>${supplier.name_supplier}</option>`;
+    });
+    $('.name-update').val(name);
+    $('.quantity-update').val(quantity);
+    $('.id-supplier-update').html(selectOptions);
+    $('.update-note').attr('data-id', id);
+}
 

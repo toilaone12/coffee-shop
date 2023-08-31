@@ -174,5 +174,18 @@ $(document).ready(function() {
     $('#anotherModal').on('hide.bs.modal', function() {
         $('#exampleModal').modal('show'); // Khi exampleModal được đóng, mở lại anotherModal
     });
-
+    //sua phieu hang
+    $('.note').each(function(key, value){
+        $('#myTable').on('click', '.update-note-' + $(value).data('id'), handleUpdateNoteClick)
+    })
+    $('.note').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.update-note-' + $(value).data('id'), handleUpdateNoteClick)
+        })
+    })
+    
+    //quay lai modal update truoc
+    $('#updateAnotherModal').on('hide.bs.modal', function() {
+        $('#updateModal').modal('show'); // Khi updateModal được đóng, mở lại anotherModal
+    });
 });

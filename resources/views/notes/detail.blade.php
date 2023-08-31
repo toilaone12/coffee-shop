@@ -33,7 +33,7 @@
                                     <td class="name-{{$one->id_detail}}">{{$one->name_ingredient}}</td>
                                     @foreach($listUnit as $key => $unit)
                                     @if($unit->id_unit == $one->id_unit)
-                                    <td class="id-unit-{{$one->id_detail}}">{{$unit->name_unit}}</td>
+                                    <td class="id-unit-{{$one->id_detail}}">{{$unit->fullname_unit}} ({{$unit->abbreviation_unit}})</td>
                                     @endif
                                     @endforeach
                                     <td class="quantity-{{$one->id_detail}}">{{$one->quantity_ingredient}}</td>

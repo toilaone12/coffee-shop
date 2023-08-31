@@ -442,6 +442,7 @@ if (!isset($username)) {
     @elseif(request()->is('admin/notes/list'))
     <script>
         var listUnit = {!!json_encode($listUnit) !!};
+        var listSupplier = {!!json_encode($listSupplier) !!};
     </script>
     @endif
     <script src="{{asset('./back-end/js/function.js')}}"></script>
@@ -1079,9 +1080,7 @@ if (!isset($username)) {
             })
             //them phieu hang
             $('.insert-note').submit(function(event) {
-                event.preventDefault(); // Ngăn chặn việc gửi form mặc định
-                let name = $('.name-insert').val();
-                let idSupplier = $('.id-supplier-insert:selected').val();
+                event.preventDefault(); // Ngăn chặn việc gửi form mặc định;
                 let url = "{{route('notes.insert')}}";
                 let method = "POST";
                 let headers = {
@@ -1164,9 +1163,90 @@ if (!isset($username)) {
                         console.log(err);
                     })
             })
-            //mo trang chi tiet
-            $('#myTable').on('click', '.open-detail', function() {
-                location.href = '{{route("detail.list")}}';
+            //sua thong tin phieu hang va chuyen sang sua chi tiet phieu hang
+            $('.update-note').submit(function(e){
+                e.preventDefault();
+                let url = "{{route('notes.update')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let formData = new FormData($('.update-note')[0]);
+                formData.append('id',$('.update-note').attr('data-id'));
+                callAjax(url, method, formData, headers,
+                    function(data) {
+                        if(data.res === 'success' || data.res === 'fail'){
+                            swalNotification(data.title, data.status, data.icon,
+                                function(callback) {
+                                    if (callback) {
+                                        $('#updateModal').modal('hide');                  
+                                        // Mở modal khác
+                                        $('#updateAnotherModal').modal('show');
+                                        $('.error-update-name').text('');
+                                        $('.error-update-quantity').text('');
+                                        listUpdateDetailNote(data.result);
+                                    }
+                                }
+                            );
+                        }else{
+                            $('.error-update-name').text(data.status.name_note);
+                            $('.error-update-quantity').text(data.status.quantity_note);
+                        }
+                    },
+                    function(err) {
+                        console.log(err);
+                    }
+                ,1)
+            })
+            //sua danh sach chi tiet nguyen lieu
+            $('.update-detail-note').click(function(){
+                let formDataArray = []; // Mảng chứa các dữ liệu từ form-detail-note
+                $('.form-update-detail-note').each(function() {
+                    //tim cac class co trong tung form-detail-note
+                    let name = $(this).find('.name-ingredients-update').val(); 
+                    let unit = $(this).find('.id-unit-update').val();
+                    let quantity = $(this).find('.quantity-ingredients-update').val();
+                    let price = $(this).find('.price-ingredients-update').val();
+                    let formData = {
+                        name_ingredient: name,
+                        id_unit: unit,
+                        quantity_ingredient: quantity,
+                        price_ingredient: price
+                    };
+                    formDataArray.push(formData);
+                });
+                let url = "{{route('detail.update')}}";
+                let method = "POST";
+                let header = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    name_note: $('.name-update').val(),
+                    quantity_note: $('.quantity-update').val(),
+                    id_supplier: $('.list-update-detail-note').attr('data-id'),
+                    code_note: $('.list-update-detail-note').attr('data-code'),
+                    formDataArray
+                }
+                callAjax(url,method,data,header,
+                    function(data){
+                        console.log(data);
+                        // if(data.res === 'success' || data.res === 'fail'){
+                        //     swalNotification(data.title, data.status, data.icon,
+                        //         function(callback){
+                        //             $('.list-detail-note').attr('data-id','').attr('data-code','').attr('data-count','');
+                        //             location.reload();
+                        //         }
+                        //     )
+                        // }else{
+                        //     $('.error-name').text(data.status.name);
+                        //     $('.error-quantity').text(data.status.quantity);
+                        //     $('.error-price').text(data.status.price);
+                        // }
+                    },
+                    function(err){
+                        console.log(err);
+                    }
+                )
             })
         })
     </script>

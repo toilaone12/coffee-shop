@@ -18,9 +18,9 @@
                                     <th>STT</th>
                                     <th>Mã phiếu</th>
                                     <th>Tên phiếu</th>
-                                    <th>Nhà cung cấp</th>
-                                    <th>Tổng sản phẩm</th>
-                                    <th>Tình trạng phiếu</th>
+                                    <th>NCC</th>
+                                    <th>Tổng SP</th>
+                                    <th>Tình trạng</th>
                                     <th>Thời gian lập</th>
                                     <th>Chức năng</th>
                                 </tr>
@@ -34,16 +34,24 @@
                                     <td class="name-{{$one->id_note}}">{{$one->name_note}}</td>
                                     @foreach($listSupplier as $key => $supplier)
                                     @if($supplier->id_supplier == $one->id_supplier)
-                                    <td class="id-supplier-{{$one->id_note}}">{{$supplier->name_supplier}}</td>
+                                    <td class="id-supplier-{{$one->id_note}}" data-id="{{$supplier->id_supplier}}">{{$supplier->name_supplier}}</td>
                                     @endif
                                     @endforeach
                                     <td class="quantity-{{$one->id_note}}">{{$one->quantity_note}}</td>
                                     <td class="status-{{$one->id_note}}">{{$one->status_note ? 'Đã xuất về kho' : 'Chưa xuất về kho'}}</td>
                                     <td class="">{{date('d/m/Y H:i',strtotime($one->created_at))}}</td>
                                     <td>
-                                        <button class="btn btn-primary update-note-{{$one->id_note}} note" data-id="{{$one->id_note}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button class="btn btn-info open-detail"><i class="fa-solid fa-list"></i></button>
-                                        <button class="btn btn-danger delete-note" data-id="{{$one->id_note}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button 
+                                            style="width:40px;" 
+                                            class="mb-1 btn btn-primary update-note-{{$one->id_note}} note" 
+                                            data-id="{{$one->id_note}}" 
+                                            data-toggle="modal" 
+                                            data-target="#updateModal"
+                                            >
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                        <a href="{{route('detail.list',['code'=>$one->code_note])}}" style="width:40px;" class="mb-1 btn btn-info text-white open-detail"><i class="fa-solid fa-list"></i></a>
+                                        <button style="width:40px;" class="mb-1 btn btn-danger delete-note" data-id="{{$one->id_note}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -116,7 +124,7 @@
     
     <!-- Modal Detail Note -->
     <div class="modal fade" id="anotherModal" tabindex="-1" role="dialog" aria-labelledby="anotherModalLabel" aria-hidden="true">
-    <!-- Nội dung của modal khác -->
+        <!-- Nội dung của modal khác -->
         <div class="modal-dialog overflow-auto" role="document" style="max-height: 900px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -142,39 +150,67 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Sửa đơn vị tính</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sửa thông tin phiếu hàng</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <span class="text-success message-unit mx-3"></span>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="form-group">
-                                <label for="fullname">Tên đơn vị</label>
-                                <input type="text" name="" id="fullname" class="form-control fullname-update">
-                                <span class="text-danger error-fullname"></span>
+                <span class="text-success message-note mx-3"></span>
+                <form class="update-note" data-id="">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="name">Tên phiếu hàng</label>
+                                    <input type="text" name="name_note" id="name" class="form-control name-update">
+                                    <span class="text-danger error-update-name"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="supplier">Nhà cung cấp</label>
+                                    <select name="id_supplier" id="supplier" class="form-control id-supplier-update">
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label for="abbreviation">Ký hiệu</label>
-                                <input type="text" name="" id="abbreviation" class="form-control abbreviation-update">
-                                <span class="text-danger error-abbreviation"></span>
-                            </div>
+                        <div class="form-group">
+                            <label for="quantity">Số lượng</label>
+                            <input type="text" name="quantity_note" id="quantity" class="form-control quantity-update">
+                            <span class="text-danger error-update-quantity"></span>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary update-unit">Sửa</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
     <!-- End Modal Insert -->
-
+    <!-- Modal Update Detail Note -->
+    <div class="modal fade" id="updateAnotherModal" tabindex="-1" role="dialog" aria-labelledby="updateAnotherModalLabel" aria-hidden="true">
+        <!-- Nội dung của modal khác -->
+        <div class="modal-dialog overflow-auto" role="document" style="max-height: 900px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nhập chi tiết phiếu hàng (Mã phiếu: <span class="code-detail-note fs-20"></span>)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- <form method="post"> -->
+                    <div class="modal-body list-update-detail-note" data-count="" data-code="" data-id="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary update-detail-note">Sửa</button>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
     <!-- End of Main Content -->
 
 </div>

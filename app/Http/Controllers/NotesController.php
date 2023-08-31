@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailNote;
 use App\Models\Note;
 use App\Models\Notes;
 use App\Models\Supplier;
@@ -43,27 +44,28 @@ class NotesController extends Controller
         }
     }
 
-    // function update(Request $request){
-    //     $data = $request->all();
-    //     $errors = [];
-    //     if($data['name_role'] == ''){
-    //         $errors['name'] = 'Tên danh mục bắt buộc phải có';
-    //     }else if(!preg_match('/^[\p{L}\s\p{P}]+$/u',$data['name_role'])){
-    //         $errors['name'] = 'Tên danh mục phải là chữ cái';
-    //     }
-    //     if(count($errors) == 0){
-    //         $role = Role::find($data['id_role']);
-    //         $role->name_role = $data['name_role'];
-    //         $update = $role->save();
-    //         if($update){
-    //             return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành chức vụ '.$data['name_role'].' thành công']);
-    //         }else{
-    //             return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
-    //         }
-    //     }else{
-    //         return response()->json(['res' => 'warning', 'status' => $errors]);
-    //     }
-    // }
+    function update(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'name_note' => ['required'],
+            'quantity_note' => ['required'],
+        ],[
+            'name_note.required' => 'Tên phiếu hàng bắt buộc phải điền vào',
+            'quantity_note.required' => 'Tổng số lượng các nguyên liệu bắt buộc phải điền vào',
+        ]);
+        if(!$validator->fails()){
+            $list = DetailNote::where('id_note',$data['id'])->get();
+            $result = [
+                'id_supplier' => $data['id_supplier'],
+                'code_note' => $list[0]->code_note,
+                'quantity_note' => $data['quantity_note'],
+                'list' => $list,
+            ];
+            return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Sửa thành công', 'status' => 'Bạn đã sửa phiếu thành công.', 'result' => $result],200);           
+        }else{
+            return response()->json(['res' => 'warning', 'status' => $validator->errors()]);
+        }
+    }
 
     // function delete(Request $request){
     //     $data = $request->all();
