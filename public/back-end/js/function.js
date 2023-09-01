@@ -290,3 +290,4 @@ function handleUpdateNoteClick(){
     $('.update-note').attr('data-id', id);
 }
 
+

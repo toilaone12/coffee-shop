@@ -5,7 +5,7 @@
     <div id="content" class="mx-5">
         <div class="row">
             <div class="col-xl-9 col-lg-6 col-sm-3">
-                <div class="card">
+                <div class="card pdf-detail-note">
                     <div class="card-header">
                         <h3 class="card-title">Danh sách chi tiết phiếu hàng ({{$list[0]->code_note}})</h3>
                     </div>
@@ -21,7 +21,7 @@
                                     <th>Đơn vị</th>
                                     <th>Số lượng</th>
                                     <th>Đơn giá</th>
-                                    <!-- <th>Chức năng</th> -->
+                                    <th>Chức năng</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,11 +38,14 @@
                                     @endforeach
                                     <td class="quantity-{{$one->id_detail}}">{{$one->quantity_ingredient}}</td>
                                     <td class="price-{{$one->id_detail}}">{{$one->price_ingredient}}</td>
-                                    <!-- <td>
-                                        <button class="btn btn-primary update-note-{{$one->id_detail}} note" data-id="{{$one->id_detail}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button class="btn btn-info open-detail"><i class="fa-solid fa-list"></i></button>
-                                        <button class="btn btn-danger delete-note" data-id="{{$one->id_detail}}"><i class="fa-solid fa-trash-can"></i></button>
-                                    </td> -->
+                                    <td>
+                                        <button 
+                                            class="btn btn-danger delete-detail-note" 
+                                            data-id="{{$one->id_detail}}"
+                                        >
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -55,7 +58,8 @@
                 <div class="card">
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
-                        <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Nhập phiếu</button>
+                        <button class="btn btn-primary d-block mb-3 w-100 export-detail-note">Xuất phiếu hàng</button>
+                        <button class="btn btn-primary d-block mb-3 w-100 export-warehouse">Xuất về kho hàng</button>
                         <!-- <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Xuất phiếu</button> -->
                         <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-unit d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>

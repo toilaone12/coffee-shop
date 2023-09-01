@@ -149,4 +149,14 @@ class DetailNoteController extends Controller
             return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa phiếu thất bại', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
+
+    function delete(Request $request){
+        $data = $request->all();
+        $delete = DetailNote::find($data['id'])->delete();
+        if($delete){
+            return response()->json(['res' => 'success'],200);
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
 }

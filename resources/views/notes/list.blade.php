@@ -125,7 +125,7 @@
     <!-- Modal Detail Note -->
     <div class="modal fade" id="anotherModal" tabindex="-1" role="dialog" aria-labelledby="anotherModalLabel" aria-hidden="true">
         <!-- Nội dung của modal khác -->
-        <div class="modal-dialog overflow-auto" role="document" style="max-height: 900px">
+        <div class="modal-dialog overflow-auto" role="document" style="max-height: 750px; -webkit-overflow-scrolling: touch;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Nhập chi tiết phiếu hàng (Mã phiếu: <span class="code-detail-note fs-20"></span>)</h5>
@@ -192,7 +192,7 @@
     <!-- Modal Update Detail Note -->
     <div class="modal fade" id="updateAnotherModal" tabindex="-1" role="dialog" aria-labelledby="updateAnotherModalLabel" aria-hidden="true">
         <!-- Nội dung của modal khác -->
-        <div class="modal-dialog overflow-auto" role="document" style="max-height: 900px">
+        <div class="modal-dialog overflow-auto" role="document" style="max-height: 750px; -webkit-overflow-scrolling: touch;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Nhập chi tiết phiếu hàng (Mã phiếu: <span class="code-detail-note fs-20"></span>)</h5>

@@ -67,20 +67,20 @@ class NotesController extends Controller
         }
     }
 
-    // function delete(Request $request){
-    //     $data = $request->all();
-    //     $delete = Role::find($data['id'])->delete();
-    //     if($delete){
-    //         $deleteAccount = Account::where('id_role',$data['id'])->delete();
-    //         if($deleteAccount){
-    //             return response()->json(['res' => 'success'],200);
-    //         }else{
-    //             return response()->json(['res' => 'fail'],200);
-    //         }
-    //     }else{
-    //         return response()->json(['res' => 'fail'],200);
-    //     }
-    // }
+    function delete(Request $request){
+        $data = $request->all();
+        $delete = Notes::find($data['id'])->delete();
+        if($delete){
+            $deleteDetailNote = DetailNote::where('id_note',$data['id'])->delete();
+            if($deleteDetailNote){
+                return response()->json(['res' => 'success'],200);
+            }else{
+                return response()->json(['res' => 'fail'],200);
+            }
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
 
     // function deleteAll(Request $request){
     //     $data = $request->all();

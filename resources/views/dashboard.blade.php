@@ -464,6 +464,8 @@ if (!isset($username)) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.js"></script>
     <!-- AutoNumeric -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
+    <!-- PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
     <script>
         CKEDITOR.replace('ckeditor');
         CKEDITOR.replace('ckeditor1');
@@ -1229,24 +1231,102 @@ if (!isset($username)) {
                 }
                 callAjax(url,method,data,header,
                     function(data){
-                        console.log(data);
-                        // if(data.res === 'success' || data.res === 'fail'){
-                        //     swalNotification(data.title, data.status, data.icon,
-                        //         function(callback){
-                        //             $('.list-detail-note').attr('data-id','').attr('data-code','').attr('data-count','');
-                        //             location.reload();
-                        //         }
-                        //     )
-                        // }else{
-                        //     $('.error-name').text(data.status.name);
-                        //     $('.error-quantity').text(data.status.quantity);
-                        //     $('.error-price').text(data.status.price);
-                        // }
+                        // console.log(data);
+                        if(data.res === 'success' || data.res === 'fail'){
+                            swalNotification(data.title, data.status, data.icon,
+                                function(callback){
+                                    $('.list-update-detail-note').attr('data-id','').attr('data-code','').attr('data-count','');
+                                    location.reload();
+                                }
+                            )
+                        }else{
+                            $('.error-name').text(data.status.name);
+                            $('.error-quantity').text(data.status.quantity);
+                            $('.error-price').text(data.status.price);
+                        }
                     },
                     function(err){
                         console.log(err);
                     }
                 )
+            })
+            //xoa phieu hang
+            $('#myTable').on('click', '.delete-note', function() {
+                let name = $('.name-' + $(this).data('id')).text();
+                let url = '{{route("notes.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa ' + name + ' này không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                // console.log(data);
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //xoa 1 nguyen lieu trong chi tiet don hang
+            $('#myTable').on('click', '.delete-detail-note', function() {
+                let name = $('.name-' + $(this).data('id')).text();
+                let url = '{{route("detail.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: $(this).data('id'),
+                };
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa nguyên liệu ' + name + ' này không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //xuat du lieu ra file pdf
+            $('.export-detail-note').click(function(){
+                var doc = new jsPDF();
+
+                doc.text('a')
+
+                // Mở cửa sổ in PDF
+                doc.save('1.pdf');
             })
         })
     </script>
