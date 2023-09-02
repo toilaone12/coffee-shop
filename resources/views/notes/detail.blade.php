@@ -5,7 +5,7 @@
     <div id="content" class="mx-5">
         <div class="row">
             <div class="col-xl-9 col-lg-6 col-sm-3">
-                <div class="card pdf-detail-note">
+                <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Danh sách chi tiết phiếu hàng ({{$list[0]->code_note}})</h3>
                     </div>
@@ -39,10 +39,7 @@
                                     <td class="quantity-{{$one->id_detail}}">{{$one->quantity_ingredient}}</td>
                                     <td class="price-{{$one->id_detail}}">{{$one->price_ingredient}}</td>
                                     <td>
-                                        <button 
-                                            class="btn btn-danger delete-detail-note" 
-                                            data-id="{{$one->id_detail}}"
-                                        >
+                                        <button class="btn btn-danger delete-detail-note" data-id="{{$one->id_detail}}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </td>
@@ -58,7 +55,12 @@
                 <div class="card">
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
-                        <button class="btn btn-primary d-block mb-3 w-100 export-detail-note">Xuất phiếu hàng</button>
+                        <a 
+                            href="{{route('detail.pdf',['id'=>$list[0]->id_note])}}"
+                            class="text-white btn btn-primary d-block mb-3 w-100 export-detail-note"
+                            >
+                            Xuất phiếu hàng (bằng PDF)
+                        </a>
                         <button class="btn btn-primary d-block mb-3 w-100 export-warehouse">Xuất về kho hàng</button>
                         <!-- <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Xuất phiếu</button> -->
                         <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-unit d-block mb-3">Xóa nhiều</button>
@@ -68,6 +70,5 @@
             </div>
         </div>
     </div>
-
 </div>
 @endsection

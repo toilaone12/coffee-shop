@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\DetailNote;
 use App\Models\Notes;
+use App\Models\Supplier;
 use App\Models\Units;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Cookie;
 
 class DetailNoteController extends Controller
 {
@@ -158,5 +162,16 @@ class DetailNoteController extends Controller
         }else{
             return response()->json(['res' => 'fail'],200);
         }
+    }
+
+    function printPDF(Request $request){
+        $id = $request->get('id');
+        $list = DetailNote::join('units as u','u.id_unit','detail_notes.id_unit')->where('id_note',$id)->get();
+        $note = Notes::where('id_note',$id)->first();
+        $supplier = Supplier::where('id_supplier',$note->id_supplier)->first();
+        $fullname = Cookie::get('fullname');
+        $pdf = Pdf::loadView('notes.pdf',compact('supplier','note','list','fullname'))
+        ->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->download('Mã phiếu: '.$note->code_note.'.pdf');
     }
 }

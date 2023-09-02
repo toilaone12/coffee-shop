@@ -466,6 +466,8 @@ if (!isset($username)) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.1.0/autoNumeric.min.js"></script>
     <!-- PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+    <!-- HTML2Canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         CKEDITOR.replace('ckeditor');
         CKEDITOR.replace('ckeditor1');
@@ -1318,15 +1320,6 @@ if (!isset($username)) {
                         );
                     }
                 });
-            })
-            //xuat du lieu ra file pdf
-            $('.export-detail-note').click(function(){
-                var doc = new jsPDF();
-
-                doc.text('a')
-
-                // Mở cửa sổ in PDF
-                doc.save('1.pdf');
             })
         })
     </script>

@@ -14,6 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitsController;
+use App\Models\DetailNote;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Route;
 
@@ -124,5 +125,6 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[DetailNoteController::class, 'insert'])->name('detail.insert');
         Route::post('/update',[DetailNoteController::class, 'update'])->name('detail.update');
         Route::post('/delete',[DetailNoteController::class, 'delete'])->name('detail.delete');
+        Route::get('/print-pdf',[DetailNoteController::class, 'printPDF'])->name('detail.pdf');
     });
 });

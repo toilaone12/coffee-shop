@@ -64,6 +64,7 @@ class AdminController extends Controller
             $online = $account->save();
             if($online){
                 Cookie::queue('username', $data['username_account'], 2628000);
+                Cookie::queue('fullname', $signIn->fullname_account, 2628000);
                 Cookie::queue('id_account',$signIn->id_account, 2628000);
                 return redirect()->route('admin.dashboard');
             }
@@ -74,11 +75,13 @@ class AdminController extends Controller
 
     function logout(){
         Cookie::queue(Cookie::forget('username'));
+        Cookie::queue(Cookie::forget('fullname'));
         $id = Cookie::get('id_account');
         $account = Account::find($id);
         $account->is_online = 0;
         $offline = $account->save();
         if($offline){
+            Cookie::queue(Cookie::forget('id_account'));
             return response()->json(['res' => 'success'], 200);
         }
     }
