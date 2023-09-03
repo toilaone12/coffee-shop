@@ -222,6 +222,7 @@ function listDetailNote(data){
         });
     });
 }
+//xu ly phan hien sua danh sach chi tiet phieu
 function listUpdateDetailNote(data){
     let html = '<div class="row">';
     
@@ -286,8 +287,22 @@ function handleUpdateNoteClick(){
     });
     $('.name-update').val(name);
     $('.quantity-update').val(quantity);
+    $('.quantity-update').attr('min',quantity);
     $('.id-supplier-update').html(selectOptions);
     $('.update-note').attr('data-id', id);
+}
+//xu ly phan sua nguyen lieu
+function handleUpdateIngredientClick(){
+    let id = $(this).data('id');
+    let idUnit = $('.id-' + id).data('id');
+    let name = $('.name-' + id).text();
+    let selectOptions = '';
+    listUnits.forEach(unit => {
+        selectOptions += `<option value="${unit.id_unit}" ${unit.id_unit === idUnit ? 'selected' : ''}>${unit.fullname_unit}</option>`;
+    });
+    $('.name-update').val(name);
+    $('.id-unit-update').html(selectOptions);
+    $('.id-ingredient').val(id);
 }
 
 

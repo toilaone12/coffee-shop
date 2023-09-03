@@ -27,10 +27,21 @@
                                 <tr>
                                     <td><input type="checkbox" name="" id=""></td>
                                     <td>{{$key + 1}}</td>
-                                    <td class="name-{{$one->id_ingredients}}">{{$one->name_category}}</td>
+                                    <td class="name-{{$one->id_ingredient}}">{{$one->name_ingredient}}</td>
+                                    @foreach($listUnits as $unit)
+                                    @if($unit->id_unit == $one->id_unit)
+                                    <td 
+                                        class="id-{{$one->id_ingredient}}" 
+                                        data-id="{{$one->id_unit}}"
+                                    >
+                                        {{$unit->fullname_unit}}
+                                    </td>
+                                    @endif
+                                    @endforeach
+                                    <td class="quantity-{{$one->id_ingredients}}">{{$one->quantity_ingredient}}</td>
                                     <td>
-                                        <button class="btn btn-primary update-category-{{$one->id_ingredients}} category" data-id="{{$one->id_ingredients}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button class="btn btn-danger delete-category" data-id="{{$one->id_ingredients}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn btn-primary update-ingredients-{{$one->id_ingredient}} ingredients" data-id="{{$one->id_ingredient}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <!-- <button class="btn btn-danger delete-ingredients" data-id="{{$one->id_ingredient}}"><i class="fa-solid fa-trash-can"></i></button> -->
                                     </td>
                                 </tr>
                                 @endforeach
@@ -57,34 +68,37 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sửa nguyên liệu</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <span class="text-success message-category mx-3"></span>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="name">Tên danh mục</label>
-                                <input type="text" name="" id="name" class="form-control name-update">
-                                <span class="text-danger error-name"></span>
+                <form class="update-ingredient">
+                    <div class="modal-body">
+                        <div class="row">
+                            <input type="hidden" name="id_ingredient" class="id-ingredient">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="name">Tên nguyên liệu</label>
+                                    <input type="text" name="name_ingredient" id="name" class="form-control name-update">
+                                    <span class="text-danger error-name"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="option">Thuộc danh mục</label>
-                                <select name="id_parent_category" id="" class="form-control id-parent-update">
-                                </select>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="option">Đơn vị tính</label>
+                                    <select name="id_unit" id="" class="form-control id-unit-update">
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary update-category">Sửa</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

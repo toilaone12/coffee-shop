@@ -222,20 +222,6 @@ if (!isset($username)) {
                 </div>
             </li>
 
-            <!-- Warehouse -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWarehouse" aria-expanded="true" aria-controls="collapseWarehouse">
-                    <i class="fa-solid fa-warehouse"></i>
-                    <span>Kho hàng</span>
-                </a>
-                <div id="collapseWarehouse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('customer.list')}}">Danh sách kho hàng</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -443,6 +429,10 @@ if (!isset($username)) {
     <script>
         var listUnit = {!!json_encode($listUnit) !!};
         var listSupplier = {!!json_encode($listSupplier) !!};
+    </script>
+    @elseif(request()->is('admin/ingredients/list'))
+    <script>
+        var listUnits = {!!json_encode($listUnits) !!};
     </script>
     @endif
     <script src="{{asset('./back-end/js/function.js')}}"></script>
@@ -1320,6 +1310,58 @@ if (!isset($username)) {
                         );
                     }
                 });
+            })
+            //xuat nguyen lieu
+            $('#myTable').on('click', '.export-ingredients', function() {
+                let url = "{{route('detail.export')}}";
+                let method = "GET";
+                let data = {
+                    id: $(this).data('id'),
+                }
+                let header = {};
+                callAjax(url,method,data,header,
+                    function(data){
+                        swalNotification(data.title,data.status,data.icon,function(callback){
+                            if(callback){
+                                location.reload();
+                            }
+                        })
+                    },
+                    function(err){
+                        console.log(err);      
+                    }
+                )
+            })
+            //sua nguyen lieu
+            $('.update-ingredient').submit(function(e){
+                e.preventDefault()
+                let formData = new FormData($(this)[0]);
+                let url = "{{route('ingredients.update')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                callAjax(url, method, formData, headers,
+                    function(data) {
+                        // console.log(data);
+                        if (data.res === 'success' || data.res === 'error') {
+                            swalNotification(data.title,data.text,data.icon,
+                                function(callback){
+                                    if(callback){
+                                        location.reload();
+                                        if ($('.error-name').text() != '') {
+                                            $('.error-name').text('');
+                                        }
+                                    }
+                                }
+                            )
+                        } else if (data.res === 'warning') {
+                            $('.error-name').text(data.status.name_ingredient ? data.status.name_ingredient : '');
+                        }
+                    },
+                    function(err) {
+                        console.log(err);
+                    }, 1);
             })
         })
     </script>

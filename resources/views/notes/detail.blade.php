@@ -59,10 +59,8 @@
                             href="{{route('detail.pdf',['id'=>$list[0]->id_note])}}"
                             class="text-white btn btn-primary d-block mb-3 w-100 export-detail-note"
                             >
-                            Xuất phiếu hàng (bằng PDF)
+                            In phiếu hàng (bằng PDF)
                         </a>
-                        <button class="btn btn-primary d-block mb-3 w-100 export-warehouse">Xuất về kho hàng</button>
-                        <!-- <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Xuất phiếu</button> -->
                         <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-unit d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>

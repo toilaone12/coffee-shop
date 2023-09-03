@@ -41,6 +41,7 @@
                                     <td class="status-{{$one->id_note}}">{{$one->status_note ? 'Đã xuất về kho' : 'Chưa xuất về kho'}}</td>
                                     <td class="">{{date('d/m/Y H:i',strtotime($one->created_at))}}</td>
                                     <td>
+                                        @if($one->status_note == 0)
                                         <button 
                                             style="width:40px;" 
                                             class="mb-1 btn btn-primary update-note-{{$one->id_note}} note" 
@@ -50,6 +51,14 @@
                                             >
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
+                                        <button 
+                                            class="btn btn-primary d-block mb-1 export-ingredients"
+                                            data-id="{{$one->id_note}}"
+                                            style="width:40px;"
+                                        >
+                                            <i class="fa-solid fa-file-export"></i>
+                                        </button>
+                                        @endif
                                         <a href="{{route('detail.list',['code'=>$one->code_note])}}" style="width:40px;" class="mb-1 btn btn-info text-white open-detail"><i class="fa-solid fa-list"></i></a>
                                         <button style="width:40px;" class="mb-1 btn btn-danger delete-note" data-id="{{$one->id_note}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
@@ -66,7 +75,6 @@
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
                         <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Nhập phiếu</button>
-                        <!-- <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Xuất phiếu</button> -->
                         <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-unit d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>
@@ -176,7 +184,7 @@
                         </div>
                         <div class="form-group">
                             <label for="quantity">Số lượng</label>
-                            <input type="text" name="quantity_note" id="quantity" class="form-control quantity-update">
+                            <input type="number" name="quantity_note" id="quantity" class="form-control quantity-update">
                             <span class="text-danger error-update-quantity"></span>
                         </div>
                     </div>

@@ -10,6 +10,6 @@ class Ingredients extends Model
     use HasFactory;
     public $timestamp = true;
     protected $table = "ingredients";
-    protected $primaryKey = "id_ingredients";
-    protected $fillable = ["id_unit","name_ingredients","quantity_ingredients"];
+    protected $primaryKey = "id_ingredient";
+    protected $fillable = ["id_unit","name_ingredient","quantity_ingredient"];
 }

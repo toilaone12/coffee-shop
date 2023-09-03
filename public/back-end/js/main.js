@@ -183,9 +183,19 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-note-' + $(value).data('id'), handleUpdateNoteClick)
         })
     })
-    
+
     //quay lai modal update truoc
     $('#updateAnotherModal').on('hide.bs.modal', function() {
         $('#updateModal').modal('show'); // Khi updateModal được đóng, mở lại anotherModal
     });
+    
+    //sua nguyen lieu 
+    $('.ingredients').each(function(key, value){
+        $('#myTable').on('click', '.update-ingredients-' + $(value).data('id'), handleUpdateIngredientClick)
+    })
+    $('.ingredients').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.update-ingredients-' + $(value).data('id'), handleUpdateIngredientClick)
+        })
+    })
 });

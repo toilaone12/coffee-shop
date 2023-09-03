@@ -73,7 +73,6 @@ Route::prefix('admin')->group(function(){
     //Nguyen lieu
     Route::prefix('ingredients')->group(function(){
         Route::get('/list',[IngredientsController::class, 'list'])->name('ingredients.list');
-        Route::post('/insert',[IngredientsController::class, 'insert'])->name('ingredients.insert');
         Route::post('/update',[IngredientsController::class, 'update'])->name('ingredients.update');
         Route::post('/delete',[IngredientsController::class, 'delete'])->name('ingredients.delete');
     });
@@ -126,5 +125,6 @@ Route::prefix('admin')->group(function(){
         Route::post('/update',[DetailNoteController::class, 'update'])->name('detail.update');
         Route::post('/delete',[DetailNoteController::class, 'delete'])->name('detail.delete');
         Route::get('/print-pdf',[DetailNoteController::class, 'printPDF'])->name('detail.pdf');
+        Route::get('/export',[DetailNoteController::class, 'export'])->name('detail.export');
     });
 });

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 31, 2023 lúc 07:12 PM
+-- Thời gian đã tạo: Th9 03, 2023 lúc 06:17 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -45,7 +45,7 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
-(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 5, 1, '2023-08-27 11:08:11', '2023-08-28 15:55:59');
+(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 5, 1, '2023-08-27 11:08:11', '2023-09-02 16:27:58');
 
 -- --------------------------------------------------------
 
@@ -119,7 +119,7 @@ CREATE TABLE `detail_notes` (
   `id_unit` int(11) NOT NULL,
   `code_note` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_ingredient` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity_ingredient` int(11) NOT NULL,
+  `quantity_ingredient` float NOT NULL,
   `price_ingredient` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -132,9 +132,12 @@ CREATE TABLE `detail_notes` (
 INSERT INTO `detail_notes` (`id_detail`, `id_note`, `id_unit`, `code_note`, `name_ingredient`, `quantity_ingredient`, `price_ingredient`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 'LKU1MR', 'Cà phê', 2, 66000, '2023-08-31 14:27:27', '2023-08-31 14:27:27'),
 (2, 1, 1, 'LKU1MR', 'Sữa đặc Ngôi sao Phương Nam', 4, 62000, '2023-08-31 14:27:27', '2023-08-31 14:27:27'),
-(3, 2, 1, 'DPQ8O0', 'aaa', 1, 33333, '2023-08-31 14:30:45', '2023-08-31 16:50:55'),
-(4, 2, 3, 'DPQ8O0', 'ab', 2, 33444, '2023-08-31 14:30:45', '2023-08-31 17:08:22'),
-(12, 2, 2, 'DPQ8O0', 'ac', 2, 333, '2023-08-31 17:08:22', '2023-08-31 17:08:22');
+(15, 3, 2, 'P0OOZ3', 'Cà phê bột Trung Nguyên loại I', 680, 58000, '2023-09-03 14:14:40', '2023-09-03 14:14:40'),
+(16, 3, 1, 'P0OOZ3', 'Sữa đặc Ngôi sao Phương Nam', 4, 62000, '2023-09-03 14:14:40', '2023-09-03 14:14:40'),
+(17, 3, 5, 'P0OOZ3', 'Plain Croissant', 5, 28000, '2023-09-03 14:14:40', '2023-09-03 14:14:40'),
+(18, 4, 2, 'MTAGIO', 'Sữa đặc Ngôi sao Phương Nam', 2448, 62000, '2023-09-03 14:46:59', '2023-09-03 14:46:59'),
+(19, 4, 1, 'MTAGIO', 'Cà phê bột Trung Nguyên loại I', 0.68, 58000, '2023-09-03 14:46:59', '2023-09-03 14:46:59'),
+(20, 4, 1, 'MTAGIO', 'Sữa đặc Ngôi sao Phương Nam', 3.6, 62000, '2023-09-03 15:09:16', '2023-09-03 15:09:16');
 
 -- --------------------------------------------------------
 
@@ -165,13 +168,23 @@ INSERT INTO `gallery` (`id_gallery`, `id_product`, `image_gallery`, `created_at`
 --
 
 CREATE TABLE `ingredients` (
-  `id_ingredients` int(20) UNSIGNED NOT NULL,
+  `id_ingredient` int(20) UNSIGNED NOT NULL,
   `id_unit` int(50) NOT NULL,
-  `name_ingredients` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity_ingredients` int(11) NOT NULL,
+  `name_ingredient` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity_ingredient` float NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `ingredients`
+--
+
+INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Cà phê', 2000, '2023-09-03 10:49:36', '2023-09-03 16:17:02'),
+(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 14.048, '2023-09-03 10:49:36', '2023-09-03 15:10:41'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 2040, '2023-09-03 14:15:16', '2023-09-03 15:10:41'),
+(4, 5, 'Plain Croissant', 5, '2023-09-03 14:24:01', '2023-09-03 14:24:01');
 
 -- --------------------------------------------------------
 
@@ -195,8 +208,9 @@ CREATE TABLE `notes` (
 --
 
 INSERT INTO `notes` (`id_note`, `id_supplier`, `code_note`, `name_note`, `quantity_note`, `status_note`, `created_at`, `updated_at`) VALUES
-(1, 3, 'LKU1MR', 'Phiếu ngày 31/08/2023', 2, 0, '2023-08-31 14:27:27', '2023-08-31 14:27:27'),
-(2, 2, 'DPQ8O0', 'Phiếu ngày 20/12', 3, 0, '2023-08-31 14:30:45', '2023-08-31 16:39:40');
+(1, 3, 'LKU1MR', 'Phiếu ngày 31/08/2023', 2, 1, '2023-08-31 14:27:27', '2023-09-03 10:49:36'),
+(3, 3, 'P0OOZ3', 'Phiếu ngày 03/09/2023', 3, 1, '2023-09-03 14:14:40', '2023-09-03 14:24:01'),
+(4, 2, 'MTAGIO', 'Phiếu ngày 03/09/2023', 3, 1, '2023-09-03 14:46:59', '2023-09-03 15:10:41');
 
 -- --------------------------------------------------------
 
@@ -362,7 +376,7 @@ ALTER TABLE `gallery`
 -- Chỉ mục cho bảng `ingredients`
 --
 ALTER TABLE `ingredients`
-  ADD PRIMARY KEY (`id_ingredients`);
+  ADD PRIMARY KEY (`id_ingredient`);
 
 --
 -- Chỉ mục cho bảng `notes`
@@ -432,7 +446,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `detail_notes`
 --
 ALTER TABLE `detail_notes`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `gallery`
@@ -444,13 +458,13 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT cho bảng `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `id_ingredients` int(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ingredient` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
