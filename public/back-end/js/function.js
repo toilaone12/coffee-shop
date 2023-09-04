@@ -304,8 +304,8 @@ function handleUpdateIngredientClick(){
     $('.id-unit-update').html(selectOptions);
     $('.id-ingredient').val(id);
 }
-//xu ly phan them thanh phan nguyen lieu
-function handleInsertComponentRecipe(){
+//xu ly phan them thanh phan nguyen lieu (ca trang sua)
+function handleInsertComponentRecipe(isUpdate=0){
     let optionUnit = '';
     let optionIngredient = '';
     listUnits.forEach(unit => {
@@ -314,26 +314,77 @@ function handleInsertComponentRecipe(){
     listIngredients.forEach(ingredient => {
         optionIngredient += `<option value="${ingredient.id_ingredient}">${ingredient.name_ingredient}</option>`;
     });
-    let html = `<div class="col-lg-4 one-component">`;
+    let html = `<div class="col-lg-4 ${isUpdate ? 'one-update-component' : 'one-component'}">`;
     html += `<div class="form-group">`;
     html += `<label for="ingredient">Tên nguyên liệu</label>`;
-    html += `<select name="id_ingredient" id="ingredient" class="id-ingredient-update form-control">`;
+    html += `<select name="id_ingredient" id="ingredient" class="id-ingredient-${isUpdate ? 'update' : 'insert'} form-control">`;
     html += optionIngredient;
     html += `</select>`;
     html += `</div>`;
     html += `<div class="form-group">`;
     html += `<label for="unit">Đơn vị tính</label>`;
-    html += `<select name="id_unit" id="unit" class="id-unit-update form-control">`;
+    html += `<select name="id_unit" id="unit" class="id-unit-${isUpdate ? 'update' : 'insert'} form-control">`;
     html += optionUnit;
     html += `</select>`;
     html += `</div>`;
     html += '<div class="form-group">';
     html += '<label for="quantity">Số lượng cần</label>'
-    html += '<input type="number" min=1 name="quantity_recipe_need" id="quantity" class="form-control quantity-update">'
+    html += `<input type="number" min=1 name="quantity_recipe_need" id="quantity" class="form-control quantity-${isUpdate ? 'update' : 'insert'}">`
     html += '<span class="text-danger error-quantity"></span>'
     html += '</div>'
     html += '</div>';
-    $('.form-component-recipe').append(html);
+    if(isUpdate){
+        $('.form-update-component-recipe').append(html);
+    }else{
+        $('.form-component-recipe').append(html);
+    }
+}
+//xu ly phan sua cong thuc
+function handleUpdateRecipeClick(){
+    let id = $(this).data('id');
+    let idProduct = $('.id-product-' + id).data('id');
+    let count = $('.component-'+id).data('count');
+    let optionProduct = '';
+    let html = '';
+    listProducts.forEach(product => {
+        optionProduct += `<option value="${product.id_product}" ${product.id_product === idProduct ? 'selected' : ''}>${product.name_product}</option>`;
+    })
+    $('.id-product-recipe').html(optionProduct);
+    for(let i = 0; i < parseInt(count); i++){
+        //id: la ma cong thuc, i: la key trong vong lap cong thuc
+        let optionUnit = '';
+        let optionIngredient = '';
+        let idIngredient = $('.id-ingredient-'+id+'-'+i).data('id'); 
+        let idUnit = $('.id-unit-'+id+'-'+i).data('id');
+        let quantityRecipe = $('.quantity-recipe-'+id+'-'+i).text();
+        listUnits.forEach(unit => {
+            optionUnit += `<option value="${unit.id_unit}" ${unit.id_unit === idUnit ? 'selected' : ''}>${unit.fullname_unit}</option>`;
+        });
+        listIngredients.forEach(ingredient => {
+            optionIngredient += `<option value="${ingredient.id_ingredient}" ${ingredient.id_ingredient === idIngredient ? 'selected' : ''}>${ingredient.name_ingredient}</option>`;
+        });
+        html += `<div class="col-lg-4 one-update-component">`;
+        html += `<div class="form-group">`;
+        html += `<label for="ingredient">Tên nguyên liệu</label>`;
+        html += `<select name="id_ingredient" id="ingredient" class="id-ingredient-update form-control">`;
+        html += optionIngredient;
+        html += `</select>`;
+        html += `</div>`;
+        html += `<div class="form-group">`;
+        html += `<label for="unit">Đơn vị tính</label>`;
+        html += `<select name="id_unit" id="unit" class="id-unit-update form-control">`;
+        html += optionUnit;
+        html += `</select>`;
+        html += `</div>`;
+        html += `<div class="form-group">`;
+        html += `<label for="quantity">Số lượng cần</label>`
+        html += `<input type="number" min=1 name="quantity_recipe_need" id="quantity" value="${quantityRecipe}" class="form-control quantity-update">`
+        html +=` <span class="text-danger error-quantity"></span>`
+        html += `</div>`
+        html += `</div>`;
+    }
+    $('.form-update-component-recipe').html(html);
+    $('.id-recipe').val(id);
 }
 
 

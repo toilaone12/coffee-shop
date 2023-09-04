@@ -199,13 +199,43 @@ $(document).ready(function() {
         })
     })
 
-    //them thanh phan cho cong thuc
+    //them thanh phan cho cong thuc trong trang them
     $('.add-component-recipe').click(function(e){
         e.preventDefault();
         handleInsertComponentRecipe();
     })
-    //xoa 1 thanh phan gan nhat cua thanh phan cong thuc
+    //xoa cai cuoi cung thanh phan cong thuc trong trang them
     $(".remove-component-recipe").on("click", function() {
-        $('.form-component-recipe').find(".one-component").remove()
+        var lastElement = $('.one-component').last();
+        lastElement.remove();
+    });
+
+    //sua cong thuc
+    $('.recipe').each(function(key, value){
+        $('#myTable').on('click', '.update-recipe-' + $(value).data('id'), handleUpdateRecipeClick)
+    })
+    $('.recipe').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.update-recipe-' + $(value).data('id'), handleUpdateRecipeClick)
+        })
+    })
+    //them thanh phan cho cong thuc trong trang sua
+    $('.add-component-recipe-update').click(function(e){
+        e.preventDefault();
+        handleInsertComponentRecipe(1);
+    })
+    //xoa tat ca thanh phan cong thuc trong trang sua
+    $(".remove-component-recipe-update").on("click", function() {
+        let id = $('.id-recipe').val();
+        let count = $('.component-'+id).data('count');
+        if($('.one-update-component').length > count){
+            var lastElement = $('.one-update-component').last();
+            lastElement.remove();
+        }else{
+            swalNotification('Xóa nguyên liệu','Không được xóa nguyên liệu gốc (chỉ được chỉnh sửa)','warning',
+            function(callback){
+
+            });
+        }
     });
 });

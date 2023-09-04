@@ -438,6 +438,7 @@ if (!isset($username)) {
     <script>
         var listUnits = {!!json_encode($listUnits) !!};
         var listIngredients = {!!json_encode($listIngredients) !!};
+        var listProducts = {!!json_encode($listProduct) !!};
     </script>
     @endif
     <script src="{{asset('./back-end/js/function.js')}}"></script>
@@ -1378,9 +1379,9 @@ if (!isset($username)) {
                 }
                 $('.one-component').each(function(){
                     let obj = {
-                        id_ingredient: $(this).find('.id-ingredient-update').val(),
-                        id_unit: $(this).find('.id-unit-update').val(),
-                        quantity_recipe_need: $(this).find('.quantity-update').val(),
+                        id_ingredient: $(this).find('.id-ingredient-insert').val(),
+                        id_unit: $(this).find('.id-unit-insert').val(),
+                        quantity_recipe_need: $(this).find('.quantity-insert').val(),
                     }
                     objComponent.push(obj);
                 })
@@ -1402,6 +1403,77 @@ if (!isset($username)) {
                         console.log(err);
                     }
                 );
+            })
+            //sua cong thuc cho san pham
+            $('.update-recipe').click(function(){
+                let objComponent = [];
+                let url = "{{route('recipe.update')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                $('.one-update-component').each(function(){
+                    let obj = {
+                        id_ingredient: $(this).find('.id-ingredient-update').val(),
+                        id_unit: $(this).find('.id-unit-update').val(),
+                        quantity_recipe_need: $(this).find('.quantity-update').val(),
+                    }
+                    objComponent.push(obj);
+                })
+                let data = {
+                    id_product: $('.id-product-recipe').val(),
+                    id_recipe: $('.id-recipe').val(),
+                    objComponent
+                }
+                callAjax(url, method, data, headers,
+                    function(data) {
+                        swalNotification(data.title,data.status,data.icon,
+                            function(callback) {
+                                if (callback) {
+                                    location.reload();
+                                }
+                            }
+                        );
+                    },
+                    function(err) {
+                        console.log(err);
+                    }
+                );
+            });
+            //xoa cong thuc cho san pham
+            $('#myTable').on('click', '.delete-recipe', function() {
+                let id = $(this).data('id');
+                let name = $('.id-product-' + id).text();
+                let url = '{{route("recipe.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: id,
+                };
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa công thức của sản phẩm ' + name + ' này không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
             })
         })
     </script>

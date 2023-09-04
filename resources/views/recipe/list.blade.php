@@ -28,20 +28,28 @@
                                     <td>{{$key + 1}}</td>
                                     @foreach($listProduct as $key => $product)
                                     @if($product->id_product == $one->id_product)
-                                    <td class="id-product-{{$one->id_recipe}}">{{$product->name_product}}</td>
+                                    <td 
+                                        class="id-product-{{$one->id_recipe}}" 
+                                        data-id="{{$one->id_product}}"
+                                    >
+                                        {{$product->name_product}}
+                                    </td>
                                     @endif
                                     @endforeach
-                                    <td class="component-{{$one->id_recipe}}">
+                                    <td class="component-{{$one->id_recipe}}" data-count="{{count(json_decode($one->component_recipe))}}">
                                     @foreach(json_decode($one->component_recipe) as $key => $recipe)
                                         @php
                                             $ingredientName = '';
+                                            $idIngredient = '';
                                             $unitName = '';
+                                            $idUnit = '';
                                         @endphp
 
                                         @foreach($listIngredients as $ingredient)
                                             @if($ingredient->id_ingredient == $recipe->id_ingredient)
                                                 @php
                                                     $ingredientName = $ingredient->name_ingredient;
+                                                    $idIngredient = $recipe->id_ingredient;
                                                 @endphp
                                             @endif
                                         @endforeach
@@ -50,17 +58,20 @@
                                             @if($unit->id_unit == $recipe->id_unit)
                                                 @php
                                                     $unitName = $unit->fullname_unit;
+                                                    $idUnit = $recipe->id_unit;
                                                 @endphp
                                             @endif
                                         @endforeach
-                                        <span class="{{$key > 0 ? 'border-top border-info ' : ''}}">Nguyên liệu: {{ $ingredientName }}</span><br>
-                                        Đơn vị: {{ $unitName }}<br>
-                                        Số lượng cần: {{$recipe->quantity_recipe_need}}<br>
+                                        <div class="my-2 {{$key > 0 ? 'border-top border-info ' : ''}}">
+                                        </div>
+                                        Nguyên liệu: <span class="id-ingredient-{{$one->id_recipe}}-{{$key}}" data-id="{{$idIngredient}}">{{ $ingredientName }}</span><br>
+                                        Đơn vị: <span class="id-unit-{{$one->id_recipe}}-{{$key}}" data-id="{{$idUnit}}">{{ $unitName }}</span><br>
+                                        Số lượng cần: <span class="quantity-recipe-{{$one->id_recipe}}-{{$key}}">{{$recipe->quantity_recipe_need}}</span><br>
                                     @endforeach
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary update-category-{{$one->id_recipe}} category" data-id="{{$one->id_recipe}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button class="btn btn-danger delete-category" data-id="{{$one->id_recipe}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn btn-primary update-recipe-{{$one->id_recipe}} recipe" data-id="{{$one->id_recipe}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-danger delete-recipe" data-id="{{$one->id_recipe}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -115,7 +126,7 @@
                         <label for="option">Thành phần công thức</label>
                         <div class="row">
                             <div class="text-center btn btn-success add-component-recipe pe-auto w-25 mr-3" style="margin-left: 12px; cursor: pointer;">Thêm thành phần</div>
-                            <div class="text-center btn btn-success remove-component-recipe pe-auto w-25" style="cursor: pointer;">Xóa tất cả</div>
+                            <div class="text-center btn btn-success remove-component-recipe pe-auto w-25" style="cursor: pointer;">Xóa cái cuối cùng</div>
                         </div>
                         <div class="form-component-recipe row mt-3">
                         </div>
@@ -135,33 +146,35 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sửa công thức</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <span class="text-success message-category mx-3"></span>
                 <div class="modal-body">
+                    <input type="hidden" name="id_recipe" class="id-recipe">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="name">Tên danh mục</label>
-                                <input type="text" name="" id="name" class="form-control name-update">
-                                <span class="text-danger error-name"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="option">Thuộc danh mục</label>
-                                <select name="id_parent_category" id="" class="form-control id-parent-update">
+                                <label for="name">Tên sản phẩm</label>
+                                <select name="id_product" id="name" class="form-control id-product-recipe">
                                 </select>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="option">Thành phần công thức</label>
+                        <div class="row">
+                            <div class="text-center btn btn-success add-component-recipe-update pe-auto w-25 mr-3" style="margin-left: 12px; cursor: pointer;">Thêm thành phần</div>
+                            <div class="text-center btn btn-success remove-component-recipe-update pe-auto w-25" style="cursor: pointer;">Xóa cái cuối cùng</div>
+                        </div>
+                        <div class="form-update-component-recipe row mt-3">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary update-category">Sửa</button>
+                    <button type="submit" class="btn btn-primary update-recipe">Sửa</button>
                 </div>
             </div>
         </div>
