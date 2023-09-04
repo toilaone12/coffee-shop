@@ -11,5 +11,5 @@ class Recipe extends Model
     public $timestamp = true;
     protected $table = "recipe";
     protected $primaryKey = "id_recipe";
-    protected $fillable = ["id_product","id_ingredients","quantity_required_recipe"];
+    protected $fillable = ["id_product","component_recipe"];
 }

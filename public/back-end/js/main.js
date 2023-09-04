@@ -198,4 +198,14 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-ingredients-' + $(value).data('id'), handleUpdateIngredientClick)
         })
     })
+
+    //them thanh phan cho cong thuc
+    $('.add-component-recipe').click(function(e){
+        e.preventDefault();
+        handleInsertComponentRecipe();
+    })
+    //xoa 1 thanh phan gan nhat cua thanh phan cong thuc
+    $(".remove-component-recipe").on("click", function() {
+        $('.form-component-recipe').find(".one-component").remove()
+    });
 });

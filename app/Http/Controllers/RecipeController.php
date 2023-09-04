@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ingredients;
 use App\Models\Product;
 use App\Models\Recipe;
+use App\Models\Units;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller
@@ -14,28 +15,23 @@ class RecipeController extends Controller
         $list = Recipe::all();
         $listProduct = Product::all();
         $listIngredients = Ingredients::all();
-        return view('recipe.list',compact('title','list','listProduct','listIngredients'));
+        $listUnits = Units::all();
+        return view('recipe.list',compact('title','list','listProduct','listIngredients','listUnits'));
     }
 
-    // function insert(Request $request){
-    //     $data = $request->all();
-    //     Validator::make($data,[
-    //         'name_category' => ['required', 'regex:/^[\p{L}\s\p{P}]+$/u'],
-    //     ],[
-    //         'name_category.required' => 'Tên danh mục bắt buộc phải có',
-    //         'name_category.regex' => 'Tên danh mục phải là chữ cái',
-    //     ])->validate();
-    //     $db = [
-    //         'name_category' => $data['name_category'],
-    //         'id_parent_category' => $data['id_parent_category'],
-    //     ];
-    //     $insert = Category::create($db);
-    //     if($insert){
-    //         return redirect()->route('category.list')->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
-    //     }else{
-    //         return redirect()->route('category.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
-    //     }
-    // }
+    function insert(Request $request){
+        $data = $request->all();
+        $db = [
+            'id_product' => $data['id_product'],
+            'component_recipe' => json_encode($data['objComponent']),
+        ];
+        $insert = Recipe::create($db);
+        if($insert){
+            return response()->json(['res' => 'success', 'title' => 'Thêm công thức', 'icon' => 'success', 'status' => 'Thêm công thức thành công']);
+        }else{
+            return response()->json(['res' => 'fail', 'title' => 'Thêm công thức', 'icon' => 'error', 'status' => 'Thêm công thức thất bại']);
+        }
+    }
 
     // function update(Request $request){
     //     $data = $request->all();

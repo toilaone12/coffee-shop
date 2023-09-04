@@ -434,6 +434,11 @@ if (!isset($username)) {
     <script>
         var listUnits = {!!json_encode($listUnits) !!};
     </script>
+    @elseif(request()->is('admin/recipe/list'))
+    <script>
+        var listUnits = {!!json_encode($listUnits) !!};
+        var listIngredients = {!!json_encode($listIngredients) !!};
+    </script>
     @endif
     <script src="{{asset('./back-end/js/function.js')}}"></script>
     <script src="{{asset('./back-end/js/main.js')}}"></script>
@@ -1362,6 +1367,41 @@ if (!isset($username)) {
                     function(err) {
                         console.log(err);
                     }, 1);
+            })
+            //them cong thuc cho san pham
+            $('.insert-recipe').click(function(){
+                let objComponent = [];
+                let url = "{{route('recipe.insert')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                $('.one-component').each(function(){
+                    let obj = {
+                        id_ingredient: $(this).find('.id-ingredient-update').val(),
+                        id_unit: $(this).find('.id-unit-update').val(),
+                        quantity_recipe_need: $(this).find('.quantity-update').val(),
+                    }
+                    objComponent.push(obj);
+                })
+                let data = {
+                    id_product: $('.id-product').val(),
+                    objComponent
+                }
+                callAjax(url, method, data, headers,
+                    function(data) {
+                        swalNotification(data.title,data.status,data.icon,
+                            function(callback) {
+                                if (callback) {
+                                    location.reload();
+                                }
+                            }
+                        );
+                    },
+                    function(err) {
+                        console.log(err);
+                    }
+                );
             })
         })
     </script>

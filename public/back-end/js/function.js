@@ -304,5 +304,36 @@ function handleUpdateIngredientClick(){
     $('.id-unit-update').html(selectOptions);
     $('.id-ingredient').val(id);
 }
+//xu ly phan them thanh phan nguyen lieu
+function handleInsertComponentRecipe(){
+    let optionUnit = '';
+    let optionIngredient = '';
+    listUnits.forEach(unit => {
+        optionUnit += `<option value="${unit.id_unit}">${unit.fullname_unit}</option>`;
+    });
+    listIngredients.forEach(ingredient => {
+        optionIngredient += `<option value="${ingredient.id_ingredient}">${ingredient.name_ingredient}</option>`;
+    });
+    let html = `<div class="col-lg-4 one-component">`;
+    html += `<div class="form-group">`;
+    html += `<label for="ingredient">Tên nguyên liệu</label>`;
+    html += `<select name="id_ingredient" id="ingredient" class="id-ingredient-update form-control">`;
+    html += optionIngredient;
+    html += `</select>`;
+    html += `</div>`;
+    html += `<div class="form-group">`;
+    html += `<label for="unit">Đơn vị tính</label>`;
+    html += `<select name="id_unit" id="unit" class="id-unit-update form-control">`;
+    html += optionUnit;
+    html += `</select>`;
+    html += `</div>`;
+    html += '<div class="form-group">';
+    html += '<label for="quantity">Số lượng cần</label>'
+    html += '<input type="number" min=1 name="quantity_recipe_need" id="quantity" class="form-control quantity-update">'
+    html += '<span class="text-danger error-quantity"></span>'
+    html += '</div>'
+    html += '</div>';
+    $('.form-component-recipe').append(html);
+}
 
 

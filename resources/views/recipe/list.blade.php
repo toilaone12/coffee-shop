@@ -17,8 +17,7 @@
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Tên sản phẩm</th>
-                                    <th>Tên nguyên liệu</th>
-                                    <th>Số lượng cần</th>
+                                    <th>Thành phần công thức</th>
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
@@ -29,14 +28,36 @@
                                     <td>{{$key + 1}}</td>
                                     @foreach($listProduct as $key => $product)
                                     @if($product->id_product == $one->id_product)
-                                    <td class="id-product-{{$one->id_recipe}}">{{$one->name_product}}</td>
+                                    <td class="id-product-{{$one->id_recipe}}">{{$product->name_product}}</td>
                                     @endif
                                     @endforeach
-                                    @foreach($listIngredients as $key => $ingredients)
-                                    @if($ingredients->id_ingredients == $one->id_ingredients)
-                                    <td class="id-ingredients-{{$one->id_recipe}}">{{$one->name_ingredients}}</td>
-                                    @endif
+                                    <td class="component-{{$one->id_recipe}}">
+                                    @foreach(json_decode($one->component_recipe) as $key => $recipe)
+                                        @php
+                                            $ingredientName = '';
+                                            $unitName = '';
+                                        @endphp
+
+                                        @foreach($listIngredients as $ingredient)
+                                            @if($ingredient->id_ingredient == $recipe->id_ingredient)
+                                                @php
+                                                    $ingredientName = $ingredient->name_ingredient;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+
+                                        @foreach($listUnits as $unit)
+                                            @if($unit->id_unit == $recipe->id_unit)
+                                                @php
+                                                    $unitName = $unit->fullname_unit;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        <span class="{{$key > 0 ? 'border-top border-info ' : ''}}">Nguyên liệu: {{ $ingredientName }}</span><br>
+                                        Đơn vị: {{ $unitName }}<br>
+                                        Số lượng cần: {{$recipe->quantity_recipe_need}}<br>
                                     @endforeach
+                                    </td>
                                     <td>
                                         <button class="btn btn-primary update-category-{{$one->id_recipe}} category" data-id="{{$one->id_recipe}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
                                         <button class="btn btn-danger delete-category" data-id="{{$one->id_recipe}}"><i class="fa-solid fa-trash-can"></i></button>
@@ -67,50 +88,43 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm công thức</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('category.insert')}}" method="post">
-                    @csrf
-                    <?php
-                    use Illuminate\Support\Facades\Session;
-                    $message = Session::get('message');
-                    if(isset($message)){
-                        echo $message;
-                        Session::put('message','');
-                    }
-                    ?>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="name">Tên danh mục</label>
-                                    <input type="text" name="name_category" id="name" class="form-control">
-                                    @error('name_category')
-                                    <span class="text-danger">{{$message}}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="option">Thuộc danh mục</label>
-                                    <select name="id_parent_category" id="" class="form-control">
-                                        <option value="0" class="form-control">Danh mục gốc</option>
-                                    </select>
-                                    @error('id_parent_category')
-                                    <span class="text-danger">{{$message}}</span>
-                                    @enderror
-                                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="name">Tên sản phẩm</label>
+                                <select name="id_product" id="name" class="form-control id-product">
+                                    @foreach($listProduct as $key => $one)
+                                    <option 
+                                        value="{{$one->id_product}}" 
+                                        class="form-control"
+                                    >
+                                        {{$one->name_product}}
+                                    </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    <div class="form-group">
+                        <label for="option">Thành phần công thức</label>
+                        <div class="row">
+                            <div class="text-center btn btn-success add-component-recipe pe-auto w-25 mr-3" style="margin-left: 12px; cursor: pointer;">Thêm thành phần</div>
+                            <div class="text-center btn btn-success remove-component-recipe pe-auto w-25" style="cursor: pointer;">Xóa tất cả</div>
+                        </div>
+                        <div class="form-component-recipe row mt-3">
+                        </div>
                     </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary insert-recipe">Thêm</button>
+                </div>
             </div>
         </div>
     </div>
