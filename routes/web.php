@@ -3,12 +3,14 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DetailNoteController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
@@ -136,5 +138,19 @@ Route::prefix('admin')->group(function(){
         Route::post('/delete',[DetailNoteController::class, 'delete'])->name('detail.delete');
         Route::get('/print-pdf',[DetailNoteController::class, 'printPDF'])->name('detail.pdf');
         Route::get('/export',[DetailNoteController::class, 'export'])->name('detail.export');
+    });
+    //Phieu hang
+    Route::prefix('order')->group(function(){
+        Route::get('/list',[OrderController::class, 'list'])->name('order.list');
+        Route::post('/insert',[OrderController::class, 'insert'])->name('order.insert');
+        Route::post('/update',[OrderController::class, 'update'])->name('order.update');
+        Route::post('/delete',[OrderController::class, 'delete'])->name('order.delete');
+    });
+    //Ma khuyen mai
+    Route::prefix('coupon')->group(function(){
+        Route::get('/list',[CouponController::class, 'list'])->name('coupon.list');
+        Route::post('/insert',[CouponController::class, 'insert'])->name('coupon.insert');
+        Route::post('/update',[CouponController::class, 'update'])->name('coupon.update');
+        Route::post('/delete',[CouponController::class, 'delete'])->name('coupon.delete');
     });
 });

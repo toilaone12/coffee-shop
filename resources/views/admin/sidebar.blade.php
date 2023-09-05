@@ -135,6 +135,20 @@
         </div>
     </li>
 
+    <!-- Coupon -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCoupon" aria-expanded="true" aria-controls="collapseCoupon">
+            <i class="fa-solid fa-percent"></i>
+            <span>Mã khuyến mãi</span>
+        </a>
+        <div id="collapseCoupon" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Các thao tác:</h6>
+                <a class="collapse-item" href="{{route('coupon.list')}}">Danh sách mã khuyến mãi</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Fee -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePayment" aria-expanded="true" aria-controls="collapsePayment">
@@ -187,6 +201,20 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Các thao tác:</h6>
                 <a class="collapse-item" href="{{route('notes.list')}}">Danh sách phiếu hàng</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Order -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrder" aria-expanded="true" aria-controls="collapseOrder">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Đơn hàng</span>
+        </a>
+        <div id="collapseOrder" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Các thao tác:</h6>
+                <a class="collapse-item" href="{{route('order.list')}}">Danh sách đơn hàng</a>
             </div>
         </div>
     </li>

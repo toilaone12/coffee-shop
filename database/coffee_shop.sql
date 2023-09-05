@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 05, 2023 lúc 12:03 PM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th9 05, 2023 lúc 06:11 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -87,6 +87,24 @@ INSERT INTO `category` (`id_category`, `name_category`, `id_parent_category`, `c
 (22, 'Sinh tố', 1, '2023-08-24 14:35:18', '2023-08-24 14:35:18'),
 (23, 'Đá xay', 1, '2023-08-24 14:35:24', '2023-08-24 14:36:05'),
 (24, 'Đồ uống khác', 1, '2023-08-24 14:35:39', '2023-08-24 14:35:39');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `coupon`
+--
+
+CREATE TABLE `coupon` (
+  `id_coupon` int(10) UNSIGNED NOT NULL,
+  `name_coupon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code_coupon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity_coupon` int(11) NOT NULL,
+  `type_coupon` tinyint(4) NOT NULL,
+  `discount_coupon` int(11) NOT NULL,
+  `expiration_time` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -232,7 +250,8 @@ CREATE TABLE `migrations` (
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2023_09_05_104614_create_order', 1),
 (2, '2023_09_05_105352_create_payment', 2),
-(3, '2023_09_05_105352_create_fee', 3);
+(3, '2023_09_05_105352_create_fee', 3),
+(4, '2023_09_05_223339_create_coupon', 4);
 
 -- --------------------------------------------------------
 
@@ -268,9 +287,8 @@ INSERT INTO `notes` (`id_note`, `id_supplier`, `code_note`, `name_note`, `quanti
 
 CREATE TABLE `order` (
   `id_order` int(10) UNSIGNED NOT NULL,
-  `id_payment` int(11) NOT NULL,
   `code_order` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name_customer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_order` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_order` int(11) NOT NULL,
   `status_order` tinyint(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -428,6 +446,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id_category`);
 
 --
+-- Chỉ mục cho bảng `coupon`
+--
+ALTER TABLE `coupon`
+  ADD PRIMARY KEY (`id_coupon`);
+
+--
 -- Chỉ mục cho bảng `customer`
 --
 ALTER TABLE `customer`
@@ -528,6 +552,12 @@ ALTER TABLE `category`
   MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
+-- AUTO_INCREMENT cho bảng `coupon`
+--
+ALTER TABLE `coupon`
+  MODIFY `id_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
@@ -561,7 +591,7 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `notes`
