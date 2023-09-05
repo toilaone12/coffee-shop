@@ -354,9 +354,14 @@ function handleUpdateRecipeClick(){
         //id: la ma cong thuc, i: la key trong vong lap cong thuc
         let optionUnit = '';
         let optionIngredient = '';
+        let quantityRecipe = '';
         let idIngredient = $('.id-ingredient-'+id+'-'+i).data('id'); 
         let idUnit = $('.id-unit-'+id+'-'+i).data('id');
-        let quantityRecipe = $('.quantity-recipe-'+id+'-'+i).text();
+        if($('tr').hasClass('child')){
+            quantityRecipe = $('.child').find('.quantity-recipe-'+id+'-'+i).text();
+        }else{
+            quantityRecipe = $('.quantity-recipe-'+id+'-'+i).text();
+        }
         listUnits.forEach(unit => {
             optionUnit += `<option value="${unit.id_unit}" ${unit.id_unit === idUnit ? 'selected' : ''}>${unit.fullname_unit}</option>`;
         });
@@ -386,5 +391,23 @@ function handleUpdateRecipeClick(){
     $('.form-update-component-recipe').html(html);
     $('.id-recipe').val(id);
 }
-
-
+//xu ly phan sua phuong thuc thanh toan
+function handleUpdateFeeClick(){
+    let id = $(this).data('id');
+    let radius = $('.radius-' + id).text().replace(' km','');
+    let weather = $('.weather-' + id).text();
+    let fee = $('.fee-' + id).text().replace('đ','');
+    let arrayWeather = [
+        {'id': 'Sun', 'weather': 'Nắng'},
+        {'id': 'Rain', 'weather': 'Mưa'}
+    ];
+    let html = '';
+    for(let i = 0; i < arrayWeather.length; i++){
+        html += `<option value="${arrayWeather[i].id}" ${arrayWeather[i].id === weather ? 'selected' : ''}>${arrayWeather[i].weather}</option>`
+    }
+    $('.radius-update').val(radius);
+    $('.weather-update').html(html);
+    $('.fee-update').val(fee);
+    $('.id-fee').val(id);
+    $('.radius-fee').text(radius);
+}

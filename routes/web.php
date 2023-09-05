@@ -5,9 +5,11 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DetailNoteController;
+use App\Http\Controllers\FeeController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RoleController;
@@ -99,6 +101,14 @@ Route::prefix('admin')->group(function(){
         Route::post('/update',[SlideController::class, 'update'])->name('slide.update');
         Route::post('/delete',[SlideController::class, 'delete'])->name('slide.delete');
         Route::post('/delete-all',[SlideController::class, 'deleteAll'])->name('slide.deleteAll');
+    });
+    //Phi van chuyen
+    Route::prefix('fee')->group(function(){
+        Route::get('/list',[FeeController::class, 'list'])->name('fee.list');
+        Route::post('/insert',[FeeController::class, 'insert'])->name('fee.insert');
+        Route::post('/update',[FeeController::class, 'update'])->name('fee.update');
+        Route::post('/delete',[FeeController::class, 'delete'])->name('fee.delete');
+        Route::post('/delete-all',[FeeController::class, 'deleteAll'])->name('fee.deleteAll');
     });
     //Nha cung cap
     Route::prefix('supplier')->group(function(){

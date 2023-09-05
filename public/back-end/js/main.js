@@ -238,4 +238,17 @@ $(document).ready(function() {
             });
         }
     });
+    //thay doi ban kinh
+    $('.range-radius').on('input',function(){
+        $('.radius-fee').text($(this).val());
+    })
+    //sua phi van chuyen
+    $('.fee').each(function(key, value){
+        $('#myTable').on('click', '.update-fee-' + $(value).data('id'), handleUpdateFeeClick)
+    })
+    $('.fee').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.update-fee-' + $(value).data('id'), handleUpdateFeeClick)
+        })
+    })
 });

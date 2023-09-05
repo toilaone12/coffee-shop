@@ -43,194 +43,7 @@ if (!isset($username)) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fa-solid fa-mug-hot"></i>
-                </div>
-                <div class="sidebar-brand-text fs-16 mx-3">Harper 7</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{{route('admin.dashboard')}}">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Trang chủ</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Thao tác
-            </div>
-            <!-- Role -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRole" aria-expanded="true" aria-controls="collapseRole">
-                    <i class="fa-solid fa-briefcase"></i>
-                    <span>Chức vụ</span>
-                </a>
-                <div id="collapseRole" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('role.list')}}">Danh sách chức vụ</a>
-                    </div>
-                </div>
-            </li>
-            <!-- Account -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccount" aria-expanded="true" aria-controls="collapseAccount">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Tài khoản</span>
-                </a>
-                <div id="collapseAccount" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('account.list')}}">Danh sách tài khoản</a>
-                    </div>
-                </div>
-            </li>
-            <!-- Category -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory" aria-expanded="true" aria-controls="collapseCategory">
-                    <i class="fa-solid fa-shop"></i>
-                    <span>Danh mục</span>
-                </a>
-                <div id="collapseCategory" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('category.list')}}">Danh sách danh mục</a>
-                    </div>
-                </div>
-            </li>
-
-            <!--  Units -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUnit" aria-expanded="true" aria-controls="collapseUnit">
-                    <i class="fa-solid fa-weight-scale"></i>
-                    <span>Đơn vị tính</span>
-                </a>
-                <div id="collapseUnit" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('units.list')}}">Danh sách đơn vị</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Product -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="true" aria-controls="collapseProduct">
-                    <i class="fa-solid fa-cake-candles"></i>
-                    <span>Sản phẩm</span>
-                </a>
-                <div id="collapseProduct" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('product.list')}}">Danh sách sản phẩm</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Ingredients -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseIngredients" aria-expanded="true" aria-controls="collapseIngredients">
-                    <i class="fa-solid fa-seedling"></i>
-                    <span>Nguyên liệu</span>
-                </a>
-                <div id="collapseIngredients" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('ingredients.list')}}">Danh sách nguyên liệu</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Recipe -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRecipe" aria-expanded="true" aria-controls="collapseRecipe">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Công thức</span>
-                </a>
-                <div id="collapseRecipe" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('recipe.list')}}">Danh sách công thức</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Slide -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSlide" aria-expanded="true" aria-controls="collapseSlide">
-                    <i class="fa-brands fa-adversal"></i>
-                    <span>Quảng cáo</span>
-                </a>
-                <div id="collapseSlide" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('slide.list')}}">Danh sách quảng cáo</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Supplier -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa-solid fa-truck-field"></i>
-                    <span>Nhà cung cấp</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('supplier.list')}}">Danh sách nhà cung cấp</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Customers -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer" aria-expanded="true" aria-controls="collapseCustomer">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <span>Khách hàng</span>
-                </a>
-                <div id="collapseCustomer" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('customer.list')}}">Danh sách khách hàng</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Import Note -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNote" aria-expanded="true" aria-controls="collapseNote">
-                    <i class="fa-regular fa-clipboard"></i>
-                    <span>Phiếu hàng</span>
-                </a>
-                <div id="collapseNote" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Các thao tác:</h6>
-                        <a class="collapse-item" href="{{route('notes.list')}}">Danh sách phiếu hàng</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
+        @include('admin.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -239,128 +52,7 @@ if (!isset($username)) {
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    {{ isset($username) ? $username : ''}}
-                                </span>
-                                <img class="img-profile rounded-circle" src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Hồ sơ
-                                </a>
-                                <a class="dropdown-item" href="{{route('account.setting')}}">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Cài đặt
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Đăng xuất
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                </nav>
+                @include('admin.header')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -371,13 +63,7 @@ if (!isset($username)) {
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
+            @include('admin.footer')
             <!-- End of Footer -->
 
         </div>
@@ -392,23 +78,7 @@ if (!isset($username)) {
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bạn muốn đăng xuất?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Bạn đồng ý đăng xuất tài khoản này!</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy bỏ</button>
-                    <a class="btn btn-primary logout">Đăng xuất</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('admin.logout')
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('./back-end/js/jquery.min.js')}}"></script>
@@ -1453,6 +1123,109 @@ if (!isset($username)) {
                     id: id,
                 };
                 swalQuestion('<span class="fs-16">Bạn có muốn xóa công thức của sản phẩm ' + name + ' này không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //sua phi van chuyen 
+            $('.update-fee').submit(function(e){
+                e.preventDefault();
+                let url = "{{route('fee.update')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let formData = new FormData($(this)[0]);
+                callAjax(url, method, formData, headers,
+                    function(data) {
+                        if(data.res == 'warning'){
+                            $('.error-fee').text(data.status.fee);
+                        }else{
+                            swalNotification(data.title,data.status,data.icon,
+                                function(callback) {
+                                    if (callback) {
+                                        location.reload();
+                                    }
+                                }
+                            );
+                        }
+                    },
+                    function(err) {
+                        console.log(err);
+                    }
+                ,1);
+            });
+            //xoa phi van chuyen
+            $('#myTable').on('click', '.delete-fee', function() {
+                let id = $(this).data('id');
+                let url = '{{route("fee.delete")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    id: id,
+                };
+                swalQuestion('<span class="fs-16">Bạn có muốn xóa phí vận chuyển này không</span>', function(alert) {
+                    if (alert) {
+                        callAjax(url, method, data, headers,
+                            function(data) {
+                                if (data.res === 'success') {
+                                    swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                        function(callback) {
+                                            if (callback) {
+                                                location.reload();
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                                }
+                            },
+                            function(err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                });
+            })
+            //xoa nhieu phi van chuyen
+            $('.delete-all-fee').click(function() {
+                let arrId = [];
+                let url = '{{route("fee.deleteAll")}}';
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let html = '<span class="fs-16">Bạn có muốn xóa những phí vận chuyển này không</span>';
+                $('input[type="checkbox"]:checked').each(function(k, v) {
+                    let id = parseInt($(this).val());
+                    arrId.push({
+                        id: id
+                    });
+                })
+                let data = {
+                    arrId,
+                };
+                swalQuestion(html, function(alert) {
                     if (alert) {
                         callAjax(url, method, data, headers,
                             function(data) {

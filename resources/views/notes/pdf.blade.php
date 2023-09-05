@@ -79,67 +79,6 @@ p {
 }
 </style>
 <body>
-    <!-- <header>
-        <h2>Chi tiết hàng hóa</h2>
-        <p>Tên Nhà Cung Cấp: {{$supplier->name_supplier}}</p>
-        <p>Người Xuất: {{$fullname}}</p>
-        <p>Ngày Nhập: {{ date('d/m/Y H:i',strtotime($note->updated_at)) }}</p>
-        <p>Ngày Xuất: {{ date('d/m/Y H:i') }}</p>
-    </header> -->
-    <!-- <main>
-        <div class="header">
-            <h2>Chi tiết hàng hóa</h2>
-        </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Mã phiếu</th>
-                    <th>Tên nguyên liệu</th>
-                    <th>Đơn vị tính</th>
-                    <th>Số lượng</th>
-                    <th>Đơn giá</th>
-                    <th>Thành tiền</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $allTotal = 0;
-                @endphp
-                @foreach($list as $key => $one)
-                @php
-                    $total = $one->price_ingredient * $one->quantity_ingredient;
-                    $allTotal += $total;
-                @endphp
-                <tr>
-                    <td>{{$key + 1}}</td>
-                    <td>{{$one->code_note}}</td>
-                    <td>{{$one->name_ingredient}}</td>
-                    <td>{{$one->fullname_unit}}</td>
-                    <td width="20">{{$one->quantity_ingredient}}</td>
-                    <td>{{number_format($one->price_ingredient,0,',','.')}} đ</td>
-                    <td>{{number_format(($total),0,',','.')}} đ</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="total">
-            <p>Tổng cộng: {{number_format($allTotal,0,',','.')}} ₫</p>
-        </div>
-    </main> -->
-    <!-- <footer>
-        <p>Hà Nội, ngày {{ date('d') }} tháng {{ date('m') }} năm {{ date('Y') }}</p>
-        <div class="footer">
-            <div class="footer-left">
-                <h4>Người lập phiếu</h4>
-                <p style="margin-top:100px">{{$fullname}}</p>
-            </div>
-            <div class="footer-right">
-                <h4>Người giao hàng</h4>
-                <p style="margin-top:100px">{{$supplier->name_supplier}}</p>
-            </div>
-        </div>
-    </footer> -->
     <header>
         <h1>PHIẾU NHẬP KHO</h1>
     </header>
@@ -171,6 +110,10 @@ p {
                 @endphp
                 @foreach($list as $key => $one)
                 @php
+                $idUnit = $one->id_unit;
+                    if($idUnit == 2 || $idUnit == 4){
+                        $one->quantity_ingredient = $one->quantity_ingredient / 1000;
+                    }
                     $total = $one->price_ingredient * $one->quantity_ingredient;
                     $allTotal += $total;
                 @endphp
