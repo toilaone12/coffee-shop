@@ -18,5 +18,7 @@ class Coupon extends Model
         "type_coupon",
         "discount_coupon",
         "expiration_time",
+        "is_buy",
+        "is_price",
     ];
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SupplierController;
@@ -152,5 +153,11 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[CouponController::class, 'insert'])->name('coupon.insert');
         Route::post('/update',[CouponController::class, 'update'])->name('coupon.update');
         Route::post('/delete',[CouponController::class, 'delete'])->name('coupon.delete');
+        Route::post('/delete-all',[CouponController::class, 'deleteAll'])->name('coupon.deleteAll');
+    });
+    //Danh gia
+    Route::prefix('review')->group(function(){
+        Route::get('/list',[ReviewController::class, 'list'])->name('review.list');
+        Route::post('/reply',[ReviewController::class, 'reply'])->name('review.reply');
     });
 });

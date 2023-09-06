@@ -21,6 +21,8 @@ class CreateCoupon extends Migration
             $table->tinyInteger('type_coupon');
             $table->integer('discount_coupon');
             $table->dateTime('expiration_time');
+            $table->integer('is_buy');
+            $table->bigInteger('is_price');
             $table->timestamps();
         });
     }

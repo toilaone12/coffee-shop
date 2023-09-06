@@ -191,6 +191,20 @@
         </div>
     </li>
 
+    <!-- Reviews -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReviews" aria-expanded="true" aria-controls="collapseReviews">
+            <i class="fa-solid fa-comments"></i>
+            <span>Đánh giá</span>
+        </a>
+        <div id="collapseReviews" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Các thao tác:</h6>
+                <a class="collapse-item" href="{{route('review.list')}}">Danh sách đánh giá</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Import Note -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNote" aria-expanded="true" aria-controls="collapseNote">

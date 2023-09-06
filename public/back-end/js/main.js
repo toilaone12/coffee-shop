@@ -251,4 +251,13 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-fee-' + $(value).data('id'), handleUpdateFeeClick)
         })
     })
+    //sua ma khuyen mai
+    $('.coupon').each(function(key, value){
+        $('#myTable').on('click', '.update-coupon-' + $(value).data('id'), handleUpdateCouponClick)
+    })
+    $('.coupon').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.update-coupon-' + $(value).data('id'), handleUpdateCouponClick)
+        })
+    })
 });

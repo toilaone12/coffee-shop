@@ -51,6 +51,20 @@ function swalNotification(title,text,icon,callback){
     });
 }
 
+function formatDateToISO(dateString) {
+    const parts = dateString.split(' ');
+    const dateParts = parts[0].split('/');
+    const timeParts = parts[1].split(':');
+
+    const year = dateParts[2];
+    const month = dateParts[1];
+    const day = dateParts[0];
+    const hours = timeParts[0];
+    const minutes = timeParts[1];
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
 //xu ly sua danh muc
 function handleUpdateCategoryClick() {
     let id = $(this).data('id');
@@ -411,3 +425,33 @@ function handleUpdateFeeClick(){
     $('.id-fee').val(id);
     $('.radius-fee').text(radius);
 }
+//xu ly phan sua ma giam gia
+function handleUpdateCouponClick(){
+    let id = $(this).data('id');
+    let name = $('.name-' + id).text().trim();
+    let code = $('.code-' + id).text().trim();
+    let quantity = $('.quantity-' + id).text().trim();
+    let discount = $('.discount-' + id).data('discount');
+    let type = $('.type-' + id).data('type');
+    let isBuy = $('.is-buy-' + id).text().trim();
+    let isPrice = $('.is-price-' + id).text().trim();
+    let time = $('.time-' + id).text().trim();
+    let optionType = '';
+    let arrayType = [
+        {'id': 0, 'name': 'Theo phần trăm'},
+        {'id': 1, 'name': 'Theo giá tiền'}
+    ];
+    for(let i = 0; i < arrayType.length; i++){
+        optionType += `<option value="${arrayType[i].id}" ${arrayType[i].id === type ? 'selected' : ''}>${arrayType[i].name}</option>`
+    }
+    $('.id-coupon').val(id);
+    $('.name-update').val(name);
+    $('.code-update').val(code);
+    $('.quantity-update').val(quantity);
+    $('.discount-update').val(discount);
+    $('.is-buy-update').val(isBuy);
+    $('.is-price-update').val(isPrice);
+    $('.time-update').val(formatDateToISO(time));
+    $('.type-update').html(optionType);
+}
+

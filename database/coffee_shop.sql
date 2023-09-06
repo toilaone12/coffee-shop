@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 05, 2023 lúc 06:11 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th9 06, 2023 lúc 12:27 PM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -102,9 +102,20 @@ CREATE TABLE `coupon` (
   `type_coupon` tinyint(4) NOT NULL,
   `discount_coupon` int(11) NOT NULL,
   `expiration_time` datetime NOT NULL,
+  `is_buy` int(11) DEFAULT NULL,
+  `is_price` bigint(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `coupon`
+--
+
+INSERT INTO `coupon` (`id_coupon`, `name_coupon`, `code_coupon`, `quantity_coupon`, `type_coupon`, `discount_coupon`, `expiration_time`, `is_buy`, `is_price`, `created_at`, `updated_at`) VALUES
+(1, 'Mã khuyến mãi cho người mua lần đầu', 'FIRSTBUY15', 1000, 1, 15000, '2062-12-30 09:45:00', 1, NULL, '2023-09-06 03:13:35', '2023-09-06 08:05:04'),
+(2, 'Mã khuyến mãi cho người mua 3 sản phẩm trở lên', 'OVER3PRODUCT', 10000, 0, 20, '2024-12-06 10:20:00', 0, 0, '2023-09-06 03:20:47', '2023-09-06 03:20:47'),
+(3, 'Mã giảm giá tháng 10', 'COUPONT10', 50, 1, 15000, '2023-10-31 23:59:00', 0, 100000, '2023-09-06 04:59:12', '2023-09-06 04:59:12');
 
 -- --------------------------------------------------------
 
@@ -251,7 +262,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2023_09_05_104614_create_order', 1),
 (2, '2023_09_05_105352_create_payment', 2),
 (3, '2023_09_05_105352_create_fee', 3),
-(4, '2023_09_05_223339_create_coupon', 4);
+(4, '2023_09_05_223339_create_coupon', 4),
+(5, '2023_09_06_154812_create_review', 5);
 
 -- --------------------------------------------------------
 
@@ -343,6 +355,23 @@ CREATE TABLE `recipe` (
 INSERT INTO `recipe` (`id_recipe`, `id_product`, `component_recipe`, `created_at`, `updated_at`) VALUES
 (1, 3, '[{\"id_ingredient\":\"2\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"20\"},{\"id_ingredient\":\"3\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"20\"}]', '2023-09-04 09:57:58', '2023-09-04 09:57:58'),
 (3, 1, '[{\"id_ingredient\":\"3\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"25\"}]', '2023-09-04 15:54:29', '2023-09-04 15:54:29');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `review`
+--
+
+CREATE TABLE `review` (
+  `id_review` int(10) UNSIGNED NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `name_review` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content_review` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rating_review` smallint(1) NOT NULL,
+  `id_reply` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -512,6 +541,12 @@ ALTER TABLE `recipe`
   ADD PRIMARY KEY (`id_recipe`);
 
 --
+-- Chỉ mục cho bảng `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`id_review`);
+
+--
 -- Chỉ mục cho bảng `role`
 --
 ALTER TABLE `role`
@@ -555,7 +590,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT cho bảng `coupon`
 --
 ALTER TABLE `coupon`
-  MODIFY `id_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `customer`
@@ -591,7 +626,7 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `notes`
@@ -616,6 +651,12 @@ ALTER TABLE `product`
 --
 ALTER TABLE `recipe`
   MODIFY `id_recipe` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `review`
+--
+ALTER TABLE `review`
+  MODIFY `id_review` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `role`
