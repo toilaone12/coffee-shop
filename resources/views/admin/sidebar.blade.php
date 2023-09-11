@@ -205,6 +205,20 @@
         </div>
     </li>
 
+    <!-- News -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNews" aria-expanded="true" aria-controls="collapseNews">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>Tin tức</span>
+        </a>
+        <div id="collapseNews" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Các thao tác:</h6>
+                <a class="collapse-item" href="{{route('news.list')}}">Danh sách tin tức</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Import Note -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNote" aria-expanded="true" aria-controls="collapseNote">

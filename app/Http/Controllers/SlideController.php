@@ -32,9 +32,9 @@ class SlideController extends Controller
             'name_slide.required' => 'Tên của ảnh bắt buộc phải có',
             'slug_slide.required' => 'Địa chỉ sau URL bắt buộc phải có'
         ])->validate();
-        $image->storeAs('public', $fileName); // se luu vao storage/app
+        $image->storeAs('public/slide', $fileName); // se luu vao storage/app
         $db = [
-            'image_slide' => 'storage/'.$fileName,
+            'image_slide' => 'storage/slide/'.$fileName,
             'name_slide' => $data['name_slide'],
             'slug_slide' => $slug,
         ];

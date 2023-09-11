@@ -9,6 +9,7 @@ use App\Http\Controllers\DetailNoteController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -159,5 +160,13 @@ Route::prefix('admin')->group(function(){
     Route::prefix('review')->group(function(){
         Route::get('/list',[ReviewController::class, 'list'])->name('review.list');
         Route::post('/reply',[ReviewController::class, 'reply'])->name('review.reply');
+    });
+    //Tin tuc
+    Route::prefix('news')->group(function(){
+        Route::get('/list',[NewsController::class, 'list'])->name('news.list');
+        Route::post('/insert',[NewsController::class, 'insert'])->name('news.insert');
+        Route::post('/update',[NewsController::class, 'update'])->name('news.update');
+        Route::post('/delete',[NewsController::class, 'delete'])->name('news.delete');
+        Route::post('/delete-all',[NewsController::class, 'deleteAll'])->name('news.deleteAll');
     });
 });
