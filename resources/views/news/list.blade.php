@@ -29,23 +29,24 @@
                                 <tr>
                                     <td><input type="checkbox" value="{{$one->id_new}}" id=""></td>
                                     <td>{{$key + 1}}</td>
-                                    <td class="image-{{$one->id_new}}">
-                                        <img width="200" height="100" src="{{asset($one->image_new)}}" alt="">
+                                    <td>
+                                        <img width="200" height="100" src="{{asset($one->image_new)}}" class="image-{{$one->id_new}}" data-name="{{$one->image_new}}" alt="">
                                     </td>
                                     <td class="title-{{$one->id_new}}">{{$one->title_new}}</td>
                                     <td class="subtitle-{{$one->id_new}}">{{$one->subtitle_new ? $one->subtitle_new : 'Không có'}}</td>
-                                    <td style="width: 100px; max-width: 100px;" class="text-truncate">{{$one->content_new}}</td>
+                                    <td style="width: 100px; max-width: 100px;" class="text-truncate content-{{$one->id_new}}">{{$one->content_new}}</td>
                                     <td class="view-{{$one->id_new}}">{{$one->view_new}}</td>
                                     <td>
                                         <button 
-                                            class="btn btn-primary update-new-{{$one->id_new}} new" 
+                                            style="width: 40px; height: 40px;"
+                                            class="btn btn-primary update-new-{{$one->id_new}} new mb-2" 
                                             data-id="{{$one->id_new}}" 
                                             data-toggle="modal" 
                                             data-target="#updateModal"
                                             >
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
-                                        <button class="btn btn-danger delete-new" data-id="{{$one->id_new}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button style="width: 40px; height: 40px;" class="btn btn-danger delete-new" data-id="{{$one->id_new}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -60,7 +61,7 @@
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
                         <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Thêm tin tức</button>
-                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-role d-block mb-3">Xóa nhiều</button>
+                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-news d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>
                 </div>
@@ -107,7 +108,7 @@
                                         <label>Hình ảnh gốc</label>
                                         <img loading="lazy" class="image-update img-thumbnail d-block" style="height: 100px;" width="150" src="https://s2s.co.th/wp-content/uploads/2019/09/photo-icon-1.jpg" class="mt-5">
                                     </div>
-                            </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -148,28 +149,27 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Sửa quảng cáo</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sửa tin tức</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <span class="text-success message-slide mx-3"></span>
-                <form class="update-slide" enctype="multipart/form-data">
+                <form class="update-new" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <div class="row">
-                                <input type="hidden" name="id_slide" class="id-slide" >
+                                <input type="hidden" name="id_new" class="id-new" >
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label>Hình ảnh gốc</label>
                                         <img class="image-update img-thumbnail d-block" width="200" height="100" src="" class="mt-5">
-                                        <input type="hidden" name="image_original_slide" class="image-original">
+                                        <input type="hidden" name="image_original_new" class="image-original">
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
                                     <label>Hình ảnh quảng cáo</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input change-original-image" name="image_slide" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                        <input type="file" class="custom-file-input change-original-image" name="image_new" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
                                     </div>
                                     <div class="fs-16 mt-2 name-image"></div>
@@ -178,14 +178,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name">Tên quảng cáo</label>
-                            <input type="text" name="name_slide" id="name" class="form-control name-update">
-                            <span class="text-danger error-name"></span>
+                            <label for="title">Tiêu đề</label>
+                            <input type="text" name="title_new" id="title" class="form-control title-update">
+                            <span class="text-danger error-title"></span>
                         </div>
                         <div class="form-group">
-                            <label for="slug">Địa chỉ</label>
-                            <input type="text" name="slug_slide" id="slug" class="form-control slug-update">
-                            <span class="text-danger error-slug"></span>
+                            <label for="subtitle">Phụ đề</label>
+                            <input type="text" name="subtitle_new" id="subtitle" class="form-control subtitle-update">
+                            <span class="text-danger error-subtitle"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="subtitle">Nội dung</label>
+                            <textarea name="content_new" id="ckeditor" cols="30" rows="10"></textarea>
+                            <span class="text-danger error-subtitle"></span>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -34,6 +34,7 @@
     }else{
         $username = '';
         $password = '';
+        $remember = '';
     }
 ?>
 <body class="bg-gradient-primary">
@@ -59,14 +60,14 @@
                                         @csrf
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                id="exampleInputEmail" name="username_account" value="{{$username}}" aria-describedby="emailHelp"
+                                                id="exampleInputEmail" name="username_account" value="{{$username ? $username : old('username_account')}}" aria-describedby="emailHelp"
                                                 placeholder="Nhập tài khoản...">
                                             @error('username_account')
                                             <p class="text-danger small ml-3 mt-1">{{$message}}</p>
                                             @enderror
                                         </div>
                                         <div class="mb-3 password-container">
-                                            <input type="password" name="password_account" value="{{$password}}" class="form-control form-control-user"
+                                            <input type="password" name="password_account" value="{{$password ? $password : old('password_account')}}" class="form-control form-control-user"
                                                 id="password-login" placeholder="Nhập mật khẩu">
                                             <button type="button" class="password-toggle-login">
                                                 <i class="fa-solid fa-eye text-secondary fs-22"></i>
@@ -88,7 +89,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" {{isset($remember) ? 'checked' : ''}} name="remember" id="customCheck">
+                                                <input type="checkbox" class="custom-control-input" {{$remember ? 'checked' : ''}} name="remember" id="customCheck">
                                                 <label class="custom-control-label" for="customCheck">Nhớ tài khoản</label>
                                             </div>
                                         </div>

@@ -88,7 +88,7 @@ function handleUpdateSlideClick() {
     let name = $('.name-'+id).text();
     let slug = $('.slug-'+id).text();
     $('.image-update').attr('src',image);
-    $('.image-original').val(nameImage.replace('storage/',''));
+    $('.image-original').val(nameImage.replace('storage/slide/',''));
     $('.id-slide').val(id);
     $('.name-update').val(name);
     $('.slug-update').val(slug);
@@ -454,4 +454,41 @@ function handleUpdateCouponClick(){
     $('.time-update').val(formatDateToISO(time));
     $('.type-update').html(optionType);
 }
-
+//xu ly tin tuc
+function handleUpdateNewClick() {
+    let id = $(this).data('id');
+    let image = $('.image-'+id).attr('src');
+    let nameImage = $('.image-'+id).attr('data-name');
+    let title = $('.title-'+id).text();
+    let subtitle = $('.subtitle-'+id).text();
+    let content = $('.content-'+id).text();
+    $('.id-new').val(id);
+    $('.image-update').attr('src',image);
+    $('.image-original').val(nameImage.replace('storage/news/',''));
+    $('.title-update').val(title);
+    $('.subtitle-update').val(subtitle);
+    CKEDITOR.instances['ckeditor'].setData(content);
+}
+//xu ly phan hoi
+function handleReplyReview(){
+    let arrayReply = [
+        {id: 0, name: 'Thành thật xin lỗi vì điều đó'},
+        {id: 1, name: 'Cảm ơn vì đã ủng hộ'},
+        {id: 2, name: 'Mong bạn ủng hộ nhiều'},
+    ]
+    let replyButtons = $('#reply-buttons');
+    let nameInput = $('#reply');
+    let id = $(this).data('id');
+    let name = $('.name-'+id).text();
+    arrayReply.forEach(reply => {
+        let button = $('<button>').attr('type', 'button')
+        .addClass('btn rating-button fs-14 rounded small')
+        .text(reply.name)
+        .click(function() {
+            nameInput.val(reply.name);
+        });
+        replyButtons.append(button); //tao button
+    });
+    $('.id-reply').val(id)
+    $('.name-review').text(name)
+}

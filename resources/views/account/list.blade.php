@@ -52,6 +52,7 @@
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
                         <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Đăng ký tài khoản</button>
+                        <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#permissionModal">Phân quyền</button>
                         <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-account d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>

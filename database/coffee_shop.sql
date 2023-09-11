@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 11, 2023 lúc 12:25 PM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th9 11, 2023 lúc 06:18 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -283,13 +283,6 @@ CREATE TABLE `news` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `news`
---
-
-INSERT INTO `news` (`id_new`, `image_new`, `title_new`, `subtitle_new`, `content_new`, `view_new`, `created_at`, `updated_at`) VALUES
-(1, 'storage/news/thuc-don-moi-cua-cafe-harper-seven-1694427210.jpg', 'Thực đơn mới của Cafe Harper Seven', NULL, '<p>[<img alt=\"❤\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/t6c/1/16/2764.png\" style=\"height:16px; width:16px\" />𝐓𝐡𝐚́𝐧𝐠 𝐭𝐮̛̣𝐮 𝐭𝐫𝐮̛𝐨̛̀𝐧𝐠 ... 𝐃𝐞𝐚𝐥 𝐲𝐞̂𝐮 𝐭𝐡𝐮̛𝐨̛𝐧𝐠 <img alt=\"❤\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/t6c/1/16/2764.png\" style=\"height:16px; width:16px\" />] Giảm ngay 20% trên tổng hóa đơn cho toàn bộ �<a href=\"https://www.facebook.com/harper7coffeephungkhoang?__cft__[0]=AZVL_ZkI1QHdP-2kb-__GsNuUEUPmTrp6MN5xuWPYgkbA1YAr0exaQRXuamHaLzFquyQAEi6rhf8OtVqV2nZMqbYuHsI7RLr8Y7QOI9WZIjvkpfd_Z8sX1evbWLtFcgRWiDHnkZCaRGCGcEPkx1y3msPd8LaUqGDXspoJXF7VkuvmwrO1oUIOJ1WIyDz_TSKzCmxvKPoBoxeUn4ZCc7Az62k&amp;__tn__=-]K-y-R\">�𝐢𝐧𝐡 𝐕𝐢𝐞̂𝐧 khi mua hàng tại Harper Seven Cof</a>fee &amp; Bakery - Phùng Khoang</p>\r\n\r\n<p>Chỉ cần:</p>\r\n\r\n<p><img alt=\"👉\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/t51/1/16/1f449.png\" style=\"height:16px; width:16px\" /> Like fanpage <a href=\"https://www.facebook.com/harper7coffeephungkhoang?__cft__[0]=AZVL_ZkI1QHdP-2kb-__GsNuUEUPmTrp6MN5xuWPYgkbA1YAr0exaQRXuamHaLzFquyQAEi6rhf8OtVqV2nZMqbYuHsI7RLr8Y7QOI9WZIjvkpfd_Z8sX1evbWLtFcgRWiDHnkZCaRGCGcEPkx1y3msPd8LaUqGDXspoJXF7VkuvmwrO1oUIOJ1WIyDz_TSKzCmxvKPoBoxeUn4ZCc7Az62k&amp;__tn__=-]K-y-R\">Harper Seven Coffee &amp; Bakery - Phùng Khoang</a></p>\r\n\r\n<p><img alt=\"👉\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/t51/1/16/1f449.png\" style=\"height:16px; width:16px\" /> Show thẻ sinh viên cho các bạn nhân viên nhà Harper</p>\r\n\r\n<p>Và tận hưởng ngay các sản phẩm và dịch vụ nhà Harper nhé <img alt=\"😋\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/t0/1/16/1f60b.png\" style=\"height:16px; width:16px\" /><img alt=\"😋\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/t0/1/16/1f60b.png\" style=\"height:16px; width:16px\" /><img alt=\"😋\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/t0/1/16/1f60b.png\" style=\"height:16px; width:16px\" /></p>\r\n\r\n<p>** Chương trình áp dụng từ 𝟎𝟓-𝟎𝟗-𝟐𝟎𝟐𝟑 đến hết 𝟑𝟎-𝟎𝟗-𝟐𝟎𝟐𝟑 tại duy nhất 𝐂𝐨̛ 𝐬𝐨̛̉ 𝐏𝐡𝐮̀𝐧𝐠 𝐊𝐡𝐨𝐚𝐧𝐠 và không áp dụng cùng các ưu đãi khác nha cả nhà!!!</p>\r\n\r\n<p>_______________</p>\r\n\r\n<p>𝐇𝐚𝐫𝐩𝐞𝐫 𝐒𝐞𝐯𝐞𝐧 𝐂𝐨𝐟𝐟𝐞𝐞 &amp; 𝐁𝐚𝐤𝐞𝐫𝐲</p>\r\n\r\n<p><img alt=\"🏠\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tf6/1/16/1f3e0.png\" style=\"height:16px; width:16px\" /> 𝐂𝐨̛ 𝐬𝐨̛̉ 𝟏: 𝐍𝐡𝐚̀ 𝟏𝟎𝟒𝐃𝟐, 𝐍𝐠𝐨̃ 𝟐𝟏𝟓, 𝐓𝐨̂ 𝐇𝐢𝐞̣̂𝐮, 𝐂𝐚̂̀𝐮 𝐆𝐢𝐚̂́𝐲, 𝐇𝐚̀ 𝐍𝐨̣̂𝐢</p>\r\n\r\n<p><img alt=\"🏠\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tf6/1/16/1f3e0.png\" style=\"height:16px; width:16px\" /> 𝐂𝐨̛ 𝐬𝐨̛̉ 𝟐: 𝐓𝐓𝟑𝐁.𝟏𝟕, 𝐊𝐡𝐮 đ𝐨̂ 𝐭𝐡𝐢̣ 𝐏𝐡𝐮̀𝐧𝐠 𝐊𝐡𝐨𝐚𝐧𝐠, 𝐓𝐫𝐮𝐧𝐠 𝐕𝐚̆𝐧, 𝐍𝐚𝐦 𝐓𝐮̛̀ 𝐋𝐢𝐞̂𝐦, 𝐇𝐚̀ 𝐍𝐨̣̂𝐢 (𝑠𝑎𝑢 𝑙𝑢̛𝑛𝑔 𝑐ℎ𝑢𝑛𝑔 𝑐𝑢̛ 𝐻𝑜𝑢𝑠𝑖𝑛𝑐𝑜 𝑃ℎ𝑢̀𝑛𝑔 𝐾ℎ𝑜𝑎𝑛𝑔)</p>\r\n\r\n<p><img alt=\"☎️\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/t22/1/16/260e.png\" style=\"height:16px; width:16px\" /> (+𝟖𝟒) 𝟗𝟖 𝟓𝟏𝟎 𝟒𝟗𝟖𝟕 | (+𝟖𝟒) 𝟖𝟔𝟔 𝟒𝟔𝟔 𝟓𝟔𝟗</p>\r\n\r\n<p><img alt=\"📧\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tbe/1/16/1f4e7.png\" style=\"height:16px; width:16px\" /> 𝚑𝚊𝚛𝚙𝚎𝚛𝚜𝚎𝚟𝚎𝚗𝚌𝚘𝚏𝚏𝚎𝚎@𝚐𝚖𝚊𝚒𝚕.𝚌𝚘𝚖</p>\r\n\r\n<p><img alt=\"🌐\" src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/taa/1/16/1f310.png\" style=\"height:16px; width:16px\" /> 𝚠𝚠𝚠.𝚑𝚊𝚛𝚙𝚎𝚛𝟽𝚌𝚘𝚏𝚏𝚎𝚎.𝚌𝚘𝚖</p>\r\n\r\n<p>&nbsp;</p>', 0, '2023-09-11 10:13:30', '2023-09-11 10:13:30');
-
 -- --------------------------------------------------------
 
 --
@@ -392,11 +385,22 @@ CREATE TABLE `review` (
   `id_product` int(11) NOT NULL,
   `name_review` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `content_review` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rating_review` smallint(1) NOT NULL,
+  `rating_review` smallint(1) DEFAULT NULL,
   `id_reply` int(11) DEFAULT NULL,
+  `is_update` tinyint(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `review`
+--
+
+INSERT INTO `review` (`id_review`, `id_product`, `name_review`, `content_review`, `rating_review`, `id_reply`, `is_update`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Sơn', 'Đồ ăn khá là ngon', 4, 0, 1, NULL, '2023-09-11 16:15:44'),
+(2, 1, 'Tuấn', 'Đồ uống khá nhạt chưa rõ vị đắng của cà phê', 2, 0, 1, NULL, '2023-09-11 16:17:16'),
+(3, 1, 'Quản trị viên', 'Cảm ơn vì đã ủng hộ', 0, 1, 0, '2023-09-11 16:15:44', '2023-09-11 16:15:44'),
+(4, 1, 'Quản trị viên', 'Thành thật xin lỗi vì điều đó', 0, 2, 0, '2023-09-11 16:17:16', '2023-09-11 16:17:16');
 
 -- --------------------------------------------------------
 
@@ -663,7 +667,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT cho bảng `news`
 --
 ALTER TABLE `news`
-  MODIFY `id_new` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_new` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `notes`
@@ -693,7 +697,7 @@ ALTER TABLE `recipe`
 -- AUTO_INCREMENT cho bảng `review`
 --
 ALTER TABLE `review`
-  MODIFY `id_review` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_review` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `role`

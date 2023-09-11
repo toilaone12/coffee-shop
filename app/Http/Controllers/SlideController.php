@@ -64,14 +64,16 @@ class SlideController extends Controller
         if(!$validator->fails()){
             $slug = Str::slug($data['slug_slide'], '-');
             $fileName = $slug . '-' . strtotime(now()) . '.jpg';
-            $checkImageOriginal = Storage::disk('public')->exists($data['image_original_slide']);
-            $image->storeAs('public', $fileName); // se luu vao storage/app
-            // $data['image_slide']->storeAs('public', $fileName);
-            if($checkImageOriginal){
-                Storage::disk('public')->delete($data['image_original_slide']);
+            if($image){
+                $checkImageOriginal = Storage::disk('public')->exists($data['image_original_slide']);
+                $image->storeAs('public/slide', $fileName); // se luu vao storage/app
+                // $data['image_slide']->storeAs('public', $fileName);
+                if($checkImageOriginal){
+                    Storage::disk('public')->delete('slide/'.$data['image_original_slide']);
+                }
             }
             $slide = Slide::find($data['id_slide']);
-            $slide->image_slide = 'storage/'.$fileName;
+            $slide->image_slide = $image ? 'storage/slide/'.$fileName : 'storage/slide/'.$data['image_original_slide'];
             $slide->name_slide = $data['name_slide'];
             $slide->slug_slide = $data['slug_slide'];
             $update = $slide->save();

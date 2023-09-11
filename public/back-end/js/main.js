@@ -260,4 +260,22 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-coupon-' + $(value).data('id'), handleUpdateCouponClick)
         })
     })
+    //sua tin tuc
+    $('.new').each(function(key, value){
+        $('#myTable').on('click', '.update-new-' + $(value).data('id'), handleUpdateNewClick)
+    })
+    $('.new').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.update-new-' + $(value).data('id'), handleUpdateNewClick)
+        })
+    })
+    //phan hoi
+    $('.review').each(function(key, value){
+        $('#myTable').on('click', '.reply-review-' + $(value).data('id'), handleReplyReview)
+    })
+    $('.review').each(function(key, value){
+        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+            $('#myTable').on('click', '.reply-review-' + $(value).data('id'), handleReplyReview)
+        })
+    })
 });

@@ -11,5 +11,5 @@ class Review extends Model
     public $timestamp = true;
     protected $table = "review";
     protected $primaryKey = "id_review";
-    protected $fillable = ["id_product","name_review","content_review",'rating_review','id_reply'];
+    protected $fillable = ["id_product","name_review","content_review",'rating_review','id_reply','is_update'];
 }

@@ -20,6 +20,7 @@ class CreateReview extends Migration
             $table->text('content_review');
             $table->smallInteger('rating_review');
             $table->integer('id_reply')->nullable();
+            $table->tinyInteger('is_update');
             $table->timestamps();
         });
     }

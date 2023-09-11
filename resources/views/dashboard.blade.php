@@ -123,6 +123,21 @@ if (!isset($username)) {
         CKEDITOR.config.entities_latin = false;
         CKEDITOR.config.ForceSimpleAmpersand = true;
     </script>
+    <script>
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Phản hồi khách hàng',
+                text: '{{ session('success') }}',
+            });
+        @elseif(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Phản hồi khách hàng',
+                text: '{{ session('error') }}',
+            });
+        @endif
+    </script>
     @include('admin.ajax')
 </body>
 

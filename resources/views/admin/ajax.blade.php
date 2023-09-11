@@ -1204,5 +1204,111 @@
                 }
             });
         })
+        //sua tin tuc
+        $('.update-new').submit(function(e) {
+            e.preventDefault()
+            let url = "{{route('news.update')}}";
+            let method = "POST";
+            let formData = new FormData($(this)[0]);
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            formData.append('content_new', CKEDITOR.instances['ckeditor'].getData())
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    // console.log(data);
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title, data.status, data.icon,
+                            function(callback) {
+                                if (callback) {
+                                    location.reload();
+                                }
+                            }
+                        );
+                    } else if (data.res === 'warning') {
+                        $('.error-image').text(data.status.image_new ? data.status.image_new : '');
+                        $('.error-title').text(data.status.title_new ? data.status.title_new : '');
+                        $('.error-content').text(data.status.content_new ? data.status.content_new : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 1);
+        })
+        //xoa ma khuyen mai
+        $('#myTable').on('click', '.delete-new', function() {
+            let id = $(this).data('id');
+            let url = '{{route("news.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: id,
+            };
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa tin tức này không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            if (data.res === 'success') {
+                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                    function(callback) {
+                                        if (callback) {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+                            } else {
+                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu ma khuyen mai
+        $('.delete-all-news').click(function() {
+            let arrId = [];
+            let url = '{{route("news.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa những tin tức này không</span>';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            if (data.res === 'success') {
+                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                    function(callback) {
+                                        if (callback) {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+                            } else {
+                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
     })
 </script>

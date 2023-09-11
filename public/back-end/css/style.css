@@ -140,3 +140,17 @@ div.dataTables_paginate ul.pagination li a:hover {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+.rating-button {
+    background-color: transparent;
+    color: #007BFF;
+    border: 2px solid #007BFF;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.rating-button:hover {
+    background-color: #007BFF;
+    color: #fff;
+}
