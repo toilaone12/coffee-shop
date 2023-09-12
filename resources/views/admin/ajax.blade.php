@@ -149,6 +149,48 @@
                 } else {}
             });
         })
+        //xoa nhieu danh muc
+        $('.delete-all-category').click(function() {
+            let arrId = [];
+            let url = '{{route("category.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa những danh mục này';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            html += ' không</span>';
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            if (data.res === 'success') {
+                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                    function(callback) {
+                                        if (callback) {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+                            } else {
+                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
         //sua quang cao
         $('.update-slide').submit(function(e) {
             e.preventDefault()
@@ -567,7 +609,7 @@
             let headers = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-            let html = '<span class="fs-16">Bạn có muốn xóa chức vụ';
+            let html = '<span class="fs-16">Bạn có muốn xóa đơn vị';
             $('input[type="checkbox"]:checked').each(function(k, v) {
                 let id = parseInt($(this).val());
                 arrId.push({
@@ -1309,6 +1351,34 @@
                     );
                 }
             });
+        })
+        //sua danh gia 
+        $('.update-review').submit(function(e){
+            e.preventDefault()
+            let url = "{{route('review.update')}}";
+            let method = "POST";
+            let formData = new FormData($(this)[0]);
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    // console.log(data);
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title, data.status, data.icon,
+                            function(callback) {
+                                if (callback) {
+                                    location.reload();
+                                }
+                            }
+                        );
+                    } else if (data.res === 'warning') {
+                        $('.error-reply').text(data.status.title_reply ? data.status.title_reply : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 1);
         })
     })
 </script>

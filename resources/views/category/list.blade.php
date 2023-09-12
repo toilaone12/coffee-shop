@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Tên danh mục</th>
@@ -24,13 +25,14 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td></td>
+                                    <td><input type="checkbox" name="" value="{{$one->id_category}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="name-{{$one->id_category}}">{{$one->name_category}}</td>
+                                    @php
+                                        $foundParent = false;
+                                    @endphp
                                     @foreach($listParent as $key => $parent)
-                                        @php
-                                            $foundParent = false;
-                                        @endphp
                                         @if($parent->id_category == $one->id_parent_category)
                                             <td class="id-parent-{{$one->id_category}}" data-id="{{$one->id_parent_category}}">{{$parent->name_category}}</td>
                                             @php

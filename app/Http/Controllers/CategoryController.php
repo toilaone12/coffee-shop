@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Gallery;
+use App\Models\Product;
+use App\Models\Recipe;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -61,8 +65,128 @@ class CategoryController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Category::find($data['id'])->delete();
-        if($delete){
+        $category = Category::find($data['id']);
+        $noti = [];
+        if($category){
+            $idParent = $category->id_parent_category;
+            $category->delete();
+            if($idParent == 0){
+                $categoryChild = Category::where('id_parent_category',$category->id_category)->get();
+                foreach($categoryChild as $child){
+                    $deleteChild = $child->delete();
+                    if($deleteChild){
+                        $products = Product::where('id_category',$child->id_category)->get();
+                        if(count($products) > 0){
+                            foreach($products as $key => $product){
+                                $deleteProduct = $product->delete();
+                                if($deleteProduct){
+                                    $recipe = Recipe::where('id_product',$product->id_product)->delete();
+                                    $gallery = Gallery::where('id_product',$product->id_product)->delete();
+                                    $review = Review::where('id_product',$product->id_product)->delete();
+                                    if($recipe && $gallery && $review){
+                                        $noti += ['res' => 'success'];
+                                    }else{
+                                        $noti += ['res' => 'error'];
+                                    }
+                                }else{
+                                    $noti += ['res' => 'error'];
+                                }
+                            }
+                        }else{
+                            $noti += ['res' => 'success'];
+                        }
+                    }
+                }
+            }else{
+                $products = Product::where('id_category',$data['id'])->get();
+                if(count($products) > 0){
+                    foreach($products as $key => $product){
+                        $deleteProduct = $product->delete();
+                        if($deleteProduct){
+                            $recipe = Recipe::where('id_product',$product->id_product)->delete();
+                            $gallery = Gallery::where('id_product',$product->id_product)->delete();
+                            $review = Review::where('id_product',$product->id_product)->delete();
+                            if($recipe && $gallery && $review){
+                                $noti += ['res' => 'success'];
+                            }else{
+                                $noti += ['res' => 'error'];
+                            }
+                        }else{
+                            $noti += ['res' => 'error'];
+                        }
+                    }
+                }else{
+                    $noti += ['res' => 'success'];
+                }
+            }
+            if($noti['res'] == 'success'){
+                return response()->json(['res' => 'success'],200);
+            }else{
+                return response()->json(['res' => 'fail'],200);
+            }
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
+
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $category = Category::where('id_category',$id)->first(); //tim danh muc dau 
+            $idParent = $category->id_parent_category; //ma cha 
+            $category->delete(); //xoa danh muc dau
+            if($idParent == 0){  //neu la danh muc goc
+                $categoryChild = Category::where('id_parent_category',$category->id_category)->get(); // tim danh muc con
+                foreach($categoryChild as $child){
+                    $deleteChild = $child->delete(); //xoa danh muc con
+                    if($deleteChild){
+                        $products = Product::where('id_category',$child->id_category)->get(); //tim san pham cua danh muc con
+                        if(count($products) > 0){ //neu co san pham
+                            foreach($products as $key => $product){
+                                $deleteProduct = $product->delete(); // xoa san pham
+                                if($deleteProduct){
+                                    $recipe = Recipe::where('id_product',$product->id_product)->delete(); // xoa cong thuc
+                                    $gallery = Gallery::where('id_product',$product->id_product)->delete(); // xoa danh muc hinh anh
+                                    $review = Review::where('id_product',$product->id_product)->delete(); // xoa danh gia
+                                    if($recipe && $gallery && $review){
+                                        $noti += ['res' => 'success'];
+                                    }else{
+                                        $noti += ['res' => 'error'];
+                                    }
+                                }else{
+                                    $noti += ['res' => 'error'];
+                                }
+                            }
+                        }else{
+                            $noti += ['res' => 'success'];
+                        }
+                    }
+                }
+            }else{
+                $products = Product::where('id_category',$id)->get();
+                if(count($products) > 0){
+                    foreach($products as $key => $product){
+                        $deleteProduct = $product->delete();
+                        if($deleteProduct){
+                            $recipe = Recipe::where('id_product',$product->id_product)->delete();
+                            $gallery = Gallery::where('id_product',$product->id_product)->delete();
+                            $review = Review::where('id_product',$product->id_product)->delete();
+                            if($recipe && $gallery && $review){
+                                $noti += ['res' => 'success'];
+                            }else{
+                                $noti += ['res' => 'error'];
+                            }
+                        }else{
+                            $noti += ['res' => 'error'];
+                        }
+                    }
+                }else{
+                    $noti += ['res' => 'success'];
+                }
+            }
+        }
+        if($noti['res'] == 'success'){
             return response()->json(['res' => 'success'],200);
         }else{
             return response()->json(['res' => 'fail'],200);

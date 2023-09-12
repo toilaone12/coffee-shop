@@ -61,6 +61,8 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[CategoryController::class, 'insert'])->name('category.insert');
         Route::post('/update',[CategoryController::class, 'update'])->name('category.update');
         Route::post('/delete',[CategoryController::class, 'delete'])->name('category.delete');
+        Route::post('/delete-all',[CategoryController::class, 'deleteAll'])->name('category.deleteAll');
+        
     });
     //San pham
     Route::prefix('product')->group(function(){
@@ -160,6 +162,7 @@ Route::prefix('admin')->group(function(){
     Route::prefix('review')->group(function(){
         Route::get('/list',[ReviewController::class, 'list'])->name('review.list');
         Route::post('/reply',[ReviewController::class, 'reply'])->name('review.reply');
+        Route::post('/update',[ReviewController::class, 'update'])->name('review.update');
     });
     //Tin tuc
     Route::prefix('news')->group(function(){

@@ -1,10 +1,11 @@
 $(document).ready(function() {
     $('#myTable').DataTable({
         "responsive": true,
+        
         // Các tùy chọn khác...
     }); // Thay #myTable bằng ID của bảng bạn muốn biến thành DataTable
     //chon mot
-    $('input[type="checkbox"]').click(function(){
+    $('#myTable').on('click', 'input[type="checkbox"]', function() {
         let arrId = [];
         $('input[type="checkbox"]:checked').each(function(k,v){
             let id = parseInt($(this).val());
@@ -269,13 +270,15 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-new-' + $(value).data('id'), handleUpdateNewClick)
         })
     })
-    //phan hoi
+    //phan hoi & sua phan hoi
     $('.review').each(function(key, value){
         $('#myTable').on('click', '.reply-review-' + $(value).data('id'), handleReplyReview)
+        $('#myTable').on('click', '.update-review-' + $(value).data('id'), handleUpdateReview)
     })
     $('.review').each(function(key, value){
         $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
             $('#myTable').on('click', '.reply-review-' + $(value).data('id'), handleReplyReview)
+            $('#myTable').on('click', '.update-review-' + $(value).data('id'), handleUpdateReview)
         })
     })
 });

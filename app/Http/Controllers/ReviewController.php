@@ -26,7 +26,7 @@ class ReviewController extends Controller
         ])->validate();
         $review = Review::find($data['id_reply']);
         if($review){
-            $review->is_update = 1;
+            $review->is_update = 2;
             $update = $review->save();
             if($update){
                 $db = [
@@ -35,7 +35,7 @@ class ReviewController extends Controller
                     'content_review' => $data['title_reply'],
                     'rating_review' => 0,
                     'id_reply' => $data['id_reply'],
-                    'is_update' => 0,
+                    'is_update' => 1,
                 ];
                 $insert = Review::create($db);
                 if($insert){
@@ -44,8 +44,28 @@ class ReviewController extends Controller
                     return redirect()->route('review.list')->with('error','Phản hồi thất bại');
                 }
             }
-
         }
-//     // $insert = Review
+    }
+
+    function update(Request $request){
+        $data = $request->all();
+        dd($data);
+        $validation = Validator::make($data,[
+            'title_reply' => ['required']
+        ],[
+            'title_reply.required' => 'Nội dung phản hồi khách hàng bắt buộc phải có'
+        ]);
+        if(!$validation->fails()){
+            $review = Review::find($data['id_review']);
+            $review->content_review = $data['title_reply'];
+            $update = $review->save();
+            if($update){
+                return response()->json(['res' => 'success', 'title' => 'Sửa phản hồi', 'icon' => 'success', 'status' => 'Sửa phản hồi thành công']);
+            }else{
+                return response()->json(['res' => 'fail', 'title' => 'Sửa phản hồi', 'icon' => 'error', 'status' => 'Lỗi truy vấn']);
+            }
+        }else{
+            return response()->json(['res' => 'warning', 'status' => $validation->errors()]);
+        }
     }
 }

@@ -1,7 +1,6 @@
 * Thiếu: </br>
 - Mục: </br>
 + Chức năng xóa tất cả: Thiếu trang danh mục, sản phẩm, danh mục hình ảnh, tài khoản
-+ Chưa hoàn thiện chức năng phản hồi
 - Còn lại: </br>
 Xem lại cái chức năng xóa để tránh k bị lỗi dữ liệu
 Còn chức năng Xóa nhiều và chọn nhiều chưa áp dụng cho tất cả các phần </br>

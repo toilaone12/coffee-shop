@@ -469,26 +469,41 @@ function handleUpdateNewClick() {
     $('.subtitle-update').val(subtitle);
     CKEDITOR.instances['ckeditor'].setData(content);
 }
-//xu ly phan hoi
-function handleReplyReview(){
+//form phan hoi
+function formReply(){
     let arrayReply = [
         {id: 0, name: 'Thành thật xin lỗi vì điều đó'},
         {id: 1, name: 'Cảm ơn vì đã ủng hộ'},
         {id: 2, name: 'Mong bạn ủng hộ nhiều'},
     ]
-    let replyButtons = $('#reply-buttons');
-    let nameInput = $('#reply');
+    let replyButtons = $('.form-reply');
+    let nameInput = $('.reply');
+    let buttonsHtml = '';
+    arrayReply.forEach(reply => {
+        buttonsHtml += `<button type="button" class="btn rating-button fs-14 rounded small">${reply.name}</button>`;
+    });
+    replyButtons.html(buttonsHtml);
+    replyButtons.find('button').click(function() {
+        let replyName = $(this).text();
+        nameInput.val(replyName);
+    });
+}
+//xu ly phan hoi
+function handleReplyReview(){
+    formReply();
     let id = $(this).data('id');
     let name = $('.name-'+id).text();
-    arrayReply.forEach(reply => {
-        let button = $('<button>').attr('type', 'button')
-        .addClass('btn rating-button fs-14 rounded small')
-        .text(reply.name)
-        .click(function() {
-            nameInput.val(reply.name);
-        });
-        replyButtons.append(button); //tao button
-    });
     $('.id-reply').val(id)
+    $('.name-review').text(name)
+}
+
+function handleUpdateReview(){
+    formReply();
+    let id = $(this).data('id');
+    let idReply = $(this).data('reply');
+    let name = $('.name-'+id).text();
+    let review = $('.reply-admin-'+id).text();
+    $('.id-reply').val(idReply)
+    $('.review-update').val(review)
     $('.name-review').text(name)
 }
