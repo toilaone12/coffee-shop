@@ -83,7 +83,7 @@ class CategoryController extends Controller
                                     $recipe = Recipe::where('id_product',$product->id_product)->delete();
                                     $gallery = Gallery::where('id_product',$product->id_product)->delete();
                                     $review = Review::where('id_product',$product->id_product)->delete();
-                                    if($recipe && $gallery && $review){
+                                    if($recipe || $gallery || $review){
                                         $noti += ['res' => 'success'];
                                     }else{
                                         $noti += ['res' => 'error'];
@@ -106,7 +106,7 @@ class CategoryController extends Controller
                             $recipe = Recipe::where('id_product',$product->id_product)->delete();
                             $gallery = Gallery::where('id_product',$product->id_product)->delete();
                             $review = Review::where('id_product',$product->id_product)->delete();
-                            if($recipe && $gallery && $review){
+                            if($recipe || $gallery || $review){
                                 $noti += ['res' => 'success'];
                             }else{
                                 $noti += ['res' => 'error'];
@@ -149,7 +149,7 @@ class CategoryController extends Controller
                                     $recipe = Recipe::where('id_product',$product->id_product)->delete(); // xoa cong thuc
                                     $gallery = Gallery::where('id_product',$product->id_product)->delete(); // xoa danh muc hinh anh
                                     $review = Review::where('id_product',$product->id_product)->delete(); // xoa danh gia
-                                    if($recipe && $gallery && $review){
+                                    if($recipe || $gallery || $review){
                                         $noti += ['res' => 'success'];
                                     }else{
                                         $noti += ['res' => 'error'];
@@ -172,7 +172,7 @@ class CategoryController extends Controller
                             $recipe = Recipe::where('id_product',$product->id_product)->delete();
                             $gallery = Gallery::where('id_product',$product->id_product)->delete();
                             $review = Review::where('id_product',$product->id_product)->delete();
-                            if($recipe && $gallery && $review){
+                            if($recipe || $gallery || $review){
                                 $noti += ['res' => 'success'];
                             }else{
                                 $noti += ['res' => 'error'];

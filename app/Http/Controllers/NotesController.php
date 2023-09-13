@@ -72,7 +72,7 @@ class NotesController extends Controller
         $delete = Notes::find($data['id'])->delete();
         if($delete){
             $deleteDetailNote = DetailNote::where('id_note',$data['id'])->delete();
-            if($deleteDetailNote){
+            if(($deleteDetailNote)){
                 return response()->json(['res' => 'success'],200);
             }else{
                 return response()->json(['res' => 'fail'],200);
@@ -82,28 +82,28 @@ class NotesController extends Controller
         }
     }
 
-    // function deleteAll(Request $request){
-    //     $data = $request->all();
-    //     $noti = [];
-    //     foreach($data['arrId'] as $key => $id){
-    //         $delete = Role::where('id_role',$id)->delete();
-    //         if($delete){
-    //             $deleteAccount = Account::where('id_role',$id)->delete();
-    //             if($deleteAccount){
-    //                 $noti += ['res' => 'success'];
-    //             }else{
-    //                 $noti += ['res' => 'fail'];
-    //             }
-    //         }else{
-    //             $noti += ['res' => 'fail'];
-    //         }
-    //     }
-    //     if($noti['res'] == 'success'){
-    //         return response()->json(['res' => 'success'],200);
-    //     }else{
-    //         return response()->json(['res' => 'fail'],200);
-    //     }
-    // }
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $delete = Notes::where('id_note',$id)->delete();
+            if($delete){
+                $deleteDetailNote = DetailNote::where('id_note',$id)->delete();
+                if($deleteDetailNote){
+                    $noti += ['res' => 'success'];
+                }else{
+                    $noti += ['res' => 'fail'];
+                }
+            }else{
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if($noti['res'] == 'success'){
+            return response()->json(['res' => 'success'],200);
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
 
     function randomCode($length = 6) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';

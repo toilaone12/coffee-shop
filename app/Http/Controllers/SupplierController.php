@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailNote;
+use App\Models\Notes;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -72,8 +74,84 @@ class SupplierController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Supplier::find($data['id'])->delete();
-        if($delete){
+        $supplier = Supplier::find($data['id']);
+        $noti = [];
+        if($supplier){
+            $supplier->delete();
+            $notes = Notes::where('id_supplier',$supplier->id_supplier)->get();
+            if(count($notes) > 0){
+                foreach($notes as $note){
+                    $deleteNote = $note->delete();
+                    if($deleteNote){
+                        $idNote = $note->id_note;
+                        $detailNotes = DetailNote::where('id_note',$idNote)->get();
+                        if(count($detailNotes) > 0){
+                            foreach($detailNotes as $detailNote){
+                                $deleteDetail = $detailNote->delete();
+                                if($deleteDetail){
+                                    $noti += ['res' => 'success'];
+                                }else{
+                                    $noti += ['res' => 'fail'];
+                                }
+                            }
+                        }else{
+                            $noti += ['res' => 'success'];
+                        }
+                    }else{
+                        $noti += ['res' => 'fail'];
+                    }
+                }
+            }else{
+                $noti += ['res' => 'success'];
+            }
+            if($noti['res'] == 'success'){
+                return response()->json(['res' => 'success'],200);
+            }else{
+                return response()->json(['res' => 'fail'],200);
+            }
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
+
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $supplier = Supplier::where('id_supplier',$id)->first();
+            if($supplier){
+                $supplier->delete();
+                $notes = Notes::where('id_supplier',$supplier->id_supplier)->get();
+                if(count($notes) > 0){
+                    foreach($notes as $note){
+                        $deleteNote = $note->delete();
+                        if($deleteNote){
+                            $idNote = $note->id_note;
+                            $detailNotes = DetailNote::where('id_note',$idNote)->get();
+                            if(count($detailNotes) > 0){
+                                foreach($detailNotes as $detailNote){
+                                    $deleteDetail = $detailNote->delete();
+                                    if($deleteDetail){
+                                        $noti += ['res' => 'success'];
+                                    }else{
+                                        $noti += ['res' => 'fail'];
+                                    }
+                                }
+                            }else{
+                                $noti += ['res' => 'success'];
+                            }
+                        }else{
+                            $noti += ['res' => 'fail'];
+                        }
+                    }
+                }else{
+                    $noti += ['res' => 'success'];
+                }
+            }else{
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if($noti['res'] == 'success'){
             return response()->json(['res' => 'success'],200);
         }else{
             return response()->json(['res' => 'fail'],200);

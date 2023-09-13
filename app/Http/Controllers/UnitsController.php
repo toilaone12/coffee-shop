@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailNote;
 use App\Models\Ingredients;
 use App\Models\Units;
 use Illuminate\Http\Request;
@@ -72,8 +73,13 @@ class UnitsController extends Controller
         $data = $request->all();
         $delete = Units::find($data['id'])->delete();
         if($delete){
-            Ingredients::where('id_unit',$data['id'])->delete();
-            return response()->json(['res' => 'success'],200);
+            $ingredient = Ingredients::where('id_unit',$data['id'])->delete();
+            $detailNote = DetailNote::where('id_unit',$data['id'])->delete();
+            if($ingredient || $detailNote){
+                return response()->json(['res' => 'success'],200);
+            }else{
+                return response()->json(['res' => 'fail'],200);
+            }
         }else{
             return response()->json(['res' => 'fail'],200);
         }
@@ -85,8 +91,13 @@ class UnitsController extends Controller
         foreach($data['arrId'] as $key => $id){
             $delete = Units::where('id_unit',$id)->delete();
             if($delete){
-                Ingredients::where('id_unit',$id)->delete();
-                $noti += ['res' => 'success'];
+                $ingredient = Ingredients::where('id_unit',$id)->delete();
+                $detailNote = DetailNote::where('id_unit',$id)->delete();
+                if($ingredient || $detailNote){
+                    $noti += ['res' => 'success'];
+                }else{
+                    $noti += ['res' => 'fail'];
+                }
             }else{
                 $noti += ['res' => 'fail'];
             }

@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Tên sản phẩm</th>
@@ -24,7 +25,8 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td></td>
+                                    <td><input type="checkbox" name="" id="" value="{{$one->id_recipe}}"></td>
                                     <td>{{$key + 1}}</td>
                                     @foreach($listProduct as $key => $product)
                                     @if($product->id_product == $one->id_product)
@@ -86,7 +88,7 @@
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
                         <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Thêm công thức</button>
-                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-category d-block mb-3">Xóa nhiều</button>
+                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-recipe d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>
                 </div>

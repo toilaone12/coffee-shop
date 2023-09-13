@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Tên đầy đủ</th>
@@ -24,6 +25,7 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
+                                    <td></td>
                                     <td><input type="checkbox" name="" value="{{$one->id_unit}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="fullname-{{$one->id_unit}}">{{$one->fullname_unit}}</td>

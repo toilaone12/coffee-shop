@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Mã phiếu</th>
@@ -28,6 +29,7 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
+                                    <td></td>
                                     <td><input type="checkbox" name="" value="{{$one->id_note}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="code-{{$one->id_note}}">{{$one->code_note}}</td>
@@ -75,7 +77,7 @@
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
                         <button class="btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#exampleModal">Nhập phiếu</button>
-                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-unit d-block mb-3">Xóa nhiều</button>
+                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-notes d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>
                 </div>

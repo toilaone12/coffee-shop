@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Tên nhà cung cấp</th>
@@ -25,7 +26,8 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td></td>
+                                    <td><input type="checkbox" name="" id="" value="{{$one->id_supplier}}"></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="name-{{$one->id_supplier}}">{{$one->name_supplier}}</td>
                                     <td class="phone-{{$one->id_supplier}}">{{$one->phone_supplier}}</td>

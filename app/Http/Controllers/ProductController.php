@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Gallery;
 use App\Models\Product;
+use App\Models\Recipe;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -99,6 +102,38 @@ class ProductController extends Controller
         $data = $request->all();
         $delete = Product::find($data['id'])->delete();
         if($delete){
+            $review = Review::where('id_product',$data['id'])->delete();
+            $recipe = Recipe::where('id_product',$data['id'])->delete();
+            $gallery = Gallery::where('id_product',$data['id'])->delete();
+            if($review || $recipe || $gallery){
+                return response()->json(['res' => 'success'],200);
+            }else{
+                return response()->json(['res' => 'fail'],200);
+            }
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
+
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $delete = Product::where('id_product',$id)->delete();
+            if($delete){
+                $review = Review::where('id_product',$id)->delete();
+                $recipe = Recipe::where('id_product',$id)->delete();
+                $gallery = Gallery::where('id_product',$id)->delete();
+                if($review || $recipe || $gallery){
+                    $noti += ['res' => 'success'];
+                }else{
+                    $noti += ['res' => 'fail'];
+                }
+            }else{
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if($noti['res'] == 'success'){
             return response()->json(['res' => 'success'],200);
         }else{
             return response()->json(['res' => 'fail'],200);

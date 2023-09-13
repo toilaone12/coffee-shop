@@ -86,6 +86,48 @@
                 } else {}
             });
         })
+        //xoa nhieu nha cung cap
+        $('.delete-all-supplier').click(function() {
+            let arrId = [];
+            let url = '{{route("supplier.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các nhà cung cấp này';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            html += ' không</span>';
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            if (data.res === 'success') {
+                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                    function(callback) {
+                                        if (callback) {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+                            } else {
+                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
         //sua danh muc
         $('.update-category').on('click', function() {
             let url = "{{route('category.update')}}";
@@ -263,7 +305,7 @@
             let headers = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-            let html = '<span class="fs-16">Bạn có muốn xóa quảng cáo';
+            let html = '<span class="fs-16">Bạn có muốn xóa các quảng cáo này';
             $('input[type="checkbox"]:checked').each(function(k, v) {
                 let id = parseInt($(this).val());
                 arrId.push({
@@ -364,6 +406,48 @@
                         }
                     );
                 } else {}
+            });
+        })
+        //xoa nhieu san pham
+        $('.delete-all-product').click(function() {
+            let arrId = [];
+            let url = '{{route("product.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các sản phẩm';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            html += ' không</span>';
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            if (data.res === 'success') {
+                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                    function(callback) {
+                                        if (callback) {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+                            } else {
+                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
             });
         })
         //xoa danh muc hinh anh san pham
@@ -846,6 +930,48 @@
                 }
             });
         })
+        //xoa nhieu phieu hang
+        $('.delete-all-notes').click(function() {
+            let arrId = [];
+            let url = '{{route("notes.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các phiếu hàng này';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            html += ' không</span>';
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            if (data.res === 'success') {
+                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                    function(callback) {
+                                        if (callback) {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+                            } else {
+                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
         //xoa 1 nguyen lieu trong chi tiet don hang
         $('#myTable').on('click', '.delete-detail-note', function() {
             let name = $('.name-' + $(this).data('id')).text();
@@ -1016,6 +1142,48 @@
                 id: id,
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa công thức của sản phẩm ' + name + ' này không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            if (data.res === 'success') {
+                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                    function(callback) {
+                                        if (callback) {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+                            } else {
+                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu cong thuc cho san pham
+        $('.delete-all-recipe').click(function() {
+            let arrId = [];
+            let url = '{{route("recipe.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các công thức này';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            html += ' không</span>';
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {

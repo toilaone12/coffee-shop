@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Danh mục</th>
@@ -29,7 +30,8 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td></td>
+                                    <td><input type="checkbox" name="" id="" value="{{$one->id_product}}"></td>
                                     <td>{{$key + 1}}</td>
                                     @foreach($listCate as $key => $cate)
                                     @if($cate->id_category == $one->id_category)

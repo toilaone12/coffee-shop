@@ -70,6 +70,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[ProductController::class, 'insert'])->name('product.insert');
         Route::post('/update',[ProductController::class, 'update'])->name('product.update');
         Route::post('/delete',[ProductController::class, 'delete'])->name('product.delete');
+        Route::post('/delete-all',[ProductController::class, 'deleteAll'])->name('product.deleteAll');
     });
     //Danh muc anh san pham
     Route::prefix('gallery')->group(function(){
@@ -90,7 +91,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[RecipeController::class, 'insert'])->name('recipe.insert');
         Route::post('/update',[RecipeController::class, 'update'])->name('recipe.update');
         Route::post('/delete',[RecipeController::class, 'delete'])->name('recipe.delete');
-        
+        Route::post('/delete-all',[RecipeController::class, 'deleteAll'])->name('recipe.deleteAll');
     });
     //Cong thuc
     Route::prefix('units')->group(function(){
@@ -122,6 +123,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[SupplierController::class, 'insert'])->name('supplier.insert');
         Route::post('/update',[SupplierController::class, 'update'])->name('supplier.update');
         Route::post('/delete',[SupplierController::class, 'delete'])->name('supplier.delete');
+        Route::post('/delete-all',[SupplierController::class, 'deleteAll'])->name('supplier.deleteAll');
     });
     //Chức vụ
     Route::prefix('customer')->group(function(){
@@ -133,6 +135,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[NotesController::class, 'insert'])->name('notes.insert');
         Route::post('/update',[NotesController::class, 'update'])->name('notes.update');
         Route::post('/delete',[NotesController::class, 'delete'])->name('notes.delete');
+        Route::post('/delete-all',[NotesController::class, 'deleteAll'])->name('notes.deleteAll');
     });
     //Chi tiet phieu hang
     Route::prefix('detail')->group(function(){

@@ -61,4 +61,22 @@ class RecipeController extends Controller
             return response()->json(['res' => 'fail'],200);
         }
     }
+
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $delete = Recipe::where('id_recipe',$id)->delete();
+            if($delete){
+                $noti += ['res' => 'success'];
+            }else{
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if($noti['res'] == 'success'){
+            return response()->json(['res' => 'success'],200);
+        }else{
+            return response()->json(['res' => 'fail'],200);
+        }
+    }
 }
