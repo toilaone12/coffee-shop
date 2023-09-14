@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DetailNoteController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NotesController;
@@ -34,6 +35,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Trang quan ly
 Route::prefix('admin')->group(function(){
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
@@ -175,4 +177,8 @@ Route::prefix('admin')->group(function(){
         Route::post('/delete',[NewsController::class, 'delete'])->name('news.delete');
         Route::post('/delete-all',[NewsController::class, 'deleteAll'])->name('news.deleteAll');
     });
+});
+//Trang nguoi dung
+Route::prefix('page')->group(function(){
+    Route::get('/',[HomeController::class,'home'])->name('page.home');
 });

@@ -22,6 +22,7 @@ class CreateProduct extends Migration
             $table->integer('price_product');
             $table->text('description_product',255)->nullable();
             $table->integer('number_reviews_product')->nullable();
+            $table->tinyInteger('is_special');
             $table->timestamps();
         });
     }

@@ -24,6 +24,7 @@
                                     <th>Giá cả</th>
                                     <th>Mô tả</th>
                                     <th>Số lần đánh giá</th>
+                                    <th>Món Best Sellers</th>
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
@@ -47,7 +48,8 @@
                                     <td class="subname-{{$one->id_product}}">{{$one->subname_product}}</td>
                                     <td class="price-{{$one->id_product}}">{{$one->price_product}}</td>
                                     <td class="description-{{$one->id_product}}">{{$one->description_product}}</td>
-                                    <td class="number-reviews-{{$one->id_product}}">{{$one->number_reviews_product}}</td>
+                                    <td class="number-reviews-{{$one->id_product}}">{{$one->number_reviews_product ? $one->number_reviews_product : 0}}</td>
+                                    <td class="is-special-{{$one->id_product}}" data-special="{{$one->is_special}}">{{$one->is_special ? 'Có' : 'Không'}}</td>
                                     <td>
                                         <button style="width: 45px;" class="btn mb-1 btn-primary update-product-{{$one->id_product}} product" data-id="{{$one->id_product}}" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa-solid fa-pen-to-square"></i>
@@ -124,16 +126,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="id">Danh mục sản phẩm</label>
-                            <select name="id_category" class="form-control" id="id">
-                                @foreach($listCate as $key => $cate)
-                                <option value="{{$cate->id_category}}">{{$cate->name_category}}</option>
-                                @endforeach
-                            </select>
-                            @error('id_category')
-                            <span class="text-danger">{{$message}}</span>
-                            @enderror
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="id">Danh mục sản phẩm</label>
+                                    <select name="id_category" class="form-control" id="id">
+                                        @foreach($listCate as $key => $cate)
+                                        <option value="{{$cate->id_category}}">{{$cate->name_category}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('id_category')
+                                    <span class="text-danger">{{$message}}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="option">Món Best Sellers</label>
+                                    <select name="is_special" id="" class="form-control id-category-update">
+                                        <option value="">---Lựa chọn---</option>
+                                        <option value="0">Không</option>
+                                        <option value="1">Có</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
@@ -219,10 +235,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="option">Thuộc danh mục</label>
-                            <select name="id_category" id="" class="form-control id-category-update">
-                            </select>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="option">Thuộc danh mục</label>
+                                    <select name="id_category" id="" class="form-control id-category-update">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="option">Món Best Sellers</label>
+                                    <select name="is_special" id="" class="form-control is-special-update">
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">

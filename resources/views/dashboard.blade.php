@@ -30,7 +30,7 @@ if (!isset($username)) {
             <div id="content">
 
                 <!-- Topbar -->
-                @include('admin.header')
+                @include('admin.navbar')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->

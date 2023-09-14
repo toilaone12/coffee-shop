@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 11, 2023 lúc 06:18 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th9 12, 2023 lúc 10:17 AM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -397,10 +397,10 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`id_review`, `id_product`, `name_review`, `content_review`, `rating_review`, `id_reply`, `is_update`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Sơn', 'Đồ ăn khá là ngon', 4, 0, 1, NULL, '2023-09-11 16:15:44'),
-(2, 1, 'Tuấn', 'Đồ uống khá nhạt chưa rõ vị đắng của cà phê', 2, 0, 1, NULL, '2023-09-11 16:17:16'),
-(3, 1, 'Quản trị viên', 'Cảm ơn vì đã ủng hộ', 0, 1, 0, '2023-09-11 16:15:44', '2023-09-11 16:15:44'),
-(4, 1, 'Quản trị viên', 'Thành thật xin lỗi vì điều đó', 0, 2, 0, '2023-09-11 16:17:16', '2023-09-11 16:17:16');
+(1, 1, 'Sơn', 'Đồ ăn khá là ngon', 4, 0, 2, NULL, '2023-09-11 16:15:44'),
+(2, 1, 'Tuấn', 'Thành thật xin lỗi vì điều đó, chúng tôi sẽ cải thiện', 2, 0, 2, NULL, '2023-09-12 07:04:34'),
+(3, 1, 'Quản trị viên', 'Mong bạn ủng hộ nhiều', 0, 1, 1, '2023-09-11 16:15:44', '2023-09-12 04:18:40'),
+(4, 1, 'Quản trị viên', 'Thành thật xin lỗi vì điều đó', 0, 2, 1, '2023-09-11 16:17:16', '2023-09-11 16:17:16');
 
 -- --------------------------------------------------------
 
