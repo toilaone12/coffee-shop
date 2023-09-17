@@ -11,5 +11,5 @@ class News extends Model
     public $timestamp = true;
     protected $table = "news";
     protected $primaryKey = "id_new";
-    protected $fillable = ["image_new","title_new",'subtitle_new',"content_new","view_new"];
+    protected $fillable = ["image_new","title_new",'slug_new','subtitle_new',"content_new","view_new"];
 }

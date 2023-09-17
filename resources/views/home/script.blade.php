@@ -14,3 +14,4 @@
 <script src="{{asset('./front-end/js/scrollax.min.js')}}"></script>
 <!-- <script src="{{asset('./front-end/js/google-map.js')}}"></script> -->
 <script src="{{asset('./front-end/js/main.js')}}"></script>
+<script src="{{asset('./front-end/js/update.js')}}"></script>

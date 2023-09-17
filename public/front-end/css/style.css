@@ -3614,7 +3614,7 @@ input[type="button"].btn-block {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 10rem;
+  min-width: 10.5rem;
   padding: 0.5rem 0;
   margin: 0.125rem 0 0;
   font-size: 1rem;
@@ -10745,7 +10745,7 @@ h5,
 .ftco-navbar-light.scrolled .nav-link {
   padding-top: 0.9rem !important;
   padding-bottom: 0.9rem !important;
-  color: #000 !important;
+  color: #fff !important;
 }
 
 .ftco-navbar-light.scrolled .nav-link.active {
@@ -13329,6 +13329,26 @@ textarea.form-control {
   font-size: 20px;
 }
 
+.custom-image {
+    max-width: 100%; /* Kích thước tối đa chiều rộng là 100% */
+    object-fit: cover;
+}
+
+.custom-submenu {
+  display: none;
+}
+
+.dropdown-submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  display: none;
+  min-width: 160px;
+}
+
+.nav-item-child:hover .dropdown-submenu {
+  display: block;
+}
 
 @-webkit-keyframes loader-rotate {
   100% {

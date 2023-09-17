@@ -101,7 +101,7 @@ if (!isset($username)) {
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <!-- CKEditor -->
-    <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
     <!-- SwalAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.js"></script>
     <!-- AutoNumeric -->

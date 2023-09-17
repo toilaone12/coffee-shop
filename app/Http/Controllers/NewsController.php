@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
-    //
+    //admin
     function list(){
         $title = 'Danh sách tin tức';
         $list = News::all();
@@ -38,6 +38,7 @@ class NewsController extends Controller
         $db = [
             'image_new' => 'storage/news/'.$fileName,
             'title_new' => $data['title_new'],
+            'slug_new' => $slug,
             'subtitle_new' => $data['subtitle_new'],
             'content_new' => $data['content_new'],
             'view_new' => 0
@@ -53,7 +54,6 @@ class NewsController extends Controller
     function update(Request $request){
         $data = $request->all();
         $image = $request->file('image_new');
-        $errors = [];
         $validator =  Validator::make($data,[
             'image_new' => ['image','mimes:jpeg,png,jpg,gif'],
             'title_new' => ['required'],
@@ -80,9 +80,10 @@ class NewsController extends Controller
             $new->title_new = $data['title_new'];
             $new->subtitle_new = $data['subtitle_new'];
             $new->content_new = $data['content_new'];
+            $new->slug_new = $slug;
             $update = $new->save();
             if($update){
-                return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Sửa tin tức', 'status' => 'Thay đổi dữ liệu thành quảng cáo thành công']);
+                return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Sửa tin tức', 'status' => 'Thay đổi dữ liệu thành tin tức thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa tin tức', 'status' => 'Lỗi truy vấn dữ liệu']);
             }
@@ -117,5 +118,11 @@ class NewsController extends Controller
         }else{
             return response()->json(['res' => 'fail'],200);
         }
+    }
+    //page 
+    function detail($slug, $id){
+        $one = News::find($id);
+        $title = $one->title_new;
+        return view('news.detail',compact('one','title'));
     }
 }

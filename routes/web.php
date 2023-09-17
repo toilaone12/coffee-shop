@@ -181,4 +181,16 @@ Route::prefix('admin')->group(function(){
 //Trang nguoi dung
 Route::prefix('page')->group(function(){
     Route::get('/',[HomeController::class,'home'])->name('page.home');
+    Route::prefix('category')->group(function(){
+
+    });
+    Route::prefix('product')->group(function(){
+
+    });
+    Route::prefix('cart')->group(function(){
+
+    });
+    Route::prefix('blog')->group(function(){
+        Route::get('/{slug}+{id}.html',[NewsController::class,'detail'])->name('blog.detail');
+    });
 });
