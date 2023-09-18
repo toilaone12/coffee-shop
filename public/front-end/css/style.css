@@ -13350,6 +13350,23 @@ textarea.form-control {
   display: block;
 }
 
+.input-number{
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  width: 13% !important;
+  text-align: center;
+}
+
+.plus-icon::before {
+  content: "+";
+  font-size: 16px;
+}
+
+.minus-icon::before {
+  content: "-";
+  font-size: 16px;
+}
+
 @-webkit-keyframes loader-rotate {
   100% {
     -webkit-transform: rotate(360deg);

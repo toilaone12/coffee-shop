@@ -12,6 +12,8 @@ $("p img").each(function () {
     $(this).removeAttr("width");  // Gỡ bỏ thuộc tính width
     $(this).addClass("custom-image"); // Thêm lớp CSS tùy chỉnh
 });
+
+//hover vao menu
 $(".custom-dropdown-item").hover(
     function () {
         $(this).find(".custom-submenu").css("display", "block");
@@ -21,6 +23,7 @@ $(".custom-dropdown-item").hover(
     }
 );
 $(document).ready(function(){
+    //dat hang
     $('.product').each(function(key, value){
         $('.open-modal-' + $(value).data('id')).on('click', handleBuyProduct);
     });
