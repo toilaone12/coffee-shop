@@ -70,12 +70,11 @@ function handleUpdateCategoryClick() {
     let id = $(this).data('id');
     let name = $('.name-' + id).text();
     let idParent = $('.id-parent-' + id).data('id');
-    
     let selectOptions = `<option value="0" ${idParent === 0 ? 'selected' : ''}>Danh mục gốc</option>`;
     listParent.forEach(category => {
         selectOptions += `<option value="${category.id_category}" ${category.id_category === idParent ? 'selected' : ''}>${category.name_category}</option>`;
     });
-    
+
     $('.name-update').val(name);
     $('.id-parent-update').html(selectOptions);
     $('.update-category').attr('data-id', id);
@@ -115,7 +114,11 @@ function handleUpdateProductClick() {
     let quantity = $('.quantity-' + id).text();
     let price = $('.price-' + id).text();
     let description = $('.description-' + id).text();
+    let isSpecial = $('.is-special-' + id).data('special');
     let selectOptions = '';
+    let specialOptions = `<option value="">---Lựa chọn---</option>`;
+    specialOptions += `<option value="0" ${!isSpecial && 'selected'}>Không</option>`;
+    specialOptions += `<option value="1" ${isSpecial && 'selected'}>Có</option>`;
     listCate.forEach(category => {
         selectOptions += `<option value="${category.id_category}" ${category.id_category === idCategory ? 'selected' : ''}>${category.name_category}</option>`;
     });
@@ -127,6 +130,7 @@ function handleUpdateProductClick() {
     $('.quantity-update').val(quantity);
     $('.price-update').val(price);
     $('.id-category-update').html(selectOptions);
+    $('.is-special-update').html(specialOptions);
     $('.update-category').attr('data-id', id);
     CKEDITOR.instances['ckeditor'].setData(description); // set noi dung tren Ckeditor
 }

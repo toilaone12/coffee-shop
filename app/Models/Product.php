@@ -17,7 +17,8 @@ class Product extends Model
         'subname_product',
         'price_product',
         'description_product',
-        'number_reviews_product'
+        'number_reviews_product',
+        'is_special'
     ];
     public $timestamps = true;
 }

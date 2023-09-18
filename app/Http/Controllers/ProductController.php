@@ -46,6 +46,7 @@ class ProductController extends Controller
             'subname_product' => $data['subname_product'],
             'price_product' => $data['price_product'],
             'description_product' => $data['description_product'],
+            'is_special' => $data['is_special'],
         ];
         $insert = Product::create($db);
         if($insert){
@@ -87,6 +88,7 @@ class ProductController extends Controller
             $product->subname_product = $data['subname_product'];
             $product->price_product = $data['price_product'];
             $product->description_product = $data['description_product'];
+            $product->is_special = $data['is_special'];
             $update = $product->save();
             if($update){
                 return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu của sản phẩm về '.$data['name_product'].' thành công']);
