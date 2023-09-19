@@ -9,9 +9,9 @@
                 <li class="nav-item active"><a href="{{route('page.home')}}" class="nav-link fs-13">Trang chủ</a></li>
                 <li class="nav-item"><a href="services.html" class="nav-link fs-13">Tin tức</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle fs-13" href="menu.html" id="dropdown04">
+                    <span class="nav-link dropdown-toggle fs-13" id="dropdown04">
                         Thực đơn
-                    </a>
+                    </span>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
                         @foreach($parentCategorys as $parent)
                         <div class="nav-item-child">
@@ -31,11 +31,131 @@
                 </li>
                 <li class="nav-item"><a href="" class="nav-link fs-13">Giới thiệu</a></li>
                 <li class="nav-item"><a href="" class="nav-link fs-13">Liên hệ</a></li>
-                <li class="nav-item cart">
-                    <a href="cart.html" class="nav-link">
+                <li class="nav-item cart dropdown">
+                    <a class="nav-link">
                         <span class="icon icon-shopping_cart"></span>
                         <span class="bag d-flex justify-content-center align-items-center"><small>1</small></span>
                     </a>
+                    <div class="cart-hover left rounded">
+                        <div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>
+                        <div class="mb-3 overflow-auto width-cart">
+                            <div class="d-flex justify-content-start mr-3 mb-3" style="width: 22rem;">
+                                <img
+                                    loading="lazy" 
+                                    class="object-fit-cover rounded" 
+                                    width="50" 
+                                    height="50" 
+                                    src="http://127.0.0.1:8000/storage/product/ca-phe-nau-1693817752.jpg" 
+                                    alt="Card image cap"
+                                >
+                                <div class="d-block" style="width: 90%">
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark text-truncate mx-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <p class="fs-14 text-dark">9.000đ</p>
+                                    </div>
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark mx-3">x 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-start mr-3 mb-3" style="width: 22rem;">
+                                <img
+                                    loading="lazy" 
+                                    class="object-fit-cover rounded" 
+                                    width="50" 
+                                    height="50" 
+                                    src="http://127.0.0.1:8000/storage/product/ca-phe-nau-1693817752.jpg" 
+                                    alt="Card image cap"
+                                >
+                                <div class="d-block" style="width: 90%">
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark text-truncate mx-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <p class="fs-14 text-dark">9333.000đ</p>
+                                    </div>
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark mx-3">x 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-start mr-3 mb-3" style="width: 22rem;">
+                                <img
+                                    loading="lazy" 
+                                    class="object-fit-cover rounded" 
+                                    width="50" 
+                                    height="50" 
+                                    src="http://127.0.0.1:8000/storage/product/ca-phe-nau-1693817752.jpg" 
+                                    alt="Card image cap"
+                                >
+                                <div class="d-block" style="width: 90%">
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark text-truncate mx-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <p class="fs-14 text-dark">9.000đ</p>
+                                    </div>
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark mx-3">x 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-start mr-3 mb-3" style="width: 22rem;">
+                                <img
+                                    loading="lazy" 
+                                    class="object-fit-cover rounded" 
+                                    width="50" 
+                                    height="50" 
+                                    src="http://127.0.0.1:8000/storage/product/ca-phe-nau-1693817752.jpg" 
+                                    alt="Card image cap"
+                                >
+                                <div class="d-block" style="width: 90%">
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark text-truncate mx-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <p class="fs-14 text-dark">9333.000đ</p>
+                                    </div>
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark mx-3">x 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-start mr-3 mb-3" style="width: 22rem;">
+                                <img
+                                    loading="lazy" 
+                                    class="object-fit-cover rounded" 
+                                    width="50" 
+                                    height="50" 
+                                    src="http://127.0.0.1:8000/storage/product/ca-phe-nau-1693817752.jpg" 
+                                    alt="Card image cap"
+                                >
+                                <div class="d-block" style="width: 90%">
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark text-truncate mx-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <p class="fs-14 text-dark">9.000đ</p>
+                                    </div>
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark mx-3">x 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-start mr-3 mb-3" style="width: 22rem;">
+                                <img
+                                    loading="lazy" 
+                                    class="object-fit-cover rounded" 
+                                    width="50" 
+                                    height="50" 
+                                    src="http://127.0.0.1:8000/storage/product/ca-phe-nau-1693817752.jpg" 
+                                    alt="Card image cap"
+                                >
+                                <div class="d-block" style="width: 90%">
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark text-truncate mx-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <p class="fs-14 text-dark">9333.000đ</p>
+                                    </div>
+                                    <div class="d-flex w-100">
+                                        <p class="fs-14 text-dark mx-3">x 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary fs-13">Xem giỏ hàng</a>
+                    </div>
                 </li>
             </ul>
         </div>

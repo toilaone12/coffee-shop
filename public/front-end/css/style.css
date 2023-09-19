@@ -618,6 +618,12 @@ pre code {
   .container {
     max-width: 1140px;
   }
+  .left {
+    left: -230%;
+  }
+  .width-cart {
+    height: 22rem;
+  }
 }
 
 .container-fluid {
@@ -2196,6 +2202,14 @@ pre code {
   .table-responsive-lg>.table-bordered {
     border: 0;
   }
+
+  .left {
+    left: 50%;
+  }
+
+  .width-cart {
+    height: 15rem;
+  }
 }
 
 @media (max-width: 1199.98px) {
@@ -3609,7 +3623,7 @@ input[type="button"].btn-block {
 
 .dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: 80%;
   left: 0;
   z-index: 1000;
   display: none;
@@ -13365,6 +13379,58 @@ textarea.form-control {
 .minus-icon::before {
   content: "-";
   font-size: 16px;
+}
+
+.cart-hover {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 80%;
+    transform: translateX(-50%);
+    padding: 10px;
+    display: none;
+    z-index: 999; /* Để đảm bảo nó nằm trên các phần tử khác */
+}
+
+.cart-hover p {
+    font-weight: bold;
+    margin: 0;
+}
+
+.cart-hover ul {
+    list-style: none;
+    padding: 0;
+}
+
+.cart-hover ul li {
+    margin: 5px 0;
+}
+
+/* Hiển thị khung khi hover vào biểu tượng giỏ hàng */
+.nav-item.cart:hover .cart-hover {
+    display: block;
+}
+
+.object-fit-cover {
+  object-fit: cover!important;
+}
+
+.overflow-auto {
+  overflow: auto!important;
+}
+
+.overflow-auto::-webkit-scrollbar {
+  width: 5px; /* Độ rộng của thanh cuộn */
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Màu nền của nút cuộn */
+  border-radius: 6px; /* Độ cong của nút cuộn */
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Màu nền của nút cuộn khi hover */
 }
 
 @-webkit-keyframes loader-rotate {

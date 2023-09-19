@@ -37,7 +37,7 @@
                                             </a>
                                             <div class="text">
                                                 <h3><a href="#" class="name-{{$product->id_product}}">{{$product->name_product}}</a></h3>
-                                                <p class="price price-{{$product->id_product}}"><span>{{$product->price_product}} đ</span></p>
+                                                <p class="price price-{{$product->id_product}}"><span>{{number_format($product->price_product,0,',','.')}} đ</span></p>
                                                 <p>
                                                     <button 
                                                         type="button" 
