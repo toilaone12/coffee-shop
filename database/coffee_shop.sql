@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 17, 2023 lúc 06:11 PM
+-- Thời gian đã tạo: Th9 20, 2023 lúc 06:49 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -46,6 +46,23 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
 (1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 5, 1, '2023-08-27 11:08:11', '2023-09-02 16:27:58');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `cart`
+--
+
+CREATE TABLE `cart` (
+  `id_cart` int(10) UNSIGNED NOT NULL,
+  `image_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity_product` int(11) NOT NULL,
+  `price_product` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `note_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -264,7 +281,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2023_09_05_105352_create_fee', 3),
 (4, '2023_09_05_223339_create_coupon', 4),
 (5, '2023_09_06_154812_create_review', 5),
-(6, '2023_09_11_142633_create_news', 6);
+(6, '2023_09_11_142633_create_news', 6),
+(7, '2023_09_20_221428_create_cart', 7);
 
 -- --------------------------------------------------------
 
@@ -524,6 +542,12 @@ ALTER TABLE `account`
   ADD PRIMARY KEY (`id_account`);
 
 --
+-- Chỉ mục cho bảng `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id_cart`);
+
+--
 -- Chỉ mục cho bảng `category`
 --
 ALTER TABLE `category`
@@ -642,6 +666,12 @@ ALTER TABLE `account`
   MODIFY `id_account` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT cho bảng `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
@@ -687,7 +717,7 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `news`

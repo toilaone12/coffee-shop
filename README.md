@@ -1,7 +1,7 @@
 * Thiếu: </br>
 - Mục: </br>
 + Thiếu phân quyền, thông báo
-+ Mới lại giao diện tĩnh chưa thêm dữ liệu
++ Backend phần giỏ hàng mới làm phần kiểm tra có đủ hàng để bán cho khách không
 - Còn lại: </br>
 Xem lại cái chức năng xóa để tránh k bị lỗi dữ liệu
 Còn chức năng Xóa nhiều và chọn nhiều chưa áp dụng cho tất cả các phần </br>

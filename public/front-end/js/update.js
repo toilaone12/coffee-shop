@@ -27,4 +27,5 @@ $(document).ready(function(){
     $('.product').each(function(key, value){
         $('.open-modal-' + $(value).data('id')).on('click', handleBuyProduct);
     });
+
 })

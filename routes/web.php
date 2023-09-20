@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomerController;
@@ -188,7 +189,7 @@ Route::prefix('page')->group(function(){
 
     });
     Route::prefix('cart')->group(function(){
-
+        Route::post('/insert',[CartController::class,'insert'])->name('cart.insert');
     });
     Route::prefix('blog')->group(function(){
         Route::get('/{slug}+{id}.html',[NewsController::class,'detail'])->name('blog.detail');

@@ -16,3 +16,5 @@
 <script src="{{asset('./front-end/js/main.js')}}"></script>
 <script src="{{asset('./front-end/js/update.js')}}"></script>
 <script src="{{asset('./front-end/js/function.js')}}"></script>
+
+@include('home.ajax');
