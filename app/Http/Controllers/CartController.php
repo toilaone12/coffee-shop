@@ -42,28 +42,31 @@ class CartController extends Controller
                 $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
             }
         }
-        // $isLogin = isset($data['isLogin']) ? $data['isLogin'] : '';
-        // if(!$isLogin){
-        //     $sessionCart = Session::get('cart');
-        //     $idSessionCart = isset($sessionCart[$data['id']]) ? $sessionCart[$data['id']] : '';
-        //     if($idSessionCart){
-        //         $cart = $sessionCart[$data['id']];
-        //         $quantityUpdate = $cart['quantity_product'] + $data['quantity'];
-        //         // dd($quantityUpdate);
-        //         echo 1;
-        //     }else{
-        //         echo 2;
-        //         $session[$data['id']] = [
-        //             'image_product' => $product->image_product,
-        //             'name_product' => $product->name_product,
-        //             'quantity_product' => $data['quantity'],
-        //             'price_product' => $product->price_product,
-        //             'note_product' => $data['note'],
-        //         ]; 
-        //     }
-        //     // Session::put('cart',$session);
-        // }else{
-        // }
+        if(isset($noti['res']) && $noti['res'] == 'warning'){
+            return response()->json(['res' => 'warning', 'title' => 'Thông báo đặt hàng', 'icon' => 'warning', 'status' => $noti['status']],200);
+        }else{
+            $isLogin = isset($data['isLogin']) ? $data['isLogin'] : '';
+            if(!$isLogin){
+                $sessionCart = Session::get('cart');
+                $idSessionCart = isset($sessionCart[$data['id']]) ? $sessionCart[$data['id']] : '';
+                if($idSessionCart){
+                    $cart = $sessionCart[$data['id']];
+                    $quantityUpdate = $cart['quantity_product'] + $data['quantity'];
+                    $sessionCart[$data['id']]['quantity_product'] = $quantityUpdate;
+                }else{
+                    $sessionCart[$data['id']] = [
+                        'image_product' => $product->image_product,
+                        'name_product' => $product->name_product,
+                        'quantity_product' => $data['quantity'],
+                        'price_product' => $product->price_product,
+                        'note_product' => $data['note'],
+                    ]; 
+                }
+                Session::put('cart',$sessionCart);
+            }else{
+                echo 2;
+            }
+        }
     }
 
     function convertUnit($value, $fromUnit, $toUnit) {

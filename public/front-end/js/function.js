@@ -50,7 +50,7 @@ function swalNotification(title,text,icon,callback){
         }
     });
 }
-
+// giao dien modal them san pham vao gio hang
 function handleBuyProduct(){
     let id = $(this).data('id');
     let image = $('.image-'+id).data('image');
@@ -92,7 +92,7 @@ function handleBuyProduct(){
     //cong tru san pham
     handleClickQuantity();
 }
-
+// xu ly su kien cong tru san pham
 function handleClickQuantity(){
     $('.btn-number').click(function(){
         let type = $(this).data('type');
@@ -132,4 +132,41 @@ function handleClickQuantity(){
             $('.price-modal').text((parseInt(quantity) * parseInt(priceOriginal)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
         }
     })
+}
+
+function formCartNavbar() {
+    if(!$('div').hasClass('form-cart')){ //kiem tra neu chua ton tai thi them khong thi van de nguyen tranh vc k append dc san pham
+        var html = `<div class="form-cart p-2 border">`;
+        html += `<div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>`;
+        html += `<div class="mb-3 overflow-auto width-cart cart-item">`;
+        html += `</div>`;
+        html += `<a href="#" class="btn btn-primary fs-13">Xem giỏ hàng</a>`;
+        html += `</div>`;
+        $('.cart-hover').html(html);
+    }
+}
+
+function addToCart(id,image,name,price,quantity) {
+    if($('div').hasClass('cart-child-'+id)){ //ktra san pham da ton tai chua, co thi cong khong thi xuat hien moi
+        let priceExist = parseInt($('.price-child-'+id).text().replace('.','').replace(' đ',''));
+        let quantityExist = parseInt($('.quantity-child-'+id).text());
+        let priceChange = parseInt(price * quantity) + priceExist;
+        let quantityChange = parseInt(quantity) + quantityExist;
+        $('.price-child-'+id).text(priceChange.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+        $('.quantity-child-'+id).text(quantityChange)
+    }else{
+        var option = `<div class="d-flex justify-content-start mr-3 mb-3 cart-child-${id}" style="width: 22rem;">`
+        option += `<img loading="lazy" class="object-fit-cover rounded" width="50" height="50" src="${image}" alt="Card image cap">`;
+        option += `<div class="d-block" style="width: 90%">`;
+        option += `<div class="d-flex justify-content-between" style="width: 310px !important;">`;
+        option += `<p class="fs-14 text-dark text-truncate mx-3">${name}</p>`;
+        option += `<p class="fs-14 text-dark price-child-${id}">${parseInt(price * quantity).toLocaleString('vi-VN', { currency: 'VND' })} đ</p>`;
+        option += `</div>`;
+        option += `<div class="d-flex w-100">`;
+        option += `<p class="fs-14 text-dark mx-3">x <span class="quantity-child-${id} text-dark">${quantity}</span></p>`;
+        option += `</div>`;
+        option += `</div>`;
+        option += `</div>`;
+        $('.cart-item').append(option);
+    }
 }

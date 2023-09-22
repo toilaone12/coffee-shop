@@ -16,5 +16,7 @@
 <script src="{{asset('./front-end/js/main.js')}}"></script>
 <script src="{{asset('./front-end/js/update.js')}}"></script>
 <script src="{{asset('./front-end/js/function.js')}}"></script>
+<!-- SwalAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.js"></script>
 
 @include('home.ajax');

@@ -13383,12 +13383,10 @@ textarea.form-control {
 
 .cart-hover {
     background-color: #fff;
-    border: 1px solid #ddd;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     position: absolute;
     top: 80%;
     transform: translateX(-50%);
-    padding: 10px;
     display: none;
     z-index: 999; /* Để đảm bảo nó nằm trên các phần tử khác */
 }

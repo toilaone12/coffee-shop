@@ -31,4 +31,6 @@
     <link rel="stylesheet" href="{{asset('./front-end/css/flaticon.css')}}">
     <link rel="stylesheet" href="{{asset('./front-end/css/icomoon.css')}}">
     <link rel="stylesheet" href="{{asset('./front-end/css/style.css')}}">
+    <!-- SwalAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.css">
 </head>

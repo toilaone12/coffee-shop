@@ -19,8 +19,12 @@
             };
             callAjax(url, method, data, headers,
                 (data) => {
-                    console.log(data);
-                    
+                    if(data.res === 'warning'){
+                        swalNotification(data.title,data.status,data.icon,() => {})
+                    }else{
+                        formCartNavbar();
+                        addToCart(id,image,name,price,quantity);
+                    }
                 },
                 (err) => {
                     console.log(err);
