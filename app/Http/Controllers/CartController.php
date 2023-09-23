@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Category;
 use App\Models\Ingredients;
 use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\Units;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -14,6 +17,7 @@ class CartController extends Controller
 {
     //page
     function insert(Request $request){
+        // Session::forget('cart');
         $data = $request->all();
         $quantity = intval($data['quantity']); // so luong them
         $product = Product::find($data['id']);
@@ -52,21 +56,76 @@ class CartController extends Controller
                 if($idSessionCart){
                     $cart = $sessionCart[$data['id']];
                     $quantityUpdate = $cart['quantity_product'] + $data['quantity'];
+                    $priceUpdate = intval($product->price_product) * $quantityUpdate;
                     $sessionCart[$data['id']]['quantity_product'] = $quantityUpdate;
+                    $sessionCart[$data['id']]['price_product'] = $priceUpdate;
                 }else{
                     $sessionCart[$data['id']] = [
                         'image_product' => $product->image_product,
                         'name_product' => $product->name_product,
                         'quantity_product' => $data['quantity'],
-                        'price_product' => $product->price_product,
+                        'price_product' => intval($product->price_product) * intval($data['quantity']),
                         'note_product' => $data['note'],
                     ]; 
                 }
                 Session::put('cart',$sessionCart);
+                return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
             }else{
-                echo 2;
+                $idCustomer = Cookie::get('id_customer');
+                $cart = Cart::where('id_customer',$idCustomer)->where('id_product',$data['id'])->first();
+                if($cart){
+                    $quantityUpdate = intval($cart->quantity_product) + $quantity;
+                    $priceUpdate = intval($product->price_product) * $quantityUpdate;
+                    $cart->quantity_product = $quantityUpdate;
+                    $cart->price_product = $priceUpdate;
+                    $update = $cart->save();
+                    if($update){
+                        return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
+                    }else{
+                        return response()->json(['res' => 'fail', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'error', 'status' => 'Lưu vào giỏ hàng thất bại!']);
+                    }
+                }else{
+                    $data = [
+                        'id_customer' => $idCustomer,
+                        'id_product' => $data['id'],
+                        'image_product' => $product->image_product,
+                        'name_product' => $product->name_product,
+                        'quantity_product' => $quantity,
+                        'price_product' => intval($product->price_product) * $quantity,
+                        'note_product' => $data['note'],
+                    ];
+                    $insert = Cart::create($data);
+                    if($insert){
+                        return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
+                    }else{
+                        return response()->json(['res' => 'fail', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'error', 'status' => 'Lưu vào giỏ hàng thất bại!']);
+                    }
+                }
             }
         }
+    }
+
+    function home(){
+        $title = 'Giỏ hàng';
+        $cart = session('cart');
+        $idCustomer = session('is_customer') ? session('is_customer') : 0;
+        $list = $cart ? $cart : Cart::where('id_customer',$idCustomer)->get();
+        $arrayIdCategory = array();
+        if($cart){
+            foreach($cart as $key => $one){
+                $product = Product::find($key);
+                if($product){
+                    $category = Category::find($product->id_category);
+                    array_push($arrayIdCategory,$category->id_category);
+                }
+            }
+        }else{
+
+        }
+        $relatedProduct = Product::whereIn('id_category',$arrayIdCategory)->get();
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct'));
     }
 
     function convertUnit($value, $fromUnit, $toUnit) {

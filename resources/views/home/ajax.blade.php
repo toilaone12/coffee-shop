@@ -22,9 +22,13 @@
                     if(data.res === 'warning'){
                         swalNotification(data.title,data.status,data.icon,() => {})
                     }else{
-                        formCartNavbar();
-                        addToCart(id,image,name,price,quantity);
-                    }
+                        if(data.res === 'success'){
+                            let urlCart = "{{route('cart.home')}}";
+                            formCartNavbar(urlCart);
+                            addToCart(id,image,name,price,quantity);
+                        }
+                        swalNotification(data.title,data.status,data.icon,() => {})
+                    } 
                 },
                 (err) => {
                     console.log(err);

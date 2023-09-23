@@ -32,11 +32,44 @@
                 <li class="nav-item"><a href="" class="nav-link fs-13">Giới thiệu</a></li>
                 <li class="nav-item"><a href="" class="nav-link fs-13">Liên hệ</a></li>
                 <li class="nav-item cart dropdown">
-                    <a class="nav-link">
+                    <a class="nav-link" style="cursor: pointer;">
                         <span class="icon icon-shopping_cart"></span>
-                        <span class="bag d-flex justify-content-center align-items-center"><small>1</small></span>
+                        <div class="dot-cart">
+                            @php
+                            $cart = session('cart');
+                            @endphp
+                            @if(isset($cart))
+                            <span class="bag d-flex justify-content-center align-items-center"><small>{{count($cart)}}</small></span>
+                            @else
+                            @endif
+                        </div>
                     </a>
-                    <div class="cart-hover left rounded">
+                    <div class="cart-hover left rounded" style="cursor: pointer;">
+                        @php
+                        $cart = session('cart');
+                        @endphp
+                        @if(isset($cart))
+                        <div class="form-cart p-2 border">
+                            <div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>
+                            <div class="mb-3 overflow-auto width-cart cart-item">
+                                @foreach($cart as $key => $one)
+                                <div class="d-flex justify-content-start mr-3 mb-3 cart-child-{{$key}}" style="width: 22rem;">
+                                    <img loading="lazy" class="object-fit-cover rounded" width="50" height="50" src="{{asset($one['image_product'])}}" alt="Card image cap">
+                                    <div class="d-block" style="width: 90%">
+                                        <div class="d-flex justify-content-between" style="width: 310px !important">
+                                            <p class="fs-14 text-dark text-truncate mx-3">{{$one['name_product']}}</p>
+                                            <p class="fs-14 text-dark price-child-{{$key}}" data-price="{{$one['price_product']}}">{{number_format($one['price_product'],0,',','.')}} đ</p>
+                                        </div>
+                                        <div class="d-flex w-100">
+                                            <p class="fs-14 text-dark mx-3">x <span class="quantity-child-{{$key}} text-dark">{{$one['quantity_product']}}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <a href="{{route('cart.home')}}" class="btn btn-primary fs-13">Xem giỏ hàng</a>
+                        </div>
+                        @endif
                     </div>
                 </li>
             </ul>

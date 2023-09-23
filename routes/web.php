@@ -189,6 +189,7 @@ Route::prefix('page')->group(function(){
 
     });
     Route::prefix('cart')->group(function(){
+        Route::get('/',[CartController::class,'home'])->name('cart.home');
         Route::post('/insert',[CartController::class,'insert'])->name('cart.insert');
     });
     Route::prefix('blog')->group(function(){

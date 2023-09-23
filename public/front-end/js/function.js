@@ -134,21 +134,22 @@ function handleClickQuantity(){
     })
 }
 
-function formCartNavbar() {
+function formCartNavbar(url) {
     if(!$('div').hasClass('form-cart')){ //kiem tra neu chua ton tai thi them khong thi van de nguyen tranh vc k append dc san pham
         var html = `<div class="form-cart p-2 border">`;
         html += `<div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>`;
         html += `<div class="mb-3 overflow-auto width-cart cart-item">`;
         html += `</div>`;
-        html += `<a href="#" class="btn btn-primary fs-13">Xem giỏ hàng</a>`;
+        html += `<a href="${url}" class="btn btn-primary fs-13">Xem giỏ hàng</a>`;
         html += `</div>`;
         $('.cart-hover').html(html);
-    }
+    } 
 }
 
 function addToCart(id,image,name,price,quantity) {
+    let i = $('.bag > small').text() ? $('.bag > small').text() : 0;
     if($('div').hasClass('cart-child-'+id)){ //ktra san pham da ton tai chua, co thi cong khong thi xuat hien moi
-        let priceExist = parseInt($('.price-child-'+id).text().replace('.','').replace(' đ',''));
+        let priceExist = parseInt($('.price-child-'+id).data('price'));
         let quantityExist = parseInt($('.quantity-child-'+id).text());
         let priceChange = parseInt(price * quantity) + priceExist;
         let quantityChange = parseInt(quantity) + quantityExist;
@@ -160,7 +161,7 @@ function addToCart(id,image,name,price,quantity) {
         option += `<div class="d-block" style="width: 90%">`;
         option += `<div class="d-flex justify-content-between" style="width: 310px !important;">`;
         option += `<p class="fs-14 text-dark text-truncate mx-3">${name}</p>`;
-        option += `<p class="fs-14 text-dark price-child-${id}">${parseInt(price * quantity).toLocaleString('vi-VN', { currency: 'VND' })} đ</p>`;
+        option += `<p class="fs-14 text-dark price-child-${id}" data-price="${parseInt(price * quantity)}">${parseInt(price * quantity).toLocaleString('vi-VN', { currency: 'VND' })} đ</p>`;
         option += `</div>`;
         option += `<div class="d-flex w-100">`;
         option += `<p class="fs-14 text-dark mx-3">x <span class="quantity-child-${id} text-dark">${quantity}</span></p>`;
@@ -168,5 +169,9 @@ function addToCart(id,image,name,price,quantity) {
         option += `</div>`;
         option += `</div>`;
         $('.cart-item').append(option);
+        i++;
     }
+    var dot = `<span class="bag d-flex justify-content-center align-items-center"><small>${i}</small></span>`;
+    $('.dot-cart').html(dot)
+
 }

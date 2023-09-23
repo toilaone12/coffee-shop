@@ -10,6 +10,6 @@ class Cart extends Model
     use HasFactory;
     protected $primaryKey = 'id_cart';
     protected $table = 'cart';
-    protected $fillable = ['image_product','name_product','quantity_product','price_product','note_product'];
+    protected $fillable = ['id_customer','id_product','image_product','name_product','quantity_product','price_product','note_product'];
     public $timestamps = true;
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 20, 2023 lúc 06:49 PM
+-- Thời gian đã tạo: Th9 23, 2023 lúc 06:26 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -55,6 +55,8 @@ INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `em
 
 CREATE TABLE `cart` (
   `id_cart` int(10) UNSIGNED NOT NULL,
+  `id_customer` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
   `image_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity_product` int(11) NOT NULL,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -121,8 +122,10 @@ class NewsController extends Controller
     }
     //page 
     function detail($slug, $id){
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $one = News::find($id);
         $title = $one->title_new;
-        return view('news.detail',compact('one','title'));
+        return view('news.detail',compact('one','title','parentCategorys','childCategorys'));
     }
 }
