@@ -72,6 +72,12 @@
                         @endif
                     </div>
                 </li>
+                <li class="nav-item">
+                    <p data-toggle="modal" data-target="#userModal" class="nav-link fs-13 cursor-pointer">
+                        <span class="fs-20 icon-user-circle-o"></span>
+                    </p>
+                </li>
+                @include('home.login')
             </ul>
         </div>
     </div>

@@ -6183,7 +6183,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  /* z-index: 1040; */
   background-color: #000;
 }
 
@@ -13343,6 +13343,33 @@ textarea.form-control {
   font-size: 20px;
 }
 
+.fs-21 {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 21px;
+}
+
+.fs-22 {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 22px;
+}
+
+.fs-23 {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 23px;
+}
+
+.fs-24 {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 24px;
+}
+
+.fs-25 {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 25px;
+}
+
+
+
 .custom-image {
     max-width: 100%; /* Kích thước tối đa chiều rộng là 100% */
     object-fit: cover;
@@ -13429,6 +13456,10 @@ textarea.form-control {
 
 .overflow-auto::-webkit-scrollbar-thumb:hover {
   background-color: #555; /* Màu nền của nút cuộn khi hover */
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
 }
 
 @-webkit-keyframes loader-rotate {
