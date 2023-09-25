@@ -40,6 +40,8 @@
                             @endphp
                             @if(isset($cart))
                             <span class="bag d-flex justify-content-center align-items-center"><small>{{count($cart)}}</small></span>
+                            @elseif(isset($carts) && $carts != '')
+                            <span class="bag d-flex justify-content-center align-items-center"><small>{{count($carts)}}</small></span>
                             @else
                             @endif
                         </div>
@@ -53,6 +55,27 @@
                             <div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>
                             <div class="mb-3 overflow-auto width-cart cart-item">
                                 @foreach($cart as $key => $one)
+                                <div class="d-flex justify-content-start mr-3 mb-3 cart-child-{{$key}}" style="width: 22rem;">
+                                    <img loading="lazy" class="object-fit-cover rounded" width="50" height="50" src="{{asset($one['image_product'])}}" alt="Card image cap">
+                                    <div class="d-block" style="width: 90%">
+                                        <div class="d-flex justify-content-between" style="width: 310px !important">
+                                            <p class="fs-14 text-dark text-truncate mx-3">{{$one['name_product']}}</p>
+                                            <p class="fs-14 text-dark price-child-{{$key}}" data-price="{{$one['price_product']}}">{{number_format($one['price_product'],0,',','.')}} đ</p>
+                                        </div>
+                                        <div class="d-flex w-100">
+                                            <p class="fs-14 text-dark mx-3">x <span class="quantity-child-{{$key}} text-dark">{{$one['quantity_product']}}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <a href="{{route('cart.home')}}" class="btn btn-primary fs-13">Xem giỏ hàng</a>
+                        </div>
+                        @elseif(isset($carts) && $carts != '')
+                        <div class="form-cart p-2 border">
+                            <div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>
+                            <div class="mb-3 overflow-auto width-cart cart-item">
+                                @foreach($carts as $key => $one)
                                 <div class="d-flex justify-content-start mr-3 mb-3 cart-child-{{$key}}" style="width: 22rem;">
                                     <img loading="lazy" class="object-fit-cover rounded" width="50" height="50" src="{{asset($one['image_product'])}}" alt="Card image cap">
                                     <div class="d-block" style="width: 90%">
@@ -84,7 +107,7 @@
                         <div class="bg-black px-3 py-3 rounded cursor-pointer">
                             <div class="d-flex align-items-center border-bottom border-secondary pb-3">
                                 <img src="{{asset('storage/customer/person.svg')}}" width="36" height="36" loading="lazy" class="border border-secondary p-1 bg-light img rounded-circle">
-                                <span class="ml-3 fs-15">Kiều Đặng Bảo Sơn</span>
+                                <span class="ml-3 fs-15">{{session('name_customer')}}</span>
                             </div>
                             <div class="d-flex align-items-center mt-3">
                                 <div class="rounded-circle bg-secondary p-2 d-flex align-items-center">
@@ -98,7 +121,7 @@
                                 </div>
                                 <span class="ml-3 fs-15">Lịch sử đơn hàng</span>
                             </div>
-                            <div class="d-flex align-items-center mt-3">
+                            <div class="d-flex align-items-center mt-3 logout">
                                 <div class="rounded-circle bg-secondary p-logout d-flex align-items-center">
                                     <span class="icon-sign-out fs-20"></span>
                                 </div>
@@ -108,7 +131,7 @@
                     </div>
                     @else
                     <p data-toggle="modal" data-target="#userModal" class="nav-link fs-13 cursor-pointer">
-                        <span class="fs-20 icon-user-circle-o"></span>
+                        <span class="fs-20 icon-user-circle-o text-white"></span>
                     </p>
                     @endif
                 </li>

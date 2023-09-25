@@ -14,7 +14,7 @@ function callAjax(url,method,data,headers,success,error,isFormData = 0){
 
 function swalQuestion(html, callback){
     Swal.fire({
-        title: '<p class="f-16">Bạn chắc chắn muốn xóa không?</p>',
+        title: '<p class="fs-16">Bạn chắc chắn muốn xóa không?</p>',
         icon: 'warning',
         html: html,
         showCloseButton: true,
@@ -34,6 +34,29 @@ function swalQuestion(html, callback){
             callback(false);
         }
     });
+}
+
+function swalLogout(callback){
+    Swal.fire({
+        title: '<p class="fs-25">Đăng xuất tài khoản</p>',
+        icon: 'warning',
+        html: '<p class="fs-16">Bạn có muốn đăng xuất tài khoản không?</p>',
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText:
+            '<i class="fa-solid fa-check"></i> Có',
+        cancelButtonText:
+            '<i class="fa-solid fa-xmark"></i> Không',
+        cancelButtonAriaLabel: 'Đã hủy bỏ'
+    }).then((result) => {
+        // console.log(arr);
+        if(result.isConfirmed){
+            callback(true);
+        }else{
+            callback(false);
+        }
+    }); 
 }
 
 function swalNotification(title,text,icon,callback){

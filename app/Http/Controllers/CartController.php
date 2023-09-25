@@ -71,13 +71,14 @@ class CartController extends Controller
                 Session::put('cart',$sessionCart);
                 return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
             }else{
-                $idCustomer = Cookie::get('id_customer');
+                $idCustomer = Session::get('id_customer');
                 $cart = Cart::where('id_customer',$idCustomer)->where('id_product',$data['id'])->first();
                 if($cart){
                     $quantityUpdate = intval($cart->quantity_product) + $quantity;
                     $priceUpdate = intval($product->price_product) * $quantityUpdate;
                     $cart->quantity_product = $quantityUpdate;
                     $cart->price_product = $priceUpdate;
+                    $cart->note_product = $data['note'];
                     $update = $cart->save();
                     if($update){
                         return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
@@ -108,8 +109,8 @@ class CartController extends Controller
     function home(){
         $title = 'Giỏ hàng';
         $cart = session('cart');
-        $idCustomer = session('is_customer') ? session('is_customer') : 0;
-        $list = $cart ? $cart : Cart::where('id_customer',$idCustomer)->get();
+        $idCustomer = session('id_customer') ? session('id_customer') : 0;
+        $list = Cart::where('id_customer',$idCustomer)->get();
         $arrayIdCategory = array();
         if($cart){
             foreach($cart as $key => $one){
@@ -120,12 +121,18 @@ class CartController extends Controller
                 }
             }
         }else{
-
+            foreach($list as $key => $one){
+                $product = Product::find($one->id_product);
+                if($product){
+                    $category = Category::find($product->id_category);
+                    array_push($arrayIdCategory,$category->id_category);
+                }
+            }
         }
         $relatedProduct = Product::whereIn('id_category',$arrayIdCategory)->get();
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct'));
+        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct', 'cart'));
     }
 
     function convertUnit($value, $fromUnit, $toUnit) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -54,6 +55,20 @@ class CustomerController extends Controller
 
     function login(Request $request) {
         $data = $request->all();
+        if (isset($data['remember']) && $data['remember'] == 'on') {
+            $arrRemember = [
+                'email' => $data['email'],
+                'password' => $data['password'],
+                'remember' => 'on'
+            ];
+            $jsonRemember = json_encode($arrRemember);
+            Cookie::queue('json_remember_customer', $jsonRemember, 2628000);
+        } else {
+            $jsonRemember = Cookie::get('json_remember_customer');
+            if (isset($jsonRemember)) {
+                Cookie::queue(Cookie::forget('json_remember_customer'));
+            }
+        }
         $validation = Validator::make($data, [
             'email' => ['required'],
             'password' => ['required', 'regex:/^[A-Za-z0-9]{6,32}+$/'],
@@ -66,7 +81,11 @@ class CustomerController extends Controller
             $login = Customer::where('email_customer', $data['email'])
             ->where('password_customer',md5($data['password']))->first();
             if($login){
+                if(session('cart')){
+                    Session::forget('cart');
+                }
                 Session::put('id_customer',$login->id_customer);
+                Session::put('name_customer',$login->name_customer);
                 return response()->json(['res' => 'success', 'title' => 'Đăng nhập tài khoản', 'icon' => 'success', 'status' => 'Đăng nhập tài khoản thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Đăng nhập tài khoản', 'icon' => 'error', 'status' => 'Đăng nhập tài khoản thất bại']);
@@ -74,5 +93,12 @@ class CustomerController extends Controller
         }else{
             return response()->json(['res' => 'warning', 'status' => $validation->errors()]);
         }
+    }
+
+    function logout() {
+        Session::forget('id_customer');
+        Session::forget('name_customer');
+        return response()->json(['res' => 'success', 'status' => 'Đăng xuất tài khoản', 'icon' => 'success', 'title' => 'Đăng xuất tài khoản thành công'], 200);
+
     }
 }

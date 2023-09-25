@@ -191,6 +191,7 @@ Route::prefix('page')->group(function(){
     Route::prefix('customer')->group(function(){
         Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
         Route::post('/login',[CustomerController::class,'login'])->name('customer.login');
+        Route::post('/logout',[CustomerController::class,'logout'])->name('customer.logout');
     }); 
     Route::prefix('cart')->group(function(){
         Route::get('/',[CartController::class,'home'])->name('cart.home');

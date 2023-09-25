@@ -38,8 +38,8 @@ h6 span{
   width: 100%;
   display: block;
 }
-[type="checkbox"]:checked,
-[type="checkbox"]:not(:checked){
+#reg-log:checked,
+#reg-log:not(:checked){
   position: absolute;
   left: -9999px;
 }

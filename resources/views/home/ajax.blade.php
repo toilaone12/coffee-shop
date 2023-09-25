@@ -17,6 +17,7 @@
                 id: id,
                 quantity: quantity,
                 note: note,
+                isLogin: "{{session('id_customer') ? 1 : 0}}"
             };
             callAjax(url, method, data, headers,
                 (data) => {
@@ -80,6 +81,26 @@
                 (err) => {
                     console.log(err);
                 }, 1);
+        })
+
+        $(document).on('click', '.logout', () => {
+            let url = "{{route('customer.logout')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            swalLogout(() => {
+                callAjax(url, method, {}, headers,
+                    (data) => {
+                        console.log(data);
+                        if(data.res === 'success'){
+                            swalNotification(data.title, data.status, data.icon, () => { location.reload() })
+                        }
+                    },
+                    (err) => {
+                        console.log(err);
+                    });
+            })
         })
     })
 </script>

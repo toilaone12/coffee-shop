@@ -1,5 +1,19 @@
 <!-- Modal -->
 <link rel="stylesheet" href="{{asset('./front-end/css/login.css')}}">
+<?php
+    use Illuminate\Support\Facades\Cookie;
+    $json_remember = Cookie::get('json_remember_customer');
+    if(isset($json_remember)){
+        $arrRemember = json_decode($json_remember);
+        $remember = $arrRemember->remember;
+        $email = $arrRemember->email;
+        $password = $arrRemember->password;
+    }else{
+        $email = '';
+        $password = '';
+        $remember = '';
+    }
+?>
 <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
     <div class="modal-dialog d-flex justify-content-center">
         <div class="modal-content form-login">
@@ -19,14 +33,18 @@
                                                     <h4 class="mb-4 pb-3 fs-24">Đăng nhập</h4>
                                                     <form class="login-customer">
                                                         <div class="form-group position-relative">
-                                                            <input type="email" name="email" class="form-style" placeholder="Email" id="logemail" autocomplete="off">
+                                                            <input type="email" name="email" class="form-style" placeholder="Email" id="logemail" autocomplete="off" value="{{$email ? $email : old('email')}}">
                                                             <span class="icon-at input-icon"></span>
                                                             <span class="text-danger error-email"></span>
                                                         </div>
                                                         <div class="form-group position-relative mt-2">
-                                                            <input type="password" name="password" class="form-style" placeholder="Mật khẩu" id="logpass" autocomplete="off">
+                                                            <input type="password" name="password" class="form-style" placeholder="Mật khẩu" id="logpass" autocomplete="off" value="{{$password ? $password : old('password')}}">
                                                             <span class="icon-lock input-icon"></span>
                                                             <span class="text-danger error-password"></span>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox mb-3 text-left">
+                                                            <input type="checkbox" class="custom-control-input" id="customCheck" name="remember" {{$remember ? 'checked' : ''}}>
+                                                            <label class="custom-control-label fs-15" for="customCheck">Lưu mật khẩu</label>
                                                         </div>
                                                         <button type="submit" class="btn btn-primary btn-outline-primary mt-4 px-4 fs-16">Đăng nhập</button>
                                                     </form>

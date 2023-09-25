@@ -35,6 +35,32 @@
               </tr>
             </thead>
             <tbody>
+              @if($cart)
+              @foreach($cart as $key => $one)
+              <tr class="text-center">
+                <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>
+
+                <td class="image-prod">
+                  <img src="{{asset($one['image_product'])}}" class="img object-fit-cover" alt="">
+                </td>
+
+                <td class="product-name">
+                  <h3>{{$one['name_product']}}</h3>
+                </td>
+
+                <td class="price">{{number_format($one['price_product'] / $one['quantity_product'],0,',','.')}} đ</td>
+
+                <td class="quantity">
+                  <div class="input-group mb-3">
+                    <input type="text" name="quantity" class="quantity form-control input-number" value="{{$one['quantity_product']}}" min="1" max="100">
+                  </div>
+                </td>
+
+                <td class="total">{{number_format($one['price_product'],0,',','.')}} đ</td>
+                <td class="note text-white">{{$one['note_product'] ? $one['note_product'] : 'Không có'}}</td>
+              </tr>
+              @endforeach
+              @else
               @foreach($list as $key => $one)
               <tr class="text-center">
                 <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>
@@ -59,6 +85,7 @@
                 <td class="note text-white">{{$one['note_product'] ? $one['note_product'] : 'Không có'}}</td>
               </tr>
               @endforeach
+              @endif
             </tbody>
           </table>
         </div>
