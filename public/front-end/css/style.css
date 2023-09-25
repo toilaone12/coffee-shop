@@ -621,6 +621,10 @@ pre code {
   .left {
     left: -230%;
   }
+  .user-left{
+    left: -125%;
+    width: 250px;
+  }
   .width-cart {
     height: 22rem;
   }
@@ -2204,6 +2208,11 @@ pre code {
   }
 
   .left {
+    left: 50%;
+  }
+
+  .user-left {
+    width: 108%;
     left: 50%;
   }
 
@@ -6974,6 +6983,10 @@ a.bg-dark:focus,
 button.bg-dark:hover,
 button.bg-dark:focus {
   background-color: #1d2124 !important;
+}
+
+.bg-black {
+  background-color: #000 !important;
 }
 
 .bg-white {
@@ -13431,10 +13444,22 @@ textarea.form-control {
 .cart-hover ul li {
     margin: 5px 0;
 }
-
+.user-hover {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 80%;
+  transform: translateX(-50%);
+  display: none;
+  z-index: 999; /* Để đảm bảo nó nằm trên các phần tử khác */
+}
 /* Hiển thị khung khi hover vào biểu tượng giỏ hàng */
 .nav-item.cart:hover .cart-hover {
     display: block;
+}
+
+.nav-item.user:hover .user-hover {
+  display: block;
 }
 
 .object-fit-cover {
@@ -13460,6 +13485,14 @@ textarea.form-control {
 
 .cursor-pointer {
   cursor: pointer !important;
+}
+
+.p-logout {
+  padding: 8px 9.25px !important;
+}
+
+.p-history {
+  padding: 8px 9.43px !important;
 }
 
 @-webkit-keyframes loader-rotate {

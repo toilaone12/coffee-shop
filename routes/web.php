@@ -188,6 +188,10 @@ Route::prefix('page')->group(function(){
     Route::prefix('product')->group(function(){
 
     });
+    Route::prefix('customer')->group(function(){
+        Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
+        Route::post('/login',[CustomerController::class,'login'])->name('customer.login');
+    }); 
     Route::prefix('cart')->group(function(){
         Route::get('/',[CartController::class,'home'])->name('cart.home');
         Route::post('/insert',[CartController::class,'insert'])->name('cart.insert');

@@ -72,10 +72,45 @@
                         @endif
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item user dropdown">
+                    @php
+                    $id = session('id_customer');
+                    @endphp
+                    @if(isset($id))
+                    <span class="nav-link">
+                        <span class="fs-20 icon-user-circle-o text-light cursor-pointer"></span>
+                    </span>
+                    <div class="user-hover user-left rounded">
+                        <div class="bg-black px-3 py-3 rounded cursor-pointer">
+                            <div class="d-flex align-items-center border-bottom border-secondary pb-3">
+                                <img src="{{asset('storage/customer/person.svg')}}" width="36" height="36" loading="lazy" class="border border-secondary p-1 bg-light img rounded-circle">
+                                <span class="ml-3 fs-15">Kiều Đặng Bảo Sơn</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-3">
+                                <div class="rounded-circle bg-secondary p-2 d-flex align-items-center">
+                                    <span class="icon-list2 fs-20"></span>
+                                </div>
+                                <span class="ml-3 fs-15">Giỏ hàng cá nhân</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-3">
+                                <div class="rounded-circle bg-secondary p-history d-flex align-items-center">
+                                    <span class="icon-history fs-20"></span>
+                                </div>
+                                <span class="ml-3 fs-15">Lịch sử đơn hàng</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-3">
+                                <div class="rounded-circle bg-secondary p-logout d-flex align-items-center">
+                                    <span class="icon-sign-out fs-20"></span>
+                                </div>
+                                <span class="ml-3 fs-15">Đăng xuất</span>
+                            </div>
+                        </div>
+                    </div>
+                    @else
                     <p data-toggle="modal" data-target="#userModal" class="nav-link fs-13 cursor-pointer">
                         <span class="fs-20 icon-user-circle-o"></span>
                     </p>
+                    @endif
                 </li>
                 @include('home.login')
             </ul>
