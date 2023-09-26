@@ -20,7 +20,7 @@ class HomeController extends Controller
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $news = News::orderBy('updated_at', 'desc')->get();
-        $carts = '';
+        $carts = array();
         if(session('id_customer')){
             $carts = Cart::where('id_customer',session('id_customer'))->get();
         }

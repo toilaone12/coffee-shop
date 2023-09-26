@@ -182,22 +182,31 @@ Route::prefix('admin')->group(function(){
 //Trang nguoi dung
 Route::prefix('page')->group(function(){
     Route::get('/',[HomeController::class,'home'])->name('page.home');
+    //danh muc
     Route::prefix('category')->group(function(){
 
     });
+    //san pham
     Route::prefix('product')->group(function(){
 
     });
+    //khach hang
     Route::prefix('customer')->group(function(){
         Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
         Route::post('/login',[CustomerController::class,'login'])->name('customer.login');
         Route::post('/logout',[CustomerController::class,'logout'])->name('customer.logout');
     }); 
+    //gio hang
     Route::prefix('cart')->group(function(){
         Route::get('/',[CartController::class,'home'])->name('cart.home');
         Route::post('/insert',[CartController::class,'insert'])->name('cart.insert');
     });
+    //tin tuc
     Route::prefix('blog')->group(function(){
         Route::get('/{slug}+{id}.html',[NewsController::class,'detail'])->name('blog.detail');
+    });
+    //phi van chuyen
+    Route::prefix('fee')->group(function(){
+        Route::post('/search',[FeeController::class,'search'])->name('fee.search');
     });
 });

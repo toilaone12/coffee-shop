@@ -22,29 +22,33 @@ class CartController extends Controller
         $quantity = intval($data['quantity']); // so luong them
         $product = Product::find($data['id']);
         $recipe = Recipe::where('id_product',$data['id'])->first();
-        $components = json_decode($recipe->component_recipe);
         $noti = [];
-        foreach($components as $key => $one){
-            $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
-            $ingredient = Ingredients::find(intval($one->id_ingredient));
-            $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
-            $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
-            $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
-            $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
-            $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
-            $totalProduct = 0;
-            $enoughProduct = 0;
-            if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
-                $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
-                $enoughProduct = intval($quantityIngredient / $quantityComponent);
-            }else{
-                $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
-                $totalProduct = $quantityComponentConvert * $quantity;
-                $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
+        if($recipe){
+            $components = json_decode($recipe->component_recipe);
+            foreach($components as $key => $one){
+                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
+                $ingredient = Ingredients::find(intval($one->id_ingredient));
+                $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
+                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
+                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
+                $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
+                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
+                $totalProduct = 0;
+                $enoughProduct = 0;
+                if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
+                    $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
+                    $enoughProduct = intval($quantityIngredient / $quantityComponent);
+                }else{
+                    $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
+                    $totalProduct = $quantityComponentConvert * $quantity;
+                    $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
+                }
+                if($totalProduct > $quantityIngredient){
+                    $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
+                }
             }
-            if($totalProduct > $quantityIngredient){
-                $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
-            }
+        }else{
+            $noti += ['res' => 'warning', 'status' => 'Hiện tại đang chưa có công thức của sản phẩm này, vui lòng chờ đợi thêm'];
         }
         if(isset($noti['res']) && $noti['res'] == 'warning'){
             return response()->json(['res' => 'warning', 'title' => 'Thông báo đặt hàng', 'icon' => 'warning', 'status' => $noti['status']],200);

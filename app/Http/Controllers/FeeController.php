@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class FeeController extends Controller
 {
-    //
+    //admin
     function list(){
         $title = 'Danh sách phương thức';
         $list = Fee::all();
@@ -84,5 +84,29 @@ class FeeController extends Controller
         }else{
             return response()->json(['res' => 'fail'],200);
         }
+    }
+
+    //page
+    //tra phi
+    function search(Request $request){
+        $data = $request->all();
+        $address = $data['address_fee'];
+        $distance = $this->getDistance($address);
+        dd($distance);
+    }
+
+    function getDistance($address) {
+        $apiKey = 'X5rp4KMjYtFLZvjKBlRWIGh_BKUecHaGUQ8sGwkOOT4';
+        $url = "https://geocode.search.hereapi.com/v1/geocode?q=" . urlencode($address) . "&apiKey=" . $apiKey;
+        
+        // Gửi yêu cầu HTTP GET và lấy kết quả
+        $response = file_get_contents($url);
+        
+        // Xử lý kết quả JSON
+        $data = json_decode($response, true);
+        
+        // Lấy tọa độ từ kết quả
+        return $data;
+        $coordinates = $data['Response']['View'][0]['Result'][0]['Location']['DisplayPosition'];
     }
 }

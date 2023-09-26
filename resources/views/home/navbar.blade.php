@@ -40,7 +40,7 @@
                             @endphp
                             @if(isset($cart))
                             <span class="bag d-flex justify-content-center align-items-center"><small>{{count($cart)}}</small></span>
-                            @elseif(isset($carts) && $carts != '')
+                            @elseif(isset($carts) && count($carts) > 0)
                             <span class="bag d-flex justify-content-center align-items-center"><small>{{count($carts)}}</small></span>
                             @else
                             @endif
@@ -71,7 +71,7 @@
                             </div>
                             <a href="{{route('cart.home')}}" class="btn btn-primary fs-13">Xem giỏ hàng</a>
                         </div>
-                        @elseif(isset($carts) && $carts != '')
+                        @elseif(isset($carts) && count($carts) > 0)
                         <div class="form-cart p-2 border">
                             <div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>
                             <div class="mb-3 overflow-auto width-cart cart-item">

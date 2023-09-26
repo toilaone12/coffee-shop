@@ -198,3 +198,13 @@ function addToCart(id,image,name,price,quantity) {
     $('.dot-cart').html(dot)
 
 }
+
+function formResultSearch(result) {
+    let html = '';
+    let length = result.length > 10 ? 10 : result.length;
+    for(let i = 0; i < length; i++){
+        html += `<span class="fs-15 d-flex align-items-center text-dark m-2" data-lat=${result[i].position.lat} data-lng=${result[i].position.lng}>`;
+        html += `<span class="icon-location_searching fs-18 mr-2"></span>${result[i].address.label}</span>`;                                                                          
+    }
+    $('#result-list').removeClass('d-none').html(html);
+}
