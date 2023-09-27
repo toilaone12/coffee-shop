@@ -21,8 +21,8 @@ class HomeController extends Controller
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $news = News::orderBy('updated_at', 'desc')->get();
         $carts = array();
-        if(session('id_customer')){
-            $carts = Cart::where('id_customer',session('id_customer'))->get();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',cookie('id_customer'))->get();
         }
         return view('home.content',compact(
             'title',

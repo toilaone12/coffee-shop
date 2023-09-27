@@ -44,7 +44,9 @@
               $total += $one['price_product'];
               @endphp
               <tr class="text-center">
-                <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>
+                <td class="product-remove">
+                  <a href="{{route('cart.delete',['id' => $key])}}"><span class="icon-close"></span></a>
+                </td>
 
                 <td class="image-prod">
                   <img src="{{asset($one['image_product'])}}" class="img object-fit-cover" alt="">
@@ -72,7 +74,11 @@
               $total += $one['price_product'];
               @endphp
               <tr class="text-center">
-                <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>
+                <td class="product-remove">
+                  <a href="{{route('cart.delete',['id' => $one['id_product']])}}">
+                    <span class="icon-close"></span>
+                  </a>
+                </td>
 
                 <td class="image-prod">
                   <img src="{{asset($one['image_product'])}}" class="img object-fit-cover" alt="">
@@ -100,57 +106,61 @@
         </div>
       </div>
     </div>
-    <div class="row justify-content-end">
+    <div class="row justify-content-between">
       <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
         <div class="cart-total mb-3">
           <h3>Thông tin khách hàng</h3>
           <div class="form-group">
             <label for="">Họ và tên</label>
-            <input type="text" name="" value="{{session('name_customer') ? session('name_customer') : ''}}" id="" class="form-control">
+            <input type="text" name="" value="{{$customer ? $customer->name_customer : ''}}" id="" class="form-control">
           </div>
           <div class="form-group">
             <label for="">Số điện thoại</label>
-            <input type="phone" name="" max="10" value="{{session('name_customer') ? session('name_customer') : ''}}" id="" class="form-control">
+            <input type="phone" name="" max="10" value="{{$customer ? $customer->phone_customer : ''}}" id="" class="form-control">
           </div>
           <div class="form-group">
             <label for="">Địa chỉ</label>
-            <input type="text" name="" value="{{session('name_customer') ? session('name_customer') : ''}}" id="" class="form-control">
+            <input type="text" name="" value="{{$customer ? $customer->address_customer : ''}}" id="" class="form-control address-customer">
           </div>
         </div>
-        <p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+        <p class="text-center">
+          <a href="checkout.html" class="btn btn-primary py-3 px-4">
+            Đặt hàng
+          </a>
+        </p>
       </div>
       <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
         <div class="cart-total mb-3">
           <h3>Tổng tiền giỏ hàng</h3>
-          <p class="d-flex">
-            <span>Tổng giá trị</span>
-            <span>{{number_format($total,0,',','.')}} đ</span>
+          <p class="d-flex align-items-center">
+            <span class="fs-15">Tổng giá trị</span>
+            <span class="total-product">{{number_format($total,0,',','.')}} đ</span>
           </p>
-          <p class="d-flex">
-            <span>Phí vận chuyển</span>
+          <p class="d-flex align-items-center">
+            <span class="fs-15">Phí vận chuyển</span>
             <span class="d-flex align-items-center cursor-pointer">
-              300.000 đ
+              <span class="fee-ship">0 đ</span>
               <span 
-              class="ml-2 ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13" 
+              class="ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 modal-fee" 
               data-toggle="modal" data-target="#feeModal"
               >
                 Tra giá
               </span>
             </span>
           </p>
-          <p class="d-flex">
-            <span>Khuyến mãi</span>
+          <p class="d-flex align-items-center">
+            <span class="fs-15">Khuyến mãi</span>
             <span class="d-flex align-items-center cursor-pointer">
-              300.000 đ
+              <span class="fee-discount">0 đ</span>
               <span class="ml-2 ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 choose-discount">
                 Áp dụng
               </span>
             </span>
 
             <hr>
-          <p class="d-flex total-price">
-            <span>Tổng tiền</span>
-            <span>$17.60</span>
+          <p class="d-flex total-price align-items-center">
+            <span class="fs-15">Tổng tiền</span>
+            <span class="total-cart text-lowercase">{{number_format($total,0,',','.')}} đ</span>
           </p>
         </div>
       </div>
@@ -187,6 +197,6 @@
     </div>
   </div>
 </section>
-@include('home.modal');
-@include('fee.modal');
+@include('home.modal')
+@include('fee.modal')
 @endsection

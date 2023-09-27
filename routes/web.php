@@ -199,6 +199,7 @@ Route::prefix('page')->group(function(){
     //gio hang
     Route::prefix('cart')->group(function(){
         Route::get('/',[CartController::class,'home'])->name('cart.home');
+        Route::get('/delete',[CartController::class,'delete'])->name('cart.delete');
         Route::post('/insert',[CartController::class,'insert'])->name('cart.insert');
     });
     //tin tuc

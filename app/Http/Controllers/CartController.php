@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Ingredients;
 use App\Models\Product;
 use App\Models\Recipe;
@@ -75,7 +76,7 @@ class CartController extends Controller
                 Session::put('cart',$sessionCart);
                 return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
             }else{
-                $idCustomer = Session::get('id_customer');
+                $idCustomer = request()->cookie('id_customer');
                 $cart = Cart::where('id_customer',$idCustomer)->where('id_product',$data['id'])->first();
                 if($cart){
                     $quantityUpdate = intval($cart->quantity_product) + $quantity;
@@ -113,7 +114,8 @@ class CartController extends Controller
     function home(){
         $title = 'Giỏ hàng';
         $cart = session('cart');
-        $idCustomer = session('id_customer') ? session('id_customer') : 0;
+        $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
+        $customer = request()->cookie('id_customer') ? Customer::find($idCustomer) : [];
         $list = Cart::where('id_customer',$idCustomer)->get();
         $arrayIdCategory = array();
         if($cart){
@@ -136,7 +138,20 @@ class CartController extends Controller
         $relatedProduct = Product::whereIn('id_category',$arrayIdCategory)->get();
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct', 'cart'));
+        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct', 'cart', 'customer'));
+    }
+
+    function delete(Request $request){
+        $id = $request->get('id');
+        $cart = Session::get('cart');
+        if(isset($cart)){
+            
+        }else{
+            $delete = Cart::where('id_product',$id)->where('id_customer', request()->cookie('id_customer'))->delete();
+            if($delete){
+                return redirect()->route('cart.home');
+            }
+        }
     }
 
     function convertUnit($value, $fromUnit, $toUnit) {

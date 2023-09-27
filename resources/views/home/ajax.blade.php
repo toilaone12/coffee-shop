@@ -17,7 +17,7 @@
                 id: id,
                 quantity: quantity,
                 note: note,
-                isLogin: "{{session('id_customer') ? 1 : 0}}"
+                isLogin: "{{request()->cookie('id_customer') ? 1 : 0}}"
             };
             callAjax(url, method, data, headers,
                 (data) => {
@@ -107,63 +107,61 @@
             })
         })
         //tim dia chi
-        $(document).on('keyup', '.find-address', () => {
-            let typingTimer;
-            clearTimeout(typingTimer); // Xóa bất kỳ timeout nào hiện tại
-            // Đặt timeout mới
-            let keyword = encodeURIComponent($('.find-address').val());
+        $(document).on('keyup', '.find-address', debounce(() => {
+            let keyword = ($('.find-address').val());
             if (keyword.length > 0) {
-                typingTimer = setTimeout(function() {
-                    // console.log($('.find-address').val());
-                    let apiKey = 'X5rp4KMjYtFLZvjKBlRWIGh_BKUecHaGUQ8sGwkOOT4';
-                    let url = `https://discover.search.hereapi.com/v1/discover`;
-                    let method = 'GET';
-                    let headers = {};
-                    let data = {
-                        q: keyword,
-                        at: '20.994081780314524,105.79288106771862',
-                        apiKey: apiKey,
-                        xnlp: 'CL_JSMv3.1.38.0'
-                    };
-                    callAjax(url, method, data, headers,
-                        (data) => {
-                            if (data.items.length > 0) {
-                                formResultSearch(data.items);
-                            }
-                        },
-                        (err) => {
-                            console.log(err);
-                        })
-
-
-                    // Thực hiện hành động sau khi ngừng gõ trong doneTypingInterval
-                }, 2000);
+                // console.log($('.find-address').val());
+                let apiKey = 'X5rp4KMjYtFLZvjKBlRWIGh_BKUecHaGUQ8sGwkOOT4';
+                let url = `https://discover.search.hereapi.com/v1/discover`;
+                let method = 'GET';
+                let headers = {};
+                let data = {
+                    q: keyword,
+                    at: '20.994081780314524,105.79288106771862',
+                    apiKey: apiKey,
+                    xnlp: 'CL_JSMv3.1.38.0'
+                };
+                callAjax(url, method, data, headers,
+                    (data) => {
+                        if (data.items.length > 0) {
+                            formResultSearch(data.items);
+                        }
+                    },
+                    (err) => {
+                        console.log(err);
+                    })
             } else {
                 $('#result-list').addClass('d-none');
             }
-        })
+        }, 500)
+        )
+
         //tra phi van chuyen
         $(document).on('submit', '.search-fee', (e) => {
             e.preventDefault();
-            let formData = new FormData($('.search-fee')[0]);
             let url = "{{route('fee.search')}}";
             let method = "POST";
             let headers = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-            callAjax(url, method, formData, headers,
+            let data = {
+                address_fee: $('.find-address').val(),
+                lat_fee: $('.find-address').attr('data-lat') ? $('.find-address').attr('data-lat') : 0,
+                lng_fee: $('.find-address').attr('data-lng') ? $('.find-address').attr('data-lng') : 0,
+            }
+            callAjax(url, method, data, headers,
                 (data) => {
-                    console.log(data);
-                    // if(data.res === 'warning'){
-                    //     $('.error-email').text(data.status.email ? data.status.email : '');
-                    //     $('.error-password').text(data.status.password ? data.status.password : '');
-                    // }else{
-                    //     swalNotification(data.title, data.status, data.icon, () => { location.reload() })
-                    // }
+                    if(data.res === 'success'){
+                        let totalProduct = parseInt($('.total-product').text().replace('.','').replace(' đ',''));
+                        $('#feeModal').modal('hide'); // Ẩn modal
+                        $('.modal-backdrop').remove(); // Xóa lớp nền backdrop
+                        $('.fee-ship').text(data.fee.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                        $('.total-cart').text((totalProduct + parseInt(data.fee)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                    }
                 },
                 (err) => {
                     console.log(err);
-                }, 1);
+                });
         })
     })
 </script>

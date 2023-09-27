@@ -13501,6 +13501,12 @@ textarea.form-control {
   background: #f0f0f0 !important;
 }
 
+.location-item:hover {
+  background-color: #343A40;
+  color: #fff !important;
+  padding: 8px;
+}
+
 @-webkit-keyframes loader-rotate {
   100% {
     -webkit-transform: rotate(360deg);
