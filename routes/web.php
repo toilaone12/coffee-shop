@@ -96,7 +96,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/delete',[RecipeController::class, 'delete'])->name('recipe.delete');
         Route::post('/delete-all',[RecipeController::class, 'deleteAll'])->name('recipe.deleteAll');
     });
-    //Cong thuc
+    //Don vi
     Route::prefix('units')->group(function(){
         Route::get('/list',[UnitsController::class, 'list'])->name('units.list');
         Route::post('/insert',[UnitsController::class, 'insert'])->name('units.insert');
@@ -149,7 +149,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/print-pdf',[DetailNoteController::class, 'printPDF'])->name('detail.pdf');
         Route::get('/export',[DetailNoteController::class, 'export'])->name('detail.export');
     });
-    //Phieu hang
+    //Don dat hang
     Route::prefix('order')->group(function(){
         Route::get('/list',[OrderController::class, 'list'])->name('order.list');
         Route::post('/insert',[OrderController::class, 'insert'])->name('order.insert');
