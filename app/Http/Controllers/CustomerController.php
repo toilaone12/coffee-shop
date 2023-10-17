@@ -84,8 +84,8 @@ class CustomerController extends Controller
                 if(session('cart')){
                     Session::forget('cart');
                 }
-                Session::put('id_customer',$login->id_customer);
-                Session::put('name_customer',$login->name_customer);
+                Cookie::queue('id_customer',$login->id_customer);
+                Cookie::queue('name_customer',$login->name_customer);
                 return response()->json(['res' => 'success', 'title' => 'Đăng nhập tài khoản', 'icon' => 'success', 'status' => 'Đăng nhập tài khoản thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Đăng nhập tài khoản', 'icon' => 'error', 'status' => 'Đăng nhập tài khoản thất bại']);
@@ -96,8 +96,8 @@ class CustomerController extends Controller
     }
 
     function logout() {
-        Session::forget('id_customer');
-        Session::forget('name_customer');
+        Cookie::queue(Cookie::forget('id_customer'));
+        Cookie::queue(Cookie::forget('name_customer'));
         return response()->json(['res' => 'success', 'status' => 'Đăng xuất tài khoản', 'icon' => 'success', 'title' => 'Đăng xuất tài khoản thành công'], 200);
 
     }

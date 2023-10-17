@@ -40,7 +40,7 @@
                             @endphp
                             @if(isset($cart))
                             <span class="bag d-flex justify-content-center align-items-center"><small>{{count($cart)}}</small></span>
-                            @elseif(isset($carts) && $carts != '')
+                            @elseif(isset($carts) && count($carts) > 0)
                             <span class="bag d-flex justify-content-center align-items-center"><small>{{count($carts)}}</small></span>
                             @else
                             @endif
@@ -71,7 +71,7 @@
                             </div>
                             <a href="{{route('cart.home')}}" class="btn btn-primary fs-13">Xem giỏ hàng</a>
                         </div>
-                        @elseif(isset($carts) && $carts != '')
+                        @elseif(isset($carts) && count($carts) > 0)
                         <div class="form-cart p-2 border">
                             <div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>
                             <div class="mb-3 overflow-auto width-cart cart-item">
@@ -97,7 +97,7 @@
                 </li>
                 <li class="nav-item user dropdown">
                     @php
-                    $id = session('id_customer');
+                    $id = request()->cookie('id_customer');
                     @endphp
                     @if(isset($id))
                     <span class="nav-link">
@@ -107,7 +107,7 @@
                         <div class="bg-black px-3 py-3 rounded cursor-pointer">
                             <div class="d-flex align-items-center border-bottom border-secondary pb-3">
                                 <img src="{{asset('storage/customer/person.svg')}}" width="36" height="36" loading="lazy" class="border border-secondary p-1 bg-light img rounded-circle">
-                                <span class="ml-3 fs-15">{{session('name_customer')}}</span>
+                                <span class="ml-3 fs-15">{{request()->cookie('name_customer')}}</span>
                             </div>
                             <div class="d-flex align-items-center mt-3">
                                 <div class="rounded-circle bg-secondary p-2 d-flex align-items-center">

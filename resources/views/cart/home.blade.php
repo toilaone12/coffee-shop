@@ -24,7 +24,7 @@
         <div class="cart-list">
           <table class="table">
             <thead class="thead-primary">
-              <tr class="text-center">
+              <tr class="text-center fs-15">
                 <th>&nbsp;</th>
                 <th>Hình ảnh</th>
                 <th>Tên sản phẩm</th>
@@ -35,10 +35,18 @@
               </tr>
             </thead>
             <tbody>
+              @php
+              $total = 0;
+              @endphp
               @if($cart)
               @foreach($cart as $key => $one)
+              @php
+              $total += $one['price_product'];
+              @endphp
               <tr class="text-center">
-                <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>
+                <td class="product-remove">
+                  <a href="{{route('cart.delete',['id' => $key])}}"><span class="icon-close"></span></a>
+                </td>
 
                 <td class="image-prod">
                   <img src="{{asset($one['image_product'])}}" class="img object-fit-cover" alt="">
@@ -62,8 +70,15 @@
               @endforeach
               @else
               @foreach($list as $key => $one)
+              @php
+              $total += $one['price_product'];
+              @endphp
               <tr class="text-center">
-                <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>
+                <td class="product-remove">
+                  <a href="{{route('cart.delete',['id' => $one['id_product']])}}">
+                    <span class="icon-close"></span>
+                  </a>
+                </td>
 
                 <td class="image-prod">
                   <img src="{{asset($one['image_product'])}}" class="img object-fit-cover" alt="">
@@ -91,29 +106,63 @@
         </div>
       </div>
     </div>
-    <div class="row justify-content-end">
-      <div class="col col-lg-3 col-md-6 mt-5 cart-wrap ftco-animate">
+    <div class="row justify-content-between">
+      <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
         <div class="cart-total mb-3">
-          <h3>Cart Totals</h3>
-          <p class="d-flex">
-            <span>Subtotal</span>
-            <span>$20.60</span>
+          <h3>Thông tin khách hàng</h3>
+          <div class="form-group">
+            <label for="">Họ và tên</label>
+            <input type="text" name="" value="{{$customer ? $customer->name_customer : ''}}" id="" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="">Số điện thoại</label>
+            <input type="phone" name="" max="10" value="{{$customer ? $customer->phone_customer : ''}}" id="" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="">Địa chỉ</label>
+            <input type="text" name="" value="{{$customer ? $customer->address_customer : ''}}" id="" class="form-control address-customer">
+          </div>
+        </div>
+        <p class="text-center">
+          <a href="checkout.html" class="btn btn-primary py-3 px-4">
+            Đặt hàng
+          </a>
+        </p>
+      </div>
+      <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
+        <div class="cart-total mb-3">
+          <h3>Tổng tiền giỏ hàng</h3>
+          <p class="d-flex align-items-center">
+            <span class="fs-15">Tổng giá trị</span>
+            <span class="total-product">{{number_format($total,0,',','.')}} đ</span>
           </p>
-          <p class="d-flex">
-            <span>Delivery</span>
-            <span>$0.00</span>
+          <p class="d-flex align-items-center">
+            <span class="fs-15">Phí vận chuyển</span>
+            <span class="d-flex align-items-center cursor-pointer">
+              <span class="fee-ship">0 đ</span>
+              <span 
+              class="ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 modal-fee" 
+              data-toggle="modal" data-target="#feeModal"
+              >
+                Tra giá
+              </span>
+            </span>
           </p>
-          <p class="d-flex">
-            <span>Discount</span>
-            <span>$3.00</span>
-          </p>
-          <hr>
-          <p class="d-flex total-price">
-            <span>Total</span>
-            <span>$17.60</span>
+          <p class="d-flex align-items-center">
+            <span class="fs-15">Khuyến mãi</span>
+            <span class="d-flex align-items-center cursor-pointer">
+              <span class="fee-discount">0 đ</span>
+              <span class="ml-2 ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 choose-discount">
+                Áp dụng
+              </span>
+            </span>
+
+            <hr>
+          <p class="d-flex total-price align-items-center">
+            <span class="fs-15">Tổng tiền</span>
+            <span class="total-cart text-lowercase">{{number_format($total,0,',','.')}} đ</span>
           </p>
         </div>
-        <p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
       </div>
     </div>
   </div>
@@ -130,28 +179,17 @@
       @foreach($relatedProduct as $key => $related)
       <div class="col-md-3">
         <div class="menu-wrap">
-          <a 
-              href="#" 
-              class="menu-img img mb-4 image-{{$related->id_product}}" 
-              style="background-image: url('{{asset($related->image_product)}}');"
-              data-image="{{asset($related->image_product)}}"
-          >
+          <a href="#" class="menu-img img mb-4 image-{{$related->id_product}}" style="background-image: url('{{asset($related->image_product)}}');" data-image="{{asset($related->image_product)}}">
           </a>
           <div class="text">
-              <h3 class="text-center"><a href="#" class="name-{{$related->id_product}}">{{$related->name_product}}</a></h3>
-              <p class="text-center price price-{{$related->id_product}}"><span>{{number_format($related->price_product,0,',','.')}} đ</span></p>
-              <p>
-                  <button 
-                      type="button" 
-                      class="btn btn-primary btn-outline-primary open-modal-{{$related->id_product}} product m-auto d-block" 
-                      data-toggle="modal" 
-                      data-target="#exampleModal"
-                      data-id="{{$related->id_product}}"
-                  >
-                      Đặt hàng
-                  </button>
-              </p>
-              
+            <h3 class="text-center"><a href="#" class="name-{{$related->id_product}}">{{$related->name_product}}</a></h3>
+            <p class="text-center price price-{{$related->id_product}}"><span>{{number_format($related->price_product,0,',','.')}} đ</span></p>
+            <p>
+              <button type="button" class="btn btn-primary btn-outline-primary open-modal-{{$related->id_product}} product m-auto d-block" data-toggle="modal" data-target="#exampleModal" data-id="{{$related->id_product}}">
+                Đặt hàng
+              </button>
+            </p>
+
           </div>
         </div>
       </div>
@@ -159,5 +197,6 @@
     </div>
   </div>
 </section>
-@include('home.modal');
+@include('home.modal')
+@include('fee.modal')
 @endsection

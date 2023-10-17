@@ -73,6 +73,22 @@ function swalNotification(title,text,icon,callback){
         }
     });
 }
+
+function debounce(func, delay) {
+    let timeout;
+
+    return function executedFunc(...args) {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(() => {
+            func(...args);
+            timeout = null;
+        }, delay);
+    };
+}
+
 // giao dien modal them san pham vao gio hang
 function handleBuyProduct(){
     let id = $(this).data('id');
@@ -197,4 +213,20 @@ function addToCart(id,image,name,price,quantity) {
     var dot = `<span class="bag d-flex justify-content-center align-items-center"><small>${i}</small></span>`;
     $('.dot-cart').html(dot)
 
+}
+
+function formResultSearch(result) {
+    let html = '';
+    let length = result.length > 10 ? 10 : result.length;
+    for(let i = 0; i < length; i++){
+        html += `<li class="fs-15 d-flex align-items-center text-dark p-2 location-item" data-lat=${result[i].position.lat} data-lng=${result[i].position.lng}>`;
+        html += `<span class="icon-location_searching fs-18 mr-2"></span>${result[i].address.label}</li>`;                                                                          
+    }
+    $('#result-list').removeClass('d-none').html(html);
+    $('.location-item').each(function() {
+        $(this).on('click', function() {
+            $('.find-address').val($(this).text()).attr('data-lat',$(this).data('lat')).attr('data-lng',$(this).data('lng'))
+            $('#result-list').addClass('d-none');
+        });
+    });
 }

@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Fee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class FeeController extends Controller
 {
-    //
+    //admin
     function list(){
         $title = 'Danh sách phương thức';
         $list = Fee::all();
@@ -84,5 +85,65 @@ class FeeController extends Controller
         }else{
             return response()->json(['res' => 'fail'],200);
         }
+    }
+
+    //page
+    //tra phi
+    function search(Request $request){
+        $data = $request->all();
+        $apiKey = 'X5rp4KMjYtFLZvjKBlRWIGh_BKUecHaGUQ8sGwkOOT4';
+        $lat = $data['lat_fee'];
+        $lng = $data['lng_fee'];
+        $start = '20.993961580653178,105.79290252525247';
+        $end = $lat.','.$lng;
+        $endpoint = 'https://router.hereapi.com/v8/routes';
+        $url = $endpoint.'?xnlp=CL_JSMv3.1.38.0&apikey='.$apiKey.'&routingMode=fast&transportMode=car&origin='.$start.'&destination='.$end.'&return=travelSummary';
+        // return $url;
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        $distance = $data['routes'][0]['sections'][0]['travelSummary']['length'] / 1000;
+        $weather = $this->getStatusWeather($lat,$lng);
+        $arrayWeather = ['Clouds','Rain','Drizzle','Thunderstorm','Snow'];
+        $condition = '';
+        if(array_search($weather,$arrayWeather)){
+            $condition = 'Rain';
+        }else{
+            $condition = 'Sun';
+        }
+        $checkFee = Fee::where('weather_condition',$condition)->where('radius_fee','>=',$distance)->orderBy('radius_fee','desc')->first();
+        if($checkFee) {
+            return response()->json(['res' => 'success', 'fee' => $checkFee->fee]);
+        }else{
+            if($condition == 'Rain'){
+                return response()->json(['res' => 'success', 'weather' => $condition, 'fee' => 3000 * round($distance)]);
+            }else{
+                return response()->json(['res' => 'success', 'weather' => $condition, 'fee' => 1000 * round($distance)]);
+            }
+        }
+        // return array('distance' => $distance, 'duration' => $duration);
+    }
+
+    function getDistance($address) {
+        $apiKey = 'X5rp4KMjYtFLZvjKBlRWIGh_BKUecHaGUQ8sGwkOOT4';
+        $url = "https://geocode.search.hereapi.com/v1/geocode?q=" . urlencode($address) . "&apiKey=" . $apiKey;
+        
+        // Gửi yêu cầu HTTP GET và lấy kết quả
+        $response = file_get_contents($url);
+        
+        // Xử lý kết quả JSON
+        $data = json_decode($response, true);
+        
+        // Lấy tọa độ từ kết quả
+        return $data;
+    }
+
+    function getStatusWeather($lat, $lng){
+        $apiKey = '69f59d0621e668fb571e5dda73e6ab46';
+        $url = 'https://api.openweathermap.org/data/2.5/weather?lat='.$lat.'&lon='.$lng.'&appid='.$apiKey;
+        $response = file_get_contents($url);
+        
+        // Xử lý kết quả JSON
+        $data = json_decode($response, true);
+        return $data['weather'][0]['main'];
     }
 }

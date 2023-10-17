@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Ingredients;
 use App\Models\Product;
 use App\Models\Recipe;
@@ -22,29 +23,33 @@ class CartController extends Controller
         $quantity = intval($data['quantity']); // so luong them
         $product = Product::find($data['id']);
         $recipe = Recipe::where('id_product',$data['id'])->first();
-        $components = json_decode($recipe->component_recipe);
         $noti = [];
-        foreach($components as $key => $one){
-            $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
-            $ingredient = Ingredients::find(intval($one->id_ingredient));
-            $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
-            $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
-            $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
-            $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
-            $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
-            $totalProduct = 0;
-            $enoughProduct = 0;
-            if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
-                $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
-                $enoughProduct = intval($quantityIngredient / $quantityComponent);
-            }else{
-                $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
-                $totalProduct = $quantityComponentConvert * $quantity;
-                $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
+        if($recipe){
+            $components = json_decode($recipe->component_recipe);
+            foreach($components as $key => $one){
+                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
+                $ingredient = Ingredients::find(intval($one->id_ingredient));
+                $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
+                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
+                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
+                $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
+                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
+                $totalProduct = 0;
+                $enoughProduct = 0;
+                if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
+                    $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
+                    $enoughProduct = intval($quantityIngredient / $quantityComponent);
+                }else{
+                    $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
+                    $totalProduct = $quantityComponentConvert * $quantity;
+                    $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
+                }
+                if($totalProduct > $quantityIngredient){
+                    $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
+                }
             }
-            if($totalProduct > $quantityIngredient){
-                $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
-            }
+        }else{
+            $noti += ['res' => 'warning', 'status' => 'Hiện tại đang chưa có công thức của sản phẩm này, vui lòng chờ đợi thêm'];
         }
         if(isset($noti['res']) && $noti['res'] == 'warning'){
             return response()->json(['res' => 'warning', 'title' => 'Thông báo đặt hàng', 'icon' => 'warning', 'status' => $noti['status']],200);
@@ -71,7 +76,7 @@ class CartController extends Controller
                 Session::put('cart',$sessionCart);
                 return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
             }else{
-                $idCustomer = Session::get('id_customer');
+                $idCustomer = request()->cookie('id_customer');
                 $cart = Cart::where('id_customer',$idCustomer)->where('id_product',$data['id'])->first();
                 if($cart){
                     $quantityUpdate = intval($cart->quantity_product) + $quantity;
@@ -109,7 +114,8 @@ class CartController extends Controller
     function home(){
         $title = 'Giỏ hàng';
         $cart = session('cart');
-        $idCustomer = session('id_customer') ? session('id_customer') : 0;
+        $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
+        $customer = request()->cookie('id_customer') ? Customer::find($idCustomer) : [];
         $list = Cart::where('id_customer',$idCustomer)->get();
         $arrayIdCategory = array();
         if($cart){
@@ -132,7 +138,20 @@ class CartController extends Controller
         $relatedProduct = Product::whereIn('id_category',$arrayIdCategory)->get();
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct', 'cart'));
+        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct', 'cart', 'customer'));
+    }
+
+    function delete(Request $request){
+        $id = $request->get('id');
+        $cart = Session::get('cart');
+        if(isset($cart)){
+            
+        }else{
+            $delete = Cart::where('id_product',$id)->where('id_customer', request()->cookie('id_customer'))->delete();
+            if($delete){
+                return redirect()->route('cart.home');
+            }
+        }
     }
 
     function convertUnit($value, $fromUnit, $toUnit) {

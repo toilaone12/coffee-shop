@@ -28,4 +28,12 @@ $(document).ready(function(){
         $('.open-modal-' + $(value).data('id')).on('click', handleBuyProduct);
     });
 
+    //mo modal phi van chuyen
+    
+    $('.modal-fee').on('click', () => {
+        if($('.find-address').val().length !== 0){
+            $('.find-address').val()
+        }
+    })
+
 })
