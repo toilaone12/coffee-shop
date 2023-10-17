@@ -135,10 +135,14 @@ class CartController extends Controller
                 }
             }
         }
+        $carts = array();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        }
         $relatedProduct = Product::whereIn('id_category',$arrayIdCategory)->get();
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct', 'cart', 'customer'));
+        return view('cart.home',compact('list','title','parentCategorys','childCategorys','relatedProduct', 'cart', 'customer','carts'));
     }
 
     function delete(Request $request){

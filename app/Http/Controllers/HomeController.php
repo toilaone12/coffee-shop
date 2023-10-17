@@ -8,6 +8,7 @@ use App\Models\News;
 use App\Models\Product;
 use App\Models\Slide;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -22,7 +23,7 @@ class HomeController extends Controller
         $news = News::orderBy('updated_at', 'desc')->get();
         $carts = array();
         if(request()->cookie('id_customer')){
-            $carts = Cart::where('id_customer',cookie('id_customer'))->get();
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
         }
         return view('home.content',compact(
             'title',

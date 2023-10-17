@@ -204,10 +204,19 @@ Route::prefix('page')->group(function(){
     });
     //tin tuc
     Route::prefix('blog')->group(function(){
+        Route::get('/',[NewsController::class,'category'])->name('news.category');
         Route::get('/{slug}+{id}.html',[NewsController::class,'detail'])->name('blog.detail');
     });
     //phi van chuyen
     Route::prefix('fee')->group(function(){
         Route::post('/search',[FeeController::class,'search'])->name('fee.search');
+    });
+    //ma khuyen mai
+    Route::prefix('coupon')->group(function(){
+        Route::post('/apply',[CouponController::class,'apply'])->name('coupon.apply');
+    });
+    //dat hang
+    Route::prefix('order')->group(function(){
+        Route::post('/apply',[OrderController::class,'apply'])->name('order.apply');
     });
 });

@@ -108,26 +108,31 @@
     </div>
     <div class="row justify-content-between">
       <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
-        <div class="cart-total mb-3">
-          <h3>Thông tin khách hàng</h3>
-          <div class="form-group">
-            <label for="">Họ và tên</label>
-            <input type="text" name="" value="{{$customer ? $customer->name_customer : ''}}" id="" class="form-control">
+        <form class="customer-apply">
+          <div class="cart-total mb-3">
+            <h3>Thông tin khách hàng</h3>
+            <div class="form-group">
+              <label for="fullname">Họ và tên</label>
+              <input type="text" name="fullname" value="{{$customer ? $customer->name_customer : ''}}" class="form-control fullname-order">
+              <span class="text-danger error-fullname-order"></span>
+            </div>
+            <div class="form-group">
+              <label for="phone">Số điện thoại</label>
+              <input type="phone" name="phone" max="10" value="{{$customer ? $customer->phone_customer : ''}}" class="form-control phone-order">
+              <span class="text-danger error-phone-order"></span>
+            </div>
+            <div class="form-group">
+              <label for="address">Địa chỉ</label>
+              <input type="text" name="address" value="{{$customer ? $customer->address_customer : ''}}" class="form-control address-order">
+              <span class="text-danger error-address-order"></span>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="">Số điện thoại</label>
-            <input type="phone" name="" max="10" value="{{$customer ? $customer->phone_customer : ''}}" id="" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="">Địa chỉ</label>
-            <input type="text" name="" value="{{$customer ? $customer->address_customer : ''}}" id="" class="form-control address-customer">
-          </div>
-        </div>
-        <p class="text-center">
-          <a href="checkout.html" class="btn btn-primary py-3 px-4">
-            Đặt hàng
-          </a>
-        </p>
+          <p class="text-center">
+            <button type="submit" class="btn btn-secondary w-100 py-3 px-4" >
+              Xác nhận
+            </button>
+          </p>
+        </form>
       </div>
       <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
         <div class="cart-total mb-3">
@@ -152,7 +157,10 @@
             <span class="fs-15">Khuyến mãi</span>
             <span class="d-flex align-items-center cursor-pointer">
               <span class="fee-discount">0 đ</span>
-              <span class="ml-2 ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 choose-discount">
+              <span 
+              class="ml-2 ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 choose-discount"
+              data-toggle="modal" data-target="#couponModal"
+              >
                 Áp dụng
               </span>
             </span>
@@ -189,7 +197,6 @@
                 Đặt hàng
               </button>
             </p>
-
           </div>
         </div>
       </div>
@@ -199,4 +206,5 @@
 </section>
 @include('home.modal')
 @include('fee.modal')
+@include('coupon.modal')
 @endsection

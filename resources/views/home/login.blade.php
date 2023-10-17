@@ -63,12 +63,12 @@
                                                             <span class="text-danger error-name"></span>
                                                         </div>
                                                         <div class="form-group position-relative mt-2">
-                                                            <input type="email" name="email" class="form-style" placeholder="Email" id="logemail" autocomplete="off">
+                                                            <input type="email" name="email" class="form-style" placeholder="Email" id="logemailregister" autocomplete="off">
                                                             <span class="icon-at input-icon"></span>
                                                             <span class="text-danger error-email"></span>
                                                         </div>
                                                         <div class="form-group position-relative mt-2">
-                                                            <input type="password" name="password" class="form-style" placeholder="Mật khẩu" id="logpass" autocomplete="off">
+                                                            <input type="password" name="password" class="form-style" placeholder="Mật khẩu" id="logpassregister" autocomplete="off">
                                                             <span class="icon-lock input-icon"></span>
                                                             <span class="text-danger error-password"></span>
                                                         </div>

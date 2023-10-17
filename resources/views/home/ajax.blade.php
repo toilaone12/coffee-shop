@@ -139,6 +139,8 @@
         //tra phi van chuyen
         $(document).on('submit', '.search-fee', (e) => {
             e.preventDefault();
+            let totalProduct = parseInt($('.total-product').text().replace('.','').replace(' đ',''));
+            let feeCoupon = parseInt($('.fee-discount').text().replace('.','').replace(' đ','').replace('-',''));
             let url = "{{route('fee.search')}}";
             let method = "POST";
             let headers = {
@@ -152,16 +154,76 @@
             callAjax(url, method, data, headers,
                 (data) => {
                     if(data.res === 'success'){
-                        let totalProduct = parseInt($('.total-product').text().replace('.','').replace(' đ',''));
                         $('#feeModal').modal('hide'); // Ẩn modal
                         $('.modal-backdrop').remove(); // Xóa lớp nền backdrop
-                        $('.fee-ship').text(data.fee.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-                        $('.total-cart').text((totalProduct + parseInt(data.fee)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                        $('.fee-ship').text('+' + data.fee.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                        $('.total-cart').text((totalProduct + parseInt(data.fee) - parseInt(feeCoupon)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                        $('.address-order').val($('.find-address').val());
                     }
                 },
                 (err) => {
                     console.log(err);
                 });
         })
+
+        //ap dung ma khuyen mai
+        $(document).on('submit', '.apply-coupon', (e) => {
+            e.preventDefault();
+            let totalProduct = parseInt($('.total-product').text().replace('.','').replace(' đ',''));
+            let feeShip = parseInt($('.fee-ship').text().replace('.','').replace(' đ','').replace('+',''));
+            let url = "{{route('coupon.apply')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                code_coupon: $('.code-coupon').val(),
+                price_cart: totalProduct,
+            }
+            callAjax(url, method, data, headers,
+                (data) => {
+                    if(data.res == 'warning'){
+                        $('.error-coupon').text(data.status);
+                    }else{
+                        $('#couponModal').modal('hide'); // Ẩn modal
+                        $('.modal-backdrop').remove(); // Xóa lớp nền backdrop
+                        $('.fee-discount').text('-' + data.fee.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                        $('.total-cart').text((totalProduct - parseInt(data.fee) + parseInt(feeShip)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                });
+        }) 
+
+        //dat hang
+        $(document).on('submit', '.customer-apply', (e) => {
+            e.preventDefault();
+            let fullname = $('.fullname-order').val();
+            let phone = $('.phone-order').val();
+            let address = $('.address-order').val();
+            let url = "{{route('order.apply')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                fullname_order: fullname,
+                phone_order: phone,
+                address_order: address,
+            }
+            callAjax(url, method, data, headers,
+                (data) => {
+                    console.log(data);
+                    if(data.res == 'warning'){
+                        $('.error-fullname-order').text(data.status.fullname_order);
+                        $('.error-phone-order').text(data.status.phone_order);
+                        $('.error-address-order').text(data.status.address_order);
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                });
+        }) 
     })
 </script>

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Models\CustomerCoupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CouponController extends Controller
 {
-    //
+    //admin
     function list(){
         $title = "Danh sách mã khuyến mãi";
         $list = Coupon::all();
@@ -111,6 +112,41 @@ class CouponController extends Controller
             return response()->json(['res' => 'success'],200);
         }else{
             return response()->json(['res' => 'fail'],200);
+        }
+    }
+
+    //page
+    function apply(Request $request){
+        $data = $request->all();
+        $validation = Validator::make($data,[
+            'code_coupon' => ['required']
+        ],[
+            'code_coupon.required' => 'Bạn phải nhập mã khuyến mãi'
+        ]);
+        if(!$validation->fails()){
+            $coupon = Coupon::where('code_coupon',$data['code_coupon'])
+            ->where('expiration_time','>=',date('Y-m-d H:i:s'))->first();
+            if($coupon){
+                $id = $coupon->id_coupon;
+                $checkCouponCustomer = CustomerCoupon::where('id_customer',request()->cookie('id_customer'))
+                ->where('id_coupon',$id)->first();
+                if($checkCouponCustomer){
+                    $type = $coupon->type_coupon;
+                    $priceChange = 0;
+                    if($type == 0){
+                        $priceChange = intval($data['price_cart'] * (intval($coupon->discount_coupon) / 100));
+                    }else{
+                        $priceChange = $coupon->discount_coupon;
+                    }
+                    return response()->json(['res' => 'success', 'status' => 'Trả mã giảm giá thành công', 'fee' => $priceChange]);
+                }else{
+                    return response()->json(['res' => 'warning', 'status' => 'Bạn không có mã khuyến mãi này']);
+                }
+            }else{
+                return response()->json(['res' => 'warning', 'status' => 'Mã khuyến mãi này không tồn tại hoặc đã hết hạn']);
+            }
+        }else{
+            return response()->json(['res' => 'warning', 'status' => 'Bạn phải nhập mã khuyến mãi']);
         }
     }
 }

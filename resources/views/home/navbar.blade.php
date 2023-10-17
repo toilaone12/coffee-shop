@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{route('page.home')}}" class="nav-link fs-13">Trang chủ</a></li>
-                <li class="nav-item"><a href="services.html" class="nav-link fs-13">Tin tức</a></li>
+                <li class="nav-item"><a href="{{route('news.category')}}" class="nav-link fs-13">Tin tức</a></li>
                 <li class="nav-item dropdown">
                     <span class="nav-link dropdown-toggle fs-13" id="dropdown04">
                         Thực đơn
