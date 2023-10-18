@@ -106,6 +106,50 @@
                     });
             })
         })
+
+        //cong san pham o gio hang
+        $('.quantity').each(function(key, value){
+            $('.quantity-cart-' + $(value).data('id')).on('change', () => {
+                let quantity = parseInt($(this).val());
+                let id = $(this).attr('data-id');
+                let price = parseInt($('.price-cart-'+id).text().replace(/[.,đ]/g, ''));
+                let totalAll = parseInt($('.total-product').text().replace(/[.,đ]/g, ''));
+                console.log(totalAll);
+                if(quantity < 1){
+                    $(this).val(1);
+                    $('.total-'+id).text(price.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                }else if(quantity > 99){
+                    $(this).val(99);
+                    $('.total-'+id).text((price * 99).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                }else{
+                    $('.total-'+id).text((quantity * price).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                }
+                // let url = "{{route('cart.update')}}";
+                // let method = "POST";
+                // let headers = {
+                //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                // }
+                // let data = {
+                //     quantity: quantity,
+                //     id: id,
+                //     isLogin: "{{request()->cookie('id_customer') ? 1 : 0}}"
+                // }
+                // callAjax(url, method, data, headers,
+                //     (data) => {
+                //         console.log(data);
+                //         // if(data.res == 'warning'){
+                //         //     $('.error-fullname-order').text(data.status.fullname_order);
+                //         //     $('.error-phone-order').text(data.status.phone_order);
+                //         //     $('.error-address-order').text(data.status.address_order);
+                //         // }
+                //     },
+                //     (err) => {
+                //         console.log(err);
+                //     }
+                // );
+            })
+        });
+
         //tim dia chi
         $(document).on('keyup', '.find-address', debounce(() => {
             let keyword = ($('.find-address').val());

@@ -56,16 +56,16 @@
                   <h3>{{$one['name_product']}}</h3>
                 </td>
 
-                <td class="price">{{number_format($one['price_product'] / $one['quantity_product'],0,',','.')}} đ</td>
+                <td class="price price-cart-{{$one['id_product']}}">{{number_format($one['price_product'] / $one['quantity_product'],0,',','.')}} đ</td>
 
                 <td class="quantity">
-                  <div class="input-group mb-3">
-                    <input type="text" name="quantity" class="quantity form-control input-number" value="{{$one['quantity_product']}}" min="1" max="100">
+                  <div class="input-group">
+                    <input type="text" name="quantity" class="quantity quantity-cart-{{$one['id_product']}} form-control input-number" data-id="{{$one['id_product']}}" value="{{$one['quantity_product']}}" min="1" max="100">
                   </div>
                 </td>
 
-                <td class="total">{{number_format($one['price_product'],0,',','.')}} đ</td>
-                <td class="note text-white">{{$one['note_product'] ? $one['note_product'] : 'Không có'}}</td>
+                <td class="total total-{{$one['id_product']}}">{{number_format($one['price_product'],0,',','.')}} đ</td>
+                <td class="note text-white"><textarea name="" id="" cols="10" rows="2">{{$one['note_product'] ? $one['note_product'] : 'Không có'}}</textarea></td>
               </tr>
               @endforeach
               @else
@@ -88,16 +88,16 @@
                   <h3>{{$one['name_product']}}</h3>
                 </td>
 
-                <td class="price">{{number_format($one['price_product'] / $one['quantity_product'],0,',','.')}} đ</td>
+                <td class="price price-cart-{{$one['id_product']}}">{{number_format($one['price_product'] / $one['quantity_product'],0,',','.')}} đ</td>
 
                 <td class="quantity">
-                  <div class="input-group mb-3">
-                    <input type="text" name="quantity" class="quantity form-control input-number" value="{{$one['quantity_product']}}" min="1" max="100">
+                  <div class="input-group">
+                    <input type="text" name="quantity" class="quantity quantity-cart-{{$one['id_product']}} form-control input-number" data-id="{{$one['id_product']}}" value="{{$one['quantity_product']}}" min="1" max="100">
                   </div>
                 </td>
 
-                <td class="total">{{number_format($one['price_product'],0,',','.')}} đ</td>
-                <td class="note text-white">{{$one['note_product'] ? $one['note_product'] : 'Không có'}}</td>
+                <td class="total total-{{$one['id_product']}}">{{number_format($one['price_product'],0,',','.')}} đ</td>
+                <td class="note text-white"><textarea name="" id="" cols="10" rows="2">{{$one['note_product'] ? $one['note_product'] : 'Không có'}}</textarea></td>
               </tr>
               @endforeach
               @endif
@@ -157,12 +157,14 @@
             <span class="fs-15">Khuyến mãi</span>
             <span class="d-flex align-items-center cursor-pointer">
               <span class="fee-discount">0 đ</span>
+              @if(!isset($cart))
               <span 
               class="ml-2 ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 choose-discount"
               data-toggle="modal" data-target="#couponModal"
               >
                 Áp dụng
               </span>
+              @endif
             </span>
 
             <hr>

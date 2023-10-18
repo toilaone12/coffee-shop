@@ -39,9 +39,11 @@
                                     <td class="quantity-{{$one->id_detail}}">{{$one->quantity_ingredient}}</td>
                                     <td class="price-{{$one->id_detail}}">{{$one->price_ingredient}}</td>
                                     <td>
+                                        @if($note->status_note == 0)
                                         <button class="btn btn-danger delete-detail-note" data-id="{{$one->id_detail}}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

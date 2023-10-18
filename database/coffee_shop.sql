@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 23, 2023 lúc 06:26 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th10 18, 2023 lúc 11:46 AM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -60,11 +60,19 @@ CREATE TABLE `cart` (
   `image_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity_product` int(11) NOT NULL,
-  `price_product` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `note_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price_product` int(11) NOT NULL,
+  `note_product` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `cart`
+--
+
+INSERT INTO `cart` (`id_cart`, `id_customer`, `id_product`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
+(3, 1, 1, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 100, 3500000, NULL, '2023-10-18 07:21:55', '2023-10-18 09:05:09'),
+(4, 1, 3, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 100, 3500000, NULL, '2023-10-18 09:04:19', '2023-10-18 09:05:04');
 
 -- --------------------------------------------------------
 
@@ -147,13 +155,41 @@ CREATE TABLE `customer` (
   `image_customer` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_customer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `gentle_customer` tinyint(4) NOT NULL,
-  `email_customer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone_customer` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_customer` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_customer` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password_customer` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_vip` tinyint(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `customer`
+--
+
+INSERT INTO `customer` (`id_customer`, `image_customer`, `name_customer`, `gentle_customer`, `email_customer`, `phone_customer`, `password_customer`, `created_at`, `updated_at`) VALUES
+(1, 'http://127.0.0.1:8000/storage/customer/person.svg', 'Kieu Dang Bao Son', 0, 'baooson3005@gmail.com', NULL, 'e10adc3949ba59abbe56e057f20f883e', '2023-09-25 03:21:29', '2023-09-25 03:21:29');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `customer_coupon`
+--
+
+CREATE TABLE `customer_coupon` (
+  `id_customer_coupon` int(10) UNSIGNED NOT NULL,
+  `id_customer` int(11) NOT NULL,
+  `id_coupon` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `customer_coupon`
+--
+
+INSERT INTO `customer_coupon` (`id_customer_coupon`, `id_customer`, `id_coupon`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 1, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -257,8 +293,8 @@ CREATE TABLE `ingredients` (
 
 INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
 (1, 2, 'Cà phê', 2000, '2023-09-03 10:49:36', '2023-09-03 16:17:02'),
-(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 14.048, '2023-09-03 10:49:36', '2023-09-03 15:10:41'),
-(3, 2, 'Cà phê bột Trung Nguyên loại I', 2040, '2023-09-03 14:15:16', '2023-09-03 15:10:41'),
+(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 20.096, '2023-09-03 10:49:36', '2023-10-02 03:34:36'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 2720, '2023-09-03 14:15:16', '2023-10-02 03:34:36'),
 (4, 5, 'Plain Croissant', 5, '2023-09-03 14:24:01', '2023-09-03 14:24:01');
 
 -- --------------------------------------------------------
@@ -331,7 +367,7 @@ CREATE TABLE `notes` (
   `code_note` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_note` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity_note` int(11) NOT NULL,
-  `status_note` int(11) NOT NULL,
+  `status_note` tinyint(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -343,7 +379,7 @@ CREATE TABLE `notes` (
 INSERT INTO `notes` (`id_note`, `id_supplier`, `code_note`, `name_note`, `quantity_note`, `status_note`, `created_at`, `updated_at`) VALUES
 (1, 3, 'LKU1MR', 'Phiếu ngày 31/08/2023', 2, 1, '2023-08-31 14:27:27', '2023-09-03 10:49:36'),
 (3, 3, 'P0OOZ3', 'Phiếu ngày 03/09/2023', 3, 1, '2023-09-03 14:14:40', '2023-09-03 14:24:01'),
-(4, 2, 'MTAGIO', 'Phiếu ngày 03/09/2023', 3, 1, '2023-09-03 14:46:59', '2023-09-03 15:10:41');
+(4, 2, 'MTAGIO', 'Phiếu ngày 03/09/2023', 3, 1, '2023-09-03 14:46:59', '2023-10-02 03:34:36');
 
 -- --------------------------------------------------------
 
@@ -410,7 +446,8 @@ CREATE TABLE `recipe` (
 
 INSERT INTO `recipe` (`id_recipe`, `id_product`, `component_recipe`, `created_at`, `updated_at`) VALUES
 (1, 3, '[{\"id_ingredient\":\"2\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"20\"},{\"id_ingredient\":\"3\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"20\"}]', '2023-09-04 09:57:58', '2023-09-04 09:57:58'),
-(3, 1, '[{\"id_ingredient\":\"3\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"25\"}]', '2023-09-04 15:54:29', '2023-09-04 15:54:29');
+(3, 1, '[{\"id_ingredient\":\"3\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"25\"}]', '2023-09-04 15:54:29', '2023-09-04 15:54:29'),
+(4, 4, '[{\"id_ingredient\":\"4\",\"id_unit\":\"5\",\"quantity_recipe_need\":\"1\"}]', '2023-09-26 02:21:54', '2023-09-26 02:21:54');
 
 -- --------------------------------------------------------
 
@@ -568,6 +605,12 @@ ALTER TABLE `customer`
   ADD PRIMARY KEY (`id_customer`);
 
 --
+-- Chỉ mục cho bảng `customer_coupon`
+--
+ALTER TABLE `customer_coupon`
+  ADD PRIMARY KEY (`id_customer_coupon`);
+
+--
 -- Chỉ mục cho bảng `detail_notes`
 --
 ALTER TABLE `detail_notes`
@@ -671,7 +714,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -689,7 +732,13 @@ ALTER TABLE `coupon`
 -- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT cho bảng `customer_coupon`
+--
+ALTER TABLE `customer_coupon`
+  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_notes`
@@ -731,7 +780,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
@@ -749,7 +798,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT cho bảng `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `id_recipe` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_recipe` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `review`

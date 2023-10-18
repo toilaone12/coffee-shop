@@ -201,6 +201,7 @@ Route::prefix('page')->group(function(){
         Route::get('/',[CartController::class,'home'])->name('cart.home');
         Route::get('/delete',[CartController::class,'delete'])->name('cart.delete');
         Route::post('/insert',[CartController::class,'insert'])->name('cart.insert');
+        Route::post('/update',[CartController::class,'update'])->name('cart.update');
     });
     //tin tuc
     Route::prefix('blog')->group(function(){

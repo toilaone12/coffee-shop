@@ -149,13 +149,115 @@ class CartController extends Controller
         $id = $request->get('id');
         $cart = Session::get('cart');
         if(isset($cart)){
-            
+            unset($cart[$id]);
+            Session::put('cart',$cart);
+            if(count($cart) == 0){
+                Session::forget('cart');
+            }
         }else{
             $delete = Cart::where('id_product',$id)->where('id_customer', request()->cookie('id_customer'))->delete();
-            if($delete){
-                return redirect()->route('cart.home');
+        }
+        return redirect()->route('cart.home');
+    }
+
+    function update(Request $request){
+        $id = $request->get('id');
+        $product = Product::find($id);
+        $quantity = $request->get('quantity');
+        $cart = Session::get('cart');
+        $recipe = Recipe::where('id_product',$id)->first();
+        $noti = [];
+        dd($id);
+        if($recipe){
+            $components = json_decode($recipe->component_recipe);
+            foreach($components as $key => $one){
+                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
+                $ingredient = Ingredients::find(intval($one->id_ingredient));
+                $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
+                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
+                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
+                $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
+                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
+                $totalProduct = 0;
+                $enoughProduct = 0;
+                if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
+                    $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
+                    $enoughProduct = intval($quantityIngredient / $quantityComponent);
+                }else{
+                    $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
+                    $totalProduct = $quantityComponentConvert * $quantity;
+                    $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
+                }
+                var_dump($totalProduct);
+                var_dump($quantityIngredient);
+                if($totalProduct > $quantityIngredient){
+                    $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
+                }
+            }
+        }else{
+            $noti += ['res' => 'warning', 'status' => 'Hiện tại đang chưa có công thức của sản phẩm này, vui lòng chờ đợi thêm'];
+        }
+        if(isset($noti['res']) && $noti['res'] == 'warning'){
+            return response()->json(['res' => 'warning', 'title' => 'Thông báo đặt hàng', 'icon' => 'warning', 'status' => $noti['status']],200);
+        }else{
+            $isLogin = isset($data['isLogin']) ? $data['isLogin'] : '';
+            if(!$isLogin){
+                echo 1;
+                // $sessionCart = Session::get('cart');
+                // $idSessionCart = isset($sessionCart[$data['id']]) ? $sessionCart[$data['id']] : '';
+                // if($idSessionCart){
+                //     $cart = $sessionCart[$data['id']];
+                //     $quantityUpdate = $cart['quantity_product'] + $data['quantity'];
+                //     $priceUpdate = intval($product->price_product) * $quantityUpdate;
+                //     $sessionCart[$data['id']]['quantity_product'] = $quantityUpdate;
+                //     $sessionCart[$data['id']]['price_product'] = $priceUpdate;
+                // }else{
+                //     $sessionCart[$data['id']] = [
+                //         'image_product' => $product->image_product,
+                //         'name_product' => $product->name_product,
+                //         'quantity_product' => $data['quantity'],
+                //         'price_product' => intval($product->price_product) * intval($data['quantity']),
+                //         'note_product' => $data['note'],
+                //     ]; 
+                // }
+                // Session::put('cart',$sessionCart);
+                // return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
+            }else{
+                echo 12;
+                // $idCustomer = request()->cookie('id_customer');
+                // $cart = Cart::where('id_customer',$idCustomer)->where('id_product',$data['id'])->first();
+                // if($cart){
+                //     $quantityUpdate = intval($cart->quantity_product) + $quantity;
+                //     $priceUpdate = intval($product->price_product) * $quantityUpdate;
+                //     $cart->quantity_product = $quantityUpdate;
+                //     $cart->price_product = $priceUpdate;
+                //     $cart->note_product = $data['note'];
+                //     $update = $cart->save();
+                //     if($update){
+                //         return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
+                //     }else{
+                //         return response()->json(['res' => 'fail', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'error', 'status' => 'Lưu vào giỏ hàng thất bại!']);
+                //     }
+                // }else{
+                //     $data = [
+                //         'id_customer' => $idCustomer,
+                //         'id_product' => $data['id'],
+                //         'image_product' => $product->image_product,
+                //         'name_product' => $product->name_product,
+                //         'quantity_product' => $quantity,
+                //         'price_product' => intval($product->price_product) * $quantity,
+                //         'note_product' => $data['note'],
+                //     ];
+                //     $insert = Cart::create($data);
+                //     if($insert){
+                //         return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
+                //     }else{
+                //         return response()->json(['res' => 'fail', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'error', 'status' => 'Lưu vào giỏ hàng thất bại!']);
+                //     }
+                // }
             }
         }
+        // Session::put('cart',$cart);
     }
 
     function convertUnit($value, $fromUnit, $toUnit) {

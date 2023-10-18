@@ -30,7 +30,7 @@ class OrderController extends Controller
             'address_order.required' => 'Địa chỉ người đặt không được để trống',
         ]);
         if(!$validation->fails()){
-
+            
         }else{
             return response()->json(['res' => 'warning', 'status' => $validation->errors()]);
         }

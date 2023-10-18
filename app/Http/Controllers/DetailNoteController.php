@@ -21,8 +21,9 @@ class DetailNoteController extends Controller
         $code = $request->get('code');
         $title = 'Chi tiết phiếu hàng';
         $list = DetailNote::where('code_note',$code)->get();
+        $note = Notes::where('code_note',$code)->first();
         $listUnit = Units::all();
-        return view('notes.detail',compact('title','list','listUnit'));
+        return view('notes.detail',compact('title','list','listUnit','note'));
     }
     
     function insert(Request $request)
@@ -31,6 +32,10 @@ class DetailNoteController extends Controller
         $list = $data['formDataArray'];
         $noti = [];
         $error = [];
+        dd($list);
+        if($list){
+            
+        }
         $db = [
             'id_supplier' => $data['id_supplier'],
             'code_note' => $data['code_note'],
