@@ -56,16 +56,18 @@
                   <h3>{{$one['name_product']}}</h3>
                 </td>
 
-                <td class="price price-cart-{{$one['id_product']}}">{{number_format($one['price_product'] / $one['quantity_product'],0,',','.')}} đ</td>
+                <td class="price price-cart-{{$key}}">{{number_format($one['price_product'] / $one['quantity_product'],0,',','.')}} đ</td>
 
                 <td class="quantity">
                   <div class="input-group">
-                    <input type="text" name="quantity" class="quantity quantity-cart-{{$one['id_product']}} form-control input-number" data-id="{{$one['id_product']}}" value="{{$one['quantity_product']}}" min="1" max="100">
+                    <input type="text" name="quantity" class="quantity quantity-cart-{{$key}} form-control text-center" data-id="{{$key}}" value="{{$one['quantity_product']}}" min="1" max="100">
                   </div>
                 </td>
 
-                <td class="total total-{{$one['id_product']}}">{{number_format($one['price_product'],0,',','.')}} đ</td>
-                <td class="note text-white"><textarea name="" id="" cols="10" rows="2">{{$one['note_product'] ? $one['note_product'] : 'Không có'}}</textarea></td>
+                <td class="total total-{{$key}}">{{number_format($one['price_product'],0,',','.')}} đ</td>
+                <td class="note text-white">
+                  <textarea class="form-control pl-3 note-{{$key}}" name="" id="" cols="20" rows="2">{{$one['note_product']}}</textarea>
+                </td>
               </tr>
               @endforeach
               @else
@@ -92,12 +94,14 @@
 
                 <td class="quantity">
                   <div class="input-group">
-                    <input type="text" name="quantity" class="quantity quantity-cart-{{$one['id_product']}} form-control input-number" data-id="{{$one['id_product']}}" value="{{$one['quantity_product']}}" min="1" max="100">
+                    <input type="text" name="quantity" class="quantity quantity-cart-{{$one['id_product']}} form-control text-center" data-id="{{$one['id_product']}}" value="{{$one['quantity_product']}}" min="1" max="100">
                   </div>
                 </td>
 
                 <td class="total total-{{$one['id_product']}}">{{number_format($one['price_product'],0,',','.')}} đ</td>
-                <td class="note text-white"><textarea name="" id="" cols="10" rows="2">{{$one['note_product'] ? $one['note_product'] : 'Không có'}}</textarea></td>
+                <td class="note text-white">
+                  <textarea class="form-control pl-3 note-{{$one['id_product']}}" name="" id="" cols="20" rows="2">{{$one['note_product']}}</textarea>
+                </td>
               </tr>
               @endforeach
               @endif
@@ -113,17 +117,17 @@
             <h3>Thông tin khách hàng</h3>
             <div class="form-group">
               <label for="fullname">Họ và tên</label>
-              <input type="text" name="fullname" value="{{$customer ? $customer->name_customer : ''}}" class="form-control fullname-order">
+              <input type="text" name="fullname" value="{{$customer ? $customer->name_customer : ''}}" class="form-control fullname-order pl-3">
               <span class="text-danger error-fullname-order"></span>
             </div>
             <div class="form-group">
               <label for="phone">Số điện thoại</label>
-              <input type="phone" name="phone" max="10" value="{{$customer ? $customer->phone_customer : ''}}" class="form-control phone-order">
+              <input type="phone" name="phone" max="10" value="{{$customer ? $customer->phone_customer : ''}}" class="form-control phone-order pl-3">
               <span class="text-danger error-phone-order"></span>
             </div>
             <div class="form-group">
               <label for="address">Địa chỉ</label>
-              <input type="text" name="address" value="{{$customer ? $customer->address_customer : ''}}" class="form-control address-order">
+              <input type="text" name="address" value="{{$customer ? $customer->address_customer : ''}}" class="form-control address-order pl-3">
               <span class="text-danger error-address-order"></span>
             </div>
           </div>

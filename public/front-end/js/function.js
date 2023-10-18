@@ -136,7 +136,7 @@ function handleClickQuantity(){
     $('.btn-number').click(function(){
         let type = $(this).data('type');
         let quantity = $('.input-number').val();
-        let price = $('.price-modal').text().replace(' đ','').replace('.','');
+        let price = $('.price-modal').text().replace(/[.,đ]/g, '');
         let priceOriginal = $('.price-modal').data('price');
         if(type === 'minus'){
             if(quantity <= 1){

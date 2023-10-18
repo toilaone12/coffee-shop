@@ -107,14 +107,12 @@
             })
         })
 
-        //cong san pham o gio hang
         $('.quantity').each(function(key, value){
-            $('.quantity-cart-' + $(value).data('id')).on('change', () => {
+            //cong san pham o gio hang
+            let id = $(this).attr('data-id');
+            $('.quantity-cart-' + id).on('change', () => {
                 let quantity = parseInt($(this).val());
-                let id = $(this).attr('data-id');
                 let price = parseInt($('.price-cart-'+id).text().replace(/[.,đ]/g, ''));
-                let totalAll = parseInt($('.total-product').text().replace(/[.,đ]/g, ''));
-                console.log(totalAll);
                 if(quantity < 1){
                     $(this).val(1);
                     $('.total-'+id).text(price.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
@@ -124,31 +122,62 @@
                 }else{
                     $('.total-'+id).text((quantity * price).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
                 }
-                // let url = "{{route('cart.update')}}";
-                // let method = "POST";
-                // let headers = {
-                //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                // }
-                // let data = {
-                //     quantity: quantity,
-                //     id: id,
-                //     isLogin: "{{request()->cookie('id_customer') ? 1 : 0}}"
-                // }
-                // callAjax(url, method, data, headers,
-                //     (data) => {
-                //         console.log(data);
-                //         // if(data.res == 'warning'){
-                //         //     $('.error-fullname-order').text(data.status.fullname_order);
-                //         //     $('.error-phone-order').text(data.status.phone_order);
-                //         //     $('.error-address-order').text(data.status.address_order);
-                //         // }
-                //     },
-                //     (err) => {
-                //         console.log(err);
-                //     }
-                // );
+                let url = "{{route('cart.update')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    quantity: quantity,
+                    id: id,
+                    isLogin: "{{request()->cookie('id_customer') ? 1 : 0}}"
+                }
+                callAjax(url, method, data, headers,
+                    (data) => {
+                        if (data.res === 'warning') {
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                $('.quantity-cart-'+id).val(data.quantity);
+                                $('.total-'+id).text((parseInt(data.quantity) * price).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                            });
+                        } else {
+                            let feeCoupon = parseInt($('.fee-discount').text().replace(/[.,đ]/g, ''));
+                            let feeShip = parseInt($('.fee-ship').text().replace(/[.,đ]/g, ''));
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                let total = data.total.toLocaleString('vi-VN', { currency: 'VND' });
+                                $('.total-product').text(total + ' đ');
+                                $('.total-cart').text((data.total + feeCoupon + feeShip).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                            })
+                        }
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
             })
+            //sua ghi chu
+            $('.note-' + id).on('change', () => {
+                let note = $('.note-' + id).val();
+                let url = "{{route('cart.updateNote')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    note: note,
+                    id: id,
+                    isLogin: "{{request()->cookie('id_customer') ? 1 : 0}}"
+                }
+                callAjax(url, method, data, headers,
+                    (data) => {
+                        swalNotification(data.title, data.status, data.icon, () => {});
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
+            });
         });
+
 
         //tim dia chi
         $(document).on('keyup', '.find-address', debounce(() => {
@@ -183,8 +212,8 @@
         //tra phi van chuyen
         $(document).on('submit', '.search-fee', (e) => {
             e.preventDefault();
-            let totalProduct = parseInt($('.total-product').text().replace('.','').replace(' đ',''));
-            let feeCoupon = parseInt($('.fee-discount').text().replace('.','').replace(' đ','').replace('-',''));
+            let totalProduct = parseInt($('.total-product').text().replace(/[.,đ]/g, ''));
+            let feeCoupon = parseInt($('.fee-discount').text().replace(/[-,.,đ]/g, ''));
             let url = "{{route('fee.search')}}";
             let method = "POST";
             let headers = {
@@ -213,8 +242,8 @@
         //ap dung ma khuyen mai
         $(document).on('submit', '.apply-coupon', (e) => {
             e.preventDefault();
-            let totalProduct = parseInt($('.total-product').text().replace('.','').replace(' đ',''));
-            let feeShip = parseInt($('.fee-ship').text().replace('.','').replace(' đ','').replace('+',''));
+            let totalProduct = parseInt($('.total-product').text().replace(/[.,đ]/g, ''));
+            let feeShip = parseInt($('.fee-ship').text().replace(/[+,.,đ]/g, ''));
             let url = "{{route('coupon.apply')}}";
             let method = "POST";
             let headers = {

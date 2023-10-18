@@ -6,7 +6,7 @@
                 <form class="apply-coupon">
                     <div class="form-group ftco-cart rounded position-relative">
                         <label for="code">Nhập mã khuyến mãi</label>
-                        <input type="text" name="code_coupon" id="code" class="border-light form-control code-coupon">
+                        <input type="text" name="code_coupon" id="code" class="border-light form-control code-coupon pl-3">
                         <span class="text-danger error-coupon">
                         </span>
                     </div>

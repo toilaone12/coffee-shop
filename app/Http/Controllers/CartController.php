@@ -161,13 +161,13 @@ class CartController extends Controller
     }
 
     function update(Request $request){
-        $id = $request->get('id');
+        $data = $request->all();
+        $id = $data['id'];
         $product = Product::find($id);
-        $quantity = $request->get('quantity');
+        $quantity = $data['quantity'];
         $cart = Session::get('cart');
         $recipe = Recipe::where('id_product',$id)->first();
         $noti = [];
-        dd($id);
         if($recipe){
             $components = json_decode($recipe->component_recipe);
             foreach($components as $key => $one){
@@ -188,76 +188,93 @@ class CartController extends Controller
                     $totalProduct = $quantityComponentConvert * $quantity;
                     $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
                 }
-                var_dump($totalProduct);
-                var_dump($quantityIngredient);
                 if($totalProduct > $quantityIngredient){
-                    $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
+                    $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm', 'quantity' => $enoughProduct];
                 }
             }
         }else{
             $noti += ['res' => 'warning', 'status' => 'Hiện tại đang chưa có công thức của sản phẩm này, vui lòng chờ đợi thêm'];
         }
         if(isset($noti['res']) && $noti['res'] == 'warning'){
-            return response()->json(['res' => 'warning', 'title' => 'Thông báo đặt hàng', 'icon' => 'warning', 'status' => $noti['status']],200);
+            return response()->json(['res' => 'warning', 'title' => 'Thông báo đặt hàng', 'icon' => 'warning', 'status' => $noti['status'], 'quantity' => $noti['quantity']],200);
         }else{
             $isLogin = isset($data['isLogin']) ? $data['isLogin'] : '';
             if(!$isLogin){
-                echo 1;
-                // $sessionCart = Session::get('cart');
-                // $idSessionCart = isset($sessionCart[$data['id']]) ? $sessionCart[$data['id']] : '';
-                // if($idSessionCart){
-                //     $cart = $sessionCart[$data['id']];
-                //     $quantityUpdate = $cart['quantity_product'] + $data['quantity'];
-                //     $priceUpdate = intval($product->price_product) * $quantityUpdate;
-                //     $sessionCart[$data['id']]['quantity_product'] = $quantityUpdate;
-                //     $sessionCart[$data['id']]['price_product'] = $priceUpdate;
-                // }else{
-                //     $sessionCart[$data['id']] = [
-                //         'image_product' => $product->image_product,
-                //         'name_product' => $product->name_product,
-                //         'quantity_product' => $data['quantity'],
-                //         'price_product' => intval($product->price_product) * intval($data['quantity']),
-                //         'note_product' => $data['note'],
-                //     ]; 
-                // }
-                // Session::put('cart',$sessionCart);
-                // return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
+                $sessionCart = Session::get('cart');
+                $idSessionCart = isset($sessionCart[$data['id']]) ? $sessionCart[$data['id']] : '';
+                if($idSessionCart){
+                    $total = 0;
+                    $cart = $sessionCart[$data['id']];
+                    $quantityUpdate = $data['quantity'];
+                    $priceUpdate = intval($product->price_product) * $quantityUpdate;
+                    $sessionCart[$data['id']]['quantity_product'] = $quantityUpdate;
+                    $sessionCart[$data['id']]['price_product'] = $priceUpdate;
+                    foreach($sessionCart as $key => $one){
+                        if($key == $data['id']){
+                            $total += $priceUpdate;
+                        }else{
+                            $total += $one['price_product'];
+                        }
+                    }
+                }
+                Session::put('cart',$sessionCart);
+                return response()->json(['res' => 'success', 'title' => 'Cập nhật số lượng vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!', 'total' => $total]);
             }else{
-                echo 12;
-                // $idCustomer = request()->cookie('id_customer');
-                // $cart = Cart::where('id_customer',$idCustomer)->where('id_product',$data['id'])->first();
-                // if($cart){
-                //     $quantityUpdate = intval($cart->quantity_product) + $quantity;
-                //     $priceUpdate = intval($product->price_product) * $quantityUpdate;
-                //     $cart->quantity_product = $quantityUpdate;
-                //     $cart->price_product = $priceUpdate;
-                //     $cart->note_product = $data['note'];
-                //     $update = $cart->save();
-                //     if($update){
-                //         return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
-                //     }else{
-                //         return response()->json(['res' => 'fail', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'error', 'status' => 'Lưu vào giỏ hàng thất bại!']);
-                //     }
-                // }else{
-                //     $data = [
-                //         'id_customer' => $idCustomer,
-                //         'id_product' => $data['id'],
-                //         'image_product' => $product->image_product,
-                //         'name_product' => $product->name_product,
-                //         'quantity_product' => $quantity,
-                //         'price_product' => intval($product->price_product) * $quantity,
-                //         'note_product' => $data['note'],
-                //     ];
-                //     $insert = Cart::create($data);
-                //     if($insert){
-                //         return response()->json(['res' => 'success', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'success', 'status' => 'Lưu vào giỏ hàng thành công!']);
-                //     }else{
-                //         return response()->json(['res' => 'fail', 'title' => 'Thêm vào giỏ hàng', 'icon' => 'error', 'status' => 'Lưu vào giỏ hàng thất bại!']);
-                //     }
-                // }
+                $idCustomer = request()->cookie('id_customer');
+                $cart = Cart::where('id_customer',$idCustomer)->where('id_product',$data['id'])->first();
+                if($cart){
+                    $quantityUpdate = $quantity;
+                    $priceUpdate = intval($product->price_product) * $quantity;
+                    $cart->quantity_product = $quantityUpdate;
+                    $cart->price_product = $priceUpdate;
+                    $update = $cart->save();
+                    $carts = Cart::where('id_customer',$idCustomer)->get();
+                    $total = 0;
+                    foreach($carts as $key => $one){
+                        if($one->id_product == $data['id']){
+                            $total += $priceUpdate;
+                        }else{
+                            $total += $one->price_product;
+                        }
+                    }
+                    if($update){
+                        return response()->json(['res' => 'success', 'title' => 'Cập nhật số lượng vào giỏ hàng', 'icon' => 'success', 'status' => 'Cập nhật số lượng sản phẩm trong giỏ hàng thành công!', 'total' => $total]);
+                    }else{
+                        return response()->json(['res' => 'fail', 'title' => 'Cập nhật số lượng vào giỏ hàng', 'icon' => 'error', 'status' => 'Cập nhật số lượng sản phẩm trong giỏ hàng thất bại!']);
+                    }
+                }
             }
         }
         // Session::put('cart',$cart);
+    }
+
+    function updateNote(Request $request){
+        $data = $request->all();
+        $isLogin = isset($data['isLogin']) ? $data['isLogin'] : '';
+        if(!$isLogin){
+            $sessionCart = Session::get('cart');
+            $idSessionCart = isset($sessionCart[$data['id']]) ? $sessionCart[$data['id']] : '';
+            if($idSessionCart){
+                $cart = $sessionCart[$data['id']];
+                $noteUpdate = $data['note'];
+                $sessionCart[$data['id']]['note_product'] = $noteUpdate;
+            }
+            Session::put('cart',$sessionCart);
+            return response()->json(['res' => 'success', 'title' => 'Cập nhật ghi chú', 'icon' => 'success', 'status' => 'Cập nhật ghi chú thành công!']);
+        }else{
+            $idCustomer = request()->cookie('id_customer');
+            $cart = Cart::where('id_customer',$idCustomer)->where('id_product',$data['id'])->first();
+            if($cart){
+                $noteUpdate = $data['note'];
+                $cart->note_product = $noteUpdate;
+                $update = $cart->save();
+                if($update){
+                    return response()->json(['res' => 'success', 'title' => 'Cập nhật ghi chú giỏ hàng', 'icon' => 'success', 'status' => 'Cập nhật ghi chú thành công!']);
+                }else{
+                    return response()->json(['res' => 'fail', 'title' => 'Cập nhật ghi chú giỏ hàng', 'icon' => 'error', 'status' => 'Cập nhật ghi chú thất bại!']);
+                }
+            }
+        }
     }
 
     function convertUnit($value, $fromUnit, $toUnit) {

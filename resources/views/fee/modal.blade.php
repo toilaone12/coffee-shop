@@ -6,7 +6,7 @@
                 <form class="search-fee">
                     <div class="form-group ftco-cart rounded position-relative">
                         <label for="address">Địa chỉ</label>
-                        <input type="text" name="address_fee" id="address" class="border-light form-control find-address">
+                        <input type="text" name="address_fee" id="address" class="border-light form-control pl-3 find-address">
                         <ul id="result-list" class="list-group mt-1 rounded d-none cursor-pointer">
                         </ul>
                     </div>
