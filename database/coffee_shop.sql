@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 18, 2023 lúc 11:46 AM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th10 18, 2023 lúc 06:12 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -71,8 +71,8 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id_cart`, `id_customer`, `id_product`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
-(3, 1, 1, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 100, 3500000, NULL, '2023-10-18 07:21:55', '2023-10-18 09:05:09'),
-(4, 1, 3, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 100, 3500000, NULL, '2023-10-18 09:04:19', '2023-10-18 09:05:04');
+(3, 1, 1, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 23, 805000, 'can voi', '2023-10-18 07:21:55', '2023-10-18 16:12:14'),
+(4, 1, 3, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 17, 595000, 'di luon', '2023-10-18 09:04:19', '2023-10-18 16:12:19');
 
 -- --------------------------------------------------------
 
@@ -292,9 +292,9 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Cà phê', 2000, '2023-09-03 10:49:36', '2023-09-03 16:17:02'),
+(1, 2, 'Cà phê', 1000, '2023-09-03 10:49:36', '2023-09-03 16:17:02'),
 (2, 1, 'Sữa đặc Ngôi sao Phương Nam', 20.096, '2023-09-03 10:49:36', '2023-10-02 03:34:36'),
-(3, 2, 'Cà phê bột Trung Nguyên loại I', 2720, '2023-09-03 14:15:16', '2023-10-02 03:34:36'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 1720, '2023-09-03 14:15:16', '2023-10-02 03:34:36'),
 (4, 5, 'Plain Croissant', 5, '2023-09-03 14:24:01', '2023-09-03 14:24:01');
 
 -- --------------------------------------------------------
