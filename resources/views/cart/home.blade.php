@@ -1,5 +1,8 @@
 @extends('page')
 @section('content')
+@php
+  $order = session('order');
+@endphp
 <section class="home-slider owl-carousel">
 
   <div class="slider-item" style="background-image: url();" data-stellar-background-ratio="0.5">
@@ -117,17 +120,17 @@
             <h3>Thông tin khách hàng</h3>
             <div class="form-group">
               <label for="fullname">Họ và tên</label>
-              <input type="text" name="fullname" value="{{$customer ? $customer->name_customer : ''}}" class="form-control fullname-order pl-3">
+              <input type="text" name="fullname" value="{{$customer ? $customer->name_customer : (isset($order) ? $order['fullname'] : '')}}" class="form-control fullname-order pl-3">
               <span class="text-danger error-fullname-order"></span>
             </div>
             <div class="form-group">
               <label for="phone">Số điện thoại</label>
-              <input type="phone" name="phone" max="10" value="{{$customer ? $customer->phone_customer : ''}}" class="form-control phone-order pl-3">
+              <input type="phone" name="phone" max="10" value="{{$customer ? $customer->phone_customer : (isset($order) ? $order['phone'] : '')}}" class="form-control phone-order pl-3">
               <span class="text-danger error-phone-order"></span>
             </div>
             <div class="form-group">
               <label for="address">Địa chỉ</label>
-              <input type="text" name="address" value="{{$customer ? $customer->address_customer : ''}}" class="form-control address-order pl-3">
+              <input type="text" name="address" value="{{$customer ? $customer->address_customer : (isset($order) ? $order['address'] : '')}}" class="form-control address-order pl-3">
               <span class="text-danger error-address-order"></span>
             </div>
           </div>
@@ -148,7 +151,7 @@
           <p class="d-flex align-items-center">
             <span class="fs-15">Phí vận chuyển</span>
             <span class="d-flex align-items-center cursor-pointer">
-              <span class="fee-ship">0 đ</span>
+              <span class="fee-ship">{{isset($order) ? '+'.number_format($order['fee_ship'],0,',','.') : 0}} đ</span>
               <span 
               class="ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 modal-fee" 
               data-toggle="modal" data-target="#feeModal"
@@ -160,7 +163,7 @@
           <p class="d-flex align-items-center">
             <span class="fs-15">Khuyến mãi</span>
             <span class="d-flex align-items-center cursor-pointer">
-              <span class="fee-discount">0 đ</span>
+              <span class="fee-discount">{{isset($order) ? '-'.number_format($order['fee_discount'],0,',','.') : 0}} đ</span>
               @if(!isset($cart))
               <span 
               class="ml-2 ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 choose-discount"
@@ -174,7 +177,11 @@
             <hr>
           <p class="d-flex total-price align-items-center">
             <span class="fs-15">Tổng tiền</span>
+            @if(isset($order))
+            <span class="total-cart text-lowercase">{{number_format($total - $order['fee_discount'] + $order['fee_ship'],0,',','.')}} đ</span>
+            @else
             <span class="total-cart text-lowercase">{{number_format($total,0,',','.')}} đ</span>
+            @endif
           </p>
         </div>
       </div>

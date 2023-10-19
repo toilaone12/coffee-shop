@@ -269,34 +269,74 @@
                 });
         }) 
 
-        //dat hang
+        //dong y
         $(document).on('submit', '.customer-apply', (e) => {
             e.preventDefault();
             let fullname = $('.fullname-order').val();
             let phone = $('.phone-order').val();
             let address = $('.address-order').val();
-            let url = "{{route('order.apply')}}";
+            let feeShip = parseInt($('.fee-ship').text().replace(/[+,.,đ]/g, ''));
+            let feeDiscount = parseInt($('.fee-discount').text().replace(/[-,.,đ]/g, ''));
+            if(feeShip == 0){
+                swalNotification(
+                'Thông báo đặt hàng', 
+                'Bạn phải nhập thông tin để chúng tôi kiểm tra phí vận chuyển',
+                'warning',
+                () => {});
+            }else{
+                let url = "{{route('order.apply')}}";
+                let method = "POST";
+                let headers = {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                let data = {
+                    fullname_order: fullname,
+                    phone_order: phone,
+                    address_order: address,
+                    fee_ship: feeShip,
+                    fee_discount: feeDiscount
+                }
+                callAjax(url, method, data, headers,
+                    (data) => {
+                        if(data.res == 'warning'){
+                            $('.error-fullname-order').text(data.status.fullname_order);
+                            $('.error-phone-order').text(data.status.phone_order);
+                            $('.error-address-order').text(data.status.address_order);
+                        }else if(data.res == 'success'){
+                            location.href = '{{route("order.home")}}';
+                        }
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
+            }
+        }) 
+
+        //dat hang
+        $(document).on('submit', '.apply-order', (e) => {
+            e.preventDefault();
+            let formData = new FormData($('.apply-order')[0]);
+            let url = "{{route('order.order')}}";
             let method = "POST";
             let headers = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-            let data = {
-                fullname_order: fullname,
-                phone_order: phone,
-                address_order: address,
-            }
-            callAjax(url, method, data, headers,
+            callAjax(url, method, formData, headers,
                 (data) => {
                     console.log(data);
                     if(data.res == 'warning'){
-                        $('.error-fullname-order').text(data.status.fullname_order);
-                        $('.error-phone-order').text(data.status.phone_order);
-                        $('.error-address-order').text(data.status.address_order);
+                        $('.error-privacy').text(data.status);
+                    }else{
+                        if($('.error-privacy').text() != ''){
+                            $('.error-privacy').text('');
+                        }
                     }
                 },
                 (err) => {
                     console.log(err);
-                });
+                }, 1
+            );
         }) 
     })
 </script>

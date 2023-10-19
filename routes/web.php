@@ -219,6 +219,8 @@ Route::prefix('page')->group(function(){
     });
     //dat hang
     Route::prefix('order')->group(function(){
+        Route::get('/',[OrderController::class,'home'])->name('order.home');
         Route::post('/apply',[OrderController::class,'apply'])->name('order.apply');
+        Route::post('/order',[OrderController::class,'order'])->name('order.order');
     });
 });

@@ -32,10 +32,6 @@ class DetailNoteController extends Controller
         $list = $data['formDataArray'];
         $noti = [];
         $error = [];
-        dd($list);
-        if($list){
-            
-        }
         $db = [
             'id_supplier' => $data['id_supplier'],
             'code_note' => $data['code_note'],
