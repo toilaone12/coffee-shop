@@ -48,17 +48,17 @@
             <div class="cart-detail cart-total ftco-bg-dark p-3 p-md-4">
               <h3 class="billing-heading mb-4">Tổng tiền giỏ hàng</h3>
               <p class="d-flex align-items-center">
-                <span class="fs-15">Tổng giá trị</span>
+                <span class="fs-15s">Tổng giá trị</span>
                 <span class="total-product">{{number_format($subtotal,0,',','.')}} đ</span>
               </p>
               <p class="d-flex align-items-center">
-                <span class="fs-15">Phí vận chuyển</span>
+                <span class="fs-15s">Phí vận chuyển</span>
                 <span class="cursor-pointer">
                   <span class="fee-ship w-100">+ {{number_format($order['fee_ship'],0,',','.')}} đ</span>
                 </span>
               </p>
               <p class="d-flex align-items-center">
-                <span class="fs-15">Khuyến mãi</span>
+                <span class="fs-15s">Khuyến mãi <br>({{$order['code_discount']}})</span>
                 <span class="cursor-pointer">
                   <span class="fee-discount w-100">- {{number_format($order['fee_discount'],0,',','.')}} đ</span>
                 </span>

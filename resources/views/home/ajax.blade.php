@@ -262,6 +262,7 @@
                         $('.modal-backdrop').remove(); // Xóa lớp nền backdrop
                         $('.fee-discount').text('-' + data.fee.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
                         $('.total-cart').text((totalProduct - parseInt(data.fee) + parseInt(feeShip)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                        $('.fee-discount').attr('data-code',$('.code-coupon').val());
                     }
                 },
                 (err) => {
@@ -277,6 +278,9 @@
             let address = $('.address-order').val();
             let feeShip = parseInt($('.fee-ship').text().replace(/[+,.,đ]/g, ''));
             let feeDiscount = parseInt($('.fee-discount').text().replace(/[-,.,đ]/g, ''));
+            let codeDiscount = $('.fee-discount').attr('data-code');
+            let subTotal = parseInt($('.total-product').text().replace(/[.,đ]/g, ''));
+            let total = parseInt($('.total-cart').text().replace(/[.,đ]/g, ''));
             if(feeShip == 0){
                 swalNotification(
                 'Thông báo đặt hàng', 
@@ -294,7 +298,10 @@
                     phone_order: phone,
                     address_order: address,
                     fee_ship: feeShip,
-                    fee_discount: feeDiscount
+                    fee_discount: feeDiscount,
+                    code_discount: codeDiscount,
+                    subtotal: subTotal,
+                    total: total
                 }
                 callAjax(url, method, data, headers,
                     (data) => {

@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\Ingredients;
 use App\Models\News;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Recipe;
+use App\Models\Units;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Ramsey\Uuid\Type\Integer;
 
 class OrderController extends Controller
 {
@@ -45,7 +50,10 @@ class OrderController extends Controller
                 'phone' => $data['phone_order'],
                 'address' => $data['address_order'],
                 'fee_ship' => $data['fee_ship'],
+                'code_discount' => $data['code_discount'],
                 'fee_discount' => $data['fee_discount'],
+                'subtotal' => $data['subtotal'],
+                'total' => $data['total']
             ];
             Session::put('order',$order);
             return response()->json(['res' => 'success']);
@@ -75,7 +83,7 @@ class OrderController extends Controller
             foreach($cart as $key => $one){
                 $subtotal += intval($one['price_product']);
             }
-            $total = $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
+            $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
         }
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
@@ -85,19 +93,51 @@ class OrderController extends Controller
     function order(Request $request){
         $data = $request->all();
         $order = session('order');
-        $cart = '';
-        if(request()->cookie('id_customer')){
-            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-        }else{
-
-        }
+        $cart = session('cart');
         if(isset($data['privacy'])){
+            $codeOrder = $this->randomCode();
             $dataOrder = [
-                'code_order' => $this->randomCode(),
+                'code_order' => $codeOrder,
                 'name_order' => $order['fullname'],
-                'total_order' => $order
+                'phone_order' => $order['phone'],
+                'address_order' => $order['address'],
+                'total_order' => $order['total'],
             ];
-            // $order = 
+            // $insertOrder = Order::create($dataOrder);
+            $insertOrder = true;
+            if($insertOrder){
+                //co tai khoan
+                if(request()->cookie('id_customer')){
+                    $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+                    foreach($carts as $key => $one){
+                        $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
+                        // $dataDetailOrder = [
+                        //     'code_order' => $codeOrder,
+                        //     'image_product' => $one['image_product'],
+                        //     'name_product' => $one['name_product'],
+                        //     'quantity_product' => $one['quantity_product'],
+                        //     'price_product' => $one['price_product'],
+                        //     'note_product' => $one['note_product'],
+                        // ];
+                        
+                    }  
+                //khong tai khoan 
+                }else{
+                    foreach($cart as $key => $one){
+                        $dataDetailOrder = [
+                            'code_order' => $codeOrder,
+                            'image_product' => $one['image_product'],
+                            'name_product' => $one['name_product'],
+                            'quantity_product' => $one['quantity_product'],
+                            'price_product' => $one['price_product'],
+                            'note_product' => $one['note_product'],
+                        ];
+                    }
+                    
+                }
+            }else{
+                return response(['res' => 'fail','status' => 'Thông báo đặt hàng', 'icon' => 'fail', 'title' => 'Đặt hàng thất bại do máy chủ']);
+            }
         }else{
             return response(['res' => 'warning', 'status' => 'Hãy đồng ý với yêu cầu!']);
         }
@@ -110,5 +150,58 @@ class OrderController extends Controller
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
         return $randomString;
+    }
+
+    function convertUnit($value, $fromUnit, $toUnit) {
+        // Chuyển đơn vị đầu vào và đầu ra thành chữ thường để so sánh
+        $fromUnit = strtolower($fromUnit);
+        $toUnit = strtolower($toUnit);
+    
+        // Biến đổi giá trị dựa trên đơn vị đầu vào và đầu ra
+        switch ("$fromUnit-$toUnit") {
+            case 'kg-g':
+                return $value * 1000; // 1 kg = 1000 g
+            case 'g-kg':
+                return $value / 1000; // 1 g = 0.001 kg
+            case 'ml-l':
+                return $value / 1000; // 1 ml = 0.001 l
+            case 'l-ml':
+                return $value * 1000; // 1 l = 1000 ml
+            default:
+                Log::error("Không thể chuyển đổi từ $fromUnit sang $toUnit");
+                return null; // Trả về null nếu không thể chuyển đổi
+        }
+    }
+
+    function handleIngredients($id, $quantity){
+        $recipe = Recipe::where('id_product',$id)->first();
+        if($recipe){
+            $components = json_decode($recipe->component_recipe);
+            foreach($components as $key => $one){
+                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
+                $ingredient = Ingredients::find(intval($one->id_ingredient)); //tim nguyen lieu trong ds nguyen lieu
+                $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
+                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
+                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
+                $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
+                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
+                $quantityComsumption = 0;
+                if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
+                    $quantityComsumption = $quantityIngredient - $quantityComponent * $quantity; //so luong tieu thu
+                }else{
+                    $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
+                    $quantityComsumption = $quantityIngredient - $quantityComponentConvert * $quantity; //so luong tieu thu
+                }
+                $ingredient->quantity_ingredient = $quantityComsumption;
+                $updateIngredients = $ingredient->save();
+                if($updateIngredients){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }else{
+            return false;
+        }
     }
 }
