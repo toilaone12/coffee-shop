@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 20, 2023 lúc 12:28 PM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th10 22, 2023 lúc 12:41 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -226,6 +226,25 @@ INSERT INTO `detail_notes` (`id_detail`, `id_note`, `id_unit`, `code_note`, `nam
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `detail_orders`
+--
+
+CREATE TABLE `detail_orders` (
+  `id_detail` int(10) UNSIGNED NOT NULL,
+  `id_order` int(11) NOT NULL,
+  `code_order` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity_product` int(11) NOT NULL,
+  `price_product` int(11) NOT NULL,
+  `note_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `fee`
 --
 
@@ -320,7 +339,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2023_09_05_223339_create_coupon', 4),
 (5, '2023_09_06_154812_create_review', 5),
 (6, '2023_09_11_142633_create_news', 6),
-(7, '2023_09_20_221428_create_cart', 7);
+(7, '2023_09_20_221428_create_cart', 7),
+(8, '2023_10_22_170352_create_detail_orders', 8);
 
 -- --------------------------------------------------------
 
@@ -391,6 +411,9 @@ CREATE TABLE `order` (
   `id_order` int(10) UNSIGNED NOT NULL,
   `code_order` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_order` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtotal_order` int(11) NOT NULL,
+  `fee_ship` int(11) NOT NULL,
+  `fee_discount` int(11) NOT NULL,
   `total_order` int(11) NOT NULL,
   `status_order` tinyint(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -617,6 +640,12 @@ ALTER TABLE `detail_notes`
   ADD PRIMARY KEY (`id_detail`);
 
 --
+-- Chỉ mục cho bảng `detail_orders`
+--
+ALTER TABLE `detail_orders`
+  ADD PRIMARY KEY (`id_detail`);
+
+--
 -- Chỉ mục cho bảng `fee`
 --
 ALTER TABLE `fee`
@@ -747,6 +776,12 @@ ALTER TABLE `detail_notes`
   MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT cho bảng `detail_orders`
+--
+ALTER TABLE `detail_orders`
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT cho bảng `fee`
 --
 ALTER TABLE `fee`
@@ -768,7 +803,7 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
@@ -786,7 +821,7 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `product`

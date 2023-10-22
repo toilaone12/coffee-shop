@@ -192,4 +192,12 @@ class CategoryController extends Controller
             return response()->json(['res' => 'fail'],200);
         }
     }
+
+    //page 
+    function home($parent, $name){
+        $title = $name;
+        $lists = Category::where('name_category',$name)->get();
+        dd($lists);
+        return view('category.home', compact('title','name','lists'));
+    }
 }

@@ -13507,6 +13507,14 @@ textarea.form-control {
   padding: 8px;
 }
 
+.disabled {
+  /* Thiết lập màu nền và màu chữ sao cho phần tử trở nên mờ đi */
+  opacity: 0.65;
+
+  /* Ngăn người dùng tương tác với phần tử */
+  pointer-events: none;
+}
+
 @-webkit-keyframes loader-rotate {
   100% {
     -webkit-transform: rotate(360deg);

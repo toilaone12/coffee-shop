@@ -11,5 +11,8 @@ class Order extends Model
     public $timestamp = true;
     protected $table = "order";
     protected $primaryKey = "id_order";
-    protected $fillable = ["code_order",'name_order',"total_order","status_order"];
+    protected $fillable =
+    [
+        "code_order", "name_order", "subtotal_order", "fee_ship", "fee_discount", "total_order", "status_order"
+    ];
 }

@@ -121,6 +121,14 @@ class NewsController extends Controller
         }
     }
     //page 
+    function home(){
+        $title = 'Tin tức';
+        $lists = News::paginate(3);
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        return view('news.home',compact('lists','title','parentCategorys','childCategorys'));
+    }
+    
     function detail($slug, $id){
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();

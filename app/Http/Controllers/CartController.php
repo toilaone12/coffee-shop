@@ -176,7 +176,7 @@ class CartController extends Controller
                 $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
                 $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
                 $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
-                $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
+                $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
                 $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
                 $totalProduct = 0;
                 $enoughProduct = 0;

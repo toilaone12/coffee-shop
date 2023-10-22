@@ -331,13 +331,13 @@
             }
             callAjax(url, method, formData, headers,
                 (data) => {
-                    console.log(data);
                     if(data.res == 'warning'){
                         $('.error-privacy').text(data.status);
                     }else{
                         if($('.error-privacy').text() != ''){
                             $('.error-privacy').text('');
                         }
+                        swalNotification(data.title, data.status, data.icon, () => {});
                     }
                 },
                 (err) => {

@@ -1,3 +1,6 @@
+<?php
+    use Illuminate\Support\Str;
+?>
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href="{{route('page.home')}}">Harper 7<small>Coffee</small></a>
@@ -7,7 +10,7 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{route('page.home')}}" class="nav-link fs-13">Trang chủ</a></li>
-                <li class="nav-item"><a href="{{route('news.category')}}" class="nav-link fs-13">Tin tức</a></li>
+                <li class="nav-item"><a href="{{route('news.home')}}" class="nav-link fs-13">Tin tức</a></li>
                 <li class="nav-item dropdown">
                     <span class="nav-link dropdown-toggle fs-13" id="dropdown04">
                         Thực đơn
@@ -21,7 +24,11 @@
                             <div class="dropdown-submenu">
                                 @foreach($childCategorys as $child)
                                 @if($child->id_parent_category == $parent->id_category)
-                                <a class="dropdown-item p-3 fs-13 text-white" href="">{{$child->name_category}}</a>
+                                <a 
+                                class="dropdown-item p-3 fs-13 text-white" 
+                                href="{{route('category.home',['parent' => Str::slug($parent->name_category,'-'), 'name' => Str::slug($child->name_category,'-')])}}">
+                                    {{$child->name_category}}
+                                </a>
                                 @endif
                                 @endforeach
                             </div>

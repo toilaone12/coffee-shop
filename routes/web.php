@@ -184,7 +184,7 @@ Route::prefix('page')->group(function(){
     Route::get('/',[HomeController::class,'home'])->name('page.home');
     //danh muc
     Route::prefix('category')->group(function(){
-
+        Route::get('/{parent}/{name}',[CategoryController::class,'home'])->name('category.home');
     });
     //san pham
     Route::prefix('product')->group(function(){
@@ -206,7 +206,7 @@ Route::prefix('page')->group(function(){
     });
     //tin tuc
     Route::prefix('blog')->group(function(){
-        Route::get('/',[NewsController::class,'category'])->name('news.category');
+        Route::get('/',[NewsController::class,'home'])->name('news.home');
         Route::get('/{slug}+{id}.html',[NewsController::class,'detail'])->name('blog.detail');
     });
     //phi van chuyen

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\DetailOrder;
 use App\Models\Ingredients;
 use App\Models\News;
 use App\Models\Order;
@@ -100,40 +101,71 @@ class OrderController extends Controller
                 'code_order' => $codeOrder,
                 'name_order' => $order['fullname'],
                 'phone_order' => $order['phone'],
+                'subtotal_order' => $order['subtotal'],
+                'fee_ship' => $order['fee_ship'],
+                'fee_discount' => $order['fee_discount'],
                 'address_order' => $order['address'],
                 'total_order' => $order['total'],
+                'status_order' => 0
             ];
-            // $insertOrder = Order::create($dataOrder);
-            $insertOrder = true;
+            $insertOrder = Order::create($dataOrder);
+            // $insertOrder = true;
             if($insertOrder){
+                $noti = [];
                 //co tai khoan
                 if(request()->cookie('id_customer')){
                     $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
                     foreach($carts as $key => $one){
                         $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
-                        // $dataDetailOrder = [
-                        //     'code_order' => $codeOrder,
-                        //     'image_product' => $one['image_product'],
-                        //     'name_product' => $one['name_product'],
-                        //     'quantity_product' => $one['quantity_product'],
-                        //     'price_product' => $one['price_product'],
-                        //     'note_product' => $one['note_product'],
-                        // ];
-                        
-                    }  
+                        if($handleIngredients){
+                            $dataDetailOrder = [
+                                'id_order' => $insertOrder->id_order,
+                                'code_order' => $codeOrder,
+                                'image_product' => $one['image_product'],
+                                'name_product' => $one['name_product'],
+                                'quantity_product' => $one['quantity_product'],
+                                'price_product' => $one['price_product'],
+                                'note_product' => $one['note_product'],
+                            ];
+                            $insertDetail = DetailOrder::create($dataDetailOrder);
+                            if($insertDetail){
+                                $carts->delete();
+                                $noti += ['res' => 'success'];
+                            }else{
+                                $noti += ['res' => 'fail'];
+                            }
+                        }
+                    } 
                 //khong tai khoan 
                 }else{
                     foreach($cart as $key => $one){
-                        $dataDetailOrder = [
-                            'code_order' => $codeOrder,
-                            'image_product' => $one['image_product'],
-                            'name_product' => $one['name_product'],
-                            'quantity_product' => $one['quantity_product'],
-                            'price_product' => $one['price_product'],
-                            'note_product' => $one['note_product'],
-                        ];
+                        $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
+                        if($handleIngredients){
+                            $dataDetailOrder = [
+                                'id_order' => $insertOrder->id_order,
+                                'code_order' => $codeOrder,
+                                'image_product' => $one['image_product'],
+                                'name_product' => $one['name_product'],
+                                'quantity_product' => $one['quantity_product'],
+                                'price_product' => $one['price_product'],
+                                'note_product' => $one['note_product'],
+                            ];
+                            $insertDetail = DetailOrder::create($dataDetailOrder);
+                            if($insertDetail){
+                                $noti += ['res' => 'success'];
+                            }else{
+                                $noti += ['res' => 'fail'];
+                            }
+                        }
                     }
-                    
+                }
+                if($noti['res'] == 'success'){
+                    return response(['res' => 'success','status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!']);
+                }else{
+                    return response(['res' => 'fail','status' => 'Thông báo đặt hàng', 'icon' => 'fail', 'title' => 'Đặt hàng thất bại do máy chủ']);
+                }
+                if(isset($order)){
+                    Session::forget('order');
                 }
             }else{
                 return response(['res' => 'fail','status' => 'Thông báo đặt hàng', 'icon' => 'fail', 'title' => 'Đặt hàng thất bại do máy chủ']);
@@ -175,6 +207,7 @@ class OrderController extends Controller
 
     function handleIngredients($id, $quantity){
         $recipe = Recipe::where('id_product',$id)->first();
+        $noti = [];
         if($recipe){
             $components = json_decode($recipe->component_recipe);
             foreach($components as $key => $one){
@@ -183,22 +216,28 @@ class OrderController extends Controller
                 $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
                 $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
                 $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
-                $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
+                $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
                 $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
                 $quantityComsumption = 0;
+                $quantityComponentConvert = 0;
                 if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
-                    $quantityComsumption = $quantityIngredient - $quantityComponent * $quantity; //so luong tieu thu
+                    $quantityComsumption = $quantityIngredient - ($quantityComponent * $quantity); //so luong tieu thu
                 }else{
                     $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
-                    $quantityComsumption = $quantityIngredient - $quantityComponentConvert * $quantity; //so luong tieu thu
+                    $quantityComsumption = $quantityIngredient - ($quantityComponentConvert * $quantity); //so luong tieu thu
                 }
                 $ingredient->quantity_ingredient = $quantityComsumption;
                 $updateIngredients = $ingredient->save();
                 if($updateIngredients){
-                    return true;
+                    $noti += ['res' => 'true'];
                 }else{
-                    return false;
+                    $noti += ['res' => 'false'];
                 }
+            }
+            if($noti['res'] == 'true'){
+                return true;
+            }else{
+                return false;
             }
         }else{
             return false;
