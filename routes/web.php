@@ -184,7 +184,8 @@ Route::prefix('page')->group(function(){
     Route::get('/',[HomeController::class,'home'])->name('page.home');
     //danh muc
     Route::prefix('category')->group(function(){
-        Route::get('/{parent}/{name}',[CategoryController::class,'home'])->name('category.home');
+        Route::get('/{parent}/{child}',[CategoryController::class,'home'])->name('category.home');
+        Route::post('/search',[CategoryController::class,'search'])->name('category.search');
     });
     //san pham
     Route::prefix('product')->group(function(){
@@ -207,7 +208,7 @@ Route::prefix('page')->group(function(){
     //tin tuc
     Route::prefix('blog')->group(function(){
         Route::get('/',[NewsController::class,'home'])->name('news.home');
-        Route::get('/{slug}+{id}.html',[NewsController::class,'detail'])->name('blog.detail');
+        Route::get('/{slug}',[NewsController::class,'detail'])->name('blog.detail');
     });
     //phi van chuyen
     Route::prefix('fee')->group(function(){
@@ -216,6 +217,7 @@ Route::prefix('page')->group(function(){
     //ma khuyen mai
     Route::prefix('coupon')->group(function(){
         Route::post('/apply',[CouponController::class,'apply'])->name('coupon.apply');
+        Route::get('/',[CouponController::class,'home'])->name('coupon.home');
     });
     //dat hang
     Route::prefix('order')->group(function(){

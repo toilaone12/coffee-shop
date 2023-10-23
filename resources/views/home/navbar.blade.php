@@ -9,24 +9,24 @@
         </button>
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="{{route('page.home')}}" class="nav-link fs-13">Trang chủ</a></li>
-                <li class="nav-item"><a href="{{route('news.home')}}" class="nav-link fs-13">Tin tức</a></li>
+                <li class="nav-item active"><a href="{{route('page.home')}}" class="nav-link fs-14">Trang chủ</a></li>
+                <li class="nav-item"><a href="{{route('news.home')}}" class="nav-link fs-14">Tin tức</a></li>
                 <li class="nav-item dropdown">
-                    <span class="nav-link dropdown-toggle fs-13" id="dropdown04">
+                    <span class="nav-link dropdown-toggle fs-14" id="dropdown04">
                         Thực đơn
                     </span>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
                         @foreach($parentCategorys as $parent)
                         <div class="nav-item-child">
-                            <a class="nav-link fs-13 dropdown-toggle" id="dropdown05">
+                            <a class="nav-link fs-14 dropdown-toggle" id="dropdown05">
                                 {{$parent->name_category}}
                             </a>
                             <div class="dropdown-submenu">
                                 @foreach($childCategorys as $child)
                                 @if($child->id_parent_category == $parent->id_category)
                                 <a 
-                                class="dropdown-item p-3 fs-13 text-white" 
-                                href="{{route('category.home',['parent' => Str::slug($parent->name_category,'-'), 'name' => Str::slug($child->name_category,'-')])}}">
+                                class="dropdown-item p-3 fs-14 text-white" 
+                                href="{{route('category.home',['parent' => $parent->slug_category, 'child' => $child->slug_category])}}">
                                     {{$child->name_category}}
                                 </a>
                                 @endif
@@ -36,8 +36,8 @@
                         @endforeach
                     </div>
                 </li>
-                <li class="nav-item"><a href="" class="nav-link fs-13">Giới thiệu</a></li>
-                <li class="nav-item"><a href="" class="nav-link fs-13">Liên hệ</a></li>
+                <li class="nav-item"><a href="" class="nav-link fs-14">Giới thiệu</a></li>
+                <li class="nav-item"><a href="" class="nav-link fs-14">Liên hệ</a></li>
                 <li class="nav-item cart dropdown">
                     <a class="nav-link" style="cursor: pointer;">
                         <span class="icon icon-shopping_cart"></span>
@@ -121,6 +121,12 @@
                                     <span class="icon-list2 fs-20"></span>
                                 </div>
                                 <span class="ml-3 fs-15">Giỏ hàng cá nhân</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-3">
+                                <div class="rounded-circle bg-secondary p-history d-flex align-items-center">
+                                    <span class="icon-gift fs-20"></span>
+                                </div>
+                                <span class="ml-3 fs-15 open-discount">Mã khuyến mãi</span>
                             </div>
                             <div class="d-flex align-items-center mt-3">
                                 <div class="rounded-circle bg-secondary p-history d-flex align-items-center">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\CustomerCoupon;
 use Illuminate\Http\Request;
@@ -148,5 +149,13 @@ class CouponController extends Controller
         }else{
             return response()->json(['res' => 'warning', 'status' => 'Bạn phải nhập mã khuyến mãi']);
         }
+    }
+
+    function home(){
+        $title = 'Mã khuyến mãi';
+        $lists = CustomerCoupon::where('id_customer',request()->cookie('id_customer'))->get();
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        return view('coupon.home',compact('title','lists','parentCategorys','childCategorys'));
     }
 }

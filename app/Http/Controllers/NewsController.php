@@ -129,10 +129,10 @@ class NewsController extends Controller
         return view('news.home',compact('lists','title','parentCategorys','childCategorys'));
     }
     
-    function detail($slug, $id){
+    function detail($slug){
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        $one = News::find($id);
+        $one = News::where('slug_new',$slug)->first();
         $title = $one->title_new;
         return view('news.detail',compact('one','title','parentCategorys','childCategorys'));
     }

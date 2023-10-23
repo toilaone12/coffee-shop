@@ -344,6 +344,11 @@
                     console.log(err);
                 }, 1
             );
-        }) 
+        })
+        
+        //mo danh sach ma khuyen mai
+        $(document).on('click','.open-discount', () => {
+            location.href = "{{route('coupon.home')}}";
+        })
     })
 </script>

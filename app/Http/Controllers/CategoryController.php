@@ -9,6 +9,7 @@ use App\Models\Recipe;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -22,6 +23,7 @@ class CategoryController extends Controller
 
     function insert(Request $request){
         $data = $request->all();
+        $slug = Str::slug($data['name_category'],'-');
         Validator::make($data,[
             'name_category' => ['required', 'regex:/^[\p{L}\s\p{P}]+$/u'],
         ],[
@@ -31,6 +33,7 @@ class CategoryController extends Controller
         $db = [
             'name_category' => $data['name_category'],
             'id_parent_category' => $data['id_parent_category'],
+            'slug_category' => $slug,
         ];
         $insert = Category::create($db);
         if($insert){
@@ -52,6 +55,7 @@ class CategoryController extends Controller
             $category = Category::find($data['id_category']);
             $category->name_category = $data['name_category'];
             $category->id_parent_category = $data['id_parent_category'];
+            $category->slug_category = Str::slug($data['name_category'],'-');
             $update = $category->save();
             if($update){
                 return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành danh mục '.$data['name_category'].' thành công']);
@@ -194,10 +198,60 @@ class CategoryController extends Controller
     }
 
     //page 
-    function home($parent, $name){
-        $title = $name;
-        $lists = Category::where('name_category',$name)->get();
-        dd($lists);
-        return view('category.home', compact('title','name','lists'));
+    function home($parent, $child){
+        $category = Category::where('slug_category',$child)->first();
+        $lists = Product::where('id_category',$category->id_category)->get();
+        $title = $category->name_category;
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        $arrayProductInCategory = [];
+        foreach($childCategorys as $key => $child){
+            $productChild = Product::where('id_category',$child->id_category)->get();
+            $parent = Category::where('id_category',$child->id_parent_category)->first();
+            $count = count($productChild);
+            $array = [
+                'id_category' => $child->id_category,
+                'name_category' => $child->name_category,
+                'slug_parent' => $parent->slug_category,
+                'slug_child' => $child->slug_category,
+                'number_product' => $count,
+            ];
+            array_push($arrayProductInCategory, $array);
+        }
+        // dd($arrayProductInCategory);
+        $listChilds = collect($arrayProductInCategory);
+        return view('category.home',compact('lists','title','parentCategorys','childCategorys','listChilds'));
+    }
+
+    function search(Request $request){
+        $title = 'Tìm kiếm';
+        $data = $request->all();
+        Validator::make($data,[
+            'keyword' => ['required']
+        ],
+        [
+            'keyword.required' => 'Thông tin tìm kiếm bạn phải điền',
+        ])->validate();
+        $keyword = $data['keyword'];
+        $lists = Product::where('name_product','like','%'.$keyword.'%')->get();
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        $arrayProductInCategory = [];
+        foreach($childCategorys as $key => $child){
+            $productChild = Product::where('id_category',$child->id_category)->get();
+            $parent = Category::where('id_category',$child->id_parent_category)->first();
+            $count = count($productChild);
+            $array = [
+                'id_category' => $child->id_category,
+                'name_category' => $child->name_category,
+                'slug_parent' => $parent->slug_category,
+                'slug_child' => $child->slug_category,
+                'number_product' => $count,
+            ];
+            array_push($arrayProductInCategory, $array);
+        }
+        // dd($arrayProductInCategory);
+        $listChilds = collect($arrayProductInCategory);
+        return view('category.home',compact('lists','title','parentCategorys','childCategorys','listChilds'));
     }
 }

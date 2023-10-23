@@ -3637,9 +3637,9 @@ input[type="button"].btn-block {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 10.5rem;
-  padding: 0.5rem 0;
+  min-width: 12.5rem;
   margin: 0.125rem 0 0;
+  padding: 0.5rem 0 0.5rem 0.5rem;
   font-size: 1rem;
   color: #212529;
   text-align: left;
@@ -13444,7 +13444,7 @@ textarea.form-control {
     margin: 5px 0;
 }
 .user-hover {
-  background-color: #fff;
+  /* background-color: #fff; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: absolute;
   top: 80%;

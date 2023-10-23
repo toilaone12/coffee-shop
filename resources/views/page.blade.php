@@ -23,44 +23,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-5 mb-md-5">
-                    <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Recent Blog</h2>
-                        <div class="block-21 mb-4 d-flex">
-                            <a class="blog-img mr-4" style="background-image: url({{asset('./front-end/image/image_1.jpg')}});"></a>
-                            <div class="text">
-                                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
-                                <div class="meta">
-                                    <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>
-                                    <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                    <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="block-21 mb-4 d-flex">
-                            <a class="blog-img mr-4" style="background-image: url({{asset('./front-end/image/image_2.jpg')}});"></a>
-                            <div class="text">
-                                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
-                                <div class="meta">
-                                    <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>
-                                    <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                    <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-5 mb-md-5">
-                    <div class="ftco-footer-widget mb-4 ml-md-4">
-                        <h2 class="ftco-heading-2">Services</h2>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="py-2 d-block">Cooked</a></li>
-                            <li><a href="#" class="py-2 d-block">Deliver</a></li>
-                            <li><a href="#" class="py-2 d-block">Quality Foods</a></li>
-                            <li><a href="#" class="py-2 d-block">Mixed</a></li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
                     <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">Have a Questions?</h2>
