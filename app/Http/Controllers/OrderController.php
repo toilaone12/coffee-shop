@@ -69,7 +69,7 @@ class OrderController extends Controller
         $title = 'Đơn hàng';
         $cart = session('cart');
         $order = session('order');
-        if(isset($order)){
+        if(!isset($order)){
             return redirect()->route('cart.home');
         }else{
             $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
@@ -124,8 +124,8 @@ class OrderController extends Controller
                 if($idCustomer){
                     $carts = Cart::where('id_customer',$idCustomer)->get();
                     foreach($carts as $key => $one){
-                        $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
-                        if($handleIngredients){
+                        // $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
+                        // if($handleIngredients){
                             $dataDetailOrder = [
                                 'id_order' => $insertOrder->id_order,
                                 'code_order' => $codeOrder,
@@ -142,7 +142,7 @@ class OrderController extends Controller
                             }else{
                                 $noti += ['res' => 'fail'];
                             }
-                        }
+                        // }
                     } 
                     if($order['code_discount'] != ''){
                         $coupon = Coupon::where('code_coupon',$order['code_discount'])->first();
@@ -157,8 +157,8 @@ class OrderController extends Controller
                 //khong tai khoan 
                 }else{
                     foreach($cart as $key => $one){
-                        $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
-                        if($handleIngredients){
+                        // $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
+                        // if($handleIngredients){
                             $dataDetailOrder = [
                                 'id_order' => $insertOrder->id_order,
                                 'code_order' => $codeOrder,
@@ -174,7 +174,7 @@ class OrderController extends Controller
                             }else{
                                 $noti += ['res' => 'fail'];
                             }
-                        }
+                        // }
                     }
                 }
                 if($noti['res'] == 'success'){
@@ -276,42 +276,42 @@ class OrderController extends Controller
         }
     }
 
-    function handleIngredients($id, $quantity){
-        $recipe = Recipe::where('id_product',$id)->first();
-        $noti = [];
-        if($recipe){
-            $components = json_decode($recipe->component_recipe);
-            foreach($components as $key => $one){
-                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
-                $ingredient = Ingredients::find(intval($one->id_ingredient)); //tim nguyen lieu trong ds nguyen lieu
-                $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
-                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
-                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
-                $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
-                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
-                $quantityComsumption = 0;
-                $quantityComponentConvert = 0;
-                if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
-                    $quantityComsumption = $quantityIngredient - ($quantityComponent * $quantity); //so luong tieu thu
-                }else{
-                    $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
-                    $quantityComsumption = $quantityIngredient - ($quantityComponentConvert * $quantity); //so luong tieu thu
-                }
-                $ingredient->quantity_ingredient = $quantityComsumption;
-                $updateIngredients = $ingredient->save();
-                if($updateIngredients){
-                    $noti += ['res' => 'true'];
-                }else{
-                    $noti += ['res' => 'false'];
-                }
-            }
-            if($noti['res'] == 'true'){
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            return false;
-        }
-    }
+    // function handleIngredients($id, $quantity){
+    //     $recipe = Recipe::where('id_product',$id)->first();
+    //     $noti = [];
+    //     if($recipe){
+    //         $components = json_decode($recipe->component_recipe);
+    //         foreach($components as $key => $one){
+    //             $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
+    //             $ingredient = Ingredients::find(intval($one->id_ingredient)); //tim nguyen lieu trong ds nguyen lieu
+    //             $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
+    //             $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
+    //             $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
+    //             $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
+    //             $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
+    //             $quantityComsumption = 0;
+    //             $quantityComponentConvert = 0;
+    //             if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
+    //                 $quantityComsumption = $quantityIngredient - ($quantityComponent * $quantity); //so luong tieu thu
+    //             }else{
+    //                 $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
+    //                 $quantityComsumption = $quantityIngredient - ($quantityComponentConvert * $quantity); //so luong tieu thu
+    //             }
+    //             $ingredient->quantity_ingredient = $quantityComsumption;
+    //             $updateIngredients = $ingredient->save();
+    //             if($updateIngredients){
+    //                 $noti += ['res' => 'true'];
+    //             }else{
+    //                 $noti += ['res' => 'false'];
+    //             }
+    //         }
+    //         if($noti['res'] == 'true'){
+    //             return true;
+    //         }else{
+    //             return false;
+    //         }
+    //     }else{
+    //         return false;
+    //     }
+    // }
 }

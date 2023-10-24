@@ -22,36 +22,9 @@ class CartController extends Controller
         $data = $request->all();
         $quantity = intval($data['quantity']); // so luong them
         $product = Product::find($data['id']);
-        $recipe = Recipe::where('id_product',$data['id'])->first();
-        $noti = [];
-        if($recipe){
-            $components = json_decode($recipe->component_recipe);
-            foreach($components as $key => $one){
-                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
-                $ingredient = Ingredients::find(intval($one->id_ingredient));
-                $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
-                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
-                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
-                $quantityIngredient = intval($ingredient->quantity_ingredient); //so luong nguyen lieu
-                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
-                $totalProduct = 0;
-                $enoughProduct = 0;
-                if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
-                    $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
-                    $enoughProduct = intval($quantityIngredient / $quantityComponent);
-                }else{
-                    $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
-                    $totalProduct = $quantityComponentConvert * $quantity;
-                    $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
-                }
-                if($totalProduct > $quantityIngredient){
-                    $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
-                }
-            }
-        }else{
-            $noti += ['res' => 'warning', 'status' => 'Hiện tại đang chưa có công thức của sản phẩm này, vui lòng chờ đợi thêm'];
-        }
-        if(isset($noti['res']) && $noti['res'] == 'warning'){
+        $noti = $this->handleIngredients($data['id'],$quantity);
+        // dd($noti);
+        if($noti['res'] == 'false'){
             return response()->json(['res' => 'warning', 'title' => 'Thông báo đặt hàng', 'icon' => 'warning', 'status' => $noti['status']],200);
         }else{
             $isLogin = isset($data['isLogin']) ? $data['isLogin'] : '';
@@ -166,35 +139,7 @@ class CartController extends Controller
         $product = Product::find($id);
         $quantity = $data['quantity'];
         $cart = Session::get('cart');
-        $recipe = Recipe::where('id_product',$id)->first();
-        $noti = [];
-        if($recipe){
-            $components = json_decode($recipe->component_recipe);
-            foreach($components as $key => $one){
-                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
-                $ingredient = Ingredients::find(intval($one->id_ingredient));
-                $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
-                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
-                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
-                $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
-                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
-                $totalProduct = 0;
-                $enoughProduct = 0;
-                if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
-                    $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
-                    $enoughProduct = intval($quantityIngredient / $quantityComponent);
-                }else{
-                    $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
-                    $totalProduct = $quantityComponentConvert * $quantity;
-                    $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
-                }
-                if($totalProduct > $quantityIngredient){
-                    $noti += ['res' => 'warning', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm', 'quantity' => $enoughProduct];
-                }
-            }
-        }else{
-            $noti += ['res' => 'warning', 'status' => 'Hiện tại đang chưa có công thức của sản phẩm này, vui lòng chờ đợi thêm'];
-        }
+        
         if(isset($noti['res']) && $noti['res'] == 'warning'){
             return response()->json(['res' => 'warning', 'title' => 'Thông báo đặt hàng', 'icon' => 'warning', 'status' => $noti['status'], 'quantity' => $noti['quantity']],200);
         }else{
@@ -295,6 +240,58 @@ class CartController extends Controller
             default:
                 Log::error("Không thể chuyển đổi từ $fromUnit sang $toUnit");
                 return null; // Trả về null nếu không thể chuyển đổi
+        }
+    }
+
+    function handleIngredients($id, $quantity){
+        $recipe = Recipe::where('id_product',$id)->first();
+        $noti = [];
+        if($recipe){
+            $components = json_decode($recipe->component_recipe);
+            $isTrue = false;
+            foreach($components as $key => $one){
+                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
+                $ingredient = Ingredients::find(intval($one->id_ingredient)); //tim nguyen lieu trong ds nguyen lieu
+                $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
+                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
+                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
+                $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
+                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
+                $totalProduct = 0;
+                $enoughProduct = 0;
+                $quantityComsumption = 0;
+                $quantityComponentConvert = 0;
+                if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
+                    $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
+                    $enoughProduct = intval($quantityIngredient / $quantityComponent);
+                    $quantityComsumption = $quantityIngredient - ($quantityComponent * $quantity); //so luong tieu thu
+                }else{
+                    $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
+                    $totalProduct = $quantityComponentConvert * $quantity;
+                    $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
+                    $quantityComsumption = $quantityIngredient - ($quantityComponentConvert * $quantity); //so luong tieu thu
+                }
+                
+                if($totalProduct > $quantityIngredient){
+                    $isTrue = false;
+                }else{
+                    $isTrue = true;
+                }
+                if(!$isTrue){
+                    $noti = ['res' => 'false', 'status' => 'Số lượng hiện tại không đủ để đặt hàng, chúng tôi chỉ có đủ '.$enoughProduct.' sản phẩm'];
+                }else{
+                    $ingredient->quantity_ingredient = $quantityComsumption;
+                    $updateIngredients = $ingredient->save();
+                    if($updateIngredients){
+                        $noti += ['res' => 'true'];
+                    }else{
+                        $noti += ['res' => 'false', 'status' => 'Lỗi truy vấn'];
+                    }
+                }
+            }
+            return $noti;
+        }else{
+            return false;
         }
     }
 }
