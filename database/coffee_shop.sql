@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 22, 2023 lúc 12:41 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th10 24, 2023 lúc 11:50 AM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -66,14 +66,6 @@ CREATE TABLE `cart` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `cart`
---
-
-INSERT INTO `cart` (`id_cart`, `id_customer`, `id_product`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
-(3, 1, 1, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 23, 805000, 'can voi', '2023-10-18 07:21:55', '2023-10-18 16:12:14'),
-(4, 1, 3, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 17, 595000, 'di luon', '2023-10-18 09:04:19', '2023-10-18 16:12:19');
-
 -- --------------------------------------------------------
 
 --
@@ -84,6 +76,7 @@ CREATE TABLE `category` (
   `id_category` int(10) UNSIGNED NOT NULL,
   `name_category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_parent_category` int(11) NOT NULL,
+  `slug_category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -92,28 +85,28 @@ CREATE TABLE `category` (
 -- Đang đổ dữ liệu cho bảng `category`
 --
 
-INSERT INTO `category` (`id_category`, `name_category`, `id_parent_category`, `created_at`, `updated_at`) VALUES
-(1, 'Cà phê & Đồ uống', 0, '2023-08-21 14:57:33', '2023-08-21 15:55:23'),
-(2, 'Bánh mì & Bánh ngọt', 0, '2023-08-21 14:59:57', '2023-08-21 14:59:57'),
-(3, 'Ăn sáng & Ăn trưa', 0, '2023-08-21 15:00:31', '2023-08-21 15:00:31'),
-(4, 'Đồ ăn vặt', 0, '2023-08-21 15:00:49', '2023-08-21 15:00:49'),
-(5, 'Bánh mì', 2, '2023-08-21 15:01:01', '2023-08-21 15:01:01'),
-(6, 'Bánh ngọt', 2, '2023-08-21 15:01:25', '2023-08-21 15:01:25'),
-(7, 'Bánh mì & Bánh bao', 3, '2023-08-21 15:02:12', '2023-08-21 15:02:12'),
-(8, 'Salad', 3, '2023-08-21 15:02:21', '2023-08-21 15:02:21'),
-(9, 'Bò bít tết', 3, '2023-08-21 15:02:28', '2023-08-21 15:02:28'),
-(10, 'Mì Ý', 3, '2023-08-21 15:02:39', '2023-08-21 15:02:39'),
-(11, 'Pasta', 4, '2023-08-21 16:00:50', '2023-08-21 16:00:50'),
-(15, 'Cà phê phin', 1, '2023-08-24 14:34:19', '2023-08-24 14:34:19'),
-(16, 'Cà phê pha máy', 1, '2023-08-24 14:34:30', '2023-08-24 14:34:30'),
-(17, 'Cà phê giấy lọc', 1, '2023-08-24 14:34:39', '2023-08-24 14:34:39'),
-(18, 'Cà phê ủ lạnh', 1, '2023-08-24 14:34:46', '2023-08-24 14:34:46'),
-(19, 'Trà ấm', 1, '2023-08-24 14:34:53', '2023-08-24 14:34:53'),
-(20, 'Trà hoa quả', 1, '2023-08-24 14:35:01', '2023-08-24 14:35:01'),
-(21, 'Nước ép hoa quả', 1, '2023-08-24 14:35:11', '2023-08-24 14:35:11'),
-(22, 'Sinh tố', 1, '2023-08-24 14:35:18', '2023-08-24 14:35:18'),
-(23, 'Đá xay', 1, '2023-08-24 14:35:24', '2023-08-24 14:36:05'),
-(24, 'Đồ uống khác', 1, '2023-08-24 14:35:39', '2023-08-24 14:35:39');
+INSERT INTO `category` (`id_category`, `name_category`, `id_parent_category`, `slug_category`, `created_at`, `updated_at`) VALUES
+(1, 'Cà phê & Đồ uống', 0, 'ca-phe-do-uong', '2023-08-21 14:57:33', '2023-10-24 08:57:25'),
+(2, 'Bánh mì & Bánh ngọt', 0, 'banh-mi-banh-ngot', '2023-08-21 14:59:57', '2023-10-24 08:57:25'),
+(3, 'Ăn sáng & Ăn trưa', 0, 'an-sang-an-trua', '2023-08-21 15:00:31', '2023-10-24 08:57:25'),
+(4, 'Đồ ăn vặt', 0, 'do-an-vat', '2023-08-21 15:00:49', '2023-10-24 08:57:25'),
+(5, 'Bánh mì', 2, 'banh-mi', '2023-08-21 15:01:01', '2023-10-24 08:57:25'),
+(6, 'Bánh ngọt', 2, 'banh-ngot', '2023-08-21 15:01:25', '2023-10-24 08:57:25'),
+(7, 'Bánh mì & Bánh bao', 3, 'banh-mi-banh-bao', '2023-08-21 15:02:12', '2023-10-24 08:57:25'),
+(8, 'Salad', 3, 'salad', '2023-08-21 15:02:21', '2023-10-24 08:57:25'),
+(9, 'Bò bít tết', 3, 'bo-bit-tet', '2023-08-21 15:02:28', '2023-10-24 08:57:25'),
+(10, 'Mì Ý', 3, 'mi-y', '2023-08-21 15:02:39', '2023-10-24 08:57:25'),
+(11, 'Pasta', 4, 'pasta', '2023-08-21 16:00:50', '2023-10-24 08:57:25'),
+(15, 'Cà phê phin', 1, 'ca-phe-phin', '2023-08-24 14:34:19', '2023-10-24 08:57:25'),
+(16, 'Cà phê pha máy', 1, 'ca-phe-pha-may', '2023-08-24 14:34:30', '2023-10-24 08:57:25'),
+(17, 'Cà phê giấy lọc', 1, 'ca-phe-giay-loc', '2023-08-24 14:34:39', '2023-10-24 08:57:25'),
+(18, 'Cà phê ủ lạnh', 1, 'ca-phe-u-lanh', '2023-08-24 14:34:46', '2023-10-24 08:57:25'),
+(19, 'Trà ấm', 1, 'tra-am', '2023-08-24 14:34:53', '2023-10-24 08:57:25'),
+(20, 'Trà hoa quả', 1, 'tra-hoa-qua', '2023-08-24 14:35:01', '2023-10-24 08:57:25'),
+(21, 'Nước ép hoa quả', 1, 'nuoc-ep-hoa-qua', '2023-08-24 14:35:11', '2023-10-24 08:57:25'),
+(22, 'Sinh tố', 1, 'sinh-to', '2023-08-24 14:35:18', '2023-10-24 08:57:25'),
+(23, 'Đá xay', 1, 'da-xay', '2023-08-24 14:35:24', '2023-10-24 08:57:25'),
+(24, 'Đồ uống khác', 1, 'do-uong-khac', '2023-08-24 14:35:39', '2023-10-24 08:57:25');
 
 -- --------------------------------------------------------
 
@@ -188,8 +181,9 @@ CREATE TABLE `customer_coupon` (
 --
 
 INSERT INTO `customer_coupon` (`id_customer_coupon`, `id_customer`, `id_coupon`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 1, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(2, 1, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 1, 1, '2023-10-24 09:00:44', '2023-10-24 09:00:44'),
+(4, 1, 3, '2023-10-24 09:00:44', '2023-10-24 09:00:44');
 
 -- --------------------------------------------------------
 
@@ -241,6 +235,14 @@ CREATE TABLE `detail_orders` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `detail_orders`
+--
+
+INSERT INTO `detail_orders` (`id_detail`, `id_order`, `code_order`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
+(5, 7, 'FSGW33', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 23, 805000, 'can voi', '2023-10-24 09:00:44', '2023-10-24 09:00:44'),
+(6, 7, 'FSGW33', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 17, 595000, 'di luon', '2023-10-24 09:00:44', '2023-10-24 09:00:44');
 
 -- --------------------------------------------------------
 
@@ -312,8 +314,8 @@ CREATE TABLE `ingredients` (
 
 INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
 (1, 2, 'Cà phê', 1000, '2023-09-03 10:49:36', '2023-09-03 16:17:02'),
-(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 20.096, '2023-09-03 10:49:36', '2023-10-02 03:34:36'),
-(3, 2, 'Cà phê bột Trung Nguyên loại I', 1720, '2023-09-03 14:15:16', '2023-10-02 03:34:36'),
+(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.756, '2023-09-03 10:49:36', '2023-10-24 09:00:44'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 230, '2023-09-03 14:15:16', '2023-10-24 09:00:44'),
 (4, 5, 'Plain Croissant', 5, '2023-09-03 14:24:01', '2023-09-03 14:24:01');
 
 -- --------------------------------------------------------
@@ -409,6 +411,7 @@ INSERT INTO `notes` (`id_note`, `id_supplier`, `code_note`, `name_note`, `quanti
 
 CREATE TABLE `order` (
   `id_order` int(10) UNSIGNED NOT NULL,
+  `id_customer` int(11) NOT NULL,
   `code_order` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_order` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subtotal_order` int(11) NOT NULL,
@@ -419,6 +422,13 @@ CREATE TABLE `order` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `order`
+--
+
+INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `created_at`, `updated_at`) VALUES
+(7, 1, 'FSGW33', 'Kieu Dang Bao Son', 1400000, 12000, 15000, 1397000, 0, '2023-10-24 09:00:44', '2023-10-24 09:00:44');
 
 -- --------------------------------------------------------
 
@@ -767,7 +777,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `customer_coupon`
 --
 ALTER TABLE `customer_coupon`
-  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_notes`
@@ -779,7 +789,7 @@ ALTER TABLE `detail_notes`
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -821,7 +831,7 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `product`

@@ -16,13 +16,27 @@
 <section class="ftco-section">
   <div class="container">
     <div class="row d-flex">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <div class="row d-flex pt-4 ml-lg-3">
-          @foreach($lists as $key => $one)
-          <div class="col-md-4 text-center">
-            <div class="menu-wrap"> 
-              <div class="text">
-                
+          @foreach($arrCoupon as $key => $one)
+          <div class="col-md-6 text-center mb-ssm-3">
+            <div class="card">
+              <div class="card-header text-center">
+                <span class="text-secondary fs-20">Mã giảm giá</span>
+              </div>
+              <div class="card-body">
+                <div class="fs-16 text-secondary">{{$one->name_coupon}}</div>
+                <div class="d-flex align-items-center justify-content-center">
+                  <img width="80" height="80" src="https://img.icons8.com/dotty/80/discount-ticket.png" alt="discount-ticket"/>
+                  <span class="mx-3 fs-14 text-secondary code-coupon">{{$one->code_coupon}}</span>
+                  <span class="ion-ios-copy fs-20 text-secondary cursor-pointer copy-discount"></span>
+                </div>
+                <h3 class="text-center fs-14 text-secondary">
+                  Giảm giá {{$one->type_coupon == 1 ? number_format($one->discount_coupon,0,',','.').' đ' : $one->discount_coupon . '% giá trị sản phẩm'}} (Áp dụng cho 1 đơn hàng)
+                </h3>
+              </div>
+              <div class="card-footer text-center">
+                <p class="fs-14">Hạn sử dụng: {{date('d/m/Y',strtotime($one->expiration_time))}}</p>
               </div>
             </div>
           </div>

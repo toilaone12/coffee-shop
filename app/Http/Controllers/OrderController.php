@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Customer;
+use App\Models\CustomerCoupon;
 use App\Models\DetailOrder;
 use App\Models\Ingredients;
 use App\Models\News;
@@ -51,7 +53,7 @@ class OrderController extends Controller
                 'phone' => $data['phone_order'],
                 'address' => $data['address_order'],
                 'fee_ship' => $data['fee_ship'],
-                'code_discount' => $data['code_discount'],
+                'code_discount' => isset($data['code_discount']) ? $data['code_discount'] : '',
                 'fee_discount' => $data['fee_discount'],
                 'subtotal' => $data['subtotal'],
                 'total' => $data['total']
@@ -67,38 +69,44 @@ class OrderController extends Controller
         $title = 'Đơn hàng';
         $cart = session('cart');
         $order = session('order');
-        $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
-        $customer = request()->cookie('id_customer') ? Customer::find($idCustomer) : [];
-        $list = Cart::where('id_customer',$idCustomer)->get();
-        $news = News::orderBy('updated_at', 'desc')->limit(3)->get();
-        $carts = array();
-        $subtotal = 0;
-        $total = 0;
-        if(request()->cookie('id_customer')){
-            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-            foreach($carts as $key => $one){
-                $subtotal += intval($one['price_product']);
-            }
-            $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
+        if(isset($order)){
+            return redirect()->route('cart.home');
         }else{
-            foreach($cart as $key => $one){
-                $subtotal += intval($one['price_product']);
+            $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
+            $customer = request()->cookie('id_customer') ? Customer::find($idCustomer) : [];
+            $list = Cart::where('id_customer',$idCustomer)->get();
+            $news = News::orderBy('updated_at', 'desc')->limit(3)->get();
+            $carts = array();
+            $subtotal = 0;
+            $total = 0;
+            if(request()->cookie('id_customer')){
+                $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+                foreach($carts as $key => $one){
+                    $subtotal += intval($one['price_product']);
+                }
+                $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
+            }else{
+                foreach($cart as $key => $one){
+                    $subtotal += intval($one['price_product']);
+                }
+                $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
             }
-            $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
+            $parentCategorys = Category::where('id_parent_category',0)->get();
+            $childCategorys = Category::where('id_parent_category','!=',0)->get();
+            return view('order.home',compact('list','title','parentCategorys','childCategorys','order','subtotal','total','news'));
         }
-        $parentCategorys = Category::where('id_parent_category',0)->get();
-        $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('order.home',compact('list','title','parentCategorys','childCategorys','order','subtotal','total','news'));
     }
 
     function order(Request $request){
         $data = $request->all();
         $order = session('order');
         $cart = session('cart');
+        $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
         if(isset($data['privacy'])){
             $codeOrder = $this->randomCode();
             $dataOrder = [
                 'code_order' => $codeOrder,
+                'id_customer' => $idCustomer,
                 'name_order' => $order['fullname'],
                 'phone_order' => $order['phone'],
                 'subtotal_order' => $order['subtotal'],
@@ -113,8 +121,8 @@ class OrderController extends Controller
             if($insertOrder){
                 $noti = [];
                 //co tai khoan
-                if(request()->cookie('id_customer')){
-                    $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+                if($idCustomer){
+                    $carts = Cart::where('id_customer',$idCustomer)->get();
                     foreach($carts as $key => $one){
                         $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
                         if($handleIngredients){
@@ -129,13 +137,23 @@ class OrderController extends Controller
                             ];
                             $insertDetail = DetailOrder::create($dataDetailOrder);
                             if($insertDetail){
-                                $carts->delete();
+                                Cart::where('id_customer',$idCustomer)->delete();
                                 $noti += ['res' => 'success'];
                             }else{
                                 $noti += ['res' => 'fail'];
                             }
                         }
                     } 
+                    if($order['code_discount'] != ''){
+                        $coupon = Coupon::where('code_coupon',$order['code_discount'])->first();
+                        $deleteCoupon = CustomerCoupon::where('id_customer',request()->cookie('id_customer'))->where('id_coupon',$coupon->id_coupon)->delete();
+                        if($deleteCoupon){
+                            $noti += ['res' => 'success'];
+                        }else{
+                            $noti += ['res' => 'fail'];
+                        }
+                    }
+                    $this->handleGiftCoupon($dataOrder,$idCustomer); // tang ma khuyen mai
                 //khong tai khoan 
                 }else{
                     foreach($cart as $key => $one){
@@ -166,12 +184,65 @@ class OrderController extends Controller
                 }
                 if(isset($order)){
                     Session::forget('order');
+                    Session::flush('order');
                 }
             }else{
                 return response(['res' => 'fail','status' => 'Thông báo đặt hàng', 'icon' => 'fail', 'title' => 'Đặt hàng thất bại do máy chủ']);
             }
         }else{
             return response(['res' => 'warning', 'status' => 'Hãy đồng ý với yêu cầu!']);
+        }
+    }
+
+    function history(){
+        $title = 'Lịch sử đơn hàng';
+        $carts = array();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        }
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        return view('order.history',compact('title','parentCategorys','childCategorys','carts'));
+    }
+
+    function handleGiftCoupon($order,$idCustomer){
+        $noti = [];
+        $coupons = Coupon::where('expiration_time','>=',date('Y-m-d'))->get();
+        foreach($coupons as $key => $coupon){
+            $subtotal = intval($order['subtotal_order']);
+            $isPrice = intval($coupon->is_price);
+            $existCouponCustomer = CustomerCoupon::where('id_customer',$idCustomer)->where('id_coupon',$coupon->id_coupon)->first(); //ktra ton tai
+            if(!$existCouponCustomer){
+                if($subtotal >= $isPrice && $isPrice != 0){
+                    $dataCoupon = [
+                        'id_customer' => $idCustomer,
+                        'id_coupon' => $coupon->id_coupon,
+                    ];
+                    $insert = CustomerCoupon::create($dataCoupon);
+                    if($insert){
+                        $noti += ['res' => 'true'];
+                    }else{
+                        $noti += ['res' => 'false'];
+                    }
+                }
+                $existOrder = Order::where('id_customer',$idCustomer)->get();
+                $countOrder = count($existOrder);
+                $isBuy = $coupon->is_buy;
+                if($countOrder == $isBuy && $isBuy != 0){
+                    $dataCoupon = [
+                        'id_customer' => $idCustomer,
+                        'id_coupon' => $coupon->id_coupon,
+                    ];
+                    $insert = CustomerCoupon::create($dataCoupon);
+                    if($insert){
+                        $noti += ['res' => 'true'];
+                    }else{
+                        $noti += ['res' => 'false'];
+                    }   
+                }
+            }else{
+                $noti += ['res' => 'false'];
+            }
         }
     }
 

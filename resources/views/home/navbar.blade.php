@@ -132,7 +132,7 @@
                                 <div class="rounded-circle bg-secondary p-history d-flex align-items-center">
                                     <span class="icon-history fs-20"></span>
                                 </div>
-                                <span class="ml-3 fs-15">Lịch sử đơn hàng</span>
+                                <span class="ml-3 fs-15 open-history-order">Lịch sử đơn hàng</span>
                             </div>
                             <div class="d-flex align-items-center mt-3 logout">
                                 <div class="rounded-circle bg-secondary p-logout d-flex align-items-center">

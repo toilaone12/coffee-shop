@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
@@ -126,7 +127,11 @@ class NewsController extends Controller
         $lists = News::paginate(3);
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('news.home',compact('lists','title','parentCategorys','childCategorys'));
+        $carts = array();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        }
+        return view('news.home',compact('lists','title','parentCategorys','childCategorys','carts'));
     }
     
     function detail($slug){

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\CustomerCoupon;
@@ -154,8 +155,17 @@ class CouponController extends Controller
     function home(){
         $title = 'Mã khuyến mãi';
         $lists = CustomerCoupon::where('id_customer',request()->cookie('id_customer'))->get();
+        $arrCoupon = [];
+        foreach($lists as $key => $one){
+            $coupon = Coupon::find($one->id_coupon);
+            array_push($arrCoupon,$coupon);
+        }
+        $carts = array();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        }
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('coupon.home',compact('title','lists','parentCategorys','childCategorys'));
+        return view('coupon.home',compact('title','arrCoupon','parentCategorys','childCategorys','carts'));
     }
 }

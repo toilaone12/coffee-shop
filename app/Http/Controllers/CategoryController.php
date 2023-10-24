@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Gallery;
 use App\Models\Product;
@@ -204,6 +205,10 @@ class CategoryController extends Controller
         $title = $category->name_category;
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        $carts = array();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        }
         $arrayProductInCategory = [];
         foreach($childCategorys as $key => $child){
             $productChild = Product::where('id_category',$child->id_category)->get();
@@ -220,7 +225,7 @@ class CategoryController extends Controller
         }
         // dd($arrayProductInCategory);
         $listChilds = collect($arrayProductInCategory);
-        return view('category.home',compact('lists','title','parentCategorys','childCategorys','listChilds'));
+        return view('category.home',compact('lists','title','parentCategorys','childCategorys','listChilds','carts'));
     }
 
     function search(Request $request){

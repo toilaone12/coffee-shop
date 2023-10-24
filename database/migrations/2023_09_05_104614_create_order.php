@@ -15,6 +15,7 @@ class CreateOrder extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->increments('id_order');
+            $table->integer('id_customer');
             $table->string('code_order',6);
             $table->string('name_order',255);
             $table->integer('subtotal_order');

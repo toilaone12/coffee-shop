@@ -350,5 +350,9 @@
         $(document).on('click','.open-discount', () => {
             location.href = "{{route('coupon.home')}}";
         })
+        //mo lich su don hang
+        $(document).on('click','.open-history-order', () => {
+            location.href = "{{route('order.history')}}";
+        })
     })
 </script>
