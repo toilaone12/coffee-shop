@@ -130,7 +130,7 @@
             </div>
             <div class="form-group">
               <label for="address">Địa chỉ</label>
-              <input type="text" name="address" value="{{$customer ? $customer->address_customer : (isset($order) ? $order['address'] : '')}}" class="form-control address-order pl-3">
+              <input type="text" name="address" disabled value="{{isset($order) ? $order['address'] : ''}}" class="form-control address-order pl-3" style="opacity: 0.65 !important">
               <span class="text-danger error-address-order"></span>
             </div>
           </div>
@@ -163,7 +163,7 @@
           <p class="d-flex align-items-center">
             <span class="fs-15">Khuyến mãi</span>
             <span class="d-flex align-items-center cursor-pointer">
-              <span class="fee-discount">{{isset($order) ? '-'.number_format($order['fee_discount'],0,',','.') : 0}} đ</span>
+              <span class="fee-discount">{{isset($order) && $order['fee_discount'] != 0 ? '-'.number_format($order['fee_discount'],0,',','.') : 0}} đ</span>
               @if(!isset($cart))
               <span 
               class="ml-2 ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 choose-discount"

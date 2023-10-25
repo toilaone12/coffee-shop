@@ -337,7 +337,17 @@
                         if($('.error-privacy').text() != ''){
                             $('.error-privacy').text('');
                         }
-                        swalNotification(data.title, data.status, data.icon, () => {});
+                        if(data.res == 'fail'){
+                            let html = '';
+                            data.title.forEach((title) => {
+                                html += `<span class="fs-14 d-block text-secondary mb-2">${title}</span>`
+                            })
+                            swalNotiWithHTML(data.status,html,data.icon,() => { location.href = '{{route("cart.home")}}'});
+                        }else{
+                            swalNotification(data.status,data.title,data.icon,() => { 
+                                location.href = '{{route("cart.home")}}'
+                            })
+                        }
                     }
                 },
                 (err) => {

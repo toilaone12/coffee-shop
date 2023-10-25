@@ -23,23 +23,25 @@ use Ramsey\Uuid\Type\Integer;
 class OrderController extends Controller
 {
     //
-    function list(){
+    function list()
+    {
         $title = 'Danh sách đơn hàng';
         $list = Order::all();
-        return view('order.list',compact('title','list'));
+        return view('order.list', compact('title', 'list'));
     }
 
-    function apply(Request $request){
+    function apply(Request $request)
+    {
         $data = $request->all();
         // $order = session('order');
         // if(isset($order)){
         //     Session::flush('order');
         // }
-        $validation = Validator::make($data,[
+        $validation = Validator::make($data, [
             'fullname_order' => ['required', 'regex:/^[a-zA-Z\sÀ-Ỹà-ỹ-]+$/u'],
             'phone_order' => ['required', 'regex:/^(03[2-9]|05[6-9]|07[06-9]|08[1-9]|09[0-9]|01[2-9])[0-9]{7}$/', 'max:10'],
-            'address_order' => ['required'] 
-        ],[
+            'address_order' => ['required']
+        ], [
             'fullname_order.required' => 'Họ tên người đặt không được để trống',
             'fullname_order.regex' => 'Họ tên người đặt phải là chữ cái',
             'phone_order.regex' => 'Số điện thoại người đặt phải là số',
@@ -47,7 +49,7 @@ class OrderController extends Controller
             'phone_order.max' => 'Số điện thoại người đặt phải là số điện thoại tại Việt Nam',
             'address_order.required' => 'Địa chỉ người đặt không được để trống',
         ]);
-        if(!$validation->fails()){
+        if (!$validation->fails()) {
             $order = [
                 'fullname' => $data['fullname_order'],
                 'phone' => $data['phone_order'],
@@ -58,51 +60,53 @@ class OrderController extends Controller
                 'subtotal' => $data['subtotal'],
                 'total' => $data['total']
             ];
-            Session::put('order',$order);
+            Session::put('order', $order);
             return response()->json(['res' => 'success']);
-        }else{
+        } else {
             return response()->json(['res' => 'warning', 'status' => $validation->errors()]);
         }
     }
 
-    function home(){
+    function home()
+    {
         $title = 'Đơn hàng';
         $cart = session('cart');
         $order = session('order');
-        if(!isset($order)){
+        if (!isset($order)) {
             return redirect()->route('cart.home');
-        }else{
+        } else {
             $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
             $customer = request()->cookie('id_customer') ? Customer::find($idCustomer) : [];
-            $list = Cart::where('id_customer',$idCustomer)->get();
+            $list = Cart::where('id_customer', $idCustomer)->get();
             $news = News::orderBy('updated_at', 'desc')->limit(3)->get();
             $carts = array();
             $subtotal = 0;
             $total = 0;
-            if(request()->cookie('id_customer')){
-                $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-                foreach($carts as $key => $one){
+            if (request()->cookie('id_customer')) {
+                $carts = Cart::where('id_customer', request()->cookie('id_customer'))->get();
+                foreach ($carts as $key => $one) {
                     $subtotal += intval($one['price_product']);
                 }
                 $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
-            }else{
-                foreach($cart as $key => $one){
+            } else {
+                foreach ($cart as $key => $one) {
                     $subtotal += intval($one['price_product']);
                 }
                 $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
             }
-            $parentCategorys = Category::where('id_parent_category',0)->get();
-            $childCategorys = Category::where('id_parent_category','!=',0)->get();
-            return view('order.home',compact('list','title','parentCategorys','childCategorys','order','subtotal','total','news'));
+            $parentCategorys = Category::where('id_parent_category', 0)->get();
+            $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
+            return view('order.home', compact('list', 'title', 'parentCategorys', 'childCategorys', 'order', 'subtotal', 'total', 'news'));
         }
     }
 
-    function order(Request $request){
+    function order(Request $request)
+    {
         $data = $request->all();
         $order = session('order');
         $cart = session('cart');
         $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
-        if(isset($data['privacy'])){
+        if (isset($data['privacy'])) {
             $codeOrder = $this->randomCode();
             $dataOrder = [
                 'code_order' => $codeOrder,
@@ -118,14 +122,15 @@ class OrderController extends Controller
             ];
             $insertOrder = Order::create($dataOrder);
             // $insertOrder = true;
-            if($insertOrder){
-                $noti = [];
+            if ($insertOrder) {
+                $notis = [];
                 //co tai khoan
-                if($idCustomer){
-                    $carts = Cart::where('id_customer',$idCustomer)->get();
-                    foreach($carts as $key => $one){
-                        // $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
-                        // if($handleIngredients){
+                if ($idCustomer) {
+                    $carts = Cart::where('id_customer', $idCustomer)->get();
+                    foreach ($carts as $key => $one) {
+                        $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
+                        // dd($handleIngredients);
+                        if($handleIngredients['res'] == 'true'){
                             $dataDetailOrder = [
                                 'id_order' => $insertOrder->id_order,
                                 'code_order' => $codeOrder,
@@ -138,27 +143,28 @@ class OrderController extends Controller
                             $insertDetail = DetailOrder::create($dataDetailOrder);
                             if($insertDetail){
                                 Cart::where('id_customer',$idCustomer)->delete();
-                                $noti += ['res' => 'success'];
+                                $notis += ['res' => 'success'];
                             }else{
-                                $noti += ['res' => 'fail'];
+                                $notis += ['res' => 'fail'];
                             }
-                        // }
-                    } 
-                    if($order['code_discount'] != ''){
-                        $coupon = Coupon::where('code_coupon',$order['code_discount'])->first();
-                        $deleteCoupon = CustomerCoupon::where('id_customer',request()->cookie('id_customer'))->where('id_coupon',$coupon->id_coupon)->delete();
-                        if($deleteCoupon){
-                            $noti += ['res' => 'success'];
                         }else{
-                            $noti += ['res' => 'fail'];
+                            $notis['res'] = 'fail';
+                            if (!isset($notis['status'])) {
+                                $notis['status'] = [];
+                            }
+                            array_push($notis['status'], $handleIngredients['status']);
                         }
                     }
-                    $this->handleGiftCoupon($dataOrder,$idCustomer); // tang ma khuyen mai
-                //khong tai khoan 
-                }else{
-                    foreach($cart as $key => $one){
-                        // $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
-                        // if($handleIngredients){
+                    if ($order['code_discount'] != '') {
+                        $coupon = Coupon::where('code_coupon', $order['code_discount'])->first();
+                        $deleteCoupon = CustomerCoupon::where('id_customer', request()->cookie('id_customer'))->where('id_coupon', $coupon->id_coupon)->delete();
+                    }
+                    $this->handleGiftCoupon($dataOrder, $idCustomer); // tang ma khuyen mai
+                    //khong tai khoan 
+                } else {
+                    foreach ($cart as $key => $one) {
+                        $handleIngredients = $this->handleIngredients($key, $one['quantity_product']);
+                        if ($handleIngredients['res'] == 'true') {
                             $dataDetailOrder = [
                                 'id_order' => $insertOrder->id_order,
                                 'code_order' => $codeOrder,
@@ -170,83 +176,82 @@ class OrderController extends Controller
                             ];
                             $insertDetail = DetailOrder::create($dataDetailOrder);
                             if($insertDetail){
-                                $noti += ['res' => 'success'];
+                                $notis += ['res' => 'success'];
                             }else{
-                                $noti += ['res' => 'fail'];
+                                $notis += ['res' => 'fail'];
                             }
-                        // }
+                        } else {
+                            $notis['res'] = 'fail';
+                            if (!isset($notis['status'])) {
+                                $notis['status'] = [];
+                            }
+                            array_push($notis['status'], $handleIngredients['status']);
+                        }
                     }
                 }
-                if($noti['res'] == 'success'){
-                    return response(['res' => 'success','status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!']);
-                }else{
-                    return response(['res' => 'fail','status' => 'Thông báo đặt hàng', 'icon' => 'fail', 'title' => 'Đặt hàng thất bại do máy chủ']);
+                if ($notis['res'] == 'success') {
+                    $request->session()->forget('order');
+                    $request->session()->forget('cart');
+                    $request->session()->flush();
+                    return response(['res' => 'success', 'status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!']);
+                } else {
+                    Order::find($insertOrder->id_order)->delete();
+                    return response(['res' => 'fail', 'status' => 'Thông báo đặt hàng', 'icon' => 'error', 'title' => $notis['status']]);
                 }
-                if(isset($order)){
-                    Session::forget('order');
-                    Session::flush('order');
-                }
-            }else{
-                return response(['res' => 'fail','status' => 'Thông báo đặt hàng', 'icon' => 'fail', 'title' => 'Đặt hàng thất bại do máy chủ']);
+            } else {
+                return response(['res' => 'fail', 'status' => 'Thông báo đặt hàng', 'icon' => 'error', 'title' => 'Đặt hàng thất bại do máy chủ']);
             }
-        }else{
+        } else {
             return response(['res' => 'warning', 'status' => 'Hãy đồng ý với yêu cầu!']);
         }
     }
 
-    function history(){
+    function history()
+    {
         $title = 'Lịch sử đơn hàng';
         $carts = array();
-        if(request()->cookie('id_customer')){
-            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-        }
-        $parentCategorys = Category::where('id_parent_category',0)->get();
-        $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('order.history',compact('title','parentCategorys','childCategorys','carts'));
+        $idCustomer = request()->cookie('id_customer');
+        $carts = Cart::where('id_customer',$idCustomer)->get();
+        $orders = Order::where('id_customer',$idCustomer)->get();
+        $parentCategorys = Category::where('id_parent_category', 0)->get();
+        $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
+        return view('order.history', compact('title', 'parentCategorys', 'childCategorys', 'carts','orders'));
     }
 
-    function handleGiftCoupon($order,$idCustomer){
+    function handleGiftCoupon($order, $idCustomer)
+    {
         $noti = [];
-        $coupons = Coupon::where('expiration_time','>=',date('Y-m-d'))->get();
-        foreach($coupons as $key => $coupon){
+        $coupons = Coupon::where('expiration_time', '>=', date('Y-m-d'))->get();
+        foreach ($coupons as $key => $coupon) {
             $subtotal = intval($order['subtotal_order']);
             $isPrice = intval($coupon->is_price);
-            $existCouponCustomer = CustomerCoupon::where('id_customer',$idCustomer)->where('id_coupon',$coupon->id_coupon)->first(); //ktra ton tai
-            if(!$existCouponCustomer){
-                if($subtotal >= $isPrice && $isPrice != 0){
+            $existCouponCustomer = CustomerCoupon::where('id_customer', $idCustomer)->where('id_coupon', $coupon->id_coupon)->first(); //ktra ton tai
+            if (!$existCouponCustomer) {
+                if ($subtotal >= $isPrice && $isPrice != 0) {
                     $dataCoupon = [
                         'id_customer' => $idCustomer,
                         'id_coupon' => $coupon->id_coupon,
                     ];
                     $insert = CustomerCoupon::create($dataCoupon);
-                    if($insert){
-                        $noti += ['res' => 'true'];
-                    }else{
-                        $noti += ['res' => 'false'];
-                    }
                 }
-                $existOrder = Order::where('id_customer',$idCustomer)->get();
+                $existOrder = Order::where('id_customer', $idCustomer)->get();
                 $countOrder = count($existOrder);
                 $isBuy = $coupon->is_buy;
-                if($countOrder == $isBuy && $isBuy != 0){
+                if ($countOrder == $isBuy && $isBuy != 0) {
                     $dataCoupon = [
                         'id_customer' => $idCustomer,
                         'id_coupon' => $coupon->id_coupon,
                     ];
                     $insert = CustomerCoupon::create($dataCoupon);
-                    if($insert){
-                        $noti += ['res' => 'true'];
-                    }else{
-                        $noti += ['res' => 'false'];
-                    }   
                 }
-            }else{
+            } else {
                 $noti += ['res' => 'false'];
             }
         }
     }
 
-    function randomCode($length = 6) {
+    function randomCode($length = 6)
+    {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
@@ -255,11 +260,12 @@ class OrderController extends Controller
         return $randomString;
     }
 
-    function convertUnit($value, $fromUnit, $toUnit) {
+    function convertUnit($value, $fromUnit, $toUnit)
+    {
         // Chuyển đơn vị đầu vào và đầu ra thành chữ thường để so sánh
         $fromUnit = strtolower($fromUnit);
         $toUnit = strtolower($toUnit);
-    
+
         // Biến đổi giá trị dựa trên đơn vị đầu vào và đầu ra
         switch ("$fromUnit-$toUnit") {
             case 'kg-g':
@@ -276,42 +282,64 @@ class OrderController extends Controller
         }
     }
 
-    // function handleIngredients($id, $quantity){
-    //     $recipe = Recipe::where('id_product',$id)->first();
-    //     $noti = [];
-    //     if($recipe){
-    //         $components = json_decode($recipe->component_recipe);
-    //         foreach($components as $key => $one){
-    //             $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
-    //             $ingredient = Ingredients::find(intval($one->id_ingredient)); //tim nguyen lieu trong ds nguyen lieu
-    //             $unitIngredient = Units::find(intval($ingredient->id_unit));//tim don vi cua nguyen lieu
-    //             $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
-    //             $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
-    //             $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
-    //             $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
-    //             $quantityComsumption = 0;
-    //             $quantityComponentConvert = 0;
-    //             if($abbreviationComponent == $abbreviationIngredient){ //ktra 2 don vi giong nhau k 
-    //                 $quantityComsumption = $quantityIngredient - ($quantityComponent * $quantity); //so luong tieu thu
-    //             }else{
-    //                 $quantityComponentConvert = $this->convertUnit($quantityComponent,$abbreviationComponent,$abbreviationIngredient);
-    //                 $quantityComsumption = $quantityIngredient - ($quantityComponentConvert * $quantity); //so luong tieu thu
-    //             }
-    //             $ingredient->quantity_ingredient = $quantityComsumption;
-    //             $updateIngredients = $ingredient->save();
-    //             if($updateIngredients){
-    //                 $noti += ['res' => 'true'];
-    //             }else{
-    //                 $noti += ['res' => 'false'];
-    //             }
-    //         }
-    //         if($noti['res'] == 'true'){
-    //             return true;
-    //         }else{
-    //             return false;
-    //         }
-    //     }else{
-    //         return false;
-    //     }
-    // }
+    function handleIngredients($id, $quantity)
+    {
+        $recipe = Recipe::where('id_product', $id)->first();
+        $product = Product::find($id);
+        $name = $product->name_product;
+        if ($recipe) {
+            $components = json_decode($recipe->component_recipe);
+            $isTrue = false;
+            $arrIngredients = [];
+            foreach ($components as $key => $one) {
+                $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
+                $ingredient = Ingredients::find(intval($one->id_ingredient)); //tim nguyen lieu trong ds nguyen lieu
+                $unitIngredient = Units::find(intval($ingredient->id_unit)); //tim don vi cua nguyen lieu
+                $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
+                $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
+                $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
+                $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
+                $totalProduct = 0;
+                $enoughProduct = 0;
+                $quantityComponentConvert = 0;
+                if ($abbreviationComponent == $abbreviationIngredient) { //ktra 2 don vi giong nhau k 
+                    $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
+                    $enoughProduct = intval($quantityIngredient / $quantityComponent);
+                    $quantityComsumptions = $quantityIngredient - ($quantityComponent * $quantity); //so luong tieu thu
+                } else {
+                    $quantityComponentConvert = $this->convertUnit($quantityComponent, $abbreviationComponent, $abbreviationIngredient);
+                    $totalProduct = $quantityComponentConvert * $quantity;
+                    $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
+                    $quantityComsumptions = $quantityIngredient - ($quantityComponentConvert * $quantity); //so luong tieu thu
+                }
+                $array = [
+                    'id' => $one->id_ingredient,
+                    'quantity' => $quantityComsumptions,
+                ];
+                array_push($arrIngredients, $array);
+                if ($totalProduct > $quantityIngredient) {
+                    $isTrue = false;
+                } else {
+                    $isTrue = true;
+                }
+            }
+            //xu ly tat ca nguyen lieu trong 1 san pham deu du
+            if (!$isTrue) {
+                return ['res' => 'false', 'status' => $name . ' chỉ còn ' . $enoughProduct . ' sản phẩm'];
+            } else {
+                $noti = [];
+                foreach ($arrIngredients as $key => $one) {
+                    $itemIngredient = Ingredients::find($one['id']);
+                    $itemIngredient->quantity_ingredient = $one['quantity'];
+                    $updateIngredients = $itemIngredient->save();
+                    if ($updateIngredients) {
+                        $noti += ['res' => 'true'];
+                    } else {
+                        $noti += ['res' => 'false', 'status' => 'Lỗi truy vấn'];
+                    }
+                }
+                return $noti;
+            }
+        }
+    }
 }

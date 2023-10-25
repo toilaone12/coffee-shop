@@ -20,20 +20,23 @@
         <div class="row">
           <div class="col-md-8 offset-md-2">
             <ul class="list-group">
-              <li class="list-group-item">
-                <h5>Đơn hàng #1</h5>
-                <p>Ngày đặt hàng: 2023-01-15</p>
-                <p>Trạng thái: Đã giao hàng</p>
-                <p>Tổng tiền: $100.00</p>
-                <a href="#">Chi tiết đơn hàng</a>
+              @foreach($orders as $key => $order)
+              <li class="list-group-item mb-2 rounded">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-secondary fs-20">Đơn hàng #{{$order->code_order}}</span>
+                  <span class="fs-16 text-secondary">
+                    Tình trạng đơn hàng: 
+                    <span class="{{$order->status_order == 0 ? 'text-warning' : ($order->status_order == 1 || $order->status_order == 2 ? 'text-success' : 'text-danger')}}">
+                      {{$order->status_order == 0 ? 'Đang chờ nhận đơn' : ($order->status_order == 1 ? 'Đã nhận đơn' : ($order->status_order == 2 ? 'Đang giao hàng' : 'Đã hủy đơn'))}}
+                    </span>
+                  </span>
+                </div>
+                <div class="mt-3 d-flex align-items-center justify-content-between">
+                  <span class="text-secondary fs-16">Tổng tiền: {{number_format($order->total_order,0,',','.')}} đ</span>
+                  <a href="" class="fs-16 btn btn-primary">Xem chi tiết</a>
+                </div>
               </li>
-              <li class="list-group-item">
-                <h5>Đơn hàng #2</h5>
-                <p>Ngày đặt hàng: 2023-02-20</p>
-                <p>Trạng thái: Đang xử lý</p>
-                <p>Tổng tiền: $75.00</p>
-                <a href="#">Chi tiết đơn hàng</a>
-              </li>
+              @endforeach
               <!-- Thêm các mục đơn hàng khác tương tự ở đây -->
             </ul>
           </div>

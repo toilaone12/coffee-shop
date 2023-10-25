@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 24, 2023 lúc 11:50 AM
+-- Thời gian đã tạo: Th10 25, 2023 lúc 11:54 AM
 -- Phiên bản máy phục vụ: 10.4.25-MariaDB
 -- Phiên bản PHP: 7.4.30
 
@@ -181,9 +181,8 @@ CREATE TABLE `customer_coupon` (
 --
 
 INSERT INTO `customer_coupon` (`id_customer_coupon`, `id_customer`, `id_coupon`, `created_at`, `updated_at`) VALUES
-(2, 1, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, 1, 1, '2023-10-24 09:00:44', '2023-10-24 09:00:44'),
-(4, 1, 3, '2023-10-24 09:00:44', '2023-10-24 09:00:44');
+(8, 1, 1, '2023-10-25 08:34:05', '2023-10-25 08:34:05'),
+(9, 1, 3, '2023-10-25 08:34:05', '2023-10-25 08:34:05');
 
 -- --------------------------------------------------------
 
@@ -203,20 +202,6 @@ CREATE TABLE `detail_notes` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `detail_notes`
---
-
-INSERT INTO `detail_notes` (`id_detail`, `id_note`, `id_unit`, `code_note`, `name_ingredient`, `quantity_ingredient`, `price_ingredient`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'LKU1MR', 'Cà phê', 2, 66000, '2023-08-31 14:27:27', '2023-08-31 14:27:27'),
-(2, 1, 1, 'LKU1MR', 'Sữa đặc Ngôi sao Phương Nam', 4, 62000, '2023-08-31 14:27:27', '2023-08-31 14:27:27'),
-(15, 3, 2, 'P0OOZ3', 'Cà phê bột Trung Nguyên loại I', 680, 58000, '2023-09-03 14:14:40', '2023-09-03 14:14:40'),
-(16, 3, 1, 'P0OOZ3', 'Sữa đặc Ngôi sao Phương Nam', 4, 62000, '2023-09-03 14:14:40', '2023-09-03 14:14:40'),
-(17, 3, 5, 'P0OOZ3', 'Plain Croissant', 5, 28000, '2023-09-03 14:14:40', '2023-09-03 14:14:40'),
-(18, 4, 2, 'MTAGIO', 'Sữa đặc Ngôi sao Phương Nam', 2448, 62000, '2023-09-03 14:46:59', '2023-09-03 14:46:59'),
-(19, 4, 1, 'MTAGIO', 'Cà phê bột Trung Nguyên loại I', 0.68, 58000, '2023-09-03 14:46:59', '2023-09-03 14:46:59'),
-(20, 4, 1, 'MTAGIO', 'Sữa đặc Ngôi sao Phương Nam', 3.6, 62000, '2023-09-03 15:09:16', '2023-09-03 15:09:16');
-
 -- --------------------------------------------------------
 
 --
@@ -231,7 +216,7 @@ CREATE TABLE `detail_orders` (
   `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity_product` int(11) NOT NULL,
   `price_product` int(11) NOT NULL,
-  `note_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `note_product` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -241,8 +226,8 @@ CREATE TABLE `detail_orders` (
 --
 
 INSERT INTO `detail_orders` (`id_detail`, `id_order`, `code_order`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
-(5, 7, 'FSGW33', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 23, 805000, 'can voi', '2023-10-24 09:00:44', '2023-10-24 09:00:44'),
-(6, 7, 'FSGW33', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 17, 595000, 'di luon', '2023-10-24 09:00:44', '2023-10-24 09:00:44');
+(29, 27, 'OR80T4', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 5, 175000, NULL, '2023-10-25 08:34:28', '2023-10-25 08:34:28'),
+(30, 27, 'OR80T4', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 5, 175000, NULL, '2023-10-25 08:34:28', '2023-10-25 08:34:28');
 
 -- --------------------------------------------------------
 
@@ -313,10 +298,10 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Cà phê', 1000, '2023-09-03 10:49:36', '2023-09-03 16:17:02'),
-(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.756, '2023-09-03 10:49:36', '2023-10-24 09:00:44'),
-(3, 2, 'Cà phê bột Trung Nguyên loại I', 230, '2023-09-03 14:15:16', '2023-10-24 09:00:44'),
-(4, 5, 'Plain Croissant', 5, '2023-09-03 14:24:01', '2023-09-03 14:24:01');
+(1, 2, 'Cà phê', 1000, '2023-09-03 03:49:36', '2023-09-03 09:17:02'),
+(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.996, '2023-09-03 03:49:36', '2023-10-25 08:34:28'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 1495, '2023-09-03 07:15:16', '2023-10-25 08:34:28'),
+(4, 5, 'Plain Croissant', 5, '2023-09-03 07:24:01', '2023-09-03 07:24:01');
 
 -- --------------------------------------------------------
 
@@ -428,7 +413,7 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `created_at`, `updated_at`) VALUES
-(7, 1, 'FSGW33', 'Kieu Dang Bao Son', 1400000, 12000, 15000, 1397000, 0, '2023-10-24 09:00:44', '2023-10-24 09:00:44');
+(27, 1, 'OR80T4', 'Kieu Dang Bao Son', 350000, 12000, 15000, 347000, 0, '2023-10-25 08:34:28', '2023-10-25 08:34:28');
 
 -- --------------------------------------------------------
 
@@ -753,7 +738,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -777,7 +762,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `customer_coupon`
 --
 ALTER TABLE `customer_coupon`
-  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_notes`
@@ -789,7 +774,7 @@ ALTER TABLE `detail_notes`
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -831,7 +816,7 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `product`

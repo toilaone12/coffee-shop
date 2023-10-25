@@ -162,7 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class, //thu vien PDF
-
+        App\Providers\MqttServiceProvider::class, //mqtt
         /*
          * Package Service Providers...
          */
