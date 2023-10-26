@@ -4917,3 +4917,6 @@
 .icon-zoom_out_map:before {
   content: "\e56b";
 }
+.icon-cross:before {
+  content: "\ea0f";
+}

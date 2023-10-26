@@ -225,5 +225,6 @@ Route::prefix('page')->group(function(){
         Route::post('/apply',[OrderController::class,'apply'])->name('order.apply');
         Route::post('/order',[OrderController::class,'order'])->name('order.order');
         Route::get('/history',[OrderController::class,'history'])->name('order.history');
+        Route::get('/detail/{code}',[OrderController::class,'detail'])->name('order.detail');
     });
 });

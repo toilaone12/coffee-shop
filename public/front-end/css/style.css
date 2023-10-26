@@ -13694,7 +13694,13 @@ textarea.form-control {
   font-size: 25px;
 }
 
+.fs-bold {
+  font-weight: bold;
+}
 
+.fs-italic {
+  font-weight: italic;
+}
 
 .custom-image {
     max-width: 100%; /* Kích thước tối đa chiều rộng là 100% */

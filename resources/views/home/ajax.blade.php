@@ -345,7 +345,7 @@
                             swalNotiWithHTML(data.status,html,data.icon,() => { location.href = '{{route("cart.home")}}'});
                         }else{
                             swalNotification(data.status,data.title,data.icon,() => { 
-                                location.href = '{{route("cart.home")}}'
+                                location.href = '{{route("page.home")}}'
                             })
                         }
                     }

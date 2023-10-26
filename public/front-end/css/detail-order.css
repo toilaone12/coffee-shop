@@ -1,0 +1,181 @@
+.card-stepper {
+    z-index: 0
+}
+
+@media (min-width: 576px) {
+    #progressbar-2 {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+    .status-order {
+        padding-left: 22px;
+        font-size: 14px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-wait {
+        padding-left: 29px;
+        font-size: 14px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-accept {
+        padding-left: 9px;
+        font-size: 14px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-journey {
+        font-size: 14px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-success {
+        padding-right: 12px;
+        font-size: 14px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-cancel {
+        font-size: 14px;
+        font-family: 'Varela Round', sans-serif;
+    }
+}
+
+@media (max-width: 576px) {
+    #progressbar-2 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .status-order {
+        font-size: 11px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-wait {
+        font-size: 11px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-accept {
+        padding-left: 20px;
+        font-size: 11px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-journey {
+        padding-left: 12px;
+        font-size: 11px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-success {
+        font-size: 11px;
+        font-family: 'Varela Round', sans-serif;
+    }
+    .status-cancel {
+        font-size: 11px;
+        font-family: 'Varela Round', sans-serif;
+    }
+}
+
+#progressbar-2 {
+    color: #455A64;
+}
+
+#progressbar-2 li {
+    list-style-type: none;
+    font-size: 13px;
+    width: 33.33%;
+    float: left;
+    position: relative;
+}
+
+#progressbar-2 #step1:before {
+    content: '\e0b3';
+    font-family: 'Icons';
+    color: #fff;
+    width: 37px;
+    margin-left: -1px;
+    padding-left: 0px;
+}
+
+#progressbar-2 #step2:before {
+    content: '\f00c';
+    font-family: 'icomoon';
+    color: #fff;
+    width: 37px;
+}
+
+#progressbar-2 #step3:before {
+    content: '\e0ce';
+    font-family: 'Icons';
+    color: #fff;
+    width: 37px;
+    margin-right: 0;
+    text-align: center;
+}
+
+#progressbar-2 #step4:before {
+    content: '\f111';
+    font-family: 'icomoon';
+    color: #fff;
+    width: 37px;
+    margin-right: 0;
+    text-align: center;
+    margin-left: 1px;
+
+}
+
+#progressbar-2 #step5:before {
+    content: '\e0db';
+    font-family: 'Icons';
+    color: #fff;
+    width: 37px;
+    margin-right: 0;
+    text-align: center;
+    margin-left: 1px;
+}
+
+#progressbar-2 li:before {
+    line-height: 37px;
+    display: block;
+    font-size: 12px;
+    background: #c5cae9;
+    border-radius: 50%;
+}
+
+#progressbar-2 li:after {
+    content: '';
+    width: 105%;
+    height: 10px;
+    background: #c5cae9;
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 15px;
+    z-index: -1;
+}
+
+
+#progressbar-2 li:nth-child(2):after {
+    left: 1%;
+    width: 100%;
+}
+
+#progressbar-2 li:nth-child(3):after {
+    left: 1%;
+    width: 100%;
+}
+
+
+#progressbar-2 li:nth-child(4) {
+    left: 0;
+    width: 37px;
+}
+
+#progressbar-2 li:nth-child(4):after {
+    left: 0;
+    width: 0;
+}
+
+#progressbar-2 li.active:before,
+#progressbar-2 li.active:after {
+    background: #6520ff;
+}
+
+#progressbar-2 li.cancel:before,
+#progressbar-2 li.cancel:after {
+    background: #dc3545;
+}

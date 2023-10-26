@@ -33,7 +33,7 @@
                 </div>
                 <div class="mt-3 d-flex align-items-center justify-content-between">
                   <span class="text-secondary fs-16">Tổng tiền: {{number_format($order->total_order,0,',','.')}} đ</span>
-                  <a href="" class="fs-16 btn btn-primary">Xem chi tiết</a>
+                  <a href="{{route('order.detail',['code' => $order->code_order])}}" class="fs-16 btn btn-primary">Xem chi tiết</a>
                 </div>
               </li>
               @endforeach

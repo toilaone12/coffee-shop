@@ -108,98 +108,49 @@ class OrderController extends Controller
         $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
         if (isset($data['privacy'])) {
             $codeOrder = $this->randomCode();
-            $dataOrder = [
-                'code_order' => $codeOrder,
-                'id_customer' => $idCustomer,
-                'name_order' => $order['fullname'],
-                'phone_order' => $order['phone'],
-                'subtotal_order' => $order['subtotal'],
-                'fee_ship' => $order['fee_ship'],
-                'fee_discount' => $order['fee_discount'],
-                'address_order' => $order['address'],
-                'total_order' => $order['total'],
-                'status_order' => 0
-            ];
-            $insertOrder = Order::create($dataOrder);
-            // $insertOrder = true;
-            if ($insertOrder) {
-                $notis = [];
-                //co tai khoan
-                if ($idCustomer) {
-                    $carts = Cart::where('id_customer', $idCustomer)->get();
-                    foreach ($carts as $key => $one) {
-                        $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
-                        // dd($handleIngredients);
-                        if($handleIngredients['res'] == 'true'){
-                            $dataDetailOrder = [
-                                'id_order' => $insertOrder->id_order,
-                                'code_order' => $codeOrder,
-                                'image_product' => $one['image_product'],
-                                'name_product' => $one['name_product'],
-                                'quantity_product' => $one['quantity_product'],
-                                'price_product' => $one['price_product'],
-                                'note_product' => $one['note_product'],
-                            ];
-                            $insertDetail = DetailOrder::create($dataDetailOrder);
-                            if($insertDetail){
-                                Cart::where('id_customer',$idCustomer)->delete();
-                                $notis += ['res' => 'success'];
-                            }else{
-                                $notis += ['res' => 'fail'];
-                            }
-                        }else{
-                            $notis['res'] = 'fail';
-                            if (!isset($notis['status'])) {
-                                $notis['status'] = [];
-                            }
-                            array_push($notis['status'], $handleIngredients['status']);
-                        }
-                    }
-                    if ($order['code_discount'] != '') {
-                        $coupon = Coupon::where('code_coupon', $order['code_discount'])->first();
-                        $deleteCoupon = CustomerCoupon::where('id_customer', request()->cookie('id_customer'))->where('id_coupon', $coupon->id_coupon)->delete();
-                    }
-                    $this->handleGiftCoupon($dataOrder, $idCustomer); // tang ma khuyen mai
-                    //khong tai khoan 
-                } else {
-                    foreach ($cart as $key => $one) {
-                        $handleIngredients = $this->handleIngredients($key, $one['quantity_product']);
-                        if ($handleIngredients['res'] == 'true') {
-                            $dataDetailOrder = [
-                                'id_order' => $insertOrder->id_order,
-                                'code_order' => $codeOrder,
-                                'image_product' => $one['image_product'],
-                                'name_product' => $one['name_product'],
-                                'quantity_product' => $one['quantity_product'],
-                                'price_product' => $one['price_product'],
-                                'note_product' => $one['note_product'],
-                            ];
-                            $insertDetail = DetailOrder::create($dataDetailOrder);
-                            if($insertDetail){
-                                $notis += ['res' => 'success'];
-                            }else{
-                                $notis += ['res' => 'fail'];
-                            }
-                        } else {
-                            $notis['res'] = 'fail';
-                            if (!isset($notis['status'])) {
-                                $notis['status'] = [];
-                            }
-                            array_push($notis['status'], $handleIngredients['status']);
-                        }
-                    }
-                }
-                if ($notis['res'] == 'success') {
-                    $request->session()->forget('order');
-                    $request->session()->forget('cart');
-                    $request->session()->flush();
-                    return response(['res' => 'success', 'status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!']);
-                } else {
-                    Order::find($insertOrder->id_order)->delete();
-                    return response(['res' => 'fail', 'status' => 'Thông báo đặt hàng', 'icon' => 'error', 'title' => $notis['status']]);
-                }
+            $notis = [];
+            //co tai khoan
+            if ($idCustomer) {
+                $handle = $this->handleOrderWithDB($idCustomer, $codeOrder, $order);
+                $notis = $handle;
+                //khong tai khoan 
             } else {
-                return response(['res' => 'fail', 'status' => 'Thông báo đặt hàng', 'icon' => 'error', 'title' => 'Đặt hàng thất bại do máy chủ']);
+                $handle = $this->handleOrderWithSession($idCustomer, $codeOrder, $order, $cart);
+                $notis = $handle;
+                // foreach ($cart as $key => $one) {
+                //     $handleIngredients = $this->handleIngredients($key, $one['quantity_product']);
+                //     if ($handleIngredients['res'] == 'true') {
+                //         $dataDetailOrder = [
+                //             'id_order' => $insertOrder->id_order,
+                //             'code_order' => $codeOrder,
+                //             'image_product' => $one['image_product'],
+                //             'name_product' => $one['name_product'],
+                //             'quantity_product' => $one['quantity_product'],
+                //             'price_product' => $one['price_product'],
+                //             'note_product' => $one['note_product'],
+                //         ];
+                //         $insertDetail = DetailOrder::create($dataDetailOrder);
+                //         if ($insertDetail) {
+                //             $notis += ['res' => 'success'];
+                //         } else {
+                //             $notis += ['res' => 'fail'];
+                //         }
+                //     } else {
+                //         $notis['res'] = 'fail';
+                //         if (!isset($notis['status'])) {
+                //             $notis['status'] = [];
+                //         }
+                //         array_push($notis['status'], $handleIngredients['status']);
+                //     }
+                // }
+            }
+            if ($notis['res'] == 'success') {
+                $request->session()->forget('order');
+                $request->session()->forget('cart');
+                $request->session()->flush();
+                return response(['res' => 'success', 'status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!']);
+            } else {
+                return response(['res' => 'fail', 'status' => 'Thông báo đặt hàng', 'icon' => 'error', 'title' => $notis['status']]);
             }
         } else {
             return response(['res' => 'warning', 'status' => 'Hãy đồng ý với yêu cầu!']);
@@ -211,37 +162,171 @@ class OrderController extends Controller
         $title = 'Lịch sử đơn hàng';
         $carts = array();
         $idCustomer = request()->cookie('id_customer');
-        $carts = Cart::where('id_customer',$idCustomer)->get();
-        $orders = Order::where('id_customer',$idCustomer)->get();
+        $carts = Cart::where('id_customer', $idCustomer)->get();
+        $orders = Order::where('id_customer', $idCustomer)->get();
         $parentCategorys = Category::where('id_parent_category', 0)->get();
         $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
-        return view('order.history', compact('title', 'parentCategorys', 'childCategorys', 'carts','orders'));
+        return view('order.history', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'orders'));
     }
 
-    function handleGiftCoupon($order, $idCustomer)
+    function detail($code){
+        $title = 'Chi tiết đơn hàng';
+        $carts = array();
+        $idCustomer = request()->cookie('id_customer');
+        $carts = Cart::where('id_customer', $idCustomer)->get();
+        $order = Order::where('code_order', $code)->first();
+        $orderDetail = DetailOrder::where('code_order', $code)->get();
+        $status = $order->status_order;
+        $parentCategorys = Category::where('id_parent_category', 0)->get();
+        $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
+        return view('order.detail', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'order', 'orderDetail', 'status'));
+    }
+
+    function handleOrderWithDB($idCustomer, $code, $order)
+    {
+        $noti = [];
+        $errorHandle = [];
+        $isTrueCart = true;
+        $carts = Cart::where('id_customer', $idCustomer)->get();
+        foreach ($carts as $key => $one) {
+            $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
+            if ($handleIngredients['res'] == 'false') {
+                $isTrueCart = false;
+                array_push($errorHandle, $handleIngredients);
+            }
+        }
+        if ($isTrueCart) {
+            $dataOrder = [
+                'code_order' => $code,
+                'id_customer' => $idCustomer,
+                'name_order' => $order['fullname'],
+                'phone_order' => $order['phone'],
+                'subtotal_order' => $order['subtotal'],
+                'fee_ship' => $order['fee_ship'],
+                'fee_discount' => $order['fee_discount'],
+                'address_order' => $order['address'],
+                'total_order' => $order['total'],
+                'status_order' => 0
+            ];
+            $insertOrder = Order::create($dataOrder);
+            $id = $insertOrder->id_order;
+            foreach ($carts as $key => $one) {
+                $dataDetailOrder = [
+                    'id_order' => $id,
+                    'code_order' => $code,
+                    'image_product' => $one['image_product'],
+                    'name_product' => $one['name_product'],
+                    'quantity_product' => $one['quantity_product'],
+                    'price_product' => $one['price_product'],
+                    'note_product' => $one['note_product'],
+                ];
+                $insertDetail = DetailOrder::create($dataDetailOrder);
+                if ($insertDetail) {
+                    Cart::where('id_customer', $idCustomer)->delete();
+                    $noti += ['res' => 'success'];
+                } else {
+                    $noti += ['res' => 'fail'];
+                }
+                $this->handleGiftCoupon($order['subtotal'], $idCustomer); // tang ma khuyen mai
+                if ($order['code_discount'] != '') {
+                    $coupon = Coupon::where('code_coupon', $order['code_discount'])->first();
+                    CustomerCoupon::where('id_customer', $idCustomer)->where('id_coupon', $coupon->id_coupon)->delete();
+                }
+            }
+        } else {
+            foreach ($errorHandle as $error) {
+                if (!isset($noti['status'])) {
+                    $noti['status'] = [];
+                }
+                $noti['res'] = 'fail';
+                if (!isset($noti['status'])) {
+                    $noti['status'] = [];
+                }
+                array_push($noti['status'], $error['status']);
+            }
+        }
+        return $noti;
+    }
+
+    function handleOrderWithSession($idCustomer, $code, $order, $cart)
+    {
+        $noti = [];
+        $errorHandle = [];
+        $isTrueCart = true;
+        foreach ($cart as $key => $one) {
+            $handleIngredients = $this->handleIngredients($key, $one['quantity_product']);
+            if ($handleIngredients['res'] == 'false') {
+                $isTrueCart = false;
+                array_push($errorHandle, $handleIngredients);
+            }
+        }
+        if ($isTrueCart) {
+            $dataOrder = [
+                'code_order' => $code,
+                'id_customer' => $idCustomer,
+                'name_order' => $order['fullname'],
+                'phone_order' => $order['phone'],
+                'subtotal_order' => $order['subtotal'],
+                'fee_ship' => $order['fee_ship'],
+                'fee_discount' => $order['fee_discount'],
+                'address_order' => $order['address'],
+                'total_order' => $order['total'],
+                'status_order' => 0
+            ];
+            $insertOrder = Order::create($dataOrder);
+            $id = $insertOrder->id_order;
+            foreach ($cart as $key => $one) {
+                $dataDetailOrder = [
+                    'id_order' => $id,
+                    'code_order' => $code,
+                    'image_product' => $one['image_product'],
+                    'name_product' => $one['name_product'],
+                    'quantity_product' => $one['quantity_product'],
+                    'price_product' => $one['price_product'],
+                    'note_product' => $one['note_product'],
+                ];
+                $insertDetail = DetailOrder::create($dataDetailOrder);
+                if ($insertDetail) {
+                    $noti += ['res' => 'success'];
+                } else {
+                    $noti += ['res' => 'fail'];
+                }
+            }
+        } else {
+            foreach ($errorHandle as $error) {
+                if (!isset($noti['status'])) {
+                    $noti['status'] = [];
+                }
+                $noti['res'] = 'fail';
+                if (!isset($noti['status'])) {
+                    $noti['status'] = [];
+                }
+                array_push($noti['status'], $error['status']);
+            }
+        }
+        return $noti;
+    }
+
+    function handleGiftCoupon($subtotal, $idCustomer)
     {
         $noti = [];
         $coupons = Coupon::where('expiration_time', '>=', date('Y-m-d'))->get();
         foreach ($coupons as $key => $coupon) {
-            $subtotal = intval($order['subtotal_order']);
+            $subtotal = intval($subtotal);
             $isPrice = intval($coupon->is_price);
             $existCouponCustomer = CustomerCoupon::where('id_customer', $idCustomer)->where('id_coupon', $coupon->id_coupon)->first(); //ktra ton tai
             if (!$existCouponCustomer) {
+                $dataCoupon = [
+                    'id_customer' => $idCustomer,
+                    'id_coupon' => $coupon->id_coupon,
+                ];
                 if ($subtotal >= $isPrice && $isPrice != 0) {
-                    $dataCoupon = [
-                        'id_customer' => $idCustomer,
-                        'id_coupon' => $coupon->id_coupon,
-                    ];
                     $insert = CustomerCoupon::create($dataCoupon);
                 }
                 $existOrder = Order::where('id_customer', $idCustomer)->get();
                 $countOrder = count($existOrder);
                 $isBuy = $coupon->is_buy;
                 if ($countOrder == $isBuy && $isBuy != 0) {
-                    $dataCoupon = [
-                        'id_customer' => $idCustomer,
-                        'id_coupon' => $coupon->id_coupon,
-                    ];
                     $insert = CustomerCoupon::create($dataCoupon);
                 }
             } else {

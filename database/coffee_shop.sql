@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 25, 2023 lúc 11:54 AM
+-- Thời gian đã tạo: Th10 26, 2023 lúc 12:13 PM
 -- Phiên bản máy phục vụ: 10.4.25-MariaDB
 -- Phiên bản PHP: 7.4.30
 
@@ -181,8 +181,8 @@ CREATE TABLE `customer_coupon` (
 --
 
 INSERT INTO `customer_coupon` (`id_customer_coupon`, `id_customer`, `id_coupon`, `created_at`, `updated_at`) VALUES
-(8, 1, 1, '2023-10-25 08:34:05', '2023-10-25 08:34:05'),
-(9, 1, 3, '2023-10-25 08:34:05', '2023-10-25 08:34:05');
+(10, 1, 2, NULL, NULL),
+(13, 1, 3, '2023-10-26 04:36:58', '2023-10-26 04:36:58');
 
 -- --------------------------------------------------------
 
@@ -227,7 +227,13 @@ CREATE TABLE `detail_orders` (
 
 INSERT INTO `detail_orders` (`id_detail`, `id_order`, `code_order`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
 (29, 27, 'OR80T4', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 5, 175000, NULL, '2023-10-25 08:34:28', '2023-10-25 08:34:28'),
-(30, 27, 'OR80T4', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 5, 175000, NULL, '2023-10-25 08:34:28', '2023-10-25 08:34:28');
+(30, 27, 'OR80T4', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 5, 175000, NULL, '2023-10-25 08:34:28', '2023-10-25 08:34:28'),
+(35, 39, 'G8KAW6', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 15, 525000, NULL, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
+(36, 39, 'G8KAW6', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
+(37, 39, 'G8KAW6', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 3, 84000, NULL, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
+(38, 40, 'FCUGLU', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 3, 105000, NULL, '2023-10-26 04:44:11', '2023-10-26 04:44:11'),
+(39, 40, 'FCUGLU', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 3, 105000, NULL, '2023-10-26 04:44:11', '2023-10-26 04:44:11'),
+(40, 40, 'FCUGLU', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 1, 28000, NULL, '2023-10-26 04:44:11', '2023-10-26 04:44:11');
 
 -- --------------------------------------------------------
 
@@ -298,10 +304,9 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Cà phê', 1000, '2023-09-03 03:49:36', '2023-09-03 09:17:02'),
-(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.996, '2023-09-03 03:49:36', '2023-10-25 08:34:28'),
-(3, 2, 'Cà phê bột Trung Nguyên loại I', 1495, '2023-09-03 07:15:16', '2023-10-25 08:34:28'),
-(4, 5, 'Plain Croissant', 5, '2023-09-03 07:24:01', '2023-09-03 07:24:01');
+(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.676, '2023-09-03 03:49:36', '2023-10-26 04:44:11'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 830, '2023-09-03 07:15:16', '2023-10-26 04:44:11'),
+(4, 5, 'Plain Croissant', 0, '2023-09-03 07:24:01', '2023-10-26 04:44:11');
 
 -- --------------------------------------------------------
 
@@ -413,7 +418,9 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `created_at`, `updated_at`) VALUES
-(27, 1, 'OR80T4', 'Kieu Dang Bao Son', 350000, 12000, 15000, 347000, 0, '2023-10-25 08:34:28', '2023-10-25 08:34:28');
+(27, 1, 'OR80T4', 'Kieu Dang Bao Son', 350000, 12000, 15000, 347000, 1, '2023-10-25 08:34:28', '2023-10-25 08:34:28'),
+(39, 1, 'G8KAW6', 'Kieu Dang Bao Son', 644000, 12000, 15000, 641000, 0, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
+(40, 0, 'FCUGLU', 'Tuấn', 238000, 59000, 0, 297000, 0, '2023-10-26 04:44:11', '2023-10-26 04:44:11');
 
 -- --------------------------------------------------------
 
@@ -738,7 +745,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -762,7 +769,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `customer_coupon`
 --
 ALTER TABLE `customer_coupon`
-  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_notes`
@@ -774,7 +781,7 @@ ALTER TABLE `detail_notes`
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -816,7 +823,7 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
