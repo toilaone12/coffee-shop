@@ -40,7 +40,8 @@ class OrderController extends Controller
         $validation = Validator::make($data, [
             'fullname_order' => ['required', 'regex:/^[a-zA-Z\sÀ-Ỹà-ỹ-]+$/u'],
             'phone_order' => ['required', 'regex:/^(03[2-9]|05[6-9]|07[06-9]|08[1-9]|09[0-9]|01[2-9])[0-9]{7}$/', 'max:10'],
-            'address_order' => ['required']
+            'address_order' => ['required'],
+            'email_order' => ['required'],
         ], [
             'fullname_order.required' => 'Họ tên người đặt không được để trống',
             'fullname_order.regex' => 'Họ tên người đặt phải là chữ cái',
@@ -48,12 +49,14 @@ class OrderController extends Controller
             'phone_order.required' => 'Số điện thoại người đặt không được để trống',
             'phone_order.max' => 'Số điện thoại người đặt phải là số điện thoại tại Việt Nam',
             'address_order.required' => 'Địa chỉ người đặt không được để trống',
+            'email_order.required' => 'Email người đặt không được để trống',
         ]);
         if (!$validation->fails()) {
             $order = [
                 'fullname' => $data['fullname_order'],
                 'phone' => $data['phone_order'],
                 'address' => $data['address_order'],
+                'email' => $data['email_order'],
                 'fee_ship' => $data['fee_ship'],
                 'code_discount' => isset($data['code_discount']) ? $data['code_discount'] : '',
                 'fee_discount' => $data['fee_discount'],
@@ -117,32 +120,6 @@ class OrderController extends Controller
             } else {
                 $handle = $this->handleOrderWithSession($idCustomer, $codeOrder, $order, $cart);
                 $notis = $handle;
-                // foreach ($cart as $key => $one) {
-                //     $handleIngredients = $this->handleIngredients($key, $one['quantity_product']);
-                //     if ($handleIngredients['res'] == 'true') {
-                //         $dataDetailOrder = [
-                //             'id_order' => $insertOrder->id_order,
-                //             'code_order' => $codeOrder,
-                //             'image_product' => $one['image_product'],
-                //             'name_product' => $one['name_product'],
-                //             'quantity_product' => $one['quantity_product'],
-                //             'price_product' => $one['price_product'],
-                //             'note_product' => $one['note_product'],
-                //         ];
-                //         $insertDetail = DetailOrder::create($dataDetailOrder);
-                //         if ($insertDetail) {
-                //             $notis += ['res' => 'success'];
-                //         } else {
-                //             $notis += ['res' => 'fail'];
-                //         }
-                //     } else {
-                //         $notis['res'] = 'fail';
-                //         if (!isset($notis['status'])) {
-                //             $notis['status'] = [];
-                //         }
-                //         array_push($notis['status'], $handleIngredients['status']);
-                //     }
-                // }
             }
             if ($notis['res'] == 'success') {
                 $request->session()->forget('order');
@@ -182,6 +159,22 @@ class OrderController extends Controller
         return view('order.detail', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'order', 'orderDetail', 'status'));
     }
 
+    function change(Request $request){
+        $data = $request->all();
+        $status = $data['status'];
+        $id = $data['id'];
+        $order = Order::find($id);
+        $order->status_order = $status;
+        $update = $order->save();
+        if($update){
+            if($status == 4){
+                return redirect()->route('order.detail',['code' => $order->code_order]);
+            }else{
+    
+            }
+        }
+    }
+
     function handleOrderWithDB($idCustomer, $code, $order)
     {
         $noti = [];
@@ -201,10 +194,11 @@ class OrderController extends Controller
                 'id_customer' => $idCustomer,
                 'name_order' => $order['fullname'],
                 'phone_order' => $order['phone'],
+                'address_order' => $order['address'],
+                'email_order' => $order['email'],
                 'subtotal_order' => $order['subtotal'],
                 'fee_ship' => $order['fee_ship'],
                 'fee_discount' => $order['fee_discount'],
-                'address_order' => $order['address'],
                 'total_order' => $order['total'],
                 'status_order' => 0
             ];

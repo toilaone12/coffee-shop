@@ -276,6 +276,7 @@
             let fullname = $('.fullname-order').val();
             let phone = $('.phone-order').val();
             let address = $('.address-order').val();
+            let email = $('.email-order').val();
             let feeShip = parseInt($('.fee-ship').text().replace(/[+,.,đ]/g, ''));
             let feeDiscount = parseInt($('.fee-discount').text().replace(/[-,.,đ]/g, ''));
             let codeDiscount = $('.fee-discount').attr('data-code');
@@ -297,6 +298,7 @@
                     fullname_order: fullname,
                     phone_order: phone,
                     address_order: address,
+                    email_order: email,
                     fee_ship: feeShip,
                     fee_discount: feeDiscount,
                     code_discount: codeDiscount,
@@ -309,6 +311,7 @@
                             $('.error-fullname-order').text(data.status.fullname_order);
                             $('.error-phone-order').text(data.status.phone_order);
                             $('.error-address-order').text(data.status.address_order);
+                            $('.error-email-order').text(data.status.email_order);
                         }else if(data.res == 'success'){
                             location.href = '{{route("order.home")}}';
                         }

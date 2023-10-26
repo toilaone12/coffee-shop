@@ -39,7 +39,7 @@
                 <li class="nav-item"><a href="" class="nav-link fs-14">Giới thiệu</a></li>
                 <li class="nav-item"><a href="" class="nav-link fs-14">Liên hệ</a></li>
                 <li class="nav-item cart dropdown">
-                    <a class="nav-link" style="cursor: pointer;">
+                    <a class="nav-link" href="{{route('cart.home')}}" style="cursor: pointer;">
                         <span class="icon icon-shopping_cart"></span>
                         <div class="dot-cart">
                             @php

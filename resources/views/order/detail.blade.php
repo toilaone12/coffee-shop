@@ -56,15 +56,10 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12">
         <div class="card card-stepper text-black" style="border-radius: 16px;">
-
           <div class="card-body">
-
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <div>
-                <span class="mb-0 text-secondary fs-20">Đơn hàng <span class="text-primary font-weight-bold fs-20">#{{$order->code_order}}</span></span>
-              </div>
+              <span class="mb-0 text-dark fs-20">Đơn hàng <span class="text-primary font-weight-bold fs-20">#{{$order->code_order}}</span></span>
             </div>
-
             <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 pt-0 pb-lg-2 pb-md-2 pb-ssm-0">
               @if($status != 4)
               <li class="active text-center" id="step1"></li>
@@ -129,6 +124,29 @@
 
         </div>
       </div>
+      <div class="col-lg-8 mt-5">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-7 col-ssm-12">
+                <p class="text-dark fs-20">Địa chỉ giao hàng</p>
+                <div class="order-info">
+                  <div class="d-block text-dark fs-16">Họ & tên người nhận: {{$order->name_order}}</div>
+                  <div class="d-block text-secondary fs-13">Số điện thoại: {{$order->phone_order}}</div>
+                  <div class="d-block text-secondary fs-13">Địa chỉ: {{$order->address_order}}</div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-ssm-12">
+                <p class="text-dark fs-20 mt-ssm-3">Chức năng</p>
+                <div class="d-flex">
+                  <a href="{{route('order.change',['id' => $order->id_order,'status' => 4])}}" class="btn btn-primary rounded {{$status >= 2 && $status <= 4 ? 'disabled' : ''}}">Hủy đơn hàng</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4"></div>
       <div class="col-md-12 ftco-animate mt-5">
         <div class="cart-list">
           <table class="table">

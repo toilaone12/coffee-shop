@@ -32,7 +32,10 @@
                                     <td class="code-{{$one->id_order}}">{{$one->code_order}}</td>
                                     <td class="name-{{$one->id_order}}">{{$one->name_order}}</td>
                                     <td class="total-{{$one->id_order}}">{{$one->total_order}}</td>
-                                    <td class="status-{{$one->id_order}}">{{$one->status_order}}</td>
+                                    <td 
+                                    class="text-light status-{{$one->id_order}} {{$one->status_order == 0 || $one->status_order == 1 ? 'bg-warning' : ($one->status_order == 2 || $one->status_order == 3 ? 'bg-success' : 'bg-danger')}}">
+                                        {{$one->status_order == 0 ? 'Khách đặt hàng' : ($one->status_order == 1 ? 'Đang chế biến' : ($one->status_order == 2 ? 'Đang vận chuyển' : ($one->status_order == 3 ? 'Giao cho khách thành công' : 'Khách đã hủy đơn')))}}
+                                    </td>
                                     <td class="">{{$one->created_at}}</td>
                                     <td>
                                         <button class="btn btn-info open-detail-order" data-id="{{$one->id_order}}"><i class="fa-solid fa-clipboard-list"></i></button>
