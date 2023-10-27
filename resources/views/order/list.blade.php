@@ -38,7 +38,7 @@
                                     </td>
                                     <td class="">{{$one->created_at}}</td>
                                     <td>
-                                        <button class="btn btn-info open-detail-order" data-id="{{$one->id_order}}"><i class="fa-solid fa-clipboard-list"></i></button>
+                                        <a href="{{route('order.adDetail',['code' => $one->code_order])}}" class="btn btn-info text-white" data-id="{{$one->id_order}}"><i class="fa-solid fa-clipboard-list"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -46,14 +46,6 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-sm-3 ">
-                <div class="card">
-                    <h5 class="card-header">Thao tác chung</h5>
-                    <div class="card-body">
-                        <!-- <button class="w-100 btn btn-primary open-detail-order d-block">Chi tiết</button> -->
-                    </div>
                 </div>
             </div>
         </div>

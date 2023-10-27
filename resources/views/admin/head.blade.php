@@ -15,6 +15,7 @@
 <!-- Custom styles for this template-->
 <link href="{{asset('./back-end/css/sb-admin-2.min.css')}}" rel="stylesheet">
 <link href="{{asset('./back-end/css/style.css')}}" rel="stylesheet">
+<link href="{{asset('./front-end/css/detail-order.css')}}" rel="stylesheet">
 <!-- DataTables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">

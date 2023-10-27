@@ -22,12 +22,24 @@ use Ramsey\Uuid\Type\Integer;
 
 class OrderController extends Controller
 {
-    //
+    //admin
     function list()
     {
         $title = 'Danh sách đơn hàng';
         $list = Order::all();
         return view('order.list', compact('title', 'list'));
+    }
+
+    function adminDetail($code){
+        $title = 'Chi tiết đơn hàng';
+        $order = Order::where('code_order',$code)->first();
+        $list = DetailOrder::where('code_order',$code)->get();
+        $listStatus = [
+            1 => 'Nhận đơn hàng',
+            2 => 'Giao cho vận chuyển',
+            3 => 'Giao thành công',
+        ];
+        return view('order.admin_detail', compact('title', 'order','list','listStatus'));
     }
 
     function apply(Request $request)
@@ -170,7 +182,7 @@ class OrderController extends Controller
             if($status == 4){
                 return redirect()->route('order.detail',['code' => $order->code_order]);
             }else{
-    
+                return redirect()->route('order.adDetail',['code' => $order->code_order]);
             }
         }
     }

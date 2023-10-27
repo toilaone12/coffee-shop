@@ -57,7 +57,7 @@ class AdminController extends Controller
         $signIn = Account::where('username_account', $data['username_account'])
         ->where('password_account', md5($data['password_account']))
         ->where('otp_account',$data['otp_account'])->first();
-        // dd($data);
+        // dd(md5($data['password_account']));
         if ($signIn) {
             $account = Account::find($signIn->id_account);
             $account->is_online = 1;

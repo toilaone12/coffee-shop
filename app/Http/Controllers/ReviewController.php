@@ -49,7 +49,6 @@ class ReviewController extends Controller
 
     function update(Request $request){
         $data = $request->all();
-        dd($data);
         $validation = Validator::make($data,[
             'title_reply' => ['required']
         ],[

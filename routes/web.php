@@ -152,9 +152,7 @@ Route::prefix('admin')->group(function(){
     //Don dat hang
     Route::prefix('order')->group(function(){
         Route::get('/list',[OrderController::class, 'list'])->name('order.list');
-        Route::post('/insert',[OrderController::class, 'insert'])->name('order.insert');
-        Route::post('/update',[OrderController::class, 'update'])->name('order.update');
-        Route::post('/delete',[OrderController::class, 'delete'])->name('order.delete');
+        Route::get('/detail/{code}',[OrderController::class, 'adminDetail'])->name('order.adDetail');
     });
     //Ma khuyen mai
     Route::prefix('coupon')->group(function(){
