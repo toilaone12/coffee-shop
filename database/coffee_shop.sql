@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 26, 2023 lúc 12:13 PM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th10 29, 2023 lúc 05:30 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,6 +65,14 @@ CREATE TABLE `cart` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `cart`
+--
+
+INSERT INTO `cart` (`id_cart`, `id_customer`, `id_product`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
+(19, 1, 1, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 7, 245000, 'a', '2023-10-26 14:51:08', '2023-10-29 15:43:49'),
+(20, 1, 3, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 8, 280000, NULL, '2023-10-28 14:40:04', '2023-10-28 15:07:49');
 
 -- --------------------------------------------------------
 
@@ -281,8 +289,12 @@ CREATE TABLE `gallery` (
 --
 
 INSERT INTO `gallery` (`id_gallery`, `id_product`, `image_gallery`, `created_at`, `updated_at`) VALUES
-(3, 1, 'storage/gallery/banner-utt-1693024246.jpg', '2023-08-25 10:07:12', '2023-08-26 04:30:47'),
-(5, 1, 'storage/gallery/capture-1693024260.jpg', '2023-08-25 10:07:12', '2023-08-26 04:31:00');
+(3, 1, 'storage/gallery/bg-2-1698596377.jpg', '2023-08-25 10:07:12', '2023-10-29 16:19:38'),
+(5, 1, 'storage/gallery/th-1698596389.jpg', '2023-08-25 10:07:12', '2023-10-29 16:19:49'),
+(6, 1, 'storage/gallery/menu-1-1698596399.jpg', '2023-10-29 16:19:59', '2023-10-29 16:19:59'),
+(7, 1, 'storage/gallery/menu-2-1698596399.jpg', '2023-10-29 16:19:59', '2023-10-29 16:19:59'),
+(8, 1, 'storage/gallery/menu-3-1698596399.jpg', '2023-10-29 16:19:59', '2023-10-29 16:19:59'),
+(9, 1, 'storage/gallery/menu-4-1698596399.jpg', '2023-10-29 16:19:59', '2023-10-29 16:19:59');
 
 -- --------------------------------------------------------
 
@@ -404,6 +416,9 @@ CREATE TABLE `order` (
   `id_customer` int(11) NOT NULL,
   `code_order` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_order` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_order` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address_order` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_order` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subtotal_order` int(11) NOT NULL,
   `fee_ship` int(11) NOT NULL,
   `fee_discount` int(11) NOT NULL,
@@ -417,10 +432,10 @@ CREATE TABLE `order` (
 -- Đang đổ dữ liệu cho bảng `order`
 --
 
-INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `created_at`, `updated_at`) VALUES
-(27, 1, 'OR80T4', 'Kieu Dang Bao Son', 350000, 12000, 15000, 347000, 1, '2023-10-25 08:34:28', '2023-10-25 08:34:28'),
-(39, 1, 'G8KAW6', 'Kieu Dang Bao Son', 644000, 12000, 15000, 641000, 0, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
-(40, 0, 'FCUGLU', 'Tuấn', 238000, 59000, 0, 297000, 0, '2023-10-26 04:44:11', '2023-10-26 04:44:11');
+INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `phone_order`, `address_order`, `email_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `created_at`, `updated_at`) VALUES
+(27, 1, 'OR80T4', 'Kieu Dang Bao Son', '0386278998', 'Phố Vũ Tông Phan, Quận Thanh Xuân, Hà Nội', 'toilaone12@gmail.com', 350000, 12000, 15000, 347000, 0, '2023-10-25 08:34:28', '2023-10-28 14:33:02'),
+(39, 1, 'G8KAW6', 'Kieu Dang Bao Son', '0399569112', 'Phố Vũ Tông Phan, Quận Thanh Xuân, Hà Nội', 'bokazem69@gmail.com', 644000, 12000, 15000, 641000, 0, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
+(40, 0, 'FCUGLU', 'Tuấn', '0388113321', 'Huyện Kim Bảng, Lê Hồ, Hà Nam', 'tuan@gmail.com', 238000, 59000, 0, 297000, 0, '2023-10-26 04:44:11', '2023-10-26 04:44:11');
 
 -- --------------------------------------------------------
 
@@ -434,6 +449,7 @@ CREATE TABLE `product` (
   `image_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subname_product` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price_product` int(11) NOT NULL,
   `description_product` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `number_reviews_product` int(11) DEFAULT NULL,
@@ -446,10 +462,10 @@ CREATE TABLE `product` (
 -- Đang đổ dữ liệu cho bảng `product`
 --
 
-INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_product`, `subname_product`, `price_product`, `description_product`, `number_reviews_product`, `is_special`, `created_at`, `updated_at`) VALUES
-(1, 15, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 'Black Coffee Filter', 35000, '<p>Black Coffee Filter</p>', NULL, 0, '2023-08-24 14:44:49', '2023-08-24 14:44:49'),
-(3, 15, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 'Milk Coffee Filter', 35000, '<p>Milk Coffee Filter</p>', NULL, 0, '2023-09-04 08:55:54', '2023-09-04 08:55:54'),
-(4, 5, 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 'Bánh sừng bò', 28000, '<p>Bánh sừng bò</p>', NULL, 1, '2023-09-14 15:25:20', '2023-09-14 15:33:57');
+INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_product`, `subname_product`, `slug_product`, `price_product`, `description_product`, `number_reviews_product`, `is_special`, `created_at`, `updated_at`) VALUES
+(1, 15, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 'Black Coffee Filter', 'ca-phe-den', 35000, '<p>Black Coffee Filter</p>', NULL, 0, '2023-08-24 14:44:49', '2023-10-28 14:53:50'),
+(3, 15, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 'Milk Coffee Filter', 'ca-phe-nau', 35000, '<p>Milk Coffee Filter</p>', NULL, 0, '2023-09-04 08:55:54', '2023-10-28 14:53:50'),
+(4, 5, 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 'Bánh sừng bò', 'plain-croissant', 28000, '<p>Bánh sừng bò</p>', NULL, 1, '2023-09-14 15:25:20', '2023-10-28 14:53:50');
 
 -- --------------------------------------------------------
 
@@ -500,7 +516,9 @@ INSERT INTO `review` (`id_review`, `id_product`, `name_review`, `content_review`
 (1, 1, 'Sơn', 'Đồ ăn khá là ngon', 4, 0, 1, NULL, '2023-09-11 16:15:44'),
 (2, 1, 'Tuấn', 'Đồ uống khá nhạt chưa rõ vị đắng của cà phê', 2, 0, 1, NULL, '2023-09-11 16:17:16'),
 (3, 1, 'Quản trị viên', 'Cảm ơn vì đã ủng hộ', 0, 1, 0, '2023-09-11 16:15:44', '2023-09-11 16:15:44'),
-(4, 1, 'Quản trị viên', 'Thành thật xin lỗi vì điều đó', 0, 2, 0, '2023-09-11 16:17:16', '2023-09-11 16:17:16');
+(4, 1, 'Quản trị viên', 'Thành thật xin lỗi vì điều đó', 0, 2, 0, '2023-09-11 16:17:16', '2023-09-11 16:17:16'),
+(5, 1, 'Sơn Kiều Đặng Bảo', 'Đồ uống ngon', 4, 0, 1, '2023-10-29 09:55:06', '2023-10-29 10:38:18'),
+(6, 1, 'Quản trị viên', 'Mong bạn ủng hộ nhiều', 0, 5, 0, '2023-10-29 10:38:18', '2023-10-29 10:38:18');
 
 -- --------------------------------------------------------
 
@@ -745,7 +763,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -793,7 +811,7 @@ ALTER TABLE `fee`
 -- AUTO_INCREMENT cho bảng `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id_gallery` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_gallery` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `ingredients`
@@ -841,7 +859,7 @@ ALTER TABLE `recipe`
 -- AUTO_INCREMENT cho bảng `review`
 --
 ALTER TABLE `review`
-  MODIFY `id_review` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_review` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `role`

@@ -21,3 +21,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 <!-- SwalAlert2 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.1/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="{{asset('./front-end/css/ionicons.min.css')}}">
+<link rel="stylesheet" href="{{asset('./front-end/css/icomoon.css')}}">
+<link rel="stylesheet" href="{{asset('./front-end/css/open-iconic-bootstrap.min.css')}}">
+

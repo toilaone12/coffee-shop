@@ -29,14 +29,14 @@
                                     <div class="col-md-4 text-center">
                                         <div class="menu-wrap">
                                             <a 
-                                                href="#" 
+                                                href="{{route('product.detail',['slug' => $product->slug_product])}}" 
                                                 class="menu-img img mb-4 image-{{$product->id_product}}" 
                                                 style="background-image: url('{{asset($product->image_product)}}');"
                                                 data-image="{{asset($product->image_product)}}"
                                             >
                                             </a>
                                             <div class="text">
-                                                <h3><a href="#" class="name-{{$product->id_product}}">{{$product->name_product}}</a></h3>
+                                                <h3><a href="{{route('product.detail',['slug' => $product->slug_product])}}" class="name-{{$product->id_product}}">{{$product->name_product}}</a></h3>
                                                 <p class="price price-{{$product->id_product}}"><span>{{number_format($product->price_product,0,',','.')}} đ</span></p>
                                                 <p>
                                                     <button 

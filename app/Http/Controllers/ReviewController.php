@@ -26,7 +26,7 @@ class ReviewController extends Controller
         ])->validate();
         $review = Review::find($data['id_reply']);
         if($review){
-            $review->is_update = 2;
+            $review->is_update = 1;
             $update = $review->save();
             if($update){
                 $db = [
@@ -35,7 +35,7 @@ class ReviewController extends Controller
                     'content_review' => $data['title_reply'],
                     'rating_review' => 0,
                     'id_reply' => $data['id_reply'],
-                    'is_update' => 1,
+                    'is_update' => 0,
                 ];
                 $insert = Review::create($db);
                 if($insert){
@@ -65,6 +65,39 @@ class ReviewController extends Controller
             }
         }else{
             return response()->json(['res' => 'warning', 'status' => $validation->errors()]);
+        }
+    }
+
+    //page
+    function evalute(Request $request){
+        $data = $request->all();
+        // dd($data);
+        $validation = Validator::make($data,[
+            'fullname' => ['required'],
+            'star' => ['required'],
+            'review' => ['required'],
+        ],[
+            'fullname.required' => 'Họ & tên người đánh giá phải có',
+            'star.required' => 'Số sao đánh giá phải có',
+            'review.required' => 'Nội dung đánh giá phải có',
+        ]);
+        if($validation->fails()){
+            return response()->json(['res' => 'warning', 'status' => $validation->errors()]);
+        }else{
+            $data = [
+                'id_product' => $data['id'],
+                'name_review' => $data['fullname'],
+                'content_review' => $data['review'],
+                'rating_review' => $data['star'],
+                'id_reply' => 0,
+                'is_update' => 0
+            ];
+            $review = Review::create($data);
+            if($review){
+                return response()->json(['res' => 'success', 'status' => 'Đánh giá sản phẩm', 'title' => 'Đánh giá sản phẩm thành công', 'icon' => 'success']);
+            }else{
+                return response()->json(['res' => 'fail', 'status' => 'Đánh giá sản phẩm', 'title' => 'Đánh giá sản phẩm thất bại', 'icon' => 'error']);
+            }
         }
     }
 }

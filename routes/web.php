@@ -187,7 +187,11 @@ Route::prefix('page')->group(function(){
     });
     //san pham
     Route::prefix('product')->group(function(){
-
+        Route::get('/{slug}',[ProductController::class,'detail'])->name('product.detail');
+    });
+    //danh gia 
+    Route::prefix('review')->group(function(){
+        Route::post('/evalute',[ReviewController::class,'evalute'])->name('review.evalute');
     });
     //khach hang
     Route::prefix('customer')->group(function(){

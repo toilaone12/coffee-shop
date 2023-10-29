@@ -23,12 +23,12 @@
 
     <link rel="stylesheet" href="{{asset('./front-end/css/aos.css')}}">
 
-    <link rel="stylesheet" href="{{asset('./front-end/css/ionicons.min.css')}}">
-
+    
     <link rel="stylesheet" href="{{asset('./front-end/css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('./front-end/css/jquery.timepicker.css')}}">
-
+    
     <link rel="stylesheet" href="{{asset('./front-end/css/flaticon.css')}}">
+    <link rel="stylesheet" href="{{asset('./front-end/css/ionicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('./front-end/css/icomoon.css')}}">
     <link rel="stylesheet" href="{{asset('./front-end/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('./front-end/css/detail-order.css')}}">

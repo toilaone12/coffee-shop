@@ -52,4 +52,79 @@ $(document).ready(function(){
                 console.error("Lỗi khi sao chép vào clipboard: " + error);
             });
     })
+    //danh so sao
+    $('.choose-star').on('mouseenter',function() {
+        var rating = $(this).data('rating');
+        //se xoa het class
+        for(let i = 1; i <= 5; i++){
+            $('.choose-star[data-rating="' + i + '"]').removeClass('text-warning');
+        }
+        //se add class
+        for(let i = 1; i <= rating; i++){
+            $('.choose-star[data-rating="' + i + '"]').addClass('text-warning');
+        }
+        $('.choose-star').first().attr('data-choose',rating);
+        // Xử lý rating: gửi rating đến server hoặc thực hiện các thao tác khác ở đây
+    });
+    //cong tru so luong san pham
+    $('.quantity-right-plus').on('click',function(){
+        let quantity = parseInt($('#quantity').val());
+        let max = parseInt($('#quantity').attr('max'));
+        if(quantity > max - 1){
+            $('#quantity').val(max);
+        }else{
+            $('#quantity').val(quantity + 1);
+        }
+    })
+    $('.quantity-left-minus').on('click',function(){
+        let quantity = parseInt($('#quantity').val());
+        let min = parseInt($('#quantity').attr('min'));
+        if(quantity <= min){
+            $('#quantity').val(min);
+        }else{
+            $('#quantity').val(quantity - 1);
+        }
+    })
+    $('#quantity').on('change',function(){
+        let quantity = parseInt($(this).val());
+        let min = parseInt($(this).attr('min'));
+        let max = parseInt($(this).attr('max'));
+        if(quantity <= min){
+            $('#quantity').val(min);
+        }else if(quantity > max){
+            $('#quantity').val(max);
+        }
+    })
+
+    var $mainCarousel = $('.main-carousel');
+    var $thumbsCarousel = $('.thumbs-carousel');
+
+    $mainCarousel.owlCarousel({
+        items: 1,
+        nav: true,
+        dots: false,
+        navText: ['<span class="prev">❮</span>', '<span class="next">❯</span>']
+    });
+
+    $thumbsCarousel.owlCarousel({
+        margin: 10,
+        nav: false,
+        dots: false,
+        responsive: {
+            0: {
+                items: 4
+            },
+            600: {
+                items: 5
+            },
+            1000: {
+                items: 5
+            }
+        }
+    });
+
+    $thumbsCarousel.on('click', '.owl-item', function(e) {
+        e.preventDefault();
+        $mainCarousel.trigger('to.owl.carousel', [$(this).index(), 300, true]);
+    });
 })

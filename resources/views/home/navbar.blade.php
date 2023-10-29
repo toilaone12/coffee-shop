@@ -83,15 +83,15 @@
                             <div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>
                             <div class="mb-3 overflow-auto width-cart cart-item">
                                 @foreach($carts as $key => $one)
-                                <div class="d-flex justify-content-start mr-3 mb-3 cart-child-{{$key}}" style="width: 22rem;">
+                                <div class="d-flex justify-content-start mr-3 mb-3 cart-child-{{$one->id_product}}" style="width: 22rem;">
                                     <img loading="lazy" class="object-fit-cover rounded" width="50" height="50" src="{{asset($one['image_product'])}}" alt="Card image cap">
                                     <div class="d-block" style="width: 90%">
                                         <div class="d-flex justify-content-between" style="width: 310px !important">
                                             <p class="fs-14 text-dark text-truncate mx-3">{{$one['name_product']}}</p>
-                                            <p class="fs-14 text-dark price-child-{{$key}}" data-price="{{$one['price_product']}}">{{number_format($one['price_product'],0,',','.')}} đ</p>
+                                            <p class="fs-14 text-dark price-child-{{$one->id_product}}" data-price="{{$one['price_product']}}">{{number_format($one['price_product'],0,',','.')}} đ</p>
                                         </div>
                                         <div class="d-flex w-100">
-                                            <p class="fs-14 text-dark mx-3">x <span class="quantity-child-{{$key}} text-dark">{{$one['quantity_product']}}</span></p>
+                                            <p class="fs-14 text-dark mx-3">x <span class="quantity-child-{{$one->id_product}} text-dark">{{$one['quantity_product']}}</span></p>
                                         </div>
                                     </div>
                                 </div>

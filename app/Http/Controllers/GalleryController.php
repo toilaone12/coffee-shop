@@ -49,9 +49,9 @@ class GalleryController extends Controller
             }
         }
         if($noti['res'] === 'success'){
-            return redirect()->route('gallery.list?id='.$data['id_product'])->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
+            return redirect()->route('gallery.list',["id" => $data["id_product"]])->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
         }else{
-            return redirect()->route('gallery.list?id='.$data['id_product'])->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
+            return redirect()->route('gallery.list',["id" => $data["id_product"]])->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
         }
     }
 

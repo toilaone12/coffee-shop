@@ -69,7 +69,7 @@
                                             style="width: 40px; height: 40px;" 
                                             data-id="{{$one->id_review}}" 
                                             data-toggle="modal" 
-                                            data-target="#replyModal" {{$one->is_update == 2 ? 'disabled' : ''}}
+                                            data-target="#replyModal" {{$one->is_update == 1 ? 'disabled' : ''}}
                                         >
                                             <i class="fa-solid fa-reply"></i>
                                         </button>

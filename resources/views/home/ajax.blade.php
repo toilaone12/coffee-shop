@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        //them san pham vao gio hang
+        //them san pham vao gio hang (doi voi modal)
         $(document).on('click', '#add-waiting-cart', () => { // se chay ke ca khi DOM chua xuat hien
             let id = $('.id-product').val();
             let image = $('.image-product').attr('src');
@@ -34,7 +34,122 @@
                 },
                 (err) => {
                     console.log(err);
+                }
+            )
+        })
+        //them san pham vao gio hang (doi voi trang chinh)
+        $(document).on('click', '#add-product-cart', () => { // se chay ke ca khi DOM chua xuat hien
+            let id = $('#add-product-cart').data('id');
+            let image = $('.image-detail-product').attr('src');
+            let name = $('.name-detail-product').text();
+            let price = $('.price-detail-product').text().replace(/[.,đ]/g, '');
+            let quantity = $('.quantity-detail-product').val();
+            let note = $('.note-detail-product').val();
+            let url = '{{route("cart.insert")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            };
+            let data = {
+                id: id,
+                quantity: quantity,
+                note: note,
+                isLogin: "{{request()->cookie('id_customer') ? 1 : 0}}"
+            };
+            callAjax(url, method, data, headers,
+                (data) => {
+                    if (data.res === 'warning') {
+                        swalNotification(data.title, data.status, data.icon, () => {})
+                    } else {
+                        if (data.res === 'success') {
+                            let urlCart = "{{route('cart.home')}}";
+                            formCartNavbar(urlCart);
+                            addToCart(id, image, name, price, quantity);
+                        }
+                        swalNotification(data.title, data.status, data.icon, () => {})
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            )
+        })
+        //dat hang luon (trong modal)
+        $(document).on('click', '#add-cart', () => { // se chay ke ca khi DOM chua xuat hien
+            let id = $('.id-product').val();
+            let image = $('.image-product').attr('src');
+            let name = $('.name-product').text();
+            let price = $('.price-product').data('price');
+            let quantity = $('.quantity-product').val();
+            let note = $('.note-product').val();
+            let url = '{{route("cart.insert")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            };
+            let data = {
+                id: id,
+                quantity: quantity,
+                note: note,
+                isLogin: "{{request()->cookie('id_customer') ? 1 : 0}}"
+            };
+            callAjax(url, method, data, headers,
+                (data) => {
+                    if (data.res === 'warning') {
+                        swalNotification(data.title, data.status, data.icon, () => {})
+                    } else {
+                        let urlCart = "{{route('cart.home')}}";
+                        if (data.res === 'success') {
+                            formCartNavbar(urlCart);
+                            addToCart(id, image, name, price, quantity);
+                        }
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.href = urlCart;
+                        })
+                    }
+                },
+                (err) => {
+                    console.log(err);
                 })
+        })
+        //dat hang luon (trong trang chi tiet)
+        $(document).on('click', '#add-detail-cart', () => { // se chay ke ca khi DOM chua xuat hien
+            let id = $('#add-product-cart').data('id');
+            let image = $('.image-detail-product').attr('src');
+            let name = $('.name-detail-product').text();
+            let price = $('.price-detail-product').text().replace(/[.,đ]/g, '');
+            let quantity = $('.quantity-detail-product').val();
+            let note = $('.note-detail-product').val();
+            let url = '{{route("cart.insert")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            };
+            let data = {
+                id: id,
+                quantity: quantity,
+                note: note,
+                isLogin: "{{request()->cookie('id_customer') ? 1 : 0}}"
+            };
+            callAjax(url, method, data, headers,
+                (data) => {
+                    if (data.res === 'warning') {
+                        swalNotification(data.title, data.status, data.icon, () => {})
+                    } else {
+                        let urlCart = "{{route('cart.home')}}";
+                        if (data.res === 'success') {
+                            formCartNavbar(urlCart);
+                            addToCart(id, image, name, price, quantity);
+                        }
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.href = urlCart;
+                        })
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            )
         })
         //dang ky
         $(document).on('submit', '.register-customer', (e) => {
@@ -106,21 +221,26 @@
                     });
             })
         })
-
-        $('.quantity').each(function(key, value){
+        $('.quantity').each(function(key, value) {
             //cong san pham o gio hang
             let id = $(this).attr('data-id');
             $('.quantity-cart-' + id).on('change', () => {
                 let quantity = parseInt($(this).val());
-                let price = parseInt($('.price-cart-'+id).text().replace(/[.,đ]/g, ''));
-                if(quantity < 1){
+                let price = parseInt($('.price-cart-' + id).text().replace(/[.,đ]/g, ''));
+                if (quantity < 1) {
                     $(this).val(1);
-                    $('.total-'+id).text(price.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-                }else if(quantity > 99){
+                    $('.total-' + id).text(price.toLocaleString('vi-VN', {
+                        currency: 'VND'
+                    }) + ' đ');
+                } else if (quantity > 99) {
                     $(this).val(99);
-                    $('.total-'+id).text((price * 99).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-                }else{
-                    $('.total-'+id).text((quantity * price).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                    $('.total-' + id).text((price * 99).toLocaleString('vi-VN', {
+                        currency: 'VND'
+                    }) + ' đ');
+                } else {
+                    $('.total-' + id).text((quantity * price).toLocaleString('vi-VN', {
+                        currency: 'VND'
+                    }) + ' đ');
                 }
                 let url = "{{route('cart.update')}}";
                 let method = "POST";
@@ -136,16 +256,22 @@
                     (data) => {
                         if (data.res === 'warning') {
                             swalNotification(data.title, data.status, data.icon, () => {
-                                $('.quantity-cart-'+id).val(data.quantity);
-                                $('.total-'+id).text((parseInt(data.quantity) * price).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                                $('.quantity-cart-' + id).val(data.quantity);
+                                $('.total-' + id).text((parseInt(data.quantity) * price).toLocaleString('vi-VN', {
+                                    currency: 'VND'
+                                }) + ' đ');
                             });
                         } else {
                             let feeCoupon = parseInt($('.fee-discount').text().replace(/[.,đ]/g, ''));
                             let feeShip = parseInt($('.fee-ship').text().replace(/[.,đ]/g, ''));
                             swalNotification(data.title, data.status, data.icon, () => {
-                                let total = data.total.toLocaleString('vi-VN', { currency: 'VND' });
+                                let total = data.total.toLocaleString('vi-VN', {
+                                    currency: 'VND'
+                                });
                                 $('.total-product').text(total + ' đ');
-                                $('.total-cart').text((data.total + feeCoupon + feeShip).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                                $('.total-cart').text((data.total + feeCoupon + feeShip).toLocaleString('vi-VN', {
+                                    currency: 'VND'
+                                }) + ' đ');
                             })
                         }
                     },
@@ -177,8 +303,6 @@
                 );
             });
         });
-
-
         //tim dia chi
         $(document).on('keyup', '.find-address', debounce(() => {
             let keyword = ($('.find-address').val());
@@ -206,8 +330,7 @@
             } else {
                 $('#result-list').addClass('d-none');
             }
-        }, 500)
-        )
+        }, 500))
 
         //tra phi van chuyen
         $(document).on('submit', '.search-fee', (e) => {
@@ -226,11 +349,15 @@
             }
             callAjax(url, method, data, headers,
                 (data) => {
-                    if(data.res === 'success'){
+                    if (data.res === 'success') {
                         $('#feeModal').modal('hide'); // Ẩn modal
                         $('.modal-backdrop').remove(); // Xóa lớp nền backdrop
-                        $('.fee-ship').text('+' + data.fee.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-                        $('.total-cart').text((totalProduct + parseInt(data.fee) - parseInt(feeCoupon)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+                        $('.fee-ship').text('+' + data.fee.toLocaleString('vi-VN', {
+                            currency: 'VND'
+                        }) + ' đ');
+                        $('.total-cart').text((totalProduct + parseInt(data.fee) - parseInt(feeCoupon)).toLocaleString('vi-VN', {
+                            currency: 'VND'
+                        }) + ' đ');
                         $('.address-order').val($('.find-address').val());
                     }
                 },
@@ -255,20 +382,24 @@
             }
             callAjax(url, method, data, headers,
                 (data) => {
-                    if(data.res == 'warning'){
+                    if (data.res == 'warning') {
                         $('.error-coupon').text(data.status);
-                    }else{
+                    } else {
                         $('#couponModal').modal('hide'); // Ẩn modal
                         $('.modal-backdrop').remove(); // Xóa lớp nền backdrop
-                        $('.fee-discount').text('-' + data.fee.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-                        $('.total-cart').text((totalProduct - parseInt(data.fee) + parseInt(feeShip)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-                        $('.fee-discount').attr('data-code',$('.code-coupon').val());
+                        $('.fee-discount').text('-' + data.fee.toLocaleString('vi-VN', {
+                            currency: 'VND'
+                        }) + ' đ');
+                        $('.total-cart').text((totalProduct - parseInt(data.fee) + parseInt(feeShip)).toLocaleString('vi-VN', {
+                            currency: 'VND'
+                        }) + ' đ');
+                        $('.fee-discount').attr('data-code', $('.code-coupon').val());
                     }
                 },
                 (err) => {
                     console.log(err);
                 });
-        }) 
+        })
 
         //dong y
         $(document).on('submit', '.customer-apply', (e) => {
@@ -282,13 +413,13 @@
             let codeDiscount = $('.fee-discount').attr('data-code');
             let subTotal = parseInt($('.total-product').text().replace(/[.,đ]/g, ''));
             let total = parseInt($('.total-cart').text().replace(/[.,đ]/g, ''));
-            if(feeShip == 0){
+            if (feeShip == 0) {
                 swalNotification(
-                'Thông báo đặt hàng', 
-                'Bạn phải nhập thông tin để chúng tôi kiểm tra phí vận chuyển',
-                'warning',
-                () => {});
-            }else{
+                    'Thông báo đặt hàng',
+                    'Bạn phải nhập thông tin để chúng tôi kiểm tra phí vận chuyển',
+                    'warning',
+                    () => {});
+            } else {
                 let url = "{{route('order.apply')}}";
                 let method = "POST";
                 let headers = {
@@ -307,12 +438,12 @@
                 }
                 callAjax(url, method, data, headers,
                     (data) => {
-                        if(data.res == 'warning'){
+                        if (data.res == 'warning') {
                             $('.error-fullname-order').text(data.status.fullname_order);
                             $('.error-phone-order').text(data.status.phone_order);
                             $('.error-address-order').text(data.status.address_order);
                             $('.error-email-order').text(data.status.email_order);
-                        }else if(data.res == 'success'){
+                        } else if (data.res == 'success') {
                             location.href = '{{route("order.home")}}';
                         }
                     },
@@ -321,7 +452,7 @@
                     }
                 );
             }
-        }) 
+        })
 
         //dat hang
         $(document).on('submit', '.apply-order', (e) => {
@@ -334,20 +465,22 @@
             }
             callAjax(url, method, formData, headers,
                 (data) => {
-                    if(data.res == 'warning'){
+                    if (data.res == 'warning') {
                         $('.error-privacy').text(data.status);
-                    }else{
-                        if($('.error-privacy').text() != ''){
+                    } else {
+                        if ($('.error-privacy').text() != '') {
                             $('.error-privacy').text('');
                         }
-                        if(data.res == 'fail'){
+                        if (data.res == 'fail') {
                             let html = '';
                             data.title.forEach((title) => {
                                 html += `<span class="fs-14 d-block text-secondary mb-2">${title}</span>`
                             })
-                            swalNotiWithHTML(data.status,html,data.icon,() => { location.href = '{{route("cart.home")}}'});
-                        }else{
-                            swalNotification(data.status,data.title,data.icon,() => { 
+                            swalNotiWithHTML(data.status, html, data.icon, () => {
+                                location.href = '{{route("cart.home")}}'
+                            });
+                        } else {
+                            swalNotification(data.status, data.title, data.icon, () => {
                                 location.href = '{{route("page.home")}}'
                             })
                         }
@@ -358,14 +491,46 @@
                 }, 1
             );
         })
-        
+
         //mo danh sach ma khuyen mai
-        $(document).on('click','.open-discount', () => {
+        $(document).on('click', '.open-discount', () => {
             location.href = "{{route('coupon.home')}}";
         })
         //mo lich su don hang
-        $(document).on('click','.open-history-order', () => {
+        $(document).on('click', '.open-history-order', () => {
             location.href = "{{route('order.history')}}";
+        })
+        //danh gia san pham
+        $('.review-product').on('submit', (e) => {
+            e.preventDefault();
+            let formData = new FormData($('.review-product')[0]);
+            let choose = $('.choose-star').attr('data-choose'); //attr: no se tra ve || data: no se luu gia tri 
+            formData.append('star', choose);
+            let url = "{{route('review.evalute')}}";
+            let method = 'POST';
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, formData, headers,
+                (data) => {
+                    if (data.res == 'warning') {
+                        $('.error-fullname-review').text(data.status.fullname);
+                        $('.error-star-review').text(data.status.star);
+                        $('.error-review').text(data.status.review);
+                    } else {
+                        swalNotification(data.status, data.title, data.icon, () => {
+                            $('.error-fullname-review').text('');
+                            $('.error-star-review').text('');
+                            $('.error-review').text('');
+                            location.reload();
+                        })
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }, 1
+            );
+            // console.log(choose);
         })
     })
 </script>

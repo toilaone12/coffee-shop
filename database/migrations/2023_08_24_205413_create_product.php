@@ -19,6 +19,7 @@ class CreateProduct extends Migration
             $table->text('image_product');
             $table->string('name_product',255);
             $table->string('subname_product',255);
+            $table->string('slug_product',255);
             $table->integer('price_product');
             $table->text('description_product',255)->nullable();
             $table->integer('number_reviews_product')->nullable();

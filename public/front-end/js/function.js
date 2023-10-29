@@ -139,7 +139,7 @@ function handleBuyProduct(){
     html += `</div>`;
     html += `<div class="d-flex justify-content-between">`;
     html += `<button type="button" class="btn btn-danger btn-outline-danger fs-13" id="add-waiting-cart">Thêm vào giỏ hàng</button>`;
-    html += `<a href="#" class="btn btn-primary btn-outline-primary">Đặt hàng</a>`;
+    html += `<button type="button" class="btn btn-primary btn-outline-primary fs-13" id="add-cart">Đặt hàng</button>`;
     html += `</div>`;
     html += `</div>`;
     $('.product-modal').html(html);
@@ -203,11 +203,12 @@ function formCartNavbar(url) {
 function addToCart(id,image,name,price,quantity) {
     let i = $('.bag > small').text() ? $('.bag > small').text() : 0;
     if($('div').hasClass('cart-child-'+id)){ //ktra san pham da ton tai chua, co thi cong khong thi xuat hien moi
-        let priceExist = parseInt($('.price-child-'+id).data('price'));
+        let priceExist = parseInt($('.price-child-'+id).attr('data-price'));
         let quantityExist = parseInt($('.quantity-child-'+id).text());
         let priceChange = parseInt(price * quantity) + priceExist;
         let quantityChange = parseInt(quantity) + quantityExist;
         $('.price-child-'+id).text(priceChange.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+        $('.price-child-'+id).attr('data-price',priceChange)
         $('.quantity-child-'+id).text(quantityChange)
     }else{
         var option = `<div class="d-flex justify-content-start mr-3 mb-3 cart-child-${id}" style="width: 22rem;">`

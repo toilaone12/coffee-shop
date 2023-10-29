@@ -33,7 +33,7 @@
   #progressbar-2 li:nth-child(2):after,
   #progressbar-2 li:nth-child(3):after,
   #progressbar-2 li:nth-child(4):after {
-    left: 1%;
+    left: 0%;
     width: 100%;
   }
 </style>

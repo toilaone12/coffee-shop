@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Gallery;
 use App\Models\Product;
 use App\Models\Recipe;
@@ -140,5 +142,21 @@ class ProductController extends Controller
         }else{
             return response()->json(['res' => 'fail'],200);
         }
+    }
+
+    //page 
+    function detail($slug){
+        $product = Product::where('slug_product',$slug)->first();
+        $title = $product->name_product;
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        $relates = Product::where('id_category',$product->id_category)->limit(4)->get();
+        $reviews = Review::where('id_product',$product->id_product)->get();
+        $gallerys = Gallery::where('id_product',$product->id_product)->limit(4)->get();
+        $carts = array();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        }
+        return view('product.home',compact('product','title','parentCategorys','childCategorys','carts','relates','reviews','gallerys'));
     }
 }
