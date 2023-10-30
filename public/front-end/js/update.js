@@ -23,13 +23,39 @@ $(".custom-dropdown-item").hover(
     }
 );
 $(document).ready(function(){
+    //quen mat khau
+    $('.forgot-password').on('click', () => {
+        $('#userModal').modal('hide');
+        // Mở modal khác
+        $('#forgotPassword').modal('show');
+    })
+
+    //quay lai modal update truoc
+    $('#forgotPassword').on('hide.bs.modal', function() {
+        $('#userModal').modal('show'); // Khi updateModal được đóng, mở lại anotherModal
+    });
+
     //dat hang
     $('.product').each(function(key, value){
         $('.open-modal-' + $(value).data('id')).on('click', handleBuyProduct);
     });
 
+    //chuyen trang giua doi mat khau va thong tin ca nhan
+    $('.collaspe-1').on('click', function(){
+        if($('.collaspe-info').hasClass('d-none')){
+            $('.collaspe-info').removeClass('d-none');
+            $('.collaspe-change').addClass('d-none');
+        }
+    });
+
+    $('.collaspe-2').on('click', function(){
+        if($('.collaspe-change').hasClass('d-none')){
+            $('.collaspe-change').removeClass('d-none');
+            $('.collaspe-info').addClass('d-none');
+        }
+    });
+
     //mo modal phi van chuyen
-    
     $('.modal-fee').on('click', () => {
         if($('.find-address').val().length !== 0){
             $('.find-address').val()

@@ -9,6 +9,28 @@ Còn chức năng Xóa nhiều và chọn nhiều chưa áp dụng cho tất c�
 - Đối với việc sử dụng CKEditor, nếu bạn muốn render ra dữ liệu để gán vào html thì hãy sử dụng CKEDITOR.instances["tên class hoặc tên id"].setData();. Còn nếu bạn muốn lấy thì hãy sử dụng CKEDITOR.instances['tên class hoặc tên id'].getData() </br>
 - Cùng với đó nếu sử dụng FormData kết hợp với CKEditor, thì hãy sử dụng append cho FormData để đấy thêm dữ liệu vào ajax (Nguyên nhân: khi bạn truyền dữ liệu bằng FormData trong jQuery, nó sẽ không tự động cập nhật nội dung được render bởi CKEditor vào giá trị thuộc tính value của phần tử <textarea>.
 Điều này có nghĩa là dữ liệu mà CKEditor tạo ra không tự động xuất hiện trong giá trị của <textarea> khi bạn truyền dữ liệu bằng FormData. Để giải quyết vấn đề này, bạn cần thủ công cập nhật giá trị của <textarea> từ nội dung CKEditor trước khi gửi dữ liệu bằng FormData.)</br>
+- Cách sửa từ thẻ p sang thẻ input
+//sua thong tin 
+$(document).on('click','.change-username', function() {
+    // Lấy nội dung của thẻ <p>
+    var currentText = $(this).text();
+
+    // Tạo một ô input để sửa đổi username
+    var inputField = $('<input type="text" class="border border-secondary text-secondary fs-14 px-2 rounded" style="outline:none">');
+    inputField.val(currentText);
+
+    // Thay thế thẻ <p> bằng input
+    $(this).replaceWith(inputField); //$(this): la the p
+    // Tự động focus vào input khi chuyển đổi
+    inputField.focus();
+
+    // Xử lý sự kiện khi input mất focus
+    inputField.on('blur', function() {
+        var newUsername = $(this).val(); //$(this): la the input
+        var newParagraph = $('<p class="text-muted mb-0 change-username">' + newUsername + '</p>');
+        $(this).replaceWith(newParagraph);
+    });
+});
 - Có 2 cách xử lý ở trang "SỬA CHI TIẾU PHIẾU HÀNG (NẾU TỔNG SỐ LƯỢNG SỬA LỚN HƠN TỔNG SỐ LƯỢNG ĐÃ CÓ)"</br>
 C1: </br>
 if ($updateNote) {</br>

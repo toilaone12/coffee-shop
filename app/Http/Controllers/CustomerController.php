@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Category;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Nette\Utils\Random;
 
 class CustomerController extends Controller
 {
@@ -95,10 +99,62 @@ class CustomerController extends Controller
         }
     }
 
+    function forgot(Request $request){
+        $data = $request->all();
+        $validation = Validator::make($data,[
+            'email_forgot' => ['required']
+        ],[
+            'email_forgot.required' => 'Email không được để trống'
+        ]);
+        if($validation->fails()){
+            return response()->json(['res' => 'warning','status' => $validation->errors()]);
+        }else{
+            $email = $data['email_forgot'];
+            $newPassword = rand(100000,999999);
+            $customer = Customer::where('email_customer',$email)->first();
+            if($customer){
+                $customer->password_customer = md5($newPassword);
+                $update = $customer->save();
+                if($update){
+                    $titleMail = 'Quên mật khẩu tại Café Harper 7 Coffee';
+                    $dataMail = [
+                        'email' => $email,
+                        'password' => $newPassword
+                    ];
+                    Mail::send('mail.forgot',$dataMail,function($message) use ($titleMail,$email){
+                        $message->to($email)->subject($titleMail);
+                        $message->from($email,$titleMail);
+                    });
+                    return response()->json(['res' => 'success', 'title' => 'Quên mật khẩu', 'icon' => 'success', 'status' => 'Bạn hãy vào email vừa xác nhận để nhận mật khẩu mới']);
+                }
+            }else{
+                return response()->json(['res' => 'warning','status' => ['email_forgot' => 'Email này chưa được đăng ký tại đây']]);
+            }
+        }
+    }
+
     function logout() {
         Cookie::queue(Cookie::forget('id_customer'));
         Cookie::queue(Cookie::forget('name_customer'));
         return response()->json(['res' => 'success', 'status' => 'Đăng xuất tài khoản', 'icon' => 'success', 'title' => 'Đăng xuất tài khoản thành công'], 200);
+    }
 
+    function home(){
+        $title = 'Thông tin cá nhân';
+        $id = request()->cookie('id_customer');
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        $customer = Customer::find($id);
+        $carts = array();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        }
+        return view('customer.home',compact(
+            'title',
+            'parentCategorys',
+            'childCategorys',
+            'carts',
+            'customer'
+        ));
     }
 }

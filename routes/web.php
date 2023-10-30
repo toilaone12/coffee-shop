@@ -198,6 +198,8 @@ Route::prefix('page')->group(function(){
         Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
         Route::post('/login',[CustomerController::class,'login'])->name('customer.login');
         Route::post('/logout',[CustomerController::class,'logout'])->name('customer.logout');
+        Route::post('/forgot',[CustomerController::class,'forgot'])->name('customer.forgot');
+        Route::get('/home',[CustomerController::class,'home'])->name('customer.home');
     }); 
     //gio hang
     Route::prefix('cart')->group(function(){

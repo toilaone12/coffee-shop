@@ -39,7 +39,7 @@
                 <li class="nav-item"><a href="" class="nav-link fs-14">Giới thiệu</a></li>
                 <li class="nav-item"><a href="" class="nav-link fs-14">Liên hệ</a></li>
                 <li class="nav-item cart dropdown">
-                    <a class="nav-link" href="{{route('cart.home')}}" style="cursor: pointer;">
+                    <a class="nav-link" style="cursor: pointer;">
                         <span class="icon icon-shopping_cart"></span>
                         <div class="dot-cart">
                             @php
@@ -112,27 +112,27 @@
                     </span>
                     <div class="user-hover user-left rounded">
                         <div class="bg-black px-3 py-3 rounded cursor-pointer">
-                            <div class="d-flex align-items-center border-bottom border-secondary pb-3">
+                            <div class="d-flex align-items-center border-bottom border-secondary pb-3 open-info">
                                 <img src="{{asset('storage/customer/person.svg')}}" width="36" height="36" loading="lazy" class="border border-secondary p-1 bg-light img rounded-circle">
                                 <span class="ml-3 fs-15">{{request()->cookie('name_customer')}}</span>
                             </div>
-                            <div class="d-flex align-items-center mt-3">
+                            <div class="d-flex align-items-center mt-3 open-cart">
                                 <div class="rounded-circle bg-secondary p-2 d-flex align-items-center">
-                                    <span class="icon-list2 fs-20"></span>
+                                    <span class="icon-shopping_cart fs-20"></span>
                                 </div>
                                 <span class="ml-3 fs-15">Giỏ hàng cá nhân</span>
                             </div>
-                            <div class="d-flex align-items-center mt-3">
+                            <div class="d-flex align-items-center mt-3 open-discount">
                                 <div class="rounded-circle bg-secondary p-history d-flex align-items-center">
                                     <span class="icon-gift fs-20"></span>
                                 </div>
-                                <span class="ml-3 fs-15 open-discount">Mã khuyến mãi</span>
+                                <span class="ml-3 fs-15">Mã khuyến mãi</span>
                             </div>
-                            <div class="d-flex align-items-center mt-3">
+                            <div class="d-flex align-items-center mt-3 open-history-order">
                                 <div class="rounded-circle bg-secondary p-history d-flex align-items-center">
                                     <span class="icon-history fs-20"></span>
                                 </div>
-                                <span class="ml-3 fs-15 open-history-order">Lịch sử đơn hàng</span>
+                                <span class="ml-3 fs-15">Lịch sử đơn hàng</span>
                             </div>
                             <div class="d-flex align-items-center mt-3 logout">
                                 <div class="rounded-circle bg-secondary p-logout d-flex align-items-center">

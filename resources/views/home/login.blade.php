@@ -48,7 +48,7 @@
                                                         </div>
                                                         <button type="submit" class="btn btn-primary btn-outline-primary mt-4 px-4 fs-16">Đăng nhập</button>
                                                     </form>
-                                                    <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Quên mật khẩu?</a></p>
+                                                    <p class="mb-0 mt-4 text-center forgot-password cursor-pointer">Quên mật khẩu?</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -92,4 +92,5 @@
         </div>
     </div>
 </div>
+@include('customer.modal')
 <!-- Modal -->

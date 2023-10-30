@@ -221,6 +221,31 @@
                     });
             })
         })
+
+        //quen mat khau 
+        $('.forgot-password-customer').on('submit', (e) => {
+            e.preventDefault();
+            let formData = new FormData($('.forgot-password-customer')[0]);
+            let url = "{{route('customer.forgot')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, formData, headers,
+                (data) => {
+                    console.log(data);
+                    if (data.res == 'warning') {
+                        $('.error-forgot-email').text(data.status.email_forgot);
+                    } else {
+                        swalNotification(data.title, data.status, data.icon, () => {})
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }, 1
+            );
+        })
+
         $('.quantity').each(function(key, value) {
             //cong san pham o gio hang
             let id = $(this).attr('data-id');
@@ -500,6 +525,15 @@
         $(document).on('click', '.open-history-order', () => {
             location.href = "{{route('order.history')}}";
         })
+        //mo gio hang ca nhan
+        $(document).on('click', '.open-cart', () => {
+            location.href = "{{route('cart.home')}}";
+        })
+        //mo thong tin ca nhan
+        $(document).on('click', '.open-info', () => {
+            location.href = "{{route('customer.home')}}";
+        })
+
         //danh gia san pham
         $('.review-product').on('submit', (e) => {
             e.preventDefault();
