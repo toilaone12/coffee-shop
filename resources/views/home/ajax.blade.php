@@ -212,7 +212,7 @@
                         console.log(data);
                         if (data.res === 'success') {
                             swalNotification(data.title, data.status, data.icon, () => {
-                                location.reload()
+                                location.href = "{{route('page.home')}}"
                             })
                         }
                     },
@@ -505,7 +505,7 @@
                                 location.href = '{{route("cart.home")}}'
                             });
                         } else {
-                            swalNotification(data.status, data.title, data.icon, () => {
+                            swalNotification(data.title, data.status, data.icon, () => {
                                 location.href = '{{route("page.home")}}'
                             })
                         }
@@ -533,7 +533,64 @@
         $(document).on('click', '.open-info', () => {
             location.href = "{{route('customer.home')}}";
         })
-
+        //sua thong tin ca nhan
+        $(document).on('submit','.update-info', (e) => {
+            e.preventDefault();
+            let formData = new FormData($('.update-info')[0]);
+            let url = "{{route('customer.update')}}";
+            let method = 'POST';
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, formData, headers,
+                (data) => {
+                    console.log(data);
+                    if (data.res == 'warning') {
+                        $('.error-fullname').text(data.status.fullname);
+                        $('.error-phone').text(data.status.phone);
+                        $('.error-email').text(data.status.email);
+                    } else {
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            $('.error-fullname').text('');
+                            $('.error-phone').text('');
+                            $('.error-email').text('');
+                            location.reload();
+                        })
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }, 1
+            );
+        })
+        //doi mat khau
+        $(document).on('submit','.change-password', (e) => {
+            e.preventDefault();
+            let formData = new FormData($('.change-password')[0]);
+            let url = "{{route('customer.updatePassword')}}";
+            let method = 'POST';
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, formData, headers,
+                (data) => {
+                    console.log(data);
+                    if (data.res == 'warning') {
+                        $('.error-password').text(data.status.password);
+                        $('.error-repassword').text(data.status.repassword);
+                    } else {
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            $('.error-password').text('');
+                            $('.error-repassword').text('');
+                            location.reload();
+                        })
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }, 1
+            );
+        })
         //danh gia san pham
         $('.review-product').on('submit', (e) => {
             e.preventDefault();
@@ -552,7 +609,7 @@
                         $('.error-star-review').text(data.status.star);
                         $('.error-review').text(data.status.review);
                     } else {
-                        swalNotification(data.status, data.title, data.icon, () => {
+                        swalNotification(data.title, data.status, data.icon, () => {
                             $('.error-fullname-review').text('');
                             $('.error-star-review').text('');
                             $('.error-review').text('');

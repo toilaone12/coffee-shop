@@ -13,6 +13,6 @@ class Order extends Model
     protected $primaryKey = "id_order";
     protected $fillable =
     [
-        "id_customer","code_order", "name_order", "subtotal_order", "fee_ship", "fee_discount", "total_order", "status_order"
+        "id_customer","code_order", "name_order",'phone_order','address_order',"email_order","subtotal_order", "fee_ship", "fee_discount", "total_order", "status_order"
     ];
 }

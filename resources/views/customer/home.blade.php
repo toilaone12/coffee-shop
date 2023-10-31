@@ -28,14 +28,14 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-9 mt-ssm-5">
+          <div class="col-lg-9 mt-ssm-5 mt-sm-5 mt-md-0 mt-lg-0">
             <div class="collaspe-info">
               <div class="row">
                 <div class="col-lg-4">
                   <div class="card mb-4">
                     <div class="card-body text-center">
                       <p class="fs-18 text-dark">Ảnh đại diện</p>
-                      <img src="{{asset($customer->image_customer)}}" alt="avatar" class="rounded-circle img-fluid" style="width: 100px;">
+                      <img src="{{asset($customer->image_customer)}}" alt="avatar" class="rounded-circle" style="width: 100px; height: 100px;">
                     </div>
                   </div>
                 </div>
@@ -68,16 +68,7 @@
                           <p class="text-muted mb-0">{{$customer->phone_customer}}</p>
                         </div>
                       </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <p class="mb-0 fs-15">Địa chỉ nhận hàng</p>
-                        </div>
-                        <div class="col-sm-9">
-                          <p class="text-muted mb-0">{{$customer->address_customer}}</p>
-                        </div>
-                      </div>
-                      <button type="submit" class="btn btn-primary mt-3" data-toggle="modal" data-target="#editProfile">Sửa thông tin</button>
+                      <button type="submit" class="btn btn-primary mt-5" data-toggle="modal" data-target="#editProfile">Sửa thông tin</button>
                     </div>
                   </div>
                 </div>
@@ -85,65 +76,28 @@
             </div>
             <div class="collaspe-change d-none">
               <div class="row">
-                <div class="col-lg-4">
-                  <div class="card mb-4">
-                    <div class="card-body text-center">
-                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                      <h5 class="my-3">John Smith</h5>
-                      <p class="text-muted mb-1">Full Stack Developer</p>
-                      <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-                    </div>
-                  </div>
-                </div>
+                <div class="col-lg-2"></div>
                 <div class="col-lg-8">
-                  <div class="card mb-4">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <p class="mb-0">Full Name</p>
-                        </div>
-                        <div class="col-sm-9">
-                          <p class="text-muted mb-0">Johnatan Smith</p>
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <p class="mb-0">Email</p>
-                        </div>
-                        <div class="col-sm-9">
-                          <p class="text-muted mb-0">example@example.com</p>
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <p class="mb-0">Phone</p>
-                        </div>
-                        <div class="col-sm-9">
-                          <p class="text-muted mb-0">(097) 234-5678</p>
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <p class="mb-0">Mobile</p>
-                        </div>
-                        <div class="col-sm-9">
-                          <p class="text-muted mb-0">(098) 765-4321</p>
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <p class="mb-0">Address</p>
-                        </div>
-                        <div class="col-sm-9">
-                          <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                        </div>
-                      </div>
+                  <form class="change-password">
+                    <input type="hidden" name="id" value={{$customer->id_customer}}>
+                    <div class="form-group">
+                      <label class="fs-15" for="password-customer">Mật khẩu mới</label>
+                      <input type="password" name="password" id="password-customer" class="form-control" style="height: 39px !important;">
+                      <button type="button" class="password-toggle-btn" style="right: 15px !important;">
+                        <i class="icon-eye fs-20 text-secondary"></i>
+                      </button>
+                      <div class="text-danger fs-12 mt-1 error-password"></div>
                     </div>
-                  </div>
+                    <div class="form-group position-relative">
+                      <label class="fs-15" for="repassword-customer">Nhập lại mật khẩu mới</label>
+                      <input type="password" name="repassword" id="repassword-customer" class="form-control" style="height: 39px !important;">
+                      <button type="button" class="re-password-toggle-btn" style="right: 0px !important;">
+                        <i class="icon-eye fs-20 text-secondary"></i>
+                      </button>
+                      <div class="text-danger fs-12 mt-1 error-repassword"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3 fs-13">Xác nhận</button>
+                  </form>
                 </div>
               </div>
             </div>

@@ -200,6 +200,8 @@ Route::prefix('page')->group(function(){
         Route::post('/logout',[CustomerController::class,'logout'])->name('customer.logout');
         Route::post('/forgot',[CustomerController::class,'forgot'])->name('customer.forgot');
         Route::get('/home',[CustomerController::class,'home'])->name('customer.home');
+        Route::post('/update',[CustomerController::class,'update'])->name('customer.update');
+        Route::post('/updatePassword',[CustomerController::class,'updatePassword'])->name('customer.updatePassword');
     }); 
     //gio hang
     Route::prefix('cart')->group(function(){

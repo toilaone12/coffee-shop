@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 29, 2023 lúc 05:30 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th10 31, 2023 lúc 11:17 AM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,14 +65,6 @@ CREATE TABLE `cart` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `cart`
---
-
-INSERT INTO `cart` (`id_cart`, `id_customer`, `id_product`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
-(19, 1, 1, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 7, 245000, 'a', '2023-10-26 14:51:08', '2023-10-29 15:43:49'),
-(20, 1, 3, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 8, 280000, NULL, '2023-10-28 14:40:04', '2023-10-28 15:07:49');
 
 -- --------------------------------------------------------
 
@@ -142,7 +134,7 @@ CREATE TABLE `coupon` (
 
 INSERT INTO `coupon` (`id_coupon`, `name_coupon`, `code_coupon`, `quantity_coupon`, `type_coupon`, `discount_coupon`, `expiration_time`, `is_buy`, `is_price`, `created_at`, `updated_at`) VALUES
 (1, 'Mã khuyến mãi cho người mua lần đầu', 'FIRSTBUY15', 1000, 1, 15000, '2062-12-30 09:45:00', 1, NULL, '2023-09-06 03:13:35', '2023-09-06 08:05:04'),
-(2, 'Mã khuyến mãi cho người mua 3 sản phẩm trở lên', 'OVER3PRODUCT', 10000, 0, 20, '2024-12-06 10:20:00', 0, 0, '2023-09-06 03:20:47', '2023-09-06 03:20:47'),
+(2, 'Mã khuyến mãi cho người mua 3 sản phẩm trở lên', 'OVER3PRODUCT', 10000, 0, 20, '2024-12-06 10:20:00', 0, 200000, '2023-09-06 03:20:47', '2023-09-06 03:20:47'),
 (3, 'Mã giảm giá tháng 10', 'COUPONT10', 50, 1, 15000, '2023-10-31 23:59:00', 0, 100000, '2023-09-06 04:59:12', '2023-09-06 04:59:12');
 
 -- --------------------------------------------------------
@@ -155,7 +147,6 @@ CREATE TABLE `customer` (
   `id_customer` int(10) UNSIGNED NOT NULL,
   `image_customer` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_customer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gentle_customer` tinyint(4) NOT NULL,
   `email_customer` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone_customer` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password_customer` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -167,8 +158,8 @@ CREATE TABLE `customer` (
 -- Đang đổ dữ liệu cho bảng `customer`
 --
 
-INSERT INTO `customer` (`id_customer`, `image_customer`, `name_customer`, `gentle_customer`, `email_customer`, `phone_customer`, `password_customer`, `created_at`, `updated_at`) VALUES
-(1, 'http://127.0.0.1:8000/storage/customer/person.svg', 'Kieu Dang Bao Son', 0, 'baooson3005@gmail.com', NULL, 'e10adc3949ba59abbe56e057f20f883e', '2023-09-25 03:21:29', '2023-09-25 03:21:29');
+INSERT INTO `customer` (`id_customer`, `image_customer`, `name_customer`, `email_customer`, `phone_customer`, `password_customer`, `created_at`, `updated_at`) VALUES
+(1, 'storage/customer/bao-son-1698727645.jpg', 'Bảo Sơn', 'baooson3005@gmail.com', '0386278912', 'e10adc3949ba59abbe56e057f20f883e', '2023-09-25 03:21:29', '2023-10-31 08:04:03');
 
 -- --------------------------------------------------------
 
@@ -189,8 +180,7 @@ CREATE TABLE `customer_coupon` (
 --
 
 INSERT INTO `customer_coupon` (`id_customer_coupon`, `id_customer`, `id_coupon`, `created_at`, `updated_at`) VALUES
-(10, 1, 2, NULL, NULL),
-(13, 1, 3, '2023-10-26 04:36:58', '2023-10-26 04:36:58');
+(15, 1, 3, '2023-10-31 08:52:50', '2023-10-31 08:52:50');
 
 -- --------------------------------------------------------
 
@@ -234,14 +224,9 @@ CREATE TABLE `detail_orders` (
 --
 
 INSERT INTO `detail_orders` (`id_detail`, `id_order`, `code_order`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
-(29, 27, 'OR80T4', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 5, 175000, NULL, '2023-10-25 08:34:28', '2023-10-25 08:34:28'),
-(30, 27, 'OR80T4', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 5, 175000, NULL, '2023-10-25 08:34:28', '2023-10-25 08:34:28'),
-(35, 39, 'G8KAW6', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 15, 525000, NULL, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
-(36, 39, 'G8KAW6', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
-(37, 39, 'G8KAW6', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 3, 84000, NULL, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
-(38, 40, 'FCUGLU', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 3, 105000, NULL, '2023-10-26 04:44:11', '2023-10-26 04:44:11'),
-(39, 40, 'FCUGLU', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 3, 105000, NULL, '2023-10-26 04:44:11', '2023-10-26 04:44:11'),
-(40, 40, 'FCUGLU', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 1, 28000, NULL, '2023-10-26 04:44:11', '2023-10-26 04:44:11');
+(41, 41, 'B88DCB', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 7, 245000, 'a', '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
+(42, 41, 'B88DCB', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 8, 280000, 'b', '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
+(43, 42, '28J27Q', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, 'it duong', '2023-10-31 09:26:07', '2023-10-31 09:26:07');
 
 -- --------------------------------------------------------
 
@@ -316,9 +301,9 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
-(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.676, '2023-09-03 03:49:36', '2023-10-26 04:44:11'),
-(3, 2, 'Cà phê bột Trung Nguyên loại I', 830, '2023-09-03 07:15:16', '2023-10-26 04:44:11'),
-(4, 5, 'Plain Croissant', 0, '2023-09-03 07:24:01', '2023-10-26 04:44:11');
+(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.756, '2023-09-03 03:49:36', '2023-10-31 09:26:07'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 1030, '2023-09-03 07:15:16', '2023-10-31 09:26:07'),
+(4, 5, 'Plain Croissant', 5, '2023-09-03 07:24:01', '2023-10-26 04:44:11');
 
 -- --------------------------------------------------------
 
@@ -344,7 +329,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2023_09_06_154812_create_review', 5),
 (6, '2023_09_11_142633_create_news', 6),
 (7, '2023_09_20_221428_create_cart', 7),
-(8, '2023_10_22_170352_create_detail_orders', 8);
+(8, '2023_10_22_170352_create_detail_orders', 8),
+(9, '2023_10_31_153534_create_statistic', 9);
 
 -- --------------------------------------------------------
 
@@ -433,9 +419,8 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `phone_order`, `address_order`, `email_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `created_at`, `updated_at`) VALUES
-(27, 1, 'OR80T4', 'Kieu Dang Bao Son', '0386278998', 'Phố Vũ Tông Phan, Quận Thanh Xuân, Hà Nội', 'toilaone12@gmail.com', 350000, 12000, 15000, 347000, 0, '2023-10-25 08:34:28', '2023-10-28 14:33:02'),
-(39, 1, 'G8KAW6', 'Kieu Dang Bao Son', '0399569112', 'Phố Vũ Tông Phan, Quận Thanh Xuân, Hà Nội', 'bokazem69@gmail.com', 644000, 12000, 15000, 641000, 0, '2023-10-26 04:36:57', '2023-10-26 04:36:57'),
-(40, 0, 'FCUGLU', 'Tuấn', '0388113321', 'Huyện Kim Bảng, Lê Hồ, Hà Nam', 'tuan@gmail.com', 238000, 59000, 0, 297000, 0, '2023-10-26 04:44:11', '2023-10-26 04:44:11');
+(41, 1, 'B88DCB', 'Bảo Sơn', '0386278912', '40 Ngõ 3 Cầu Bươu, Xã Tả Thanh Oai, Huyện Thanh Trì, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 525000, 6000, 0, 531000, 3, '2023-10-31 08:52:50', '2023-10-31 10:16:03'),
+(42, 1, '28J27Q', 'Bảo Sơn', '0386278912', '3/235 Ngõ 235 Yên Hòa, Phường Yên Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 12000, 15000, 32000, 3, '2023-10-31 09:26:07', '2023-10-31 10:17:37');
 
 -- --------------------------------------------------------
 
@@ -563,6 +548,28 @@ CREATE TABLE `slide` (
 INSERT INTO `slide` (`id_slide`, `image_slide`, `name_slide`, `slug_slide`, `created_at`, `updated_at`) VALUES
 (5, 'storage/slide/chi-nhanh-moi-1694880305.jpg', 'Mở chi nhánh mới', 'chi-nhanh-moi', '2023-09-16 16:05:06', '2023-09-16 16:05:06'),
 (6, 'storage/slide/bbq-party-1694880462.jpg', 'BBQ Party', 'bbq-party', '2023-09-16 16:07:42', '2023-09-16 16:07:42');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `statistic`
+--
+
+CREATE TABLE `statistic` (
+  `id_statistic` int(10) UNSIGNED NOT NULL,
+  `quantity_statistic` int(11) NOT NULL,
+  `price_statistic` int(11) NOT NULL,
+  `date_statistic` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `statistic`
+--
+
+INSERT INTO `statistic` (`id_statistic`, `quantity_statistic`, `price_statistic`, `date_statistic`, `created_at`, `updated_at`) VALUES
+(2, 16, 563000, '2023-10-31', '2023-10-31 09:18:26', '2023-10-31 10:17:37');
 
 -- --------------------------------------------------------
 
@@ -738,6 +745,12 @@ ALTER TABLE `slide`
   ADD PRIMARY KEY (`id_slide`);
 
 --
+-- Chỉ mục cho bảng `statistic`
+--
+ALTER TABLE `statistic`
+  ADD PRIMARY KEY (`id_statistic`);
+
+--
 -- Chỉ mục cho bảng `supplier`
 --
 ALTER TABLE `supplier`
@@ -763,7 +776,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -787,7 +800,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `customer_coupon`
 --
 ALTER TABLE `customer_coupon`
-  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_notes`
@@ -799,7 +812,7 @@ ALTER TABLE `detail_notes`
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -823,7 +836,7 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
@@ -841,7 +854,7 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
@@ -872,6 +885,12 @@ ALTER TABLE `role`
 --
 ALTER TABLE `slide`
   MODIFY `id_slide` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `statistic`
+--
+ALTER TABLE `statistic`
+  MODIFY `id_statistic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `supplier`

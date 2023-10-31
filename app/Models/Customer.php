@@ -18,6 +18,5 @@ class Customer extends Model
         "email_customer",
         "phone_customer",
         "password_customer",
-        "is_vip",
     ];
 }

@@ -13,6 +13,7 @@ use App\Models\News;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Recipe;
+use App\Models\Statistic;
 use App\Models\Units;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -173,17 +174,54 @@ class OrderController extends Controller
 
     function change(Request $request){
         $data = $request->all();
-        $status = $data['status'];
+        $status = intval($data['status']);
         $id = $data['id'];
         $order = Order::find($id);
-        $order->status_order = $status;
-        $update = $order->save();
-        if($update){
+        if($order->status_order + 1 == $status){
+            $order->status_order = $status;
+            $update = $order->save();
+            if($update){
+                if($status == 4){
+                    return redirect()->route('order.detail',['code' => $order->code_order]);
+                }else{
+                    if($status == 3){
+                        $this->handleStatistic($order);
+                    }
+                    return redirect()->route('order.adDetail',['code' => $order->code_order]);
+                }
+            }
+        }else{
             if($status == 4){
                 return redirect()->route('order.detail',['code' => $order->code_order]);
             }else{
                 return redirect()->route('order.adDetail',['code' => $order->code_order]);
             }
+        }
+    }
+
+    function handleStatistic($order){
+        $date = date('Y-m-d',strtotime($order->updated_at));
+        $id = $order->id_order;
+        $statistic = Statistic::where('date_statistic',$date)->first();
+        $detailOrder = DetailOrder::where('id_order',$id)->get();
+        $quantityAll = 0;
+        $totalAll = $order->total_order;
+        foreach($detailOrder as $key => $one){
+            $quantityAll += $one->quantity_product;
+        }
+        if($statistic){
+            $quantityStatistic = $statistic->quantity_statistic + $quantityAll;
+            $priceStatistic = $statistic->price_statistic + $totalAll;
+            $statistic->quantity_statistic = $quantityStatistic;
+            $statistic->price_statistic = $priceStatistic;
+            $statistic->update();
+        }else{
+            $data = [
+                'quantity_statistic' => $quantityAll,
+                'price_statistic' => $totalAll,
+                'date_statistic' => date('Y-m-d')
+            ];
+            Statistic::create($data);
         }
     }
 
@@ -212,6 +250,7 @@ class OrderController extends Controller
                 'fee_ship' => $order['fee_ship'],
                 'fee_discount' => $order['fee_discount'],
                 'total_order' => $order['total'],
+                'email_order' => $order['email'],
                 'status_order' => 0
             ];
             $insertOrder = Order::create($dataOrder);
@@ -277,6 +316,7 @@ class OrderController extends Controller
                 'fee_discount' => $order['fee_discount'],
                 'address_order' => $order['address'],
                 'total_order' => $order['total'],
+                'email_order' => $order['email'],
                 'status_order' => 0
             ];
             $insertOrder = Order::create($dataOrder);

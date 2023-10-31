@@ -94,9 +94,9 @@ class ReviewController extends Controller
             ];
             $review = Review::create($data);
             if($review){
-                return response()->json(['res' => 'success', 'status' => 'Đánh giá sản phẩm', 'title' => 'Đánh giá sản phẩm thành công', 'icon' => 'success']);
+                return response()->json(['res' => 'success', 'title' => 'Đánh giá sản phẩm', 'title' => 'Đánh giá sản phẩm thành công', 'icon' => 'success']);
             }else{
-                return response()->json(['res' => 'fail', 'status' => 'Đánh giá sản phẩm', 'title' => 'Đánh giá sản phẩm thất bại', 'icon' => 'error']);
+                return response()->json(['res' => 'fail', 'title' => 'Đánh giá sản phẩm', 'title' => 'Đánh giá sản phẩm thất bại', 'icon' => 'error']);
             }
         }
     }

@@ -11,22 +11,21 @@
                 <div class="modal-body">
                     <div class="form-group mb-3">
                         <div class="row">
-                            <input type="hidden" name="id_new" class="id-new">
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label class="fs-15">Ảnh đại diện gốc</label>
-                                    <img class="image-update img-thumbnail d-block" width="200" height="100" src="" class="mt-5">
-                                    <input type="hidden" name="image_original_new" class="image-original">
+                                    <img class="image-update img-thumbnail d-block" width="200" height="100" src="{{asset($customer->image_customer)}}" class="mt-5">
+                                    <input type="hidden" name="image_original" class="image-original" value="{{$customer->image_customer}}">
                                 </div>
                             </div>
                             <div class="col-lg-7">
                                 <label class="fs-15">Ảnh đại diện mới</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input change-original-image border" name="image_new" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                    <label class="fs-15" class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
+                                    <input type="file" class="custom-file-input border change-image-profile" name="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                    <label class="fs-15 custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
                                 </div>
                                 <div class="fs-16 mt-2 name-image"></div>
-                                <span class="text-danger error-image"></span>
+                                <span class="text-danger fs-12 error-image"></span>
                             </div>
                         </div>
                     </div>
@@ -34,31 +33,24 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="fs-15" for="fullname">Họ & tên</label>
-                                <input type="text" name="fullname" id="fullname" style="outline:none" class="border text-secondary fs-14 px-2 py-1 rounded fullname-update">
-                                <span class="text-danger error-fullname"></span>
+                                <input type="text" name="fullname" id="fullname" value="{{$customer->name_customer}}" style="outline:none" class="border w-100 text-secondary fs-14 px-2 py-1 rounded fullname-update">
+                                <span class="text-danger error-fullname fs-12"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="fs-15" for="email">Email</label>
-                                <input type="text" name="email" id="email" style="outline:none" class="border text-secondary fs-14 px-2 py-1 rounded email-update">
-                                <span class="text-danger error-email"></span>
+                                <input type="text" name="email" id="email" value="{{$customer->email_customer}}" style="outline:none" class="border w-100 text-secondary fs-14 px-2 py-1 rounded email-update">
+                                <span class="text-danger error-email fs-12"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="fs-15" for="phone">Số điện thoại</label>
-                                <input type="text" name="phone" id="phone" style="outline:none" class="border text-secondary fs-14 px-2 py-1 rounded phone-update">
-                                <span class="text-danger error-phone"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="fs-15" for="address">Địa chỉ nhận hàng</label>
-                                <input type="text" name="address" id="address" style="outline:none" class="border text-secondary fs-14 px-2 py-1 rounded address-update">
-                                <span class="text-danger error-address"></span>
+                                <input type="text" name="phone" id="phone" value="{{$customer->phone_customer}}" style="outline:none" class="border w-100 text-secondary fs-14 px-2 py-1 rounded phone-update">
+                                <span class="text-danger error-phone fs-12"></span>
                             </div>
                         </div>
                     </div>

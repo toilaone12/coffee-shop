@@ -153,4 +153,30 @@ $(document).ready(function(){
         e.preventDefault();
         $mainCarousel.trigger('to.owl.carousel', [$(this).index(), 300, true]);
     });
+
+    //hien anh profile sau khi chon
+    $('.change-image-profile').change(function(e){
+        let fileName = $(this).val().split('\\').pop();
+        $('.imagePath').text(fileName);
+        $('.img-thumbnail').attr('src',URL.createObjectURL(e.target.files[0])) //tao 1 file anh tam thoi
+    })  
+    //phan hien mat khau 
+    $('.password-toggle-btn').click(function(){
+        if($('#password-customer').attr('type') === 'password'){
+            $('#password-customer').attr('type','text');
+            $(this).find('i').removeClass('icon-eye').addClass('icon-eye-slash');
+        }else{
+            $('#password-customer').attr('type','password');
+            $(this).find('i').addClass('icon-eye').removeClass('icon-eye-slash');
+        }
+    })
+    $('.re-password-toggle-btn').click(function(){
+        if($('#repassword-customer').attr('type') === 'password'){
+            $('#repassword-customer').attr('type','text');
+            $(this).find('i').removeClass('icon-eye').addClass('icon-eye-slash');
+        }else{
+            $('#repassword-customer').attr('type','password');
+            $(this).find('i').addClass('icon-eye').removeClass('icon-eye-slash');
+        }
+    })
 })

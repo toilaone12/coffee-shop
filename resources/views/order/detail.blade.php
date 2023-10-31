@@ -139,7 +139,7 @@
               <div class="col-lg-3 col-ssm-12">
                 <p class="text-dark fs-20 mt-ssm-3">Chức năng</p>
                 <div class="d-flex">
-                  <a href="{{route('order.change',['id' => $order->id_order,'status' => 4])}}" class="btn btn-primary rounded {{$status >= 2 && $status <= 4 ? 'disabled' : ''}}">Hủy đơn hàng</a>
+                  <a href="{{$order->status_order != 3 ? route('order.change',['id' => $order->id_order,'status' => 4]) : '#'}}" class="btn btn-primary rounded {{$status >= 3 && $status <= 4 ? 'disabled' : ''}}">Hủy đơn hàng</a>
                 </div>
               </div>
             </div>

@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Nette\Utils\Random;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -39,9 +40,8 @@ class CustomerController extends Controller
         ]);
         if(!$validation->fails()){
             $data = [
-                'image_customer' => asset('storage/customer/person.svg'),
+                'image_customer' => 'storage/customer/person.svg',
                 'name_customer' => $data['name'],
-                'gentle_customer' => 0,
                 'email_customer' => $data['email'],
                 'password_customer' => md5($data['password']),
                 'is_vip' => 0
@@ -90,6 +90,7 @@ class CustomerController extends Controller
                 }
                 Cookie::queue('id_customer',$login->id_customer);
                 Cookie::queue('name_customer',$login->name_customer);
+                Cookie::queue('image_customer',$login->image_customer);
                 return response()->json(['res' => 'success', 'title' => 'Đăng nhập tài khoản', 'icon' => 'success', 'status' => 'Đăng nhập tài khoản thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Đăng nhập tài khoản', 'icon' => 'error', 'status' => 'Đăng nhập tài khoản thất bại']);
@@ -149,6 +150,7 @@ class CustomerController extends Controller
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
         }
+        // dd($customer);
         return view('customer.home',compact(
             'title',
             'parentCategorys',
@@ -156,5 +158,70 @@ class CustomerController extends Controller
             'carts',
             'customer'
         ));
+    }
+
+    function update(Request $request){
+        $data = $request->all();
+        $validation = Validator::make($data,[
+            'fullname' => ['required', 'regex: /^[\p{L}a-zA-Z\s]+$/u'],
+            'phone' => ['required', 'regex: /^(03[2-9]|05[6-9]|07[06-9]|08[1-9]|09[0-9]|01[2-9])[0-9]{7}$/'],
+            'email' => ['required'],
+        ],[
+            'fullname.required' => 'Họ và tên bắt buộc phải điền vào',
+            'fullname.regex' => 'Họ và tên phải là chữ cái',
+            'phone.required' => 'Số điện thoại bắt buộc phải điền vào',
+            'phone.regex' => 'Số điện thoại phải nằm trong phạm vi Việt Nam',
+            'email.required' => 'Email bắt buộc phải điền vào',
+        ]);
+        if($validation->fails()){
+            return response()->json(['res' => 'warning', 'status' => $validation->errors()]);
+        }else{
+            $image = $request->file('image');
+            $slug = Str::slug($data['fullname'], '-');
+            $fileName = $slug . '-' . strtotime(now()) . '.jpg';
+            if($image){
+                $checkImageOriginal = Storage::disk('public')->exists($data['image_original']);
+                $image->storeAs('public/customer', $fileName); // se luu vao storage/app
+                if($checkImageOriginal){
+                    Storage::disk('public')->delete('customer/'.$data['image_original']);
+                }
+            }
+            $customer = Customer::find($data['id']);
+            $customer->image_customer = $image ? 'storage/customer/'.$fileName : $data['image_original'];
+            $customer->name_customer = $data['fullname'];
+            $customer->phone_customer = $data['phone'];
+            $update = $customer->save();
+            if($update){
+                return response()->json(['res' => 'success', 'title' => 'Cập nhật thông tin', 'icon' => 'success', 'status' => 'Đã cập nhật thông tin cá nhân thành công']);
+            }else{
+                return response()->json(['res' => 'fail', 'title' => 'Cập nhật thông tin', 'icon' => 'error', 'status' => 'Đã cập nhật thông tin cá nhân thất bại']);
+            }
+        }
+    }
+
+    function updatePassword(Request $request){
+        $data = $request->all();
+        $validation = Validator::make($data,[
+            'password' => ['required', 'regex:/^[A-Za-z0-9]{6,32}+$/'],
+            'repassword' => ['required', 'regex:/^[A-Za-z0-9]{6,32}+$/', 'same:password'],
+        ],[
+            'password.required' => 'Mật khẩu mới không được để trống',
+            'password.regex' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+            'repassword.required' => 'Mật khẩu nhập lại không được để trống',
+            'repassword.regex' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+            'repassword.same' => 'Hai mật khẩu phải trùng khớp với nhau',
+        ]);
+        if($validation->fails()){
+            return response()->json(['res' => 'warning', 'status' => $validation->errors()]);
+        }else{
+            $customer = Customer::find($data['id']);
+            $customer->password_customer = md5($data['password']);
+            $update = $customer->save();
+            if($update){
+                return response()->json(['res' => 'success', 'title' => 'Cập nhật mật khẩu', 'icon' => 'success', 'status' => 'Đã cập nhật mật khẩu thành công']);
+            }else{
+                return response()->json(['res' => 'fail', 'title' => 'Cập nhật mật khẩu', 'icon' => 'error', 'status' => 'Đã cập nhật mật khẩu thất bại']);
+            }
+        }
     }
 }
