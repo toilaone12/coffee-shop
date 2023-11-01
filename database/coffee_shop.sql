@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 31, 2023 lúc 11:17 AM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th10 01, 2023 lúc 05:26 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -226,7 +226,11 @@ CREATE TABLE `detail_orders` (
 INSERT INTO `detail_orders` (`id_detail`, `id_order`, `code_order`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
 (41, 41, 'B88DCB', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 7, 245000, 'a', '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
 (42, 41, 'B88DCB', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 8, 280000, 'b', '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
-(43, 42, '28J27Q', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, 'it duong', '2023-10-31 09:26:07', '2023-10-31 09:26:07');
+(43, 42, '28J27Q', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, 'it duong', '2023-10-31 09:26:07', '2023-10-31 09:26:07'),
+(44, 43, 'IZ4VFN', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 2, 56000, NULL, '2023-11-01 16:07:31', '2023-11-01 16:07:31'),
+(45, 44, 'HMLJEE', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-11-01 16:15:13', '2023-11-01 16:15:13'),
+(46, 45, '703NZG', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 2, 70000, NULL, '2023-11-01 16:23:43', '2023-11-01 16:23:43'),
+(47, 45, '703NZG', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 5, 175000, NULL, '2023-11-01 16:23:43', '2023-11-01 16:23:43');
 
 -- --------------------------------------------------------
 
@@ -301,9 +305,9 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
-(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.756, '2023-09-03 03:49:36', '2023-10-31 09:26:07'),
-(3, 2, 'Cà phê bột Trung Nguyên loại I', 1030, '2023-09-03 07:15:16', '2023-10-31 09:26:07'),
-(4, 5, 'Plain Croissant', 5, '2023-09-03 07:24:01', '2023-10-26 04:44:11');
+(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 19.656, '2023-09-03 03:49:36', '2023-11-01 16:23:43'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 855, '2023-09-03 07:15:16', '2023-11-01 16:23:43'),
+(4, 5, 'Plain Croissant', 3, '2023-09-03 07:24:01', '2023-11-01 16:07:31');
 
 -- --------------------------------------------------------
 
@@ -420,7 +424,10 @@ CREATE TABLE `order` (
 
 INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `phone_order`, `address_order`, `email_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `created_at`, `updated_at`) VALUES
 (41, 1, 'B88DCB', 'Bảo Sơn', '0386278912', '40 Ngõ 3 Cầu Bươu, Xã Tả Thanh Oai, Huyện Thanh Trì, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 525000, 6000, 0, 531000, 3, '2023-10-31 08:52:50', '2023-10-31 10:16:03'),
-(42, 1, '28J27Q', 'Bảo Sơn', '0386278912', '3/235 Ngõ 235 Yên Hòa, Phường Yên Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 12000, 15000, 32000, 3, '2023-10-31 09:26:07', '2023-10-31 10:17:37');
+(42, 1, '28J27Q', 'Bảo Sơn', '0386278912', '3/235 Ngõ 235 Yên Hòa, Phường Yên Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 12000, 15000, 32000, 3, '2023-10-31 09:26:07', '2023-10-31 10:17:37'),
+(43, 0, 'IZ4VFN', 'kiều đặng bảo sơn', '0386278998', 'Đường Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 56000, 12000, 0, 68000, 3, '2023-11-01 16:07:31', '2023-11-01 16:08:16'),
+(44, 0, 'HMLJEE', 'Tuấn', '0386278998', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 7000, 0, 42000, 3, '2023-11-01 16:15:13', '2023-11-01 16:24:32'),
+(45, 0, '703NZG', 'Nga', '0386278912', 'Hồ Thủ Lệ, Phố Kim Mã, Phường Ngọc Khánh, Quận Ba Đình, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 245000, 6000, 0, 251000, 3, '2023-11-01 16:23:43', '2023-11-01 16:24:11');
 
 -- --------------------------------------------------------
 
@@ -569,7 +576,8 @@ CREATE TABLE `statistic` (
 --
 
 INSERT INTO `statistic` (`id_statistic`, `quantity_statistic`, `price_statistic`, `date_statistic`, `created_at`, `updated_at`) VALUES
-(2, 16, 563000, '2023-10-31', '2023-10-31 09:18:26', '2023-10-31 10:17:37');
+(2, 16, 563000, '2023-10-31', '2023-10-31 09:18:26', '2023-10-31 10:17:37'),
+(3, 10, 361000, '2023-11-01', '2023-11-01 16:08:16', '2023-11-01 16:24:32');
 
 -- --------------------------------------------------------
 
@@ -812,7 +820,7 @@ ALTER TABLE `detail_notes`
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -854,7 +862,7 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
@@ -890,7 +898,7 @@ ALTER TABLE `slide`
 -- AUTO_INCREMENT cho bảng `statistic`
 --
 ALTER TABLE `statistic`
-  MODIFY `id_statistic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_statistic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `supplier`

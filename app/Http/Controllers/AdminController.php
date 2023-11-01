@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\DetailOrder;
+use App\Models\Order;
+use App\Models\Statistic;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +19,41 @@ class AdminController extends Controller
         $username = Cookie::get('username');
         if(isset($username) && $username != ''){
             $isOnline = Account::where('is_online',1)->get();
-            return view('admin.content', compact('title','isOnline'));
+            $statistic = Statistic::where('date_statistic',date('Y-m-d'))->first();
+            $order = Order::where('updated_at','like',"%".date('Y-m-d')."%")->get();
+            $arrDetail = [];
+            foreach($order as $key => $one){
+                if($one->status_order == 3){
+                    $orderDetail = DetailOrder::where("id_order",$one->id_order)->get();
+                    foreach($orderDetail as $key => $detail){
+                        $name = $detail->name_product;
+                        $quantity = $detail->quantity_product;
+                        // Nếu sản phẩm đã tồn tại trong mảng $arrDetail
+                        $existingKey = array_search($name, array_column($arrDetail, 'name')); //array_column: tao 1 mang moi chi co cot name
+                        //existingKey se tra ve key dung
+                        if ($existingKey !== false) {
+                            // Tăng số lượng cho sản phẩm đã tồn tại
+                            $arrDetail[$existingKey]['quantity'] += $quantity;
+                        } else {
+                            // Thêm sản phẩm mới vào mảng
+                            $arrDetail[] = [
+                                'name' => $name,
+                                'quantity' => $quantity
+                            ];
+                        }
+                    }
+                }
+            }
+            // dd($arrDetail);
+            $firstDayOfMonth = Carbon::now()->startOfMonth(); // Lấy ngày đầu tiên của tháng này
+            $lastDayOfMonth = Carbon::now()->endOfMonth(); // Lấy ngày cuối cùng của tháng này
+            $statisticMonth = Statistic::whereBetween('date_statistic',[$firstDayOfMonth,$lastDayOfMonth])->get();
+            $allTotal = 0;
+            foreach($statisticMonth as $key => $one){
+                $allTotal+= $one->price_statistic;
+            }
+            // dd($allTotal);
+            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail'));
         }else{
             return redirect()->route('admin.login');
         }

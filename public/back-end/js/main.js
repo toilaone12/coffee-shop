@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    //dataTable
     $('#myTable').DataTable({
         "responsive": true,
         

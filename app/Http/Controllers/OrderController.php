@@ -43,6 +43,12 @@ class OrderController extends Controller
         return view('order.admin_detail', compact('title', 'order','list','listStatus'));
     }
 
+    function create(){
+        $orderDetail = DetailOrder::where('updated_at','like',"%2023-10-31%")->get();
+        return response()->json(['res' => 'success', 'detail' => $orderDetail]);
+    }
+
+    //page
     function apply(Request $request)
     {
         $data = $request->all();
