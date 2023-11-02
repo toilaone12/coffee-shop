@@ -88,10 +88,16 @@
                     <button type="submit" class="btn btn-primary rounded fs-15 mt-3">Tìm kiếm</button>
                 </div>
             </form>
+            <select class="form-control w-75 filter-quantity-sold" aria-label="Default select example">
+                <option value="">Lọc thống kê trong vòng</option>
+                @foreach($arrFilter as $key => $filter)
+                <option value="{{$key}}">{{$filter}}</option>
+                @endforeach
+            </select>
         </div>
 
         <!-- Area Chart -->
-        <div class="col-xl-6 col-lg-6">
+        <div class="col-xl-12 col-lg-12 mt-3">
             <div class="text-center fs-18 text-quantity-chart">Biểu đồ số lượng sản phẩm đã bán hôm nay (@php echo date('d/m/Y') @endphp)</div>
             <div class="order-chart">
                 <canvas id="myAreaChart" height="200"></canvas>

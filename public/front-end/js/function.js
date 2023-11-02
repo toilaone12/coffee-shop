@@ -246,35 +246,3 @@ function formResultSearch(result) {
         });
     });
 }
-
-function createChart(detail){
-    console.log(detail);
-    //chart
-    var data = {
-        labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5'],
-        datasets: [{
-          label: 'Doanh số',
-          data: [100, 150, 200, 180, 250],
-          backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền của khu vực
-          borderColor: 'rgba(75, 192, 192, 1)', // Màu viền
-          borderWidth: 1
-        }]
-      };
-      
-      // Lấy thẻ canvas từ HTML
-      var ctx = document.getElementById('myAreaChart').getContext('2d');
-      
-      // Tạo biểu đồ
-      var myAreaChart = new Chart(ctx, {
-        type: 'line', // Loại biểu đồ là khu vực
-        data: data,
-        options: {
-          // Cấu hình thêm nếu cần
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-    });
-}

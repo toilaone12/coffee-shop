@@ -32,13 +32,15 @@ class ProductController extends Controller
         Validator::make($data,[
             'image_product' => ['required','image','mimes:jpeg,png,jpg,gif'],
             'name_product' => ['required'],
-            'price_product' => ['required']
+            'price_product' => ['required'],
+            'is_special' => ['required']
         ],[
             'image_product.required' => 'Vui lòng chọn một tệp ảnh.',
             'image_product.image' => 'Tệp phải là hình ảnh.',
             'image_product.mimes' => 'Định dạng tệp không hợp lệ. Chấp nhận định dạng jpeg, png, jpg, gif.',
             'name_product.required' => 'Tên của ảnh bắt buộc phải có',
             'price_product.required' => 'Giá sản phẩm bắt buộc phải có',
+            'is_special.required' => 'Lựa chọn món bestseller bắt buộc phải có',
         ])->validate();
         $image->storeAs('public/product', $fileName); // se luu vao storage/app/product va storage/product tren folder public
         $db = [
@@ -49,6 +51,7 @@ class ProductController extends Controller
             'price_product' => $data['price_product'],
             'description_product' => $data['description_product'],
             'is_special' => $data['is_special'],
+            'slug_product' => $slug
         ];
         $insert = Product::create($db);
         if($insert){
@@ -109,11 +112,7 @@ class ProductController extends Controller
             $review = Review::where('id_product',$data['id'])->delete();
             $recipe = Recipe::where('id_product',$data['id'])->delete();
             $gallery = Gallery::where('id_product',$data['id'])->delete();
-            if($review || $recipe || $gallery){
-                return response()->json(['res' => 'success'],200);
-            }else{
-                return response()->json(['res' => 'fail'],200);
-            }
+            return response()->json(['res' => 'success'],200);
         }else{
             return response()->json(['res' => 'fail'],200);
         }

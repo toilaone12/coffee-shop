@@ -15,6 +15,7 @@ use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\Statistic;
 use App\Models\Units;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -236,6 +237,45 @@ class OrderController extends Controller
         return response()->json(['res' => 'success', 'arrDetail' => $arrDetail, 'from' => date('d-m-Y',strtotime($data['date-from'])), 'to' => date('d-m-Y',strtotime($data['date-to']))]);
     }
 
+    function filter(Request $request){
+        $data = $request->all();
+        $choose = $data['option'];
+        $dateNow = Carbon::now()->toDateString();
+        $filter = '';
+        if($choose == '7days'){
+            $filter = Carbon::now()->subDay(7)->toDateString(); // lop xu ly datetime
+        }else if($choose == '1month'){
+            $filter = Carbon::now()->subMonth(1)->toDateString(); // lop xu ly datetime
+        }else if($choose == '3months'){
+            $filter = Carbon::now()->subMonth(3)->toDateString(); // lop xu ly datetime
+        }
+        $orders = Order::whereBetween('date_updated',[$filter,$dateNow])->get();
+        $arrDetail = [];
+        foreach($orders as $key => $one){
+            if($one->status_order == 3){
+                $orderDetail = DetailOrder::where("id_order",$one->id_order)->get();
+                foreach($orderDetail as $key => $detail){
+                    $name = $detail->name_product;
+                    $quantity = $detail->quantity_product;
+                    // Nếu sản phẩm đã tồn tại trong mảng $arrDetail
+                    $existingKey = array_search($name, array_column($arrDetail, 'name')); //array_column: tao 1 mang moi chi co cot name
+                    //existingKey se tra ve key dung
+                    if ($existingKey !== false) {
+                        // Tăng số lượng cho sản phẩm đã tồn tại
+                        $arrDetail[$existingKey]['quantity'] += $quantity;
+                    } else {
+                        // Thêm sản phẩm mới vào mảng
+                        $arrDetail[] = [
+                            'name' => $name,
+                            'quantity' => $quantity
+                        ];
+                    }
+                }
+            }
+        }
+        return response()->json(['res' => 'success', 'arrDetail' => $arrDetail, 'from' => date('d-m-Y',strtotime($filter)), 'to' => date('d-m-Y',strtotime($dateNow))]);
+    }
+
     function handleStatistic($order){
         $date = date('Y-m-d',strtotime($order->updated_at));
         $id = $order->id_order;
@@ -291,6 +331,7 @@ class OrderController extends Controller
                 'status_order' => 0,
                 'date_updated' => date('Y-m-d')
             ];
+            // dd($dataOrder);
             $insertOrder = Order::create($dataOrder);
             $id = $insertOrder->id_order;
             foreach ($carts as $key => $one) {
@@ -437,12 +478,28 @@ class OrderController extends Controller
 
         // Biến đổi giá trị dựa trên đơn vị đầu vào và đầu ra
         switch ("$fromUnit-$toUnit") {
+            case 'kg-l':
+                return $value; // 1 kg = 1 l
             case 'kg-g':
                 return $value * 1000; // 1 kg = 1000 g
+            case 'kg-ml':
+                return $value * 1000; // 1 kg = 1000 g
+            case 'g-ml':
+                return $value; // 1 g = 1 ml
             case 'g-kg':
                 return $value / 1000; // 1 g = 0.001 kg
+            case 'g-l':
+                return $value / 1000; // 1 g = 0.001 l
+            case 'ml-g':
+                return $value; // 1 ml = 1 g
             case 'ml-l':
                 return $value / 1000; // 1 ml = 0.001 l
+            case 'ml-kg':
+                return $value / 1000; // 1 ml = 0.001 kg
+            case 'l-kg':
+                return $value; // 1 l = 1 kg
+            case 'l-g':
+                return $value * 1000; // 1 l = 1000 g
             case 'l-ml':
                 return $value * 1000; // 1 l = 1000 ml
             default:

@@ -1,10 +1,8 @@
 * Thiếu: </br>
 - Mục: </br>
-+ Thiếu phân quyền, thông báo
-+ Backend phần giỏ hàng mới làm phần kiểm tra có đủ hàng để bán cho khách không
-- Còn lại: </br>
-Xem lại cái chức năng xóa để tránh k bị lỗi dữ liệu
-Còn chức năng Xóa nhiều và chọn nhiều chưa áp dụng cho tất cả các phần </br>
+
+- Sửa lại: Các chức năng cập nhật không dùng each nữa </br>
+ </br>
 * Lưu ý: </br>
 - Đối với việc sử dụng CKEditor, nếu bạn muốn render ra dữ liệu để gán vào html thì hãy sử dụng CKEDITOR.instances["tên class hoặc tên id"].setData();. Còn nếu bạn muốn lấy thì hãy sử dụng CKEDITOR.instances['tên class hoặc tên id'].getData() </br>
 - Cùng với đó nếu sử dụng FormData kết hợp với CKEditor, thì hãy sử dụng append cho FormData để đấy thêm dữ liệu vào ajax (Nguyên nhân: khi bạn truyền dữ liệu bằng FormData trong jQuery, nó sẽ không tự động cập nhật nội dung được render bởi CKEditor vào giá trị thuộc tính value của phần tử <textarea>.

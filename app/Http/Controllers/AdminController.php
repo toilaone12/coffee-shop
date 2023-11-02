@@ -45,6 +45,12 @@ class AdminController extends Controller
                 }
             }
             // dd($arrDetail);
+            $arrFilter = [
+                '7days' => 'Một tuần trước',
+                '1month' => 'Một tháng trước',
+                '3months' => 'Ba tháng trước',
+            ];
+            $arrFilter = collect($arrFilter);
             $firstDayOfMonth = Carbon::now()->startOfMonth(); // Lấy ngày đầu tiên của tháng này
             $lastDayOfMonth = Carbon::now()->endOfMonth(); // Lấy ngày cuối cùng của tháng này
             $statisticMonth = Statistic::whereBetween('date_statistic',[$firstDayOfMonth,$lastDayOfMonth])->get();
@@ -53,7 +59,7 @@ class AdminController extends Controller
                 $allTotal+= $one->price_statistic;
             }
             // dd($allTotal);
-            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail'));
+            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter'));
         }else{
             return redirect()->route('admin.login');
         }

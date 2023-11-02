@@ -216,10 +216,8 @@ $(document).ready(function() {
     $('.recipe').each(function(key, value){
         $('#myTable').on('click', '.update-recipe-' + $(value).data('id'), handleUpdateRecipeClick)
     })
-    $('.recipe').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.update-recipe-' + $(value).data('id'), handleUpdateRecipeClick)
-        })
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').on('click', '.recipe', handleUpdateRecipeClick)
     })
     //them thanh phan cho cong thuc trong trang sua
     $('.add-component-recipe-update').click(function(e){

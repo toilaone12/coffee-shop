@@ -281,23 +281,23 @@
                     (data) => {
                         if (data.res === 'warning') {
                             swalNotification(data.title, data.status, data.icon, () => {
-                                $('.quantity-cart-' + id).val(data.quantity);
-                                $('.total-' + id).text((parseInt(data.quantity) * price).toLocaleString('vi-VN', {
-                                    currency: 'VND'
-                                }) + ' đ');
                             });
+                            $('.quantity-cart-' + id).val(data.quantity);
+                            $('.total-' + id).text((parseInt(data.quantity) * price).toLocaleString('vi-VN', {
+                                currency: 'VND'
+                            }) + ' đ');
                         } else {
                             let feeCoupon = parseInt($('.fee-discount').text().replace(/[.,đ]/g, ''));
                             let feeShip = parseInt($('.fee-ship').text().replace(/[.,đ]/g, ''));
                             swalNotification(data.title, data.status, data.icon, () => {
-                                let total = data.total.toLocaleString('vi-VN', {
-                                    currency: 'VND'
-                                });
-                                $('.total-product').text(total + ' đ');
-                                $('.total-cart').text((data.total + feeCoupon + feeShip).toLocaleString('vi-VN', {
-                                    currency: 'VND'
-                                }) + ' đ');
                             })
+                            let total = data.total.toLocaleString('vi-VN', {
+                                currency: 'VND'
+                            });
+                            $('.total-product').text(total + ' đ');
+                            $('.total-cart').text((data.total + feeCoupon + feeShip).toLocaleString('vi-VN', {
+                                currency: 'VND'
+                            }) + ' đ');
                         }
                     },
                     (err) => {

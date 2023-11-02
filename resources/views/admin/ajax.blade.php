@@ -1570,5 +1570,29 @@
                 }, 
             1);
         })
+        //loc thong ke theo tuy chon
+        $('.filter-quantity-sold').change(function(e){
+            let option = $(this).val(); 
+            let optionText = $(this).text();
+            let url = "{{route('order.filter')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            };
+            let data = {
+                option: option,
+            };
+            callAjax(url, method, data, headers,
+                function(data) {
+                    if (data.res === 'success') {
+                        createChart(data.arrDetail,'Số lượng','myAreaChart')
+                        $('.text-quantity-chart').text(`Biểu đồ số lượng sản phẩm đã bán (từ ${data.from} đến ${data.to})`)
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 
+            );
+        })
     })
 </script>

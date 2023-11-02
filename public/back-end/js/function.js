@@ -94,7 +94,26 @@ function createChart(array, label, id){
         type: 'line', // Loại biểu đồ là khu vực
         data: data,
         options: {
-            // Cấu hình thêm nếu cần
+            responsive: true, // Cho phép biểu đồ thích ứng với kích thước container
+            maintainAspectRatio: false, // Vô hiệu hóa tỷ lệ giữa chiều rộng và chiều cao
+            indexAxis: 'x', // Chỉ định chiều cao cố định cho trục y
+            layout: {
+                padding: {
+                    top: 0,
+                    bottom: 0
+                }
+            },
+            aspectRatio: 2, // Tỷ lệ chiều rộng và chiều cao (tùy chọn)
+            plugins: {
+                legend: {
+                    display: false // Tắt hiển thị chú thích (tùy chọn)
+                }
+            },
+            elements: {
+                line: {
+                    borderWidth: 2 // Định dạng độ dày của đường biểu đồ (tùy chọn)
+                }
+            },
             scales: {
                 y: {
                     ticks: {

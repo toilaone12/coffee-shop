@@ -153,6 +153,9 @@ Route::prefix('admin')->group(function(){
     Route::prefix('order')->group(function(){
         Route::get('/list',[OrderController::class, 'list'])->name('order.list');
         Route::get('/detail/{code}',[OrderController::class, 'adminDetail'])->name('order.adDetail');
+        Route::get('/change',[OrderController::class,'change'])->name('order.change');
+        Route::post('/search',[OrderController::class,'search'])->name('order.search');
+        Route::post('/filter',[OrderController::class,'filter'])->name('order.filter');
     });
     //Ma khuyen mai
     Route::prefix('coupon')->group(function(){
@@ -232,7 +235,5 @@ Route::prefix('page')->group(function(){
         Route::post('/order',[OrderController::class,'order'])->name('order.order');
         Route::get('/history',[OrderController::class,'history'])->name('order.history');
         Route::get('/detail/{code}',[OrderController::class,'detail'])->name('order.detail');
-        Route::get('/change',[OrderController::class,'change'])->name('order.change');
-        Route::post('/search',[OrderController::class,'search'])->name('order.search');
     });
 });
