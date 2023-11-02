@@ -20,7 +20,7 @@ class AdminController extends Controller
         if(isset($username) && $username != ''){
             $isOnline = Account::where('is_online',1)->get();
             $statistic = Statistic::where('date_statistic',date('Y-m-d'))->first();
-            $order = Order::where('updated_at','like',"%".date('Y-m-d')."%")->get();
+            $order = Order::where('date_updated',date('Y-m-d'))->get();
             $arrDetail = [];
             foreach($order as $key => $one){
                 if($one->status_order == 3){

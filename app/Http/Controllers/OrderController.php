@@ -16,6 +16,7 @@ use App\Models\Recipe;
 use App\Models\Statistic;
 use App\Models\Units;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -185,6 +186,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         if($order->status_order + 1 == $status){
             $order->status_order = $status;
+            $order->date_updated = date('Y-m-d');
             $update = $order->save();
             if($update){
                 if($status == 4){
@@ -203,6 +205,35 @@ class OrderController extends Controller
                 return redirect()->route('order.adDetail',['code' => $order->code_order]);
             }
         }
+    }
+
+    function search(Request $request){
+        $data = $request->all();
+        $orders = Order::whereBetween('date_updated',[$data['date-from'],$data['date-to']])->get();
+        $arrDetail = [];
+        foreach($orders as $key => $one){
+            if($one->status_order == 3){
+                $orderDetail = DetailOrder::where("id_order",$one->id_order)->get();
+                foreach($orderDetail as $key => $detail){
+                    $name = $detail->name_product;
+                    $quantity = $detail->quantity_product;
+                    // Nếu sản phẩm đã tồn tại trong mảng $arrDetail
+                    $existingKey = array_search($name, array_column($arrDetail, 'name')); //array_column: tao 1 mang moi chi co cot name
+                    //existingKey se tra ve key dung
+                    if ($existingKey !== false) {
+                        // Tăng số lượng cho sản phẩm đã tồn tại
+                        $arrDetail[$existingKey]['quantity'] += $quantity;
+                    } else {
+                        // Thêm sản phẩm mới vào mảng
+                        $arrDetail[] = [
+                            'name' => $name,
+                            'quantity' => $quantity
+                        ];
+                    }
+                }
+            }
+        }
+        return response()->json(['res' => 'success', 'arrDetail' => $arrDetail, 'from' => date('d-m-Y',strtotime($data['date-from'])), 'to' => date('d-m-Y',strtotime($data['date-to']))]);
     }
 
     function handleStatistic($order){
@@ -257,7 +288,8 @@ class OrderController extends Controller
                 'fee_discount' => $order['fee_discount'],
                 'total_order' => $order['total'],
                 'email_order' => $order['email'],
-                'status_order' => 0
+                'status_order' => 0,
+                'date_updated' => date('Y-m-d')
             ];
             $insertOrder = Order::create($dataOrder);
             $id = $insertOrder->id_order;

@@ -233,5 +233,6 @@ Route::prefix('page')->group(function(){
         Route::get('/history',[OrderController::class,'history'])->name('order.history');
         Route::get('/detail/{code}',[OrderController::class,'detail'])->name('order.detail');
         Route::get('/change',[OrderController::class,'change'])->name('order.change');
+        Route::post('/search',[OrderController::class,'search'])->name('order.search');
     });
 });

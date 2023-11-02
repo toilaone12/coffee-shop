@@ -65,6 +65,49 @@ function formatDateToISO(dateString) {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
+function createChart(array, label, id){
+    $('#myAreaChart').remove();
+    var arrName = [];
+    var arrQuantity = [];
+    array.forEach(one => {
+        arrName.push(one.name);
+        arrQuantity.push(one.quantity);
+    });
+    // console.log(arrQuantity);
+    var data = {
+        labels: arrName, // truc x
+        datasets: [{
+            label: label,
+            data: arrQuantity,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền của khu vực
+            borderColor: 'rgba(75, 192, 192, 1)', // Màu viền
+            borderWidth: 1
+        }]
+    };
+
+    // Lấy thẻ canvas từ HTML
+    $('.order-chart').html(`<canvas id="${id}" height="200"></canvas>`)
+    var ctx = document.getElementById(id).getContext('2d');
+
+    // Tạo biểu đồ
+    var myAreaChart = new Chart(ctx, {
+        type: 'line', // Loại biểu đồ là khu vực
+        data: data,
+        options: {
+            // Cấu hình thêm nếu cần
+            scales: {
+                y: {
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0 // Định dạng số nguyên
+                    }
+                }
+            }
+        }
+    });
+
+}
+
 //xu ly sua danh muc
 function handleUpdateCategoryClick() {
     let id = $(this).data('id');

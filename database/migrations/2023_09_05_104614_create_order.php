@@ -23,6 +23,7 @@ class CreateOrder extends Migration
             $table->integer('fee_discount');
             $table->integer('total_order');
             $table->tinyInteger('status_order');
+            $table->date('date_updated');
             $table->timestamps();
         });
     }

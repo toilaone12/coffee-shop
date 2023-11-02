@@ -1443,7 +1443,8 @@
                 },
                 function(err) {
                     console.log(err);
-                }, 1);
+                }, 
+            1);
         })
         //xoa ma khuyen mai
         $('#myTable').on('click', '.delete-new', function() {
@@ -1547,6 +1548,27 @@
                 function(err) {
                     console.log(err);
                 }, 1);
+        })
+        //tim kiem tuy chon ngay
+        $('.search-date-product').submit(function(e){
+            e.preventDefault()
+            let url = "{{route('order.search')}}";
+            let method = "POST";
+            let formData = new FormData($(this)[0]);
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    if (data.res === 'success') {
+                        createChart(data.arrDetail,'Số lượng','myAreaChart')
+                        $('.text-quantity-chart').text(`Biểu đồ số lượng sản phẩm đã bán (từ ${data.from} đến ${data.to})`)
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 
+            1);
         })
     })
 </script>

@@ -282,4 +282,13 @@ $(document).ready(function() {
             $('#myTable').on('click', '.update-review-' + $(value).data('id'), handleUpdateReview)
         })
     })
+    //tim kiem ngay
+    $('#date-from').on('change', function() {
+        var selectedDate = $(this).val();
+        $('#date-to').attr('min', selectedDate);
+    });
+    $('#date-to').on('change', function() {
+        var selectedDate = $(this).val();
+        $('#date-from').attr('max', selectedDate);
+    });
 });
