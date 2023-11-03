@@ -52,16 +52,18 @@ class CategoryController extends Controller
         }else if(!preg_match('/^[\p{L}\s\p{P}]+$/u',$data['name_category'])){
             $errors['name'] = 'Tên danh mục phải là chữ cái';
         }
+        //neu cap nhat khong co loi 
         if(count($errors) == 0){
             $category = Category::find($data['id_category']);
             $category->name_category = $data['name_category'];
             $category->id_parent_category = $data['id_parent_category'];
             $category->slug_category = Str::slug($data['name_category'],'-');
             $update = $category->save();
+            //neu cap nhat thanh cong
             if($update){
-                return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành danh mục '.$data['name_category'].' thành công']);
+                return response()->json(['res' => 'success', 'title' => 'Sửa danh mục', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành danh mục '.$data['name_category'].' thành công']);
             }else{
-                return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
+                return response()->json(['res' => 'fail', 'title' => 'Sửa danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
             }
         }else{
             return response()->json(['res' => 'warning', 'status' => $errors]);
@@ -72,9 +74,11 @@ class CategoryController extends Controller
         $data = $request->all();
         $category = Category::find($data['id']);
         $noti = [];
+        //neu ton tai danh muc
         if($category){
             $idParent = $category->id_parent_category;
             $category->delete();
+            //neu la danh muc cha
             if($idParent == 0){
                 $categoryChild = Category::where('id_parent_category',$category->id_category)->get();
                 foreach($categoryChild as $child){
@@ -88,11 +92,7 @@ class CategoryController extends Controller
                                     $recipe = Recipe::where('id_product',$product->id_product)->delete();
                                     $gallery = Gallery::where('id_product',$product->id_product)->delete();
                                     $review = Review::where('id_product',$product->id_product)->delete();
-                                    if($recipe || $gallery || $review){
-                                        $noti += ['res' => 'success'];
-                                    }else{
-                                        $noti += ['res' => 'error'];
-                                    }
+                                    $noti += ['res' => 'success'];
                                 }else{
                                     $noti += ['res' => 'error'];
                                 }
@@ -102,7 +102,8 @@ class CategoryController extends Controller
                         }
                     }
                 }
-            }else{
+            
+            }else{ //neu la danh muc con
                 $products = Product::where('id_category',$data['id'])->get();
                 if(count($products) > 0){
                     foreach($products as $key => $product){
@@ -111,11 +112,7 @@ class CategoryController extends Controller
                             $recipe = Recipe::where('id_product',$product->id_product)->delete();
                             $gallery = Gallery::where('id_product',$product->id_product)->delete();
                             $review = Review::where('id_product',$product->id_product)->delete();
-                            if($recipe || $gallery || $review){
-                                $noti += ['res' => 'success'];
-                            }else{
-                                $noti += ['res' => 'error'];
-                            }
+                            $noti += ['res' => 'success'];
                         }else{
                             $noti += ['res' => 'error'];
                         }
@@ -125,12 +122,12 @@ class CategoryController extends Controller
                 }
             }
             if($noti['res'] == 'success'){
-                return response()->json(['res' => 'success'],200);
+                return response()->json(['res' => 'success', 'title' => 'Xoá danh mục', 'icon' => 'success', 'status' => 'Xóa thành công']);
             }else{
-                return response()->json(['res' => 'fail'],200);
+                return response()->json(['res' => 'fail', 'title' => 'Xoá danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
             }
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xoá danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 
@@ -168,7 +165,7 @@ class CategoryController extends Controller
                         }
                     }
                 }
-            }else{
+            }else{ //neu la danh muc con
                 $products = Product::where('id_category',$id)->get();
                 if(count($products) > 0){
                     foreach($products as $key => $product){
@@ -192,9 +189,9 @@ class CategoryController extends Controller
             }
         }
         if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xoá danh mục', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xoá danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 

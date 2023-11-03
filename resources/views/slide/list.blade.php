@@ -33,7 +33,7 @@
                                     <td class="name-{{$one->id_slide}}">{{$one->name_slide}}</td>
                                     <td class="slug-{{$one->id_slide}}">{{$one->slug_slide}}</td>
                                     <td>
-                                        <button class="btn btn-primary update-slide-{{$one->id_slide}} slide" data-id="{{$one->id_slide}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-primary choose-slide slide" data-id="{{$one->id_slide}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
                                         <button class="btn btn-danger delete-slide" data-id="{{$one->id_slide}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>

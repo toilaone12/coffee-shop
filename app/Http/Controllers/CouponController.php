@@ -93,9 +93,9 @@ class CouponController extends Controller
         $data = $request->all();
         $delete = Coupon::find($data['id'])->delete();
         if($delete){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title'=> 'Xoá mã khuyến mãi', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title'=> 'Xoá mã khuyến mãi', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 
@@ -111,9 +111,9 @@ class CouponController extends Controller
             }
         }
         if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title'=> 'Xoá mã khuyến mãi', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title'=> 'Xoá mã khuyến mãi', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 

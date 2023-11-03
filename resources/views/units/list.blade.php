@@ -31,7 +31,7 @@
                                     <td class="fullname-{{$one->id_unit}}">{{$one->fullname_unit}}</td>
                                     <td class="abbreviation-{{$one->id_unit}}">{{$one->abbreviation_unit}}</td>
                                     <td>
-                                        <button class="btn btn-primary update-unit-{{$one->id_unit}} unit" data-id="{{$one->id_unit}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-primary choose-unit" data-id="{{$one->id_unit}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
                                         <button class="btn btn-danger delete-unit" data-id="{{$one->id_unit}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>

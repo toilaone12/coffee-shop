@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 02, 2023 lúc 05:07 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th10 03, 2023 lúc 04:29 AM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,7 +45,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
-(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 5, 1, '2023-08-27 11:08:11', '2023-09-02 16:27:58');
+(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 5, 1, '2023-08-27 11:08:11', '2023-09-02 16:27:58'),
+(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 599946, 8, 0, '2023-11-03 03:17:00', '2023-11-03 03:17:00');
 
 -- --------------------------------------------------------
 
@@ -593,8 +594,8 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`id_role`, `name_role`, `created_at`, `updated_at`) VALUES
-(5, 'Quản lý', '2023-08-29 15:23:03', '2023-08-29 15:23:03'),
-(7, 'Nhân viên bán hàng', '2023-08-29 15:39:48', '2023-08-29 15:39:48');
+(5, 'Quản lý', '2023-08-29 15:23:03', '2023-11-03 02:56:31'),
+(8, 'Nhân viên bán hàng', '2023-11-03 03:00:00', '2023-11-03 03:00:00');
 
 -- --------------------------------------------------------
 
@@ -842,7 +843,7 @@ ALTER TABLE `units`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `id_account` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_account` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `cart`
@@ -950,7 +951,7 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT cho bảng `role`
 --
 ALTER TABLE `role`
-  MODIFY `id_role` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_role` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `slide`

@@ -56,9 +56,9 @@ class RecipeController extends Controller
         $data = $request->all();
         $delete = Recipe::find($data['id'])->delete();
         if($delete){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xóa công thức', 'icon' => 'success', 'status' => 'Xóa công thức thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xóa công thức', 'icon' => 'error', 'status' => 'Xóa công thức thất bại']);
         }
     }
 
@@ -74,9 +74,9 @@ class RecipeController extends Controller
             }
         }
         if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xóa công thức', 'icon' => 'success', 'status' => 'Xóa công thức thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xóa công thức', 'icon' => 'error', 'status' => 'Xóa công thức thất bại']);
         }
     }
 }

@@ -40,8 +40,8 @@
                                     @endforeach
                                     <td class="quantity-{{$one->id_ingredients}}">{{$one->quantity_ingredient}}</td>
                                     <td>
-                                        <button class="btn btn-primary update-ingredients-{{$one->id_ingredient}} ingredients" data-id="{{$one->id_ingredient}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <!-- <button class="btn btn-danger delete-ingredients" data-id="{{$one->id_ingredient}}"><i class="fa-solid fa-trash-can"></i></button> -->
+                                        <button class="btn btn-primary choose-ingredients" data-id="{{$one->id_ingredient}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-danger delete-ingredient" data-id="{{$one->id_ingredient}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -55,7 +55,7 @@
                 <div class="card">
                     <h5 class="card-header">Thao tác chung</h5>
                     <div class="card-body">
-                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-category d-block mb-3">Xóa nhiều</button>
+                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-ingredients d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>
                 </div>

@@ -60,9 +60,9 @@ class UnitsController extends Controller
             $unit->abbreviation_unit = $data['abbreviation_unit'];
             $update = $unit->save();
             if($update){
-                return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành đơn vị '.$data['fullname_unit'].' thành công']);
+                return response()->json(['res' => 'success', 'title' => 'Sửa đơn vị', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành đơn vị '.$data['fullname_unit'].' thành công']);
             }else{
-                return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
+                return response()->json(['res' => 'fail', 'title' => 'Sửa đơn vị', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
             }
         }else{
             return response()->json(['res' => 'warning', 'status' => $errors]);
@@ -75,13 +75,9 @@ class UnitsController extends Controller
         if($delete){
             $ingredient = Ingredients::where('id_unit',$data['id'])->delete();
             $detailNote = DetailNote::where('id_unit',$data['id'])->delete();
-            if($ingredient || $detailNote){
-                return response()->json(['res' => 'success'],200);
-            }else{
-                return response()->json(['res' => 'fail'],200);
-            }
+            return response()->json(['res' => 'success', 'title' => 'Xoá đơn vị', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xoá đơn vị', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 
@@ -93,19 +89,15 @@ class UnitsController extends Controller
             if($delete){
                 $ingredient = Ingredients::where('id_unit',$id)->delete();
                 $detailNote = DetailNote::where('id_unit',$id)->delete();
-                if($ingredient || $detailNote){
-                    $noti += ['res' => 'success'];
-                }else{
-                    $noti += ['res' => 'fail'];
-                }
+                $noti += ['res' => 'success'];
             }else{
                 $noti += ['res' => 'fail'];
             }
         }
         if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xoá đơn vị', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xoá đơn vị', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 }

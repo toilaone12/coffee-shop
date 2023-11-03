@@ -57,6 +57,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert');
         Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update');
         Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete');
+        Route::post('/deleteAll',[AccountController::class, 'deleteAll'])->name('account.deleteAll');
     });
     //Danh muc san pham
     Route::prefix('category')->group(function(){
@@ -87,6 +88,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/list',[IngredientsController::class, 'list'])->name('ingredients.list');
         Route::post('/update',[IngredientsController::class, 'update'])->name('ingredients.update');
         Route::post('/delete',[IngredientsController::class, 'delete'])->name('ingredients.delete');
+        Route::post('/delete-all',[IngredientsController::class, 'deleteAll'])->name('ingredients.deleteAll');
     });
     //Cong thuc
     Route::prefix('recipe')->group(function(){

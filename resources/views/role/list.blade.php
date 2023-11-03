@@ -28,7 +28,7 @@
                                     <td class="name-{{$one->id_role}}">{{$one->name_role}}</td>
                                     <td>
                                         <button 
-                                            class="btn btn-primary update-role-{{$one->id_role}} role" 
+                                            class="btn btn-primary choose-role" 
                                             data-id="{{$one->id_role}}" 
                                             data-toggle="modal" 
                                             data-target="#updateModal"
@@ -39,6 +39,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                
                             </tbody>
                         </table>
                     </div>

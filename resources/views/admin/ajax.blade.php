@@ -19,6 +19,765 @@
                 }
             );
         })
+        //sua chuc vu
+        $('.update-role').on('click', function() {
+            let url = "{{route('role.update')}}";
+            let method = "POST";
+            let data = {
+                id_role: $('.update-role').attr('data-id'),
+                name_role: $('.name-update').val(),
+            }
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, data, headers,
+                function(data) {
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title,data.status,data.icon,() => { location.reload() })
+                        if ($('.error-name').text() != '') {
+                            $('.error-name').text('');
+                        }
+                    } else if (data.res === 'warning') {
+                        $('.error-name').text(data.status.name ? data.status.name : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
+        })
+        //xoa chuc vu
+        $('#myTable').on('click', '.delete-role', function() {
+            let name = $('.name-' + $(this).data('id')).text();
+            let url = '{{route("role.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: $(this).data('id'),
+            };
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa chức vụ ' + name + ' không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()});
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu chuc vu
+        $('.delete-all-role').click(function() {
+            let arrId = [];
+            let url = '{{route("role.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các chức vụ đã chọn không ?';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()});
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa tai khoan
+        $('#myTable').on('click', '.delete-account', function() {
+            let name = $('.name-' + $(this).data('id')).text();
+            let url = '{{route("account.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: $(this).data('id'),
+            };
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa tài khoản ' + name + ' này không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()});
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu tài khoản
+        $('.delete-all-account').click(function() {
+            let arrId = [];
+            let url = '{{route("account.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các tài khoản đã chọn không ?';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()});
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //sua danh muc
+        $('.update-category').on('click', function() {
+            let url = "{{route('category.update')}}";
+            let method = "POST";
+            let data = {
+                id_category: $('.update-category').attr('data-id'),
+                name_category: $('.name-update').val(),
+                id_parent_category: $('.id-parent-update').val(),
+            }
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, data, headers,
+                function(data) {
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        if ($('.error-name').text() != '') {
+                            $('.error-name').text('');
+                        }
+                    } else if (data.res === 'warning') {
+                        $('.error-name').text(data.status.name ? data.status.name : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
+        })
+        //xoa danh muc
+        $('#myTable').on('click', '.delete-category', function() { // su kien click ben trong id myTable va bat click co class la delete-category
+            let name = $('.name-' + $(this).data('id')).text();
+            let url = '{{route("category.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: $(this).data('id'),
+            };
+            // console.log('a');
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà danh mục ' + name + ' không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                } else {}
+            });
+        })
+        //xoa nhieu danh muc
+        $('.delete-all-category').click(function() {
+            let arrId = [];
+            let url = '{{route("category.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa những danh mục này';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            html += ' không</span>';
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //sua don vi tinh
+        $('.update-unit').on('click', function() {
+            let url = "{{route('units.update')}}";
+            let method = "POST";
+            let data = {
+                id_unit: $('.update-unit').attr('data-id'),
+                fullname_unit: $('.fullname-update').val(),
+                abbreviation_unit: $('.abbreviation-update').val(),
+            }
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, data, headers,
+                function(data) {
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        if ($('.error-fullname').text() != '' || $('.error-abbreviation').text() != '') {
+                            $('.error-fullname').text('');
+                            $('.error-abbreviation').text('');
+                        }
+                    } else if (data.res === 'warning') {
+                        $('.error-fullname').text(data.status.fullname ? data.status.fullname : '');
+                        $('.error-abbreviation').text(data.status.abbreviation ? data.status.abbreviation : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
+        })
+        //xoa don vi tinh
+        $('#myTable').on('click', '.delete-unit', function() {
+            let fullname = $('.fullname-' + $(this).data('id')).text();
+            let url = '{{route("units.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: $(this).data('id'),
+            };
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa đơn vị ' + fullname + ' này không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu don vi tinh
+        $('.delete-all-unit').click(function() {
+            let arrId = [];
+            let url = '{{route("units.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa đơn vị đã chọn không ?';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //sua san pham
+        $('.update-product').submit(function(e) {
+            e.preventDefault()
+            let url = "{{route('product.update')}}";
+            let method = "POST";
+            let formData = new FormData($('.update-product')[0]);
+            formData.append('description_product', CKEDITOR.instances['ckeditor'].getData())
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-subname').text() != '' ||
+                            $('.error-quantity').text() != '' || $('.error-price').text() != '') {
+                            $('.error-name').text('');
+                            $('.error-image').text('');
+                            $('.error-subname').text('');
+                            $('.error-quantity').text('');
+                            $('.error-price').text('');
+                        }
+                    } else if (data.res === 'warning') {
+                        $('.error-image').text(data.status.image_product ? data.status.image_product : '');
+                        $('.error-name').text(data.status.name_product ? data.status.name_product : '');
+                        $('.error-subname').text(data.status.subname_product ? data.status.subname_product : '');
+                        $('.error-quantity').text(data.status.quantity_product ? data.status.quantity_product : '');
+                        $('.error-price').text(data.status.price_product ? data.status.price_product : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 1);
+        })
+        //xoa san pham
+        $('#myTable').on('click', '.delete-product', function() {
+            let name = $('.name-' + $(this).data('id')).text();
+            let url = '{{route("product.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: $(this).data('id'),
+            };
+            // console.log('a');
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa sản phẩm ' + name + ' không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu san pham
+        $('.delete-all-product').click(function() {
+            let arrId = [];
+            let url = '{{route("product.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các sản phẩm đã chọn không ?</span>';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //sua nguyen lieu
+        $('.update-ingredient').submit(function(e) {
+            e.preventDefault()
+            let formData = new FormData($(this)[0]);
+            let url = "{{route('ingredients.update')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    // console.log(data);
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        if ($('.error-name').text() != '') {
+                            $('.error-name').text('');
+                        }
+                    } else if (data.res === 'warning') {
+                        $('.error-name').text(data.status.name_ingredient ? data.status.name_ingredient : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 1);
+        })
+        //xoa nguyen lieu
+        $('#myTable').on('click', '.delete-ingredient', function() {
+            let name = $('.name-' + $(this).data('id')).text();
+            let url = '{{route("ingredients.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: $(this).data('id'),
+            };
+            // console.log('a');
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa nguyên liệu ' + name + ' không?</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu nguyen lieu
+        $('.delete-all-ingredients').click(function() {
+            let arrId = [];
+            let url = '{{route("ingredients.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các nguyên liệu đã chọn không?</span>';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //them cong thuc cho san pham
+        $('.insert-recipe').click(function() {
+            let objComponent = [];
+            let url = "{{route('recipe.insert')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            $('.one-component').each(function() {
+                let obj = {
+                    id_ingredient: $(this).find('.id-ingredient-insert').val(),
+                    id_unit: $(this).find('.id-unit-insert').val(),
+                    quantity_recipe_need: $(this).find('.quantity-insert').val(),
+                }
+                objComponent.push(obj);
+            })
+            let data = {
+                id_product: $('.id-product').val(),
+                objComponent
+            }
+            callAjax(url, method, data, headers,
+                function(data) {
+                    swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
+        })
+        //sua cong thuc cho san pham
+        $('.update-recipe').click(function() {
+            let objComponent = [];
+            let url = "{{route('recipe.update')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            $('.one-update-component').each(function() {
+                let obj = {
+                    id_ingredient: $(this).find('.id-ingredient-update').val(),
+                    id_unit: $(this).find('.id-unit-update').val(),
+                    quantity_recipe_need: $(this).find('.quantity-update').val(),
+                }
+                objComponent.push(obj);
+            })
+            let data = {
+                id_product: $('.id-product-recipe').val(),
+                id_recipe: $('.id-recipe').val(),
+                objComponent
+            }
+            callAjax(url, method, data, headers,
+                function(data) {
+                    swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
+        });
+        //xoa cong thuc cho san pham
+        $('#myTable').on('click', '.delete-recipe', function() {
+            let id = $(this).data('id');
+            let name = $('.id-product-' + id).text();
+            let url = '{{route("recipe.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: id,
+            };
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa công thức của sản phẩm ' + name + ' này không?</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu cong thuc cho san pham
+        $('.delete-all-recipe').click(function() {
+            let arrId = [];
+            let url = '{{route("recipe.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các công thức đã chọn không?</span>';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //sua quang cao
+        $('.update-slide').submit(function(e) {
+            e.preventDefault()
+            let url = "{{route('slide.update')}}";
+            let method = "POST";
+            let formData = new FormData($('.update-slide')[0]);
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-slug').text() != '') {
+                            $('.error-name').text('');
+                            $('.error-image').text('');
+                            $('.error-slug').text('');
+                        }
+                    } else if (data.res === 'warning') {
+                        $('.error-image').text(data.status.image_slide ? data.status.image_slide : '');
+                        $('.error-name').text(data.status.name_slide ? data.status.name_slide : '');
+                        $('.error-slug').text(data.status.slug_slide ? data.status.slug_slide : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 1);
+        })
+        //xoa quang cao
+        $('#myTable').on('click', '.delete-slide', function() { // su kien click ben trong id myTable va bat click co class la delete-category
+            let name = $('.name-' + $(this).data('id')).text();
+            let url = '{{route("slide.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: $(this).data('id'),
+            };
+            // console.log('a');
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh có tên là ' + name + ' không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                } else {}
+            });
+        })
+        //xoa nhieu quang cao
+        $('.delete-all-slide').click(function() {
+            let arrId = [];
+            let url = '{{route("slide.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các quảng cáo này';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            html += ' không</span>';
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //sua ma khuyen mai
+        $('.update-coupon').submit(function(e) {
+            e.preventDefault();
+            let url = "{{route('coupon.update')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let formData = new FormData($(this)[0]);
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    if (data.res == 'warning') {
+                        $('.error-name').text(data.status.name_coupon);
+                        $('.error-code').text(data.status.code_coupon);
+                        $('.error-quantity').text(data.status.quantity_coupon);
+                        $('.error-discount').text(data.status.discount_coupon);
+                        $('.error-time').text(data.status.expiration_time);
+                    } else {
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 1);
+        });
+        //xoa ma khuyen mai
+        $('#myTable').on('click', '.delete-coupon', function() {
+            let id = $(this).data('id');
+            let url = '{{route("coupon.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: id,
+            };
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa mã khuyến mãi này không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu ma khuyen mai
+        $('.delete-all-coupon').click(function() {
+            let arrId = [];
+            let url = '{{route("coupon.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa những mã khuyến mãi này không</span>';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
         //sua nha cung cap
         $('.update-supplier').on('click', function() {
             let url = "{{route('supplier.update')}}";
@@ -128,328 +887,6 @@
                 }
             });
         })
-        //sua danh muc
-        $('.update-category').on('click', function() {
-            let url = "{{route('category.update')}}";
-            let method = "POST";
-            let data = {
-                id_category: $('.update-category').attr('data-id'),
-                name_category: $('.name-update').val(),
-                id_parent_category: $('.id-parent-update').val(),
-            }
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            callAjax(url, method, data, headers,
-                function(data) {
-                    if (data.res === 'success' || data.res === 'error') {
-                        $('.message-category').text(data.status);
-                        if ($('.error-name').text() != '') {
-                            $('.error-name').text('');
-                        }
-                    } else if (data.res === 'warning') {
-                        $('.error-name').text(data.status.name ? data.status.name : '');
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }
-            );
-        })
-        //xoa danh muc
-        $('#myTable').on('click', '.delete-category', function() { // su kien click ben trong id myTable va bat click co class la delete-category
-            let name = $('.name-' + $(this).data('id')).text();
-            let url = '{{route("category.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: $(this).data('id'),
-            };
-            // console.log('a');
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà danh mục ' + name + ' không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                } else {}
-            });
-        })
-        //xoa nhieu danh muc
-        $('.delete-all-category').click(function() {
-            let arrId = [];
-            let url = '{{route("category.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa những danh mục này';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            html += ' không</span>';
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //sua quang cao
-        $('.update-slide').submit(function(e) {
-            e.preventDefault()
-            let url = "{{route('slide.update')}}";
-            let method = "POST";
-            let formData = new FormData($('.update-slide')[0]);
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-
-            callAjax(url, method, formData, headers,
-                function(data) {
-                    if (data.res === 'success' || data.res === 'error') {
-                        $('.message-slide').text(data.status);
-                        if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-slug').text() != '') {
-                            $('.error-name').text('');
-                            $('.error-image').text('');
-                            $('.error-slug').text('');
-                        }
-                    } else if (data.res === 'warning') {
-                        $('.error-image').text(data.status.image_slide ? data.status.image_slide : '');
-                        $('.error-name').text(data.status.name_slide ? data.status.name_slide : '');
-                        $('.error-slug').text(data.status.slug_slide ? data.status.slug_slide : '');
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }, 1);
-        })
-        //xoa quang cao
-        $('#myTable').on('click', '.delete-slide', function() { // su kien click ben trong id myTable va bat click co class la delete-category
-            let name = $('.name-' + $(this).data('id')).text();
-            let url = '{{route("slide.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: $(this).data('id'),
-            };
-            // console.log('a');
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh có tên là ' + name + ' không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                } else {}
-            });
-        })
-        //xoa nhieu quang cao
-        $('.delete-all-slide').click(function() {
-            let arrId = [];
-            let url = '{{route("slide.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa các quảng cáo này';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            html += ' không</span>';
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //sua san pham
-        $('.update-product').submit(function(e) {
-            e.preventDefault()
-            let url = "{{route('product.update')}}";
-            let method = "POST";
-            let formData = new FormData($('.update-product')[0]);
-            formData.append('description_product', CKEDITOR.instances['ckeditor'].getData())
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            callAjax(url, method, formData, headers,
-                function(data) {
-                    if (data.res === 'success' || data.res === 'error') {
-                        $('.message-product').text(data.status);
-                        if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-subname').text() != '' ||
-                            $('.error-quantity').text() != '' || $('.error-price').text() != '') {
-                            $('.error-name').text('');
-                            $('.error-image').text('');
-                            $('.error-subname').text('');
-                            $('.error-quantity').text('');
-                            $('.error-price').text('');
-                        }
-                    } else if (data.res === 'warning') {
-                        $('.error-image').text(data.status.image_product ? data.status.image_product : '');
-                        $('.error-name').text(data.status.name_product ? data.status.name_product : '');
-                        $('.error-subname').text(data.status.subname_product ? data.status.subname_product : '');
-                        $('.error-quantity').text(data.status.quantity_product ? data.status.quantity_product : '');
-                        $('.error-price').text(data.status.price_product ? data.status.price_product : '');
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }, 1);
-        })
-        //xoa san pham
-        $('#myTable').on('click', '.delete-product', function() {
-            let name = $('.name-' + $(this).data('id')).text();
-            let url = '{{route("product.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: $(this).data('id'),
-            };
-            // console.log('a');
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh có tên là ' + name + ' không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                } else {}
-            });
-        })
-        //xoa nhieu san pham
-        $('.delete-all-product').click(function() {
-            let arrId = [];
-            let url = '{{route("product.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa các sản phẩm';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            html += ' không</span>';
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
         //xoa danh muc hinh anh san pham
         $('#myTable').on('click', '.delete-gallery', function() {
             let index = $(this).data('index');
@@ -462,249 +899,6 @@
                 id: $(this).data('id'),
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh số ' + index + ' không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //sua chuc vu
-        $('.update-role').on('click', function() {
-            let url = "{{route('role.update')}}";
-            let method = "POST";
-            let data = {
-                id_role: $('.update-role').attr('data-id'),
-                name_role: $('.name-update').val(),
-            }
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            callAjax(url, method, data, headers,
-                function(data) {
-                    if (data.res === 'success' || data.res === 'error') {
-                        $('.message-role').text(data.status);
-                        if ($('.error-name').text() != '') {
-                            $('.error-name').text('');
-                        }
-                    } else if (data.res === 'warning') {
-                        $('.error-name').text(data.status.name ? data.status.name : '');
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }
-            );
-        })
-        //xoa chuc vu
-        $('#myTable').on('click', '.delete-role', function() {
-            let name = $('.name-' + $(this).data('id')).text();
-            let url = '{{route("role.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: $(this).data('id'),
-            };
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa chức vụ ' + name + ' không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //xoa nhieu chuc vu
-        $('.delete-all-role').click(function() {
-            let arrId = [];
-            let url = '{{route("role.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa chức vụ';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            html += ' không</span>';
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //xoa tai khoan
-        $('#myTable').on('click', '.delete-account', function() {
-            let name = $('.name-' + $(this).data('id')).text();
-            let url = '{{route("account.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: $(this).data('id'),
-            };
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa tài khoản ' + name + ' này không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //sua don vi tinh
-        $('.update-unit').on('click', function() {
-            let url = "{{route('units.update')}}";
-            let method = "POST";
-            let data = {
-                id_unit: $('.update-unit').attr('data-id'),
-                fullname_unit: $('.fullname-update').val(),
-                abbreviation_unit: $('.abbreviation-update').val(),
-            }
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            callAjax(url, method, data, headers,
-                function(data) {
-                    if (data.res === 'success' || data.res === 'error') {
-                        $('.message-unit').text(data.status);
-                        if ($('.error-fullname').text() != '' || $('.error-abbreviation').text() != '') {
-                            $('.error-fullname').text('');
-                            $('.error-abbreviation').text('');
-                        }
-                    } else if (data.res === 'warning') {
-                        $('.error-fullname').text(data.status.fullname ? data.status.fullname : '');
-                        $('.error-abbreviation').text(data.status.abbreviation ? data.status.abbreviation : '');
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }
-            );
-        })
-        //xoa don vi tinh
-        $('#myTable').on('click', '.delete-unit', function() {
-            let fullname = $('.fullname-' + $(this).data('id')).text();
-            let url = '{{route("units.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: $(this).data('id'),
-            };
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa đơn vị ' + fullname + ' này không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //xoa nhieu don vi tinh
-        $('.delete-all-unit').click(function() {
-            let arrId = [];
-            let url = '{{route("units.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa đơn vị';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            html += ' không</span>';
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
@@ -1027,185 +1221,6 @@
                 }
             )
         })
-        //sua nguyen lieu
-        $('.update-ingredient').submit(function(e) {
-            e.preventDefault()
-            let formData = new FormData($(this)[0]);
-            let url = "{{route('ingredients.update')}}";
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            callAjax(url, method, formData, headers,
-                function(data) {
-                    // console.log(data);
-                    if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title, data.text, data.icon,
-                            function(callback) {
-                                if (callback) {
-                                    location.reload();
-                                    if ($('.error-name').text() != '') {
-                                        $('.error-name').text('');
-                                    }
-                                }
-                            }
-                        )
-                    } else if (data.res === 'warning') {
-                        $('.error-name').text(data.status.name_ingredient ? data.status.name_ingredient : '');
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }, 1);
-        })
-        //them cong thuc cho san pham
-        $('.insert-recipe').click(function() {
-            let objComponent = [];
-            let url = "{{route('recipe.insert')}}";
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            $('.one-component').each(function() {
-                let obj = {
-                    id_ingredient: $(this).find('.id-ingredient-insert').val(),
-                    id_unit: $(this).find('.id-unit-insert').val(),
-                    quantity_recipe_need: $(this).find('.quantity-insert').val(),
-                }
-                objComponent.push(obj);
-            })
-            let data = {
-                id_product: $('.id-product').val(),
-                objComponent
-            }
-            callAjax(url, method, data, headers,
-                function(data) {
-                    swalNotification(data.title, data.status, data.icon,
-                        function(callback) {
-                            if (callback) {
-                                location.reload();
-                            }
-                        }
-                    );
-                },
-                function(err) {
-                    console.log(err);
-                }
-            );
-        })
-        //sua cong thuc cho san pham
-        $('.update-recipe').click(function() {
-            let objComponent = [];
-            let url = "{{route('recipe.update')}}";
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            $('.one-update-component').each(function() {
-                let obj = {
-                    id_ingredient: $(this).find('.id-ingredient-update').val(),
-                    id_unit: $(this).find('.id-unit-update').val(),
-                    quantity_recipe_need: $(this).find('.quantity-update').val(),
-                }
-                objComponent.push(obj);
-            })
-            let data = {
-                id_product: $('.id-product-recipe').val(),
-                id_recipe: $('.id-recipe').val(),
-                objComponent
-            }
-            callAjax(url, method, data, headers,
-                function(data) {
-                    swalNotification(data.title, data.status, data.icon,
-                        function(callback) {
-                            if (callback) {
-                                location.reload();
-                            }
-                        }
-                    );
-                },
-                function(err) {
-                    console.log(err);
-                }
-            );
-        });
-        //xoa cong thuc cho san pham
-        $('#myTable').on('click', '.delete-recipe', function() {
-            let id = $(this).data('id');
-            let name = $('.id-product-' + id).text();
-            let url = '{{route("recipe.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: id,
-            };
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa công thức của sản phẩm ' + name + ' này không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //xoa nhieu cong thuc cho san pham
-        $('.delete-all-recipe').click(function() {
-            let arrId = [];
-            let url = '{{route("recipe.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa các công thức này';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            html += ' không</span>';
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
         //sua phi van chuyen 
         $('.update-fee').submit(function(e) {
             e.preventDefault();
@@ -1276,112 +1291,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
             let html = '<span class="fs-16">Bạn có muốn xóa những phí vận chuyển này không</span>';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //sua ma khuyen mai
-        $('.update-coupon').submit(function(e) {
-            e.preventDefault();
-            let url = "{{route('coupon.update')}}";
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let formData = new FormData($(this)[0]);
-            callAjax(url, method, formData, headers,
-                function(data) {
-                    if (data.res == 'warning') {
-                        $('.error-name').text(data.status.name_coupon);
-                        $('.error-code').text(data.status.code_coupon);
-                        $('.error-quantity').text(data.status.quantity_coupon);
-                        $('.error-discount').text(data.status.discount_coupon);
-                        $('.error-time').text(data.status.expiration_time);
-                    } else {
-                        swalNotification(data.title, data.status, data.icon,
-                            function(callback) {
-                                if (callback) {
-                                    location.reload();
-                                }
-                            }
-                        );
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }, 1);
-        });
-        //xoa ma khuyen mai
-        $('#myTable').on('click', '.delete-coupon', function() {
-            let id = $(this).data('id');
-            let url = '{{route("coupon.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: id,
-            };
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa mã khuyến mãi này không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //xoa nhieu ma khuyen mai
-        $('.delete-all-coupon').click(function() {
-            let arrId = [];
-            let url = '{{route("coupon.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa những mã khuyến mãi này không</span>';
             $('input[type="checkbox"]:checked').each(function(k, v) {
                 let id = parseInt($(this).val());
                 arrId.push({

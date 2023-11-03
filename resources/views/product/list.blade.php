@@ -51,7 +51,7 @@
                                     <td class="number-reviews-{{$one->id_product}}">{{$one->number_reviews_product ? $one->number_reviews_product : 0}}</td>
                                     <td class="is-special-{{$one->id_product}}" data-special="{{$one->is_special}}">{{$one->is_special ? 'Có' : 'Không'}}</td>
                                     <td>
-                                        <button style="width: 45px;" class="btn mb-1 btn-primary update-product-{{$one->id_product}} product" data-id="{{$one->id_product}}" data-toggle="modal" data-target="#updateModal">
+                                        <button style="width: 45px;" class="btn mb-1 btn-primary choose-product" data-id="{{$one->id_product}}" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                         <button style="width: 45px;" class="btn mb-1 btn-danger delete-product" data-id="{{$one->id_product}}">
@@ -63,6 +63,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                
                             </tbody>
                         </table>
                     </div>

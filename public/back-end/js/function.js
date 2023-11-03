@@ -127,6 +127,51 @@ function createChart(array, label, id){
 
 }
 
+//chon mot item
+function handleChooseOneItem(){
+    let arrId = [];
+    $('input[type="checkbox"]:checked').each(function(k,v){
+        let id = parseInt($(this).val());
+        arrId.push({id: id});
+    })
+    if(arrId.length >= 2){
+        $('.delete-all').removeClass('disabled').removeAttr('disabled')
+    }else{
+        $('.delete-all').addClass('disabled').attr('disabled','disabled')
+    }
+}
+//chon tat ca item
+function handleAllItemsInPage(){
+    var checkboxes = $('input[type="checkbox"]');
+    var countChecked = 0;
+
+    checkboxes.each(function(index, element) {
+        if (countChecked < 10) {
+            if (!$(element).prop('checked')) {
+                $(element).prop('checked', true);
+                countChecked++;
+            } else {
+                $(element).prop('checked', false);
+                countChecked--;
+            }
+        } else {
+            $(element).prop('checked', false);
+        }
+    });
+    if (countChecked >= 2) {
+        $('.delete-all').removeClass('disabled').removeAttr('disabled');
+    } else {
+        $('.delete-all').addClass('disabled').attr('disabled', 'disabled');
+    }
+}
+
+//xu ly sua chuc vu
+function handleUpdateRoleClick(){
+    let id = $(this).data('id');
+    let name = $('.name-' + id).text();
+    $('.name-update').val(name);
+    $('.update-role').attr('data-id', id);
+}
 //xu ly sua danh muc
 function handleUpdateCategoryClick() {
     let id = $(this).data('id');
@@ -141,29 +186,14 @@ function handleUpdateCategoryClick() {
     $('.id-parent-update').html(selectOptions);
     $('.update-category').attr('data-id', id);
 }
-//xu ly sua quang cao
-function handleUpdateSlideClick() {
+//xu ly sua don vi
+function handleUpdateUnitClick(){
     let id = $(this).data('id');
-    let image = $('.image-'+id).attr('src');
-    let nameImage = $('.image-'+id).attr('data-name');
-    let name = $('.name-'+id).text();
-    let slug = $('.slug-'+id).text();
-    $('.image-update').attr('src',image);
-    $('.image-original').val(nameImage.replace('storage/slide/',''));
-    $('.id-slide').val(id);
-    $('.name-update').val(name);
-    $('.slug-update').val(slug);
-}
-//xu ly sua nha cung cap
-function handleUpdateSupplierClick() {
-    let id = $(this).data('id');
-    let name = $('.name-'+id).text();
-    let phone = $('.phone-'+id).text();
-    let address = $('.address-'+id).text();
-    $('.name-update').val(name);
-    $('.phone-update').val(phone);
-    $('.address-update').val(address);
-    $('.update-supplier').attr('data-id',id)
+    let fullname = $('.fullname-' + id).text();
+    let abbreviation = $('.abbreviation-' + id).text();
+    $('.fullname-update').val(fullname);
+    $('.abbreviation-update').val(abbreviation);
+    $('.update-unit').attr('data-id', id);
 }
 //xu ly sua san pham
 function handleUpdateProductClick() {
@@ -238,21 +268,106 @@ function handleUpdateGalleryClick(){
         ,1);
     }
 }
-//xu ly sua chuc vu
-function handleUpdateRoleClick(){
+//xu ly phan sua nguyen lieu
+function handleUpdateIngredientClick(){
     let id = $(this).data('id');
+    let idUnit = $('.id-' + id).data('id');
     let name = $('.name-' + id).text();
+    let selectOptions = '';
+    listUnits.forEach(unit => {
+        selectOptions += `<option value="${unit.id_unit}" ${unit.id_unit === idUnit ? 'selected' : ''}>${unit.fullname_unit}</option>`;
+    });
     $('.name-update').val(name);
-    $('.update-role').attr('data-id', id);
+    $('.id-unit-update').html(selectOptions);
+    $('.id-ingredient').val(id);
 }
-//xu ly sua chuc vu
-function handleUpdateUnitClick(){
+//xu ly phan them thanh phan nguyen lieu (ca trang sua)
+function handleInsertComponentRecipe(isUpdate=0){
+    let optionUnit = '';
+    let optionIngredient = '';
+    listUnits.forEach(unit => {
+        optionUnit += `<option value="${unit.id_unit}">${unit.fullname_unit}</option>`;
+    });
+    listIngredients.forEach(ingredient => {
+        optionIngredient += `<option value="${ingredient.id_ingredient}">${ingredient.name_ingredient}</option>`;
+    });
+    let html = `<div class="col-lg-4 ${isUpdate ? 'one-update-component' : 'one-component'}">`;
+    html += `<div class="form-group">`;
+    html += `<label for="ingredient">Tên nguyên liệu</label>`;
+    html += `<select name="id_ingredient" id="ingredient" class="id-ingredient-${isUpdate ? 'update' : 'insert'} form-control">`;
+    html += optionIngredient;
+    html += `</select>`;
+    html += `</div>`;
+    html += `<div class="form-group">`;
+    html += `<label for="unit">Đơn vị tính</label>`;
+    html += `<select name="id_unit" id="unit" class="id-unit-${isUpdate ? 'update' : 'insert'} form-control">`;
+    html += optionUnit;
+    html += `</select>`;
+    html += `</div>`;
+    html += '<div class="form-group">';
+    html += '<label for="quantity">Số lượng cần</label>'
+    html += `<input type="number" min=1 name="quantity_recipe_need" id="quantity" class="form-control quantity-${isUpdate ? 'update' : 'insert'}">`
+    html += '<span class="text-danger error-quantity"></span>'
+    html += '</div>'
+    html += '</div>';
+    if(isUpdate){
+        $('.form-update-component-recipe').append(html);
+    }else{
+        $('.form-component-recipe').append(html);
+    }
+}
+//xu ly sua quang cao
+function handleUpdateSlideClick() {
     let id = $(this).data('id');
-    let fullname = $('.fullname-' + id).text();
-    let abbreviation = $('.abbreviation-' + id).text();
-    $('.fullname-update').val(fullname);
-    $('.abbreviation-update').val(abbreviation);
-    $('.update-unit').attr('data-id', id);
+    let image = $('.image-'+id).attr('src');
+    let nameImage = $('.image-'+id).attr('data-name');
+    let name = $('.name-'+id).text();
+    let slug = $('.slug-'+id).text();
+    $('.image-update').attr('src',image);
+    $('.image-original').val(nameImage.replace('storage/slide/',''));
+    $('.id-slide').val(id);
+    $('.name-update').val(name);
+    $('.slug-update').val(slug);
+}
+//xu ly phan sua ma giam gia
+function handleUpdateCouponClick(){
+    let id = $(this).data('id');
+    let name = $('.name-' + id).text().trim();
+    let code = $('.code-' + id).text().trim();
+    let quantity = $('.quantity-' + id).text().trim();
+    let discount = $('.discount-' + id).data('discount');
+    let type = $('.type-' + id).data('type');
+    let isBuy = $('.is-buy-' + id).text().trim();
+    let isPrice = $('.is-price-' + id).text().trim();
+    let time = $('.time-' + id).text().trim();
+    let optionType = '';
+    let arrayType = [
+        {'id': 0, 'name': 'Theo phần trăm'},
+        {'id': 1, 'name': 'Theo giá tiền'}
+    ];
+    for(let i = 0; i < arrayType.length; i++){
+        optionType += `<option value="${arrayType[i].id}" ${arrayType[i].id === type ? 'selected' : ''}>${arrayType[i].name}</option>`
+    }
+    $('.id-coupon').val(id);
+    $('.name-update').val(name);
+    $('.code-update').val(code);
+    $('.quantity-update').val(quantity);
+    $('.discount-update').val(discount);
+    $('.is-buy-update').val(isBuy);
+    $('.is-price-update').val(isPrice);
+    $('.time-update').val(formatDateToISO(time));
+    $('.type-update').html(optionType);
+}
+//xu ly sua nha cung cap
+function handleUpdateSupplierClick() {
+    let id = $(this).data('id');
+    let name = $('.name-'+id).text();
+    let phone = $('.phone-'+id).text();
+    let address = $('.address-'+id).text();
+    $('.name-update').val(name);
+    $('.phone-update').val(phone);
+    $('.address-update').val(address);
+    $('.update-supplier').attr('data-id',id)
 }
 //xu ly phan hien danh sach chi tiet phieu
 function listDetailNote(data){
@@ -371,54 +486,6 @@ function handleUpdateNoteClick(){
     $('.id-supplier-update').html(selectOptions);
     $('.update-note').attr('data-id', id);
 }
-//xu ly phan sua nguyen lieu
-function handleUpdateIngredientClick(){
-    let id = $(this).data('id');
-    let idUnit = $('.id-' + id).data('id');
-    let name = $('.name-' + id).text();
-    let selectOptions = '';
-    listUnits.forEach(unit => {
-        selectOptions += `<option value="${unit.id_unit}" ${unit.id_unit === idUnit ? 'selected' : ''}>${unit.fullname_unit}</option>`;
-    });
-    $('.name-update').val(name);
-    $('.id-unit-update').html(selectOptions);
-    $('.id-ingredient').val(id);
-}
-//xu ly phan them thanh phan nguyen lieu (ca trang sua)
-function handleInsertComponentRecipe(isUpdate=0){
-    let optionUnit = '';
-    let optionIngredient = '';
-    listUnits.forEach(unit => {
-        optionUnit += `<option value="${unit.id_unit}">${unit.fullname_unit}</option>`;
-    });
-    listIngredients.forEach(ingredient => {
-        optionIngredient += `<option value="${ingredient.id_ingredient}">${ingredient.name_ingredient}</option>`;
-    });
-    let html = `<div class="col-lg-4 ${isUpdate ? 'one-update-component' : 'one-component'}">`;
-    html += `<div class="form-group">`;
-    html += `<label for="ingredient">Tên nguyên liệu</label>`;
-    html += `<select name="id_ingredient" id="ingredient" class="id-ingredient-${isUpdate ? 'update' : 'insert'} form-control">`;
-    html += optionIngredient;
-    html += `</select>`;
-    html += `</div>`;
-    html += `<div class="form-group">`;
-    html += `<label for="unit">Đơn vị tính</label>`;
-    html += `<select name="id_unit" id="unit" class="id-unit-${isUpdate ? 'update' : 'insert'} form-control">`;
-    html += optionUnit;
-    html += `</select>`;
-    html += `</div>`;
-    html += '<div class="form-group">';
-    html += '<label for="quantity">Số lượng cần</label>'
-    html += `<input type="number" min=1 name="quantity_recipe_need" id="quantity" class="form-control quantity-${isUpdate ? 'update' : 'insert'}">`
-    html += '<span class="text-danger error-quantity"></span>'
-    html += '</div>'
-    html += '</div>';
-    if(isUpdate){
-        $('.form-update-component-recipe').append(html);
-    }else{
-        $('.form-component-recipe').append(html);
-    }
-}
 //xu ly phan sua cong thuc
 function handleUpdateRecipeClick(){
     let id = $(this).data('id');
@@ -490,35 +557,6 @@ function handleUpdateFeeClick(){
     $('.fee-update').val(fee);
     $('.id-fee').val(id);
     $('.radius-fee').text(radius);
-}
-//xu ly phan sua ma giam gia
-function handleUpdateCouponClick(){
-    let id = $(this).data('id');
-    let name = $('.name-' + id).text().trim();
-    let code = $('.code-' + id).text().trim();
-    let quantity = $('.quantity-' + id).text().trim();
-    let discount = $('.discount-' + id).data('discount');
-    let type = $('.type-' + id).data('type');
-    let isBuy = $('.is-buy-' + id).text().trim();
-    let isPrice = $('.is-price-' + id).text().trim();
-    let time = $('.time-' + id).text().trim();
-    let optionType = '';
-    let arrayType = [
-        {'id': 0, 'name': 'Theo phần trăm'},
-        {'id': 1, 'name': 'Theo giá tiền'}
-    ];
-    for(let i = 0; i < arrayType.length; i++){
-        optionType += `<option value="${arrayType[i].id}" ${arrayType[i].id === type ? 'selected' : ''}>${arrayType[i].name}</option>`
-    }
-    $('.id-coupon').val(id);
-    $('.name-update').val(name);
-    $('.code-update').val(code);
-    $('.quantity-update').val(quantity);
-    $('.discount-update').val(discount);
-    $('.is-buy-update').val(isBuy);
-    $('.is-price-update').val(isPrice);
-    $('.time-update').val(formatDateToISO(time));
-    $('.type-update').html(optionType);
 }
 //xu ly tin tuc
 function handleUpdateNewClick() {

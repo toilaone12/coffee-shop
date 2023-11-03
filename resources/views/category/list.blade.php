@@ -45,7 +45,7 @@
                                         <td class="id-parent-{{$one->id_category}}" data-id="{{$one->id_parent_category}}">Không có</td>
                                     @endif
                                     <td>
-                                        <button class="btn btn-primary update-category-{{$one->id_category}} category" data-id="{{$one->id_category}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-primary choose-category" data-id="{{$one->id_category}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
                                         <button class="btn btn-danger delete-category" data-id="{{$one->id_category}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>

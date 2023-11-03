@@ -248,6 +248,8 @@ class OrderController extends Controller
             $filter = Carbon::now()->subMonth(1)->toDateString(); // lop xu ly datetime
         }else if($choose == '3months'){
             $filter = Carbon::now()->subMonth(3)->toDateString(); // lop xu ly datetime
+        }else{
+            $filter = $dateNow;
         }
         $orders = Order::whereBetween('date_updated',[$filter,$dateNow])->get();
         $arrDetail = [];

@@ -40,7 +40,7 @@ class AccountController extends Controller
         ])->validate();
         $checkEmail = Account::where('email_account',$email)->orWhere('username_account',$username)->first();
         if($checkEmail){
-            return redirect()->route('account.list')->with('message','<span class="mx-3 text-success">Email của bạn đã tồn tại!</span>');
+            return redirect()->route('account.list')->with('message','<span class="mx-3 text-danger">Email hoặc tài khoản của bạn đã tồn tại!</span>');
         }else{
             $dataMail = [
                 'name' => $fullname,
@@ -104,9 +104,27 @@ class AccountController extends Controller
         $data = $request->all();
         $delete = Account::find($data['id'])->delete();
         if($delete){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xóa tài khoản', 'icon' => 'success', 'status' => 'Xóa thành công'],200);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xóa tài khoản', 'icon' => 'error', 'status' => 'Xóa không thành công'],200);
+        }
+    }
+
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $delete = Account::where('id_account',$id)->delete();
+            if($delete){
+                $noti += ['res' => 'success'];
+            }else{
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if($noti['res'] == 'success'){
+            return response()->json(['res' => 'success', 'title' => 'Xóa tài khoản', 'icon' => 'success', 'status' => 'Xóa thành công'],200);
+        }else{
+            return response()->json(['res' => 'fail', 'title' => 'Xóa tài khoản', 'icon' => 'error', 'status' => 'Xóa không thành công'],200);
         }
     }
 

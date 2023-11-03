@@ -51,11 +51,10 @@ class SlideController extends Controller
         $image = $request->file('image_slide');
         $errors = [];
         $validator = Validator::make($data,[
-            'image_slide' => ['required','image','mimes:jpeg,png,jpg,gif'],
+            'image_slide' => ['image','mimes:jpeg,png,jpg,gif'],
             'name_slide' => ['required'],
             'slug_slide' => ['required']
         ],[
-            'image_slide.required' => 'Vui lòng chọn một tệp ảnh.',
             'image_slide.image' => 'Tệp phải là hình ảnh.',
             'image_slide.mimes' => 'Định dạng tệp không hợp lệ. Chấp nhận định dạng jpeg, png, jpg, gif.',
             'name_slide.required' => 'Tên của ảnh bắt buộc phải có',
@@ -78,9 +77,9 @@ class SlideController extends Controller
             $slide->slug_slide = $data['slug_slide'];
             $update = $slide->save();
             if($update){
-                return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành quảng cáo về '.$data['name_slide'].' thành công']);
+                return response()->json(['res' => 'success', 'title' => 'Sửa quảng cáo', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành quảng cáo về '.$data['name_slide'].' thành công']);
             }else{
-                return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
+                return response()->json(['res' => 'fail', 'title' => 'Sửa quảng cáo', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
             }
         }else{
             return response()->json(['res' => 'warning', 'status' => $validator->errors()]);
@@ -91,9 +90,9 @@ class SlideController extends Controller
         $data = $request->all();
         $delete = Slide::find($data['id'])->delete();
         if($delete){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xóa quảng cáo', 'icon' => 'success', 'status' => 'Xóa thành công'],200);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Sửa quảng cáo', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 
@@ -109,9 +108,9 @@ class SlideController extends Controller
             }
         }
         if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xóa quảng cáo', 'icon' => 'success', 'status' => 'Xóa thành công'],200);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Sửa quảng cáo', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 }

@@ -53,7 +53,7 @@
                                         {{date('d/m/Y H:i',strtotime($one->expiration_time))}}
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary update-coupon-{{$one->id_coupon}} coupon" data-id="{{$one->id_coupon}}" data-toggle="modal" data-target="#updateModal">
+                                        <button class="btn btn-primary choose-coupon" data-id="{{$one->id_coupon}}" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                         <button class="btn btn-danger delete-coupon" data-id="{{$one->id_coupon}}"><i class="fa-solid fa-trash-can"></i></button>

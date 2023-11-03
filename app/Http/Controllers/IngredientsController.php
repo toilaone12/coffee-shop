@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gallery;
 use App\Models\Ingredients;
+use App\Models\Product;
+use App\Models\Recipe;
+use App\Models\Review;
 use App\Models\Units;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,7 +55,7 @@ class IngredientsController extends Controller
                 if ($update) {
                     return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Sửa nguyên liệu', 'status' => 'Bạn đã sửa nguyên liệu thành công']);
                 } else {
-                    return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa nguyên liệu', 'status' => 'Bạn đã sửa nguyên liệu thất bại']);
+                    return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa nguyên liệu', 'status' => 'Lỗi truy vấn']);
                 }
             }
         } else {
@@ -58,15 +63,61 @@ class IngredientsController extends Controller
         }
     }
 
-    // function delete(Request $request){
-    //     $data = $request->all();
-    //     $delete = Category::find($data['id'])->delete();
-    //     if($delete){
-    //         return response()->json(['res' => 'success'],200);
-    //     }else{
-    //         return response()->json(['res' => 'fail'],200);
-    //     }
-    // }
+    function delete(Request $request){
+        $data = $request->all();
+        $delete = Ingredients::find($data['id'])->delete();
+        $noti = [];
+        if($delete){
+            $recipes = Recipe::whereJsonContains('component_recipe', [['id_ingredient' => $data['id']]])->get();
+            foreach($recipes as $key => $recipe){
+                $idProduct = $recipe->id_product;
+                $delete = $recipe->delete();
+                if($delete){
+                    $product = Product::where('id_product',$idProduct)->delete();
+                    $review = Review::where('id_product',$idProduct)->delete();
+                    $recipe = Recipe::where('id_product',$idProduct)->delete();
+                    $gallery = Gallery::where('id_product',$idProduct)->delete();
+                    $noti += ['res' => 'success'];
+                }
+            }
+            if($noti['res'] == 'success'){
+                return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Xoá nguyên liệu', 'status' => 'Bạn đã xóa nguyên liệu thành công']);
+            } else {
+                return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Xoá nguyên liệu', 'status' => 'Lỗi truy vấn']);
+            }
+        } else {
+            return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Xoá nguyên liệu', 'status' => 'Lỗi truy vấn']);
+        }
+    }
+
+    function deleteAll(Request $request){
+        $data = $request->all();
+        $noti = [];
+        foreach($data['arrId'] as $key => $id){
+            $delete = Ingredients::where('id_ingredient',$id)->delete();
+            if($delete){
+                $recipes = Recipe::whereJsonContains('component_recipe', [['id_ingredient' => $data['id']]])->get();
+                foreach($recipes as $key => $recipe){
+                    $idProduct = $recipe->id_product;
+                    $delete = $recipe->delete();
+                    if($delete){
+                        $product = Product::where('id_product',$idProduct)->delete();
+                        $review = Review::where('id_product',$idProduct)->delete();
+                        $recipe = Recipe::where('id_product',$idProduct)->delete();
+                        $gallery = Gallery::where('id_product',$idProduct)->delete();
+                        $noti += ['res' => 'success'];
+                    }
+                }
+            }else{
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if($noti['res'] == 'success'){
+            return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Xoá nguyên liệu', 'status' => 'Bạn đã xóa nguyên liệu thành công']);
+        } else {
+            return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Xoá nguyên liệu', 'status' => 'Lỗi truy vấn']);
+        }
+    }
 
     //ham quy doi
     function convertUnit($value, $fromUnit, $toUnit)

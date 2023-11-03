@@ -72,7 +72,7 @@
                                     @endforeach
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary update-recipe-{{$one->id_recipe}} recipe" data-id="{{$one->id_recipe}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-primary choose-recipe" data-id="{{$one->id_recipe}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
                                         <button class="btn btn-danger delete-recipe" data-id="{{$one->id_recipe}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>

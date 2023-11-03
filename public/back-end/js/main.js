@@ -6,51 +6,29 @@ $(document).ready(function() {
         // Các tùy chọn khác...
     }); // Thay #myTable bằng ID của bảng bạn muốn biến thành DataTable
     //chon mot
-    $('#myTable').on('click', 'input[type="checkbox"]', function() {
-        let arrId = [];
-        $('input[type="checkbox"]:checked').each(function(k,v){
-            let id = parseInt($(this).val());
-            arrId.push({id: id});
-        })
-        if(arrId.length >= 2){
-            $('.delete-all').removeClass('disabled').removeAttr('disabled')
-        }else{
-            $('.delete-all').addClass('disabled').attr('disabled','disabled')
-        }
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').off('click', 'input[type="checkbox"]');
+        $('#myTable').on('click', 'input[type="checkbox"]', handleChooseOneItem)
     })
+    $('#myTable').on('click', 'input[type="checkbox"]', handleChooseOneItem)
     //chon nhieu
-    $('.choose-all').click(function(){
-        var isChecked = $('input[type="checkbox"]').not(':checked').length !== 0; // b1: true b2: false
-        $('input[type="checkbox"]').prop('checked', isChecked); //ktra
-        if ($('input[type="checkbox"]:checked').length >= 2) {
-            $('.delete-all').removeClass('disabled').removeAttr('disabled')
-        } else {
-            $('.delete-all').addClass('disabled').attr('disabled','disabled')
-        }
-    })
-
-    //nha cung cap
-    $('.supplier').each(function(key, value){
-        $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);
-    })
-    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-        $('.supplier').each(function(key, value){
-            $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);
-        })
-
-    })
-    //danh muc
-    $('.category').each(function(key, value){
-        $('#myTable').on('click', '.update-category-' + $(value).data('id'), handleUpdateCategoryClick);
-    });
-    
-    // Khi DataTables thực hiện phân trang, gắn lại sự kiện cho các nút trên trang mới
-    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-        $('.category').each(function(key, value){
-            $('#myTable').on('click', '.update-category-' + $(value).data('id'), handleUpdateCategoryClick);
+    $('.choose-all').on('click', handleAllItemsInPage)
+    $('#myTable').on('draw.dt', function() {
+        $('.delete-all').addClass('disabled').attr('disabled', 'disabled');
+        var checkboxes = $('input[type="checkbox"]');
+        var countChecked = 0;
+        checkboxes.each(function(index, element) {
+            if (countChecked < 10) {
+                $(element).prop('checked', false);
+                countChecked--;
+            } else {
+                $(element).prop('checked', false);
+            }
         });
+        $('#myTable').on('click', '.choose-all', handleAllItemsInPage)
     });
-    //phan quang cao
+
+    //phan hien anh khi chon
     $('.change-image').change(function(e){
         let fileName = $(this).val().split('\\').pop();
         $('.imagePath').text(fileName);
@@ -61,27 +39,35 @@ $(document).ready(function() {
         let fileName = $(this).val().split('\\').pop();
         $('.name-image').text(fileName);
         $('.img-thumbnail').attr('src',URL.createObjectURL(e.target.files[0])) //tao 1 file anh tam thoi
-
     })
 
-    $('.slide').each(function(key, value){
-        $('#myTable').on('click', '.update-slide-' + $(value).data('id'), handleUpdateSlideClick);
-    })
-
+    //phan chuc vu
+    $('#myTable').on('click', '.choose-role', handleUpdateRoleClick)
     $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-        $('.slide').each(function(key, value){
-            $('#myTable').on('click', '.update-slide-' + $(value).data('id'), handleUpdateSlideClick);
-        })
+        $('#myTable').off('click', '.choose-role');
+        $('#myTable').on('click', '.choose-role', handleUpdateRoleClick)
     })
+
+    //danh muc
+    $('#myTable').on('click', '.choose-category', handleUpdateCategoryClick);
+    // Khi DataTables thực hiện phân trang, gắn lại sự kiện cho các nút trên trang mới
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').off('click', '.choose-category');
+        $('#myTable').on('click', '.choose-category', handleUpdateCategoryClick);
+    });
+
+    // phan don vi tinh
+    $('#myTable').on('click', '.choose-unit', handleUpdateUnitClick)
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').off('click', '.choose-unit');
+        $('#myTable').on('click', '.choose-unit', handleUpdateUnitClick)
+    })
+
     //phan san pham
-    $('.product').each(function(key, value){
-        $('#myTable').on('click', '.update-product-' + $(value).data('id'), handleUpdateProductClick);
-    })
-
+    $('#myTable').on('click', '.choose-product', handleUpdateProductClick);
     $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-        $('.product').each(function(key, value){
-            $('#myTable').on('click', '.update-product-' + $(value).data('id'), handleUpdateProductClick);
-        })
+        $('#myTable').off('click', '.choose-product');
+        $('#myTable').on('click', '.choose-product', handleUpdateProductClick);     
     })
     //phan danh muc anh
     $('.change-multi-image').change(function(){
@@ -105,15 +91,72 @@ $(document).ready(function() {
     $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
         $('#myTable').on('change', '.update-gallery', handleUpdateGalleryClick)
     })
-
-    //phan chuc vu
-    $('.role').each(function(key, value){
-        $('#myTable').on('click', '.update-role-' + $(value).data('id'), handleUpdateRoleClick)
+     
+    //sua nguyen lieu 
+    $('#myTable').on('click', '.choose-ingredients', handleUpdateIngredientClick)
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').off('click', '.choose-ingredients');
+        $('#myTable').on('click', '.choose-ingredients', handleUpdateIngredientClick)
     })
-    $('.role').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.update-role-' + $(value).data('id'), handleUpdateRoleClick)
+    //them thanh phan cho cong thuc trong trang them
+    $('.add-component-recipe').click(function(e){
+        e.preventDefault();
+        handleInsertComponentRecipe();
+    })
+    //xoa cai cuoi cung thanh phan cong thuc trong trang them
+    $(".remove-component-recipe").on("click", function() {
+        var lastElement = $('.one-component').last();
+        lastElement.remove();
+    });
+
+    
+    //sua cong thuc
+    $('#myTable').on('click', '.choose-recipe', handleUpdateRecipeClick)
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').off('click', '.choose-recipe');
+        $('#myTable').on('click', '.choose-recipe', handleUpdateRecipeClick)
+    })
+    //them thanh phan cho cong thuc trong trang sua
+    $('.add-component-recipe-update').click(function(e){
+        e.preventDefault();
+        handleInsertComponentRecipe(1);
+    })
+    //xoa tat ca thanh phan cong thuc trong trang sua
+    $(".remove-component-recipe-update").on("click", function() {
+        let id = $('.id-recipe').val();
+        let count = $('.component-'+id).data('count');
+        if($('.one-update-component').length > count){
+            var lastElement = $('.one-update-component').last();
+            lastElement.remove();
+        }else{
+            swalNotification('Xóa nguyên liệu','Không được xóa nguyên liệu gốc (chỉ được chỉnh sửa)','warning',
+            function(callback){
+
+            });
+        }
+    });
+
+    //quang cao
+    $('#myTable').on('click', '.choose-slide', handleUpdateSlideClick);
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').off('click', '.choose-slide');
+        $('#myTable').on('click', '.choose-slide', handleUpdateSlideClick);
+    })
+    //sua ma khuyen mai
+    $('#myTable').on('click', '.choose-coupon', handleUpdateCouponClick)
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').off('click', '.choose-coupon');
+        $('#myTable').on('click', '.choose-coupon', handleUpdateCouponClick)
+    })
+    //nha cung cap
+    $('.supplier').each(function(key, value){
+        $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);
+    })
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('.supplier').each(function(key, value){
+            $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);
         })
+
     })
 
     //phan tai khoan
@@ -160,16 +203,6 @@ $(document).ready(function() {
         })
         $('.otp-account').val(otp);
     });
-    
-    // phan don vi tinh
-    $('.unit').each(function(key, value){
-        $('#myTable').on('click', '.update-unit-' + $(value).data('id'), handleUpdateUnitClick)
-    })
-    $('.unit').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.update-unit-' + $(value).data('id'), handleUpdateUnitClick)
-        })
-    })
 
     //phan phieu hang 
     //quay lai modal truoc
@@ -190,54 +223,7 @@ $(document).ready(function() {
     $('#updateAnotherModal').on('hide.bs.modal', function() {
         $('#updateModal').modal('show'); // Khi updateModal được đóng, mở lại anotherModal
     });
-    
-    //sua nguyen lieu 
-    $('.ingredients').each(function(key, value){
-        $('#myTable').on('click', '.update-ingredients-' + $(value).data('id'), handleUpdateIngredientClick)
-    })
-    $('.ingredients').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.update-ingredients-' + $(value).data('id'), handleUpdateIngredientClick)
-        })
-    })
 
-    //them thanh phan cho cong thuc trong trang them
-    $('.add-component-recipe').click(function(e){
-        e.preventDefault();
-        handleInsertComponentRecipe();
-    })
-    //xoa cai cuoi cung thanh phan cong thuc trong trang them
-    $(".remove-component-recipe").on("click", function() {
-        var lastElement = $('.one-component').last();
-        lastElement.remove();
-    });
-
-    //sua cong thuc
-    $('.recipe').each(function(key, value){
-        $('#myTable').on('click', '.update-recipe-' + $(value).data('id'), handleUpdateRecipeClick)
-    })
-    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-        $('#myTable').on('click', '.recipe', handleUpdateRecipeClick)
-    })
-    //them thanh phan cho cong thuc trong trang sua
-    $('.add-component-recipe-update').click(function(e){
-        e.preventDefault();
-        handleInsertComponentRecipe(1);
-    })
-    //xoa tat ca thanh phan cong thuc trong trang sua
-    $(".remove-component-recipe-update").on("click", function() {
-        let id = $('.id-recipe').val();
-        let count = $('.component-'+id).data('count');
-        if($('.one-update-component').length > count){
-            var lastElement = $('.one-update-component').last();
-            lastElement.remove();
-        }else{
-            swalNotification('Xóa nguyên liệu','Không được xóa nguyên liệu gốc (chỉ được chỉnh sửa)','warning',
-            function(callback){
-
-            });
-        }
-    });
     //thay doi ban kinh
     $('.range-radius').on('input',function(){
         $('.radius-fee').text($(this).val());
@@ -249,15 +235,6 @@ $(document).ready(function() {
     $('.fee').each(function(key, value){
         $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
             $('#myTable').on('click', '.update-fee-' + $(value).data('id'), handleUpdateFeeClick)
-        })
-    })
-    //sua ma khuyen mai
-    $('.coupon').each(function(key, value){
-        $('#myTable').on('click', '.update-coupon-' + $(value).data('id'), handleUpdateCouponClick)
-    })
-    $('.coupon').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.update-coupon-' + $(value).data('id'), handleUpdateCouponClick)
         })
     })
     //sua tin tuc
