@@ -33,7 +33,7 @@
                                     <td class="phone-{{$one->id_supplier}}">{{$one->phone_supplier}}</td>
                                     <td class="address-{{$one->id_supplier}}">{{$one->address_supplier}}</td>
                                     <td>
-                                        <button class="btn btn-primary update-supplier-{{$one->id_supplier}} supplier" data-id="{{$one->id_supplier}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-primary choose-supplier" data-id="{{$one->id_supplier}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
                                         <button class="btn btn-danger delete-supplier" data-id="{{$one->id_supplier}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>

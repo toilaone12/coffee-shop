@@ -63,9 +63,9 @@ class SupplierController extends Controller
             $supplier->address_supplier = $data['address_supplier'];
             $update = $supplier->save();
             if($update){
-                return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu thành nhà cung cấp '.$data['name_supplier'].' thành công']);
+                return response()->json(['res' => 'success', 'title' => 'Sửa nhà cung cấp', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành nhà cung cấp '.$data['name_supplier'].' thành công']);
             }else{
-                return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
+                return response()->json(['res' => 'fail', 'title' => 'Sửa nhà cung cấp', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
             }
         }else{
             return response()->json(['res' => 'warning', 'status' => $errors]);
@@ -105,9 +105,9 @@ class SupplierController extends Controller
                 $noti += ['res' => 'success'];
             }
             if($noti['res'] == 'success'){
-                return response()->json(['res' => 'success'],200);
+                return response()->json(['res' => 'success', 'title' => 'Xóa nhà cung cấp', 'icon' => 'success', 'status' => 'Xóa thành công']);
             }else{
-                return response()->json(['res' => 'fail'],200);
+                return response()->json(['res' => 'fail', 'title' => 'Xóa nhà cung cấp', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
             }
         }else{
             return response()->json(['res' => 'fail'],200);
@@ -152,9 +152,9 @@ class SupplierController extends Controller
             }
         }
         if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xóa nhà cung cấp', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xóa nhà cung cấp', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 }

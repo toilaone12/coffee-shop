@@ -157,9 +157,23 @@ class CouponController extends Controller
         $lists = CustomerCoupon::where('id_customer',request()->cookie('id_customer'))->get();
         $arrCoupon = [];
         foreach($lists as $key => $one){
-            $coupon = Coupon::find($one->id_coupon);
-            array_push($arrCoupon,$coupon);
+            $coupon = Coupon::where('id_coupon',$one->id_coupon)->where('expiration_time','>=',date('Y-m-d H:i:s'))->get();
+            if(count($coupon) != 0){
+                foreach($coupon as $key => $one){
+                    $arr = [
+                        'name' => $one->name_coupon,
+                        'code' => $one->code_coupon,
+                        'discount' => $one->discount_coupon,
+                        'type' => $one->type_coupon,
+                        'expiration' => $one->expiration_time,
+                    ];
+                    array_push($arrCoupon,$arr);
+                }
+            }else{
+                $arrCoupon = [];
+            }
         }
+        $arrCoupon = collect($arrCoupon);
         $carts = array();
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();

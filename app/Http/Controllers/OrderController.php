@@ -269,12 +269,14 @@ class OrderController extends Controller
                         // Thêm sản phẩm mới vào mảng
                         $arrDetail[] = [
                             'name' => $name,
-                            'quantity' => $quantity
+                            'quantity' => $quantity,
+                            'exist' => $existingKey,
                         ];
                     }
                 }
             }
         }
+        // dd($arrDetail);
         return response()->json(['res' => 'success', 'arrDetail' => $arrDetail, 'from' => date('d-m-Y',strtotime($filter)), 'to' => date('d-m-Y',strtotime($dateNow))]);
     }
 
@@ -368,7 +370,7 @@ class OrderController extends Controller
                 if (!isset($noti['status'])) {
                     $noti['status'] = [];
                 }
-                array_push($noti['status'], $error['status']);
+                array_push($noti, $error['status']);
             }
         }
         return $noti;
@@ -428,7 +430,7 @@ class OrderController extends Controller
                 if (!isset($noti['status'])) {
                     $noti['status'] = [];
                 }
-                array_push($noti['status'], $error['status']);
+                array_push($noti, $error['status']);
             }
         }
         return $noti;

@@ -73,12 +73,12 @@ class NotesController extends Controller
         if($delete){
             $deleteDetailNote = DetailNote::where('id_note',$data['id'])->delete();
             if(($deleteDetailNote)){
-                return response()->json(['res' => 'success'],200);
+                return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Xóa phiếu hàng', 'status' => 'Xóa thành công.'],200);           
             }else{
-                return response()->json(['res' => 'fail'],200);
+                return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Xóa phiếu hàng', 'status' => 'Xóa thành công.'],200);           
             }
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Xóa phiếu hàng', 'status' => 'Xóa thành công.'],200);           
         }
     }
 
@@ -99,9 +99,9 @@ class NotesController extends Controller
             }
         }
         if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Xóa phiếu hàng', 'status' => 'Xóa thành công.'],200);           
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Xóa phiếu hàng', 'status' => 'Xóa thành công.'],200);           
         }
     }
 

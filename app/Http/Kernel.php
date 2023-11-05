@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AccessPermission;
 use App\Http\Middleware\CheckPermission;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -64,5 +65,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkPermission' => \App\Http\Middleware\CheckPermission::class,
+        'auth.roles' => AccessPermission::class,
     ];
 }

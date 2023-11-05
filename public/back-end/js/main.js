@@ -48,6 +48,51 @@ $(document).ready(function() {
         $('#myTable').on('click', '.choose-role', handleUpdateRoleClick)
     })
 
+    //phan tai khoan
+    $('.password-toggle-btn').click(function(){
+        if($('#password').attr('type') === 'password'){
+            $('#password').attr('type','text');
+            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+        }else{
+            $('#password').attr('type','password');
+            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
+        }
+    })
+    $('.re-password-toggle-btn').click(function(){
+        if($('#re-password').attr('type') === 'password'){
+            $('#re-password').attr('type','text');
+            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+        }else{
+            $('#re-password').attr('type','password');
+            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
+        }
+    })
+    //phan dang nhap
+    $('.password-toggle-login').click(function(){
+        if($('#password-login').attr('type') === 'password'){
+            $('#password-login').attr('type','text');
+            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+        }else{
+            $('#password-login').attr('type','password');
+            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
+        }
+    })
+    //thong bao dang ky
+    $('.register').click(function(){
+        alert('Hãy liên hệ với quản trị viên của bạn để có thể đăng ký tài khoản')
+    })
+    //nhay so khi nhap ma otp
+    $('.otp-input').on('input', function() { //su kien danh cho o input
+        if ($(this).val().length == $(this).attr('maxlength')) { //neu gia tri truyen vao bang gtri attr maxlength
+          $(this).next('.otp-input').focus(); //thi se nhay sang otp-input tiep theo
+        }
+        let otp = '';
+        $('.otp-input').each(function(){
+            otp += $(this).val();
+        })
+        $('.otp-account').val(otp);
+    });
+
     //danh muc
     $('#myTable').on('click', '.choose-category', handleUpdateCategoryClick);
     // Khi DataTables thực hiện phân trang, gắn lại sự kiện cho các nút trên trang mới
@@ -148,61 +193,28 @@ $(document).ready(function() {
         $('#myTable').off('click', '.choose-coupon');
         $('#myTable').on('click', '.choose-coupon', handleUpdateCouponClick)
     })
-    //nha cung cap
-    $('.supplier').each(function(key, value){
-        $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);
+    //thay doi ban kinh
+    $('.range-radius').on('input',function(){
+        $('.radius-fee').text($(this).val());
     })
+    //sua phi van chuyen
+    $('#myTable').on('click', '.choose-fee', handleUpdateFeeClick)
     $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-        $('.supplier').each(function(key, value){
-            $('#myTable').on('click', '.update-supplier-' + $(value).data('id'), handleUpdateSupplierClick);
-        })
-
+        $('#myTable').off('click', '.choose-fee');
+        $('#myTable').on('click', '.choose-fee', handleUpdateFeeClick)
+    })
+    //nha cung cap
+    $('#myTable').on('click', '.choose-supplier', handleUpdateSupplierClick);
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').off('click', '.choose-supplier');
+        $('#myTable').on('click', '.choose-supplier', handleUpdateSupplierClick);
     })
 
-    //phan tai khoan
-    $('.password-toggle-btn').click(function(){
-        if($('#password').attr('type') === 'password'){
-            $('#password').attr('type','text');
-            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
-        }else{
-            $('#password').attr('type','password');
-            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
-        }
+    //sua tin tuc
+    $('#myTable').on('click', '.choose-new', handleUpdateNewClick)
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').on('click', '.choose-new', handleUpdateNewClick)
     })
-    $('.re-password-toggle-btn').click(function(){
-        if($('#re-password').attr('type') === 'password'){
-            $('#re-password').attr('type','text');
-            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
-        }else{
-            $('#re-password').attr('type','password');
-            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
-        }
-    })
-    //phan dang nhap
-    $('.password-toggle-login').click(function(){
-        if($('#password-login').attr('type') === 'password'){
-            $('#password-login').attr('type','text');
-            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
-        }else{
-            $('#password-login').attr('type','password');
-            $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash');
-        }
-    })
-
-    $('.register').click(function(){
-        alert('Hãy liên hệ với quản trị viên của bạn để có thể đăng ký tài khoản')
-    })
-
-    $('.otp-input').on('input', function() { //su kien danh cho o input
-        if ($(this).val().length == $(this).attr('maxlength')) { //neu gia tri truyen vao bang gtri attr maxlength
-          $(this).next('.otp-input').focus(); //thi se nhay sang otp-input tiep theo
-        }
-        let otp = '';
-        $('.otp-input').each(function(){
-            otp += $(this).val();
-        })
-        $('.otp-account').val(otp);
-    });
 
     //phan phieu hang 
     //quay lai modal truoc
@@ -210,13 +222,9 @@ $(document).ready(function() {
         $('#exampleModal').modal('show'); // Khi exampleModal được đóng, mở lại anotherModal
     });
     //sua phieu hang
-    $('.note').each(function(key, value){
-        $('#myTable').on('click', '.update-note-' + $(value).data('id'), handleUpdateNoteClick)
-    })
-    $('.note').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.update-note-' + $(value).data('id'), handleUpdateNoteClick)
-        })
+    $('#myTable').on('click', '.choose-note', handleUpdateNoteClick)
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').on('click', '.choose-note', handleUpdateNoteClick)
     })
 
     //quay lai modal update truoc
@@ -224,38 +232,13 @@ $(document).ready(function() {
         $('#updateModal').modal('show'); // Khi updateModal được đóng, mở lại anotherModal
     });
 
-    //thay doi ban kinh
-    $('.range-radius').on('input',function(){
-        $('.radius-fee').text($(this).val());
-    })
-    //sua phi van chuyen
-    $('.fee').each(function(key, value){
-        $('#myTable').on('click', '.update-fee-' + $(value).data('id'), handleUpdateFeeClick)
-    })
-    $('.fee').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.update-fee-' + $(value).data('id'), handleUpdateFeeClick)
-        })
-    })
-    //sua tin tuc
-    $('.new').each(function(key, value){
-        $('#myTable').on('click', '.update-new-' + $(value).data('id'), handleUpdateNewClick)
-    })
-    $('.new').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.update-new-' + $(value).data('id'), handleUpdateNewClick)
-        })
-    })
     //phan hoi & sua phan hoi
-    $('.review').each(function(key, value){
-        $('#myTable').on('click', '.reply-review-' + $(value).data('id'), handleReplyReview)
-        $('#myTable').on('click', '.update-review-' + $(value).data('id'), handleUpdateReview)
-    })
-    $('.review').each(function(key, value){
-        $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
-            $('#myTable').on('click', '.reply-review-' + $(value).data('id'), handleReplyReview)
-            $('#myTable').on('click', '.update-review-' + $(value).data('id'), handleUpdateReview)
-        })
+    $('#myTable').on('click', '.reply-review', handleReplyReview)
+    $('#myTable').on('click', '.choose-review', handleUpdateReview)
+
+    $('#myTable').on('draw.dt', function() { // draw.dt la sau khi dataTables dc ve lai
+        $('#myTable').on('click', '.reply-review', handleReplyReview)
+        $('#myTable').on('click', '.choose-review', handleUpdateReview)
     })
     //tim kiem ngay
     $('#date-from').on('change', function() {

@@ -48,7 +48,7 @@
                                                     {{$reply->content_review}}
                                                 </span>
                                                 <button 
-                                                    class="btn btn-success update-review-{{$one->id_review}} review" 
+                                                    class="btn btn-success choose-review" 
                                                     style="width: 40px; height: 40px;" 
                                                     data-id="{{$one->id_review}}"
                                                     data-reply="{{$reply->id_review}}" 
@@ -65,7 +65,7 @@
                                     <td class="rating-{{$one->id_review}}">{{$one->rating_review}}</td>
                                     <td>
                                         <button 
-                                            class="btn btn-success reply-review-{{$one->id_review}} review" 
+                                            class="btn btn-success reply-review" 
                                             style="width: 40px; height: 40px;" 
                                             data-id="{{$one->id_review}}" 
                                             data-toggle="modal" 

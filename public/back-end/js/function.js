@@ -358,6 +358,26 @@ function handleUpdateCouponClick(){
     $('.time-update').val(formatDateToISO(time));
     $('.type-update').html(optionType);
 }
+//xu ly phan sua phuong thuc thanh toan
+function handleUpdateFeeClick(){
+    let id = $(this).data('id');
+    let radius = $('.radius-' + id).text().replace(' km','');
+    let weather = $('.weather-' + id).text();
+    let fee = $('.fee-' + id).text().replace(/[.,đ]/g, '');;
+    let arrayWeather = [
+        {'id': 'Sun', 'weather': 'Nắng'},
+        {'id': 'Rain', 'weather': 'Mưa'}
+    ];
+    let html = '';
+    for(let i = 0; i < arrayWeather.length; i++){
+        html += `<option value="${arrayWeather[i].id}" ${arrayWeather[i].id === weather ? 'selected' : ''}>${arrayWeather[i].weather}</option>`
+    }
+    $('.radius-update').val(radius);
+    $('.weather-update').html(html);
+    $('.fee-update').val(fee);
+    $('.id-fee').val(id);
+    $('.radius-fee').text(radius);
+}
 //xu ly sua nha cung cap
 function handleUpdateSupplierClick() {
     let id = $(this).data('id');
@@ -538,26 +558,7 @@ function handleUpdateRecipeClick(){
     $('.form-update-component-recipe').html(html);
     $('.id-recipe').val(id);
 }
-//xu ly phan sua phuong thuc thanh toan
-function handleUpdateFeeClick(){
-    let id = $(this).data('id');
-    let radius = $('.radius-' + id).text().replace(' km','');
-    let weather = $('.weather-' + id).text();
-    let fee = $('.fee-' + id).text().replace('đ','');
-    let arrayWeather = [
-        {'id': 'Sun', 'weather': 'Nắng'},
-        {'id': 'Rain', 'weather': 'Mưa'}
-    ];
-    let html = '';
-    for(let i = 0; i < arrayWeather.length; i++){
-        html += `<option value="${arrayWeather[i].id}" ${arrayWeather[i].id === weather ? 'selected' : ''}>${arrayWeather[i].weather}</option>`
-    }
-    $('.radius-update').val(radius);
-    $('.weather-update').html(html);
-    $('.fee-update').val(fee);
-    $('.id-fee').val(id);
-    $('.radius-fee').text(radius);
-}
+
 //xu ly tin tuc
 function handleUpdateNewClick() {
     let id = $(this).data('id');

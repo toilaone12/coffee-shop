@@ -18,7 +18,7 @@ class HomeController extends Controller
     function home (){
         $title = 'Trang chủ';
         $slides = Slide::all();
-        $products = Product::all();
+        $products = Product::where('is_special',1)->get();
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $news = News::orderBy('updated_at', 'desc')->get();

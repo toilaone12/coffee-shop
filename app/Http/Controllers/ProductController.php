@@ -154,4 +154,16 @@ class ProductController extends Controller
         }
         return view('product.home',compact('product','title','parentCategorys','childCategorys','carts','relates','reviews','gallerys'));
     }
+
+    function menu(){
+        $products = Product::all();
+        $title = 'Menu';
+        $parentCategorys = Category::where('id_parent_category',0)->get();
+        $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        $carts = array();
+        if(request()->cookie('id_customer')){
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        }
+        return view('product.menu',compact('products','title','parentCategorys','childCategorys','carts'));
+    }
 }

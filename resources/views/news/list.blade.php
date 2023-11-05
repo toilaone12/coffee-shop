@@ -39,7 +39,7 @@
                                     <td>
                                         <button 
                                             style="width: 40px; height: 40px;"
-                                            class="btn btn-primary update-new-{{$one->id_new}} new mb-2" 
+                                            class="btn btn-primary choose-new mb-2" 
                                             data-id="{{$one->id_new}}" 
                                             data-toggle="modal" 
                                             data-target="#updateModal"

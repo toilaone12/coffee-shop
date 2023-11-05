@@ -623,5 +623,11 @@
             );
             // console.log(choose);
         })
+
+        //chon san pham tu detail
+        $('.choose-product').on('click', function(){
+            let slug = $(this).data('slug');
+            location.href = "{{ route('product.detail', ['slug' => ':slug']) }}".replace(':slug', slug);
+        })
     })
 </script>

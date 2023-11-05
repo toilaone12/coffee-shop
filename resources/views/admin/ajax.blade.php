@@ -416,6 +416,30 @@
                 }
             });
         })
+        //xoa danh muc hinh anh san pham
+        $('#myTable').on('click', '.delete-gallery', function() {
+            let index = $(this).data('index');
+            let url = '{{route("gallery.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: $(this).data('id'),
+            };
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh số ' + index + ' không</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
         //sua nguyen lieu
         $('.update-ingredient').submit(function(e) {
             e.preventDefault()
@@ -778,6 +802,82 @@
                 }
             });
         })
+        //sua phi van chuyen 
+        $('.update-fee').submit(function(e) {
+            e.preventDefault();
+            let url = "{{route('fee.update')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let formData = new FormData($(this)[0]);
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    if (data.res == 'warning') {
+                        $('.error-fee').text(data.status.fee);
+                    } else {
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 1);
+        });
+        //xoa phi van chuyen
+        $('#myTable').on('click', '.delete-fee', function() {
+            let id = $(this).data('id');
+            let url = '{{route("fee.delete")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: id,
+            };
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa phí vận chuyển này không?</span>', function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu phi van chuyen
+        $('.delete-all-fee').click(function() {
+            let arrId = [];
+            let url = '{{route("fee.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa những phí vận chuyển đã chọn không?</span>';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
         //sua nha cung cap
         $('.update-supplier').on('click', function() {
             let url = "{{route('supplier.update')}}";
@@ -794,7 +894,7 @@
             callAjax(url, method, data, headers,
                 function(data) {
                     if (data.res === 'success' || data.res === 'error') {
-                        $('.message-supplier').text(data.status);
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         if ($('.error-name').text() != '' || $('.error-phone').text() != '' || $('.error-address').text() != '') {
                             $('.error-name').text('');
                             $('.error-phone').text('');
@@ -826,17 +926,7 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
                         function(err) {
                             console.log(err);
@@ -868,17 +958,7 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
                         function(err) {
                             console.log(err);
@@ -887,32 +967,79 @@
                 }
             });
         })
-        //xoa danh muc hinh anh san pham
-        $('#myTable').on('click', '.delete-gallery', function() {
-            let index = $(this).data('index');
-            let url = '{{route("gallery.delete")}}';
+        //sua tin tuc
+        $('.update-new').submit(function(e) {
+            e.preventDefault()
+            let url = "{{route('news.update')}}";
+            let method = "POST";
+            let formData = new FormData($(this)[0]);
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            formData.append('content_new', CKEDITOR.instances['ckeditor'].getData())
+            callAjax(url, method, formData, headers,
+                function(data) {
+                    // console.log(data);
+                    if (data.res === 'success' || data.res === 'error') {
+                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                    } else if (data.res === 'warning') {
+                        $('.error-image').text(data.status.image_new ? data.status.image_new : '');
+                        $('.error-title').text(data.status.title_new ? data.status.title_new : '');
+                        $('.error-content').text(data.status.content_new ? data.status.content_new : '');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 
+            1);
+        })
+        //xoa tin tuc
+        $('#myTable').on('click', '.delete-new', function() {
+            let id = $(this).data('id');
+            let url = '{{route("news.delete")}}';
             let method = "POST";
             let headers = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
             let data = {
-                id: $(this).data('id'),
+                id: id,
             };
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa ảnh số ' + index + ' không</span>', function(alert) {
+            swalQuestion('<span class="fs-16">Bạn có muốn xóa tin tức này không</span>', function(alert) {
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        //xoa nhieu tin tuc
+        $('.delete-all-news').click(function() {
+            let arrId = [];
+            let url = '{{route("news.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa những tin tức này không</span>';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
                         function(err) {
                             console.log(err);
@@ -1105,17 +1232,7 @@
                     callAjax(url, method, data, headers,
                         function(data) {
                             // console.log(data);
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
+                            swalNotification(data.title, data.status, data.icon,() => {location.reload();})
                         },
                         function(err) {
                             console.log(err);
@@ -1221,215 +1338,7 @@
                 }
             )
         })
-        //sua phi van chuyen 
-        $('.update-fee').submit(function(e) {
-            e.preventDefault();
-            let url = "{{route('fee.update')}}";
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let formData = new FormData($(this)[0]);
-            callAjax(url, method, formData, headers,
-                function(data) {
-                    if (data.res == 'warning') {
-                        $('.error-fee').text(data.status.fee);
-                    } else {
-                        swalNotification(data.title, data.status, data.icon,
-                            function(callback) {
-                                if (callback) {
-                                    location.reload();
-                                }
-                            }
-                        );
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }, 1);
-        });
-        //xoa phi van chuyen
-        $('#myTable').on('click', '.delete-fee', function() {
-            let id = $(this).data('id');
-            let url = '{{route("fee.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: id,
-            };
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa phí vận chuyển này không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //xoa nhieu phi van chuyen
-        $('.delete-all-fee').click(function() {
-            let arrId = [];
-            let url = '{{route("fee.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa những phí vận chuyển này không</span>';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //sua tin tuc
-        $('.update-new').submit(function(e) {
-            e.preventDefault()
-            let url = "{{route('news.update')}}";
-            let method = "POST";
-            let formData = new FormData($(this)[0]);
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            formData.append('content_new', CKEDITOR.instances['ckeditor'].getData())
-            callAjax(url, method, formData, headers,
-                function(data) {
-                    // console.log(data);
-                    if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title, data.status, data.icon,
-                            function(callback) {
-                                if (callback) {
-                                    location.reload();
-                                }
-                            }
-                        );
-                    } else if (data.res === 'warning') {
-                        $('.error-image').text(data.status.image_new ? data.status.image_new : '');
-                        $('.error-title').text(data.status.title_new ? data.status.title_new : '');
-                        $('.error-content').text(data.status.content_new ? data.status.content_new : '');
-                    }
-                },
-                function(err) {
-                    console.log(err);
-                }, 
-            1);
-        })
-        //xoa ma khuyen mai
-        $('#myTable').on('click', '.delete-new', function() {
-            let id = $(this).data('id');
-            let url = '{{route("news.delete")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let data = {
-                id: id,
-            };
-            swalQuestion('<span class="fs-16">Bạn có muốn xóa tin tức này không</span>', function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
-        //xoa nhieu ma khuyen mai
-        $('.delete-all-news').click(function() {
-            let arrId = [];
-            let url = '{{route("news.deleteAll")}}';
-            let method = "POST";
-            let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            let html = '<span class="fs-16">Bạn có muốn xóa những tin tức này không</span>';
-            $('input[type="checkbox"]:checked').each(function(k, v) {
-                let id = parseInt($(this).val());
-                arrId.push({
-                    id: id
-                });
-            })
-            let data = {
-                arrId,
-            };
-            swalQuestion(html, function(alert) {
-                if (alert) {
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if (data.res === 'success') {
-                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
-                                    function(callback) {
-                                        if (callback) {
-                                            location.reload();
-                                        }
-                                    }
-                                );
-                            } else {
-                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    );
-                }
-            });
-        })
+        
         //sua danh gia 
         $('.update-review').submit(function(e){
             e.preventDefault()

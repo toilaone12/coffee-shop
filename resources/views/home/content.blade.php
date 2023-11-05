@@ -46,7 +46,7 @@
             <div class="col-md-6 pr-md-5">
                 <div class="heading-section text-md-right ftco-animate">
                     <h2 class="mb-4">Thực đơn của chúng tôi</h2>
-                    <p><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Harper 7'S Menu</a></p>
+                    <p><a href="{{route('product.menu')}}" class="btn btn-primary btn-outline-primary px-4 py-3">Harper 7'S Menu</a></p>
                 </div>
             </div>
             <div class="col-md-6">

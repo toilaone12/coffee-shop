@@ -53,7 +53,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Doanh thu tháng này
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Doanh thu tháng này (từ {{date('d/m/Y',strtotime($firstDayOfMonth))}} đến @php echo date('d/m/Y') @endphp)
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
@@ -74,36 +74,33 @@
 
     <div class="row">
         <!-- Area Chart -->
-        <div class="col-xl-6 col-lg-6">
-            <form class="search-date-product">
-                <div class="d-flex align-items-center">
-                    <div class="form-group mr-3">
-                        <label for="">Từ ngày</label>
-                        <input type="date" name="date-from" class="form-control" max="<?= date('Y-m-d') ?>" id="date-from">
-                    </div>
-                    <div class="form-group mr-3">
-                        <label for="">Đến ngày</label>
-                        <input type="date" name="date-to" class="form-control" max="<?= date('Y-m-d') ?>" id="date-to">
-                    </div>
-                    <button type="submit" class="btn btn-primary rounded fs-15 mt-3">Tìm kiếm</button>
-                </div>
-            </form>
-            <select class="form-control w-75 filter-quantity-sold" aria-label="Default select example">
-                <option value="">Lọc thống kê trong vòng</option>
-                @foreach($arrFilter as $key => $filter)
-                <option value="{{$key}}">{{$filter}}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <!-- Area Chart -->
         <div class="col-xl-12 col-lg-12 mt-3">
             <div class="text-center fs-18 text-quantity-chart">Biểu đồ số lượng sản phẩm đã bán hôm nay (@php echo date('d/m/Y') @endphp)</div>
-            <div class="order-chart">
+            <div class="col-xl-6 col-lg-6">
+                <form class="search-date-product">
+                    <div class="d-flex align-items-center">
+                        <div class="form-group mr-3">
+                            <label for="">Từ ngày</label>
+                            <input type="date" name="date-from" class="form-control" max="<?= date('Y-m-d') ?>" id="date-from">
+                        </div>
+                        <div class="form-group mr-3">
+                            <label for="">Đến ngày</label>
+                            <input type="date" name="date-to" class="form-control" max="<?= date('Y-m-d') ?>" id="date-to">
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded fs-15 mt-3">Tìm kiếm</button>
+                    </div>
+                </form>
+                <select class="form-control w-75 filter-quantity-sold" aria-label="Default select example">
+                    <option value="">Lọc thống kê trong vòng</option>
+                    @foreach($arrFilter as $key => $filter)
+                    <option value="{{$key}}">{{$filter}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="order-chart mt-3">
                 <canvas id="myAreaChart" height="200"></canvas>
             </div>
         </div>
-
 
     </div>
 

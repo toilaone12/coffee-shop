@@ -32,7 +32,7 @@
                                     <td class="fee-{{$one->id_fee}}">{{number_format($one->fee,0,',','.')}}đ</td>
                                     <td>
                                         <button 
-                                            class="btn btn-primary update-fee-{{$one->id_fee}} fee" 
+                                            class="btn btn-primary choose-fee" 
                                             data-id="{{$one->id_fee}}" 
                                             data-toggle="modal" 
                                             data-target="#updateModal"

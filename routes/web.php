@@ -45,19 +45,23 @@ Route::prefix('admin')->group(function(){
     //Chức vụ
     Route::prefix('role')->group(function(){
         Route::get('/list',[RoleController::class, 'list'])->name('role.list');
-        Route::post('/insert',[RoleController::class, 'insert'])->name('role.insert');
-        Route::post('/update',[RoleController::class, 'update'])->name('role.update');
-        Route::post('/delete',[RoleController::class, 'delete'])->name('role.delete');
-        Route::post('/delete-all',[RoleController::class, 'deleteAll'])->name('role.deleteAll');
+        Route::group(['middleware' => 'auth.roles'],function(){
+            Route::post('/insert',[RoleController::class, 'insert'])->name('role.insert');
+            Route::post('/update',[RoleController::class, 'update'])->name('role.update');
+            Route::post('/delete',[RoleController::class, 'delete'])->name('role.delete');
+            Route::post('/delete-all',[RoleController::class, 'deleteAll'])->name('role.deleteAll');
+        });
     });
     //Tài khoản
     Route::prefix('account')->group(function(){
         Route::get('/list',[AccountController::class, 'list'])->name('account.list');
         Route::get('/setting',[AccountController::class, 'setting'])->name('account.setting');
-        Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert');
-        Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update');
-        Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete');
-        Route::post('/deleteAll',[AccountController::class, 'deleteAll'])->name('account.deleteAll');
+        Route::group(['middleware' => 'auth.roles'],function(){
+            Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert');
+            Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update');
+            Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete');
+            Route::post('/deleteAll',[AccountController::class, 'deleteAll'])->name('account.deleteAll');
+        });
     });
     //Danh muc san pham
     Route::prefix('category')->group(function(){
@@ -93,10 +97,12 @@ Route::prefix('admin')->group(function(){
     //Cong thuc
     Route::prefix('recipe')->group(function(){
         Route::get('/list',[RecipeController::class, 'list'])->name('recipe.list');
-        Route::post('/insert',[RecipeController::class, 'insert'])->name('recipe.insert');
-        Route::post('/update',[RecipeController::class, 'update'])->name('recipe.update');
-        Route::post('/delete',[RecipeController::class, 'delete'])->name('recipe.delete');
-        Route::post('/delete-all',[RecipeController::class, 'deleteAll'])->name('recipe.deleteAll');
+        Route::group(['middleware' => 'auth.roles'],function(){
+            Route::post('/insert',[RecipeController::class, 'insert'])->name('recipe.insert');
+            Route::post('/update',[RecipeController::class, 'update'])->name('recipe.update');
+            Route::post('/delete',[RecipeController::class, 'delete'])->name('recipe.delete');
+            Route::post('/delete-all',[RecipeController::class, 'deleteAll'])->name('recipe.deleteAll');
+        });
     });
     //Don vi
     Route::prefix('units')->group(function(){
@@ -117,18 +123,22 @@ Route::prefix('admin')->group(function(){
     //Phi van chuyen
     Route::prefix('fee')->group(function(){
         Route::get('/list',[FeeController::class, 'list'])->name('fee.list');
-        Route::post('/insert',[FeeController::class, 'insert'])->name('fee.insert');
-        Route::post('/update',[FeeController::class, 'update'])->name('fee.update');
-        Route::post('/delete',[FeeController::class, 'delete'])->name('fee.delete');
-        Route::post('/delete-all',[FeeController::class, 'deleteAll'])->name('fee.deleteAll');
+        Route::group(['middleware' => 'auth.roles'],function(){
+            Route::post('/insert',[FeeController::class, 'insert'])->name('fee.insert');
+            Route::post('/update',[FeeController::class, 'update'])->name('fee.update');
+            Route::post('/delete',[FeeController::class, 'delete'])->name('fee.delete');
+            Route::post('/delete-all',[FeeController::class, 'deleteAll'])->name('fee.deleteAll');
+        });
     });
     //Nha cung cap
     Route::prefix('supplier')->group(function(){
         Route::get('/list',[SupplierController::class, 'list'])->name('supplier.list');
-        Route::post('/insert',[SupplierController::class, 'insert'])->name('supplier.insert');
-        Route::post('/update',[SupplierController::class, 'update'])->name('supplier.update');
-        Route::post('/delete',[SupplierController::class, 'delete'])->name('supplier.delete');
-        Route::post('/delete-all',[SupplierController::class, 'deleteAll'])->name('supplier.deleteAll');
+        Route::group(['middleware' => 'auth.roles'],function(){
+            Route::post('/insert',[SupplierController::class, 'insert'])->name('supplier.insert');
+            Route::post('/update',[SupplierController::class, 'update'])->name('supplier.update');
+            Route::post('/delete',[SupplierController::class, 'delete'])->name('supplier.delete');
+            Route::post('/delete-all',[SupplierController::class, 'deleteAll'])->name('supplier.deleteAll');
+        });
     });
     //Chức vụ
     Route::prefix('customer')->group(function(){
@@ -162,10 +172,12 @@ Route::prefix('admin')->group(function(){
     //Ma khuyen mai
     Route::prefix('coupon')->group(function(){
         Route::get('/list',[CouponController::class, 'list'])->name('coupon.list');
-        Route::post('/insert',[CouponController::class, 'insert'])->name('coupon.insert');
-        Route::post('/update',[CouponController::class, 'update'])->name('coupon.update');
-        Route::post('/delete',[CouponController::class, 'delete'])->name('coupon.delete');
-        Route::post('/delete-all',[CouponController::class, 'deleteAll'])->name('coupon.deleteAll');
+        Route::group(['middleware' => 'auth.roles'],function(){
+            Route::post('/insert',[CouponController::class, 'insert'])->name('coupon.insert');
+            Route::post('/update',[CouponController::class, 'update'])->name('coupon.update');
+            Route::post('/delete',[CouponController::class, 'delete'])->name('coupon.delete');
+            Route::post('/delete-all',[CouponController::class, 'deleteAll'])->name('coupon.deleteAll');
+        });
     });
     //Danh gia
     Route::prefix('review')->group(function(){
@@ -176,10 +188,12 @@ Route::prefix('admin')->group(function(){
     //Tin tuc
     Route::prefix('news')->group(function(){
         Route::get('/list',[NewsController::class, 'list'])->name('news.list');
-        Route::post('/insert',[NewsController::class, 'insert'])->name('news.insert');
-        Route::post('/update',[NewsController::class, 'update'])->name('news.update');
-        Route::post('/delete',[NewsController::class, 'delete'])->name('news.delete');
-        Route::post('/delete-all',[NewsController::class, 'deleteAll'])->name('news.deleteAll');
+        Route::group(['middleware' => 'auth.roles'],function(){
+            Route::post('/insert',[NewsController::class, 'insert'])->name('news.insert');
+            Route::post('/update',[NewsController::class, 'update'])->name('news.update');
+            Route::post('/delete',[NewsController::class, 'delete'])->name('news.delete');
+            Route::post('/delete-all',[NewsController::class, 'deleteAll'])->name('news.deleteAll');
+        });
     });
 });
 //Trang nguoi dung
@@ -192,6 +206,7 @@ Route::prefix('page')->group(function(){
     });
     //san pham
     Route::prefix('product')->group(function(){
+        Route::get('/menu',[ProductController::class,'menu'])->name('product.menu');
         Route::get('/{slug}',[ProductController::class,'detail'])->name('product.detail');
     });
     //danh gia 

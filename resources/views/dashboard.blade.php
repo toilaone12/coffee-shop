@@ -112,6 +112,9 @@ if (!isset($username)) {
     </script>
     @elseif(request()->is('admin/dashboard'))
     <script>
+        @if(session('alertMiddleware'))
+            swalNotification('Thông báo quyền truy cập',"{{ session('alertMiddleware') }}",'warning',() => {})
+        @endif
         $(document).ready(function() {
             var detail = {!!json_encode($arrDetail) !!};
             var arrName = [];

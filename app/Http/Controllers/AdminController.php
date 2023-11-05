@@ -20,6 +20,7 @@ class AdminController extends Controller
         if(isset($username) && $username != ''){
             $isOnline = Account::where('is_online',1)->get();
             $statistic = Statistic::where('date_statistic',date('Y-m-d'))->first();
+            // $order = Order::where('date_updated',date('Y-m-d'))->get();
             $order = Order::where('date_updated',date('Y-m-d'))->get();
             $arrDetail = [];
             foreach($order as $key => $one){
@@ -38,13 +39,12 @@ class AdminController extends Controller
                             // Thêm sản phẩm mới vào mảng
                             $arrDetail[] = [
                                 'name' => $name,
-                                'quantity' => $quantity
+                                'quantity' => $quantity,
                             ];
                         }
                     }
                 }
             }
-            // dd($arrDetail);
             $arrFilter = [
                 '7days' => 'Một tuần trước',
                 '1month' => 'Một tháng trước',
@@ -59,7 +59,7 @@ class AdminController extends Controller
                 $allTotal+= $one->price_statistic;
             }
             // dd($allTotal);
-            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter'));
+            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth'));
         }else{
             return redirect()->route('admin.login');
         }

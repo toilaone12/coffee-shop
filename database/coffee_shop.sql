@@ -45,8 +45,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
-(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 5, 1, '2023-08-27 11:08:11', '2023-09-02 16:27:58'),
-(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 599946, 8, 0, '2023-11-03 03:17:00', '2023-11-03 03:17:00');
+(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 1, 1, '2023-08-27 11:08:11', '2023-09-02 16:27:58'),
+(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 599946, 2, 0, '2023-11-03 03:17:00', '2023-11-03 03:17:00');
 
 -- --------------------------------------------------------
 
@@ -594,8 +594,8 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`id_role`, `name_role`, `created_at`, `updated_at`) VALUES
-(5, 'Quản lý', '2023-08-29 15:23:03', '2023-11-03 02:56:31'),
-(8, 'Nhân viên bán hàng', '2023-11-03 03:00:00', '2023-11-03 03:00:00');
+(1, 'Quản lý', '2023-08-29 15:23:03', '2023-11-03 02:56:31'),
+(2, 'Nhân viên bán hàng', '2023-11-03 03:00:00', '2023-11-03 03:00:00');
 
 -- --------------------------------------------------------
 

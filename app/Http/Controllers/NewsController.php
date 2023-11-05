@@ -98,9 +98,9 @@ class NewsController extends Controller
         $data = $request->all();
         $delete = News::find($data['id'])->delete();
         if($delete){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xóa tin tức', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xóa tin tức', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 
@@ -116,9 +116,9 @@ class NewsController extends Controller
             }
         }
         if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success'],200);
+            return response()->json(['res' => 'success', 'title' => 'Xóa tin tức', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'fail', 'title' => 'Xóa tin tức', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
     //page 

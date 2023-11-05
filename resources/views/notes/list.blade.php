@@ -46,7 +46,7 @@
                                         @if($one->status_note == 0)
                                         <button 
                                             style="width:40px;" 
-                                            class="mb-1 btn btn-primary update-note-{{$one->id_note}} note" 
+                                            class="mb-1 btn btn-primary choose-note" 
                                             data-id="{{$one->id_note}}" 
                                             data-toggle="modal" 
                                             data-target="#updateModal"
