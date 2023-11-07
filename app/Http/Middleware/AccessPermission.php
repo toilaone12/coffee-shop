@@ -18,9 +18,10 @@ class AccessPermission
      */
     public function handle(Request $request, Closure $next)
     {
-        $id = request()->cookie('id_customer');
+        $id = request()->cookie('id_account');
         $account = Account::find($id);
         $role = Role::all();
+        // dd($id);
         if($account->id_role == $role[0]->id_role){
             return $next($request);
         }else{
