@@ -478,7 +478,10 @@
                 );
             }
         })
-
+        let socket = new WebSocket("ws://localhost:8080");
+        socket.onopen = function(e) {
+            console.log("Đã kết nối");
+        };
         //dat hang
         $(document).on('submit', '.apply-order', (e) => {
             e.preventDefault();
@@ -496,7 +499,7 @@
                         if ($('.error-privacy').text() != '') {
                             $('.error-privacy').text('');
                         }
-                        if (data.res == 'fail') {
+                        if (data.res == 'fail') { //loi
                             let html = '';
                             data.title.forEach((title) => {
                                 html += `<span class="fs-14 d-block text-secondary mb-2">${title}</span>`
@@ -505,6 +508,15 @@
                                 location.href = '{{route("cart.home")}}'
                             });
                         } else {
+                            let url = data.code;
+                            console.log(url);
+                            let dataArray = [
+                                { 'text': 'Có người đặt hàng', 'link': "http://127.0.0.1:8000/admin/order/detail/"+url },
+                                // Thêm các đối tượng khác vào mảng nếu cần thiết
+                            ];
+                            // Chuyển đổi mảng thành chuỗi JSON
+                            let dataToSend = JSON.stringify(dataArray);
+                            socket.send(dataToSend);
                             swalNotification(data.title, data.status, data.icon, () => {
                                 location.href = '{{route("page.home")}}'
                             })

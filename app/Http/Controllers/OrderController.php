@@ -146,7 +146,7 @@ class OrderController extends Controller
                 $request->session()->forget('order');
                 $request->session()->forget('cart');
                 $request->session()->flush();
-                return response(['res' => 'success', 'status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!']);
+                return response(['res' => 'success', 'status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!', 'code' => $codeOrder]);
             } else {
                 return response(['res' => 'fail', 'status' => 'Thông báo đặt hàng', 'icon' => 'error', 'title' => $notis['status']]);
             }
