@@ -113,6 +113,14 @@
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
                                 </div>
+                                <select id="mySelect">
+                                    <option value="0">Chọn một cá thể</option>
+                                    <option value="cha">Cha</option>
+                                    <option value="con1" data-parent="cha">Con 1</option>
+                                    <option value="con2" data-parent="cha">Con 2</option>
+                                    <option value="con3" data-parent="cha">Con 3</option>
+                                    <option value="ca">Cá</option>
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -168,6 +168,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/change',[OrderController::class,'change'])->name('order.change');
         Route::post('/search',[OrderController::class,'search'])->name('order.search');
         Route::post('/filter',[OrderController::class,'filter'])->name('order.filter');
+        Route::get('/export',[OrderController::class,'export'])->name('order.export');
     });
     //Ma khuyen mai
     Route::prefix('coupon')->group(function(){

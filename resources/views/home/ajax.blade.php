@@ -441,7 +441,7 @@
             if (feeShip == 0) {
                 swalNotification(
                     'Thông báo đặt hàng',
-                    'Bạn phải nhập thông tin để chúng tôi kiểm tra phí vận chuyển',
+                    'Bạn phải nhập địa chỉ để chúng tôi kiểm tra phí vận chuyển',
                     'warning',
                     () => {});
             } else {

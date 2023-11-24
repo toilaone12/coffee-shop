@@ -161,7 +161,7 @@
               class="ml-sm-2 ml-lg-3 w-50 btn btn-primary btn-outline-primary fs-13 modal-fee" 
               data-toggle="modal" data-target="#feeModal"
               >
-                Tra giá
+                Tra phí
               </span>
             </span>
           </p>

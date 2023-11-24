@@ -208,6 +208,10 @@ class OrderController extends Controller
         }
     }
 
+    function export(Request $request){
+        
+    }
+
     function search(Request $request){
         $data = $request->all();
         $orders = Order::whereBetween('date_updated',[$data['date-from'],$data['date-to']])->get();

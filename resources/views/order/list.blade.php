@@ -4,7 +4,7 @@
     <!-- Main Content -->
     <div id="content" class="mx-5">
         <div class="row">
-            <div class="col-xl-9 col-lg-6 col-sm-3">
+            <div class="col-xl-12 col-lg-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Danh sách đơn hàng</h3>
@@ -14,10 +14,11 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Mã đơn</th>
                                     <th>Tên khách hàng</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Địa chỉ giao hàng</th>
                                     <th>Tổng tiền</th>
                                     <th>Tình trạng đơn</th>
                                     <th>Ngày tạo đơn</th>
@@ -27,10 +28,11 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" value="{{$one->id_order}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="code-{{$one->id_order}}">{{$one->code_order}}</td>
                                     <td class="name-{{$one->id_order}}">{{$one->name_order}}</td>
+                                    <td class="phone-{{$one->id_order}}">{{$one->phone_order}}</td>
+                                    <td class="address-{{$one->id_order}}">{{$one->address_order}}</td>
                                     <td class="total-{{$one->id_order}}">{{$one->total_order}}</td>
                                     <td 
                                     class="text-light status-{{$one->id_order}} {{$one->status_order == 0 || $one->status_order == 1 ? 'bg-warning' : ($one->status_order == 2 || $one->status_order == 3 ? 'bg-success' : 'bg-danger')}}">

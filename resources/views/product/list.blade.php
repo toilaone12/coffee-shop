@@ -132,9 +132,15 @@
                                 <div class="form-group">
                                     <label for="id">Danh mục sản phẩm</label>
                                     <select name="id_category" class="form-control" id="id">
-                                        @foreach($listCate as $key => $cate)
-                                        <option value="{{$cate->id_category}}">{{$cate->name_category}}</option>
-                                        @endforeach
+                                        <optgroup label="parent">
+                                            @foreach($listCate as $key => $cate)
+                                            @if($cate->id_parent == 0)
+                                            <option value="{{$cate->id_category}}">{{$cate->name_category}}</option>
+                                            @else
+                                            <option value="{{$cate->id_category}}">{{$cate->name_category}}</option>
+                                            @endif
+                                            @endforeach
+                                        </optgroup>
                                     </select>
                                     @error('id_category')
                                     <span class="text-danger">{{$message}}</span>

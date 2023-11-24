@@ -249,4 +249,10 @@ $(document).ready(function() {
         var selectedDate = $(this).val();
         $('#date-from').attr('max', selectedDate);
     });
+
+    //goi dien cho khach hang
+    $('.call-customer').on('click', function(){
+        let phone = $('.phone-customer').text();
+        location.href = 'tel:'+phone;
+    })
 });

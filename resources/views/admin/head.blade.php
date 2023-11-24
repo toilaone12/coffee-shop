@@ -24,4 +24,6 @@
 <link rel="stylesheet" href="{{asset('./front-end/css/ionicons.min.css')}}">
 <link rel="stylesheet" href="{{asset('./front-end/css/icomoon.css')}}">
 <link rel="stylesheet" href="{{asset('./front-end/css/open-iconic-bootstrap.min.css')}}">
+{{-- Selectize --}}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.min.css" rel="stylesheet" />
 

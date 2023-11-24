@@ -107,47 +107,75 @@
                     <div class="card-header">
                         <h3 class="card-title">Chi tiết đơn hàng #{{$order->code_order}} <span class="id-order d-none">{{$order->id_order}}</span></h3>
                     </div>
-                    <!-- /.card-header -->
-                    <table id="myTable" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã đơn</th>
-                                <th>Hình ảnh sản phẩm</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Số lượng mua</th>
-                                <th>Giá cả</th>
-                                <th>Ghi chú</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($list as $key => $one)
-                            <tr>
-                                <td>{{$key + 1}}</td>
-                                <td class="code">{{$one->code_order}}</td>
-                                <td class="image">
-                                    <img loading="lazy" src="{{ asset($one->image_product) }}" class="image" width="120" height="120" alt="" srcset="">
-                                </td>
-                                <td class="name">{{$one->name_product}}</td>
-                                <td class="quantity">{{$one->quantity_product}}</td>
-                                <td class="price">{{$one->price_product}}</td>
-                                <td class="note">{{$one->note_product ? $one->note_product : 'Không có'}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                     <div class="card-body">
+                        <div class="border-bottom pb-3">
+                            <div class="fs-15 text-dark mb-2">
+                                Họ tên người đặt: {{ucwords($order->name_order)}}
+                            </div>
+                            <div class="fs-15 text-dark d-flex mb-2 align-items-center">
+                                Số điện thoại: <span class="phone-customer ml-1">{{$order->phone_order}}</span>
+                                <div class="ml-3">
+                                    <button class="btn btn-primary call-customer">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="fs-15 text-dark mb-2">
+                                Địa chỉ giao hàng: {{ucwords($order->address_order)}}
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <table id="myTable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã đơn</th>
+                                        <th>Hình ảnh sản phẩm</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Số lượng mua</th>
+                                        <th>Giá cả</th>
+                                        <th>Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($list as $key => $one)
+                                    <tr>
+                                        <td>{{$key + 1}}</td>
+                                        <td class="code">{{$one->code_order}}</td>
+                                        <td class="image">
+                                            <img loading="lazy" src="{{ asset($one->image_product) }}" class="image" width="120" height="120" alt="" srcset="">
+                                        </td>
+                                        <td class="name">{{$one->name_product}}</td>
+                                        <td class="quantity">{{$one->quantity_product}}</td>
+                                        <td class="price">{{$one->price_product}}</td>
+                                        <td class="note">{{$one->note_product ? $one->note_product : 'Không có'}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
             </div>
             <div class="col-xl-3 col-lg-6 col-sm-3 ">
-                <div class="card">
-                    <h5 class="card-header">Thay đổi trạng thái đơn hàng</h5>
-                    <div class="card-body">
-                        @foreach($listStatus as $key => $status)
-                        <a href="{{route('order.change',['id' => $order->id_order,'status' => $key])}}" class="w-100 btn btn-primary d-block {{$key > 1 ? 'mt-3': ''}} {{$key == $order->status_order || $key != intval($order->status_order) + 1 ? 'disabled' : ''}}">{{$status}}</a>
-                        @endforeach
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">Cài đặt</h5>
+                            <div class="card-body">
+                                <a href="{{route('order.export')}}" class="btn btn-primary w-100">In hóa đơn</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-sm-12 mt-3">
+                        <div class="card">
+                            <h5 class="card-header">Thay đổi trạng thái đơn hàng</h5>
+                            <div class="card-body">
+                                @foreach($listStatus as $key => $status)
+                                <a href="{{route('order.change',['id' => $order->id_order,'status' => $key])}}" class="w-100 btn btn-primary d-block {{$key > 1 ? 'mt-3': ''}} {{$key == $order->status_order || $key != intval($order->status_order) + 1 ? 'disabled' : ''}}">{{$status}}</a>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

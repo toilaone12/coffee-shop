@@ -83,6 +83,7 @@ if (!isset($username)) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
     @if(request()->is('admin/category/list'))
     <script>
         var listParent = {!!json_encode($listParent) !!};
@@ -194,15 +195,13 @@ if (!isset($username)) {
         Swal.fire({
             icon: 'success',
             title: 'Phản hồi khách hàng',
-            text: '{{ session('
-            success ') }}',
+            text: '{{ session("success") }}',
         });
         @elseif(session('error'))
         Swal.fire({
             icon: 'error',
             title: 'Phản hồi khách hàng',
-            text: '{{ session('
-            error ') }}',
+            text: '{{ session("error") }}',
         });
         @endif
     </script>
