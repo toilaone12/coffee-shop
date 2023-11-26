@@ -18,6 +18,7 @@ use App\Models\Units;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -181,6 +182,7 @@ class OrderController extends Controller
     }
 
     function change(Request $request){
+        dd($this->handlePushNotification());
         $data = $request->all();
         $status = intval($data['status']);
         $id = $data['id'];
@@ -198,6 +200,7 @@ class OrderController extends Controller
                     }
                     return redirect()->route('order.adDetail',['code' => $order->code_order]);
                 }
+                $this->handlePushNotification();
             }
         }else{
             if($status == 4){
@@ -574,6 +577,34 @@ class OrderController extends Controller
                 }
                 return $noti;
             }
+        }
+    }
+
+    function handlePushNotification(){
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        $server_key = 'AAAAgXdWpV8:APA91bGUQqgU3CDqRS5QfelSoyyG2-Az2nGiATnlyIC4xIxnNuanB-kN3ChySlL960sWObtceid2mUcK-Q3qIxx8CMJtYjx8nmSV6MtFp80AOdESpz1WgNJDWfpCFc1yEQZcN7zvbHaL';
+        $message = array(
+            "data" => array(
+                'title' => 'Đơn hàng của bạn',
+                'body' => 'Đơn hàng của bạn đã được nhận, vui lòng nhấn link để kiểm tra',
+                'icon' => "https://www.harper7coffee.com/images/favicon.ico",
+                'click_action' => redirect()->route("order.history"),
+                'id_customer' => 1,
+            ),
+            'registration_ids' => [
+                "czsWYJT_QPsSwHuw2d9TbO:APA91bGwZVrEuO4u_vsPjUr5XXMc-qLPqQXFEyVbAkZX_9PVRc37N45zYqTuszAemsPCCduKMvFeJvQWr86SbWwua-pctmApvIS2DqMrftSzFmNVlls-h1L9MtsM_Q6imYW7fptYQoXv"
+            ],
+        );
+
+        $response = Http::withHeaders([
+            'Authorization' => 'key=' . $server_key,
+            'Content-Type' => 'application/json',
+        ])->post($url, $message);
+
+        if ($response->failed()) {
+            return "Error: " . $response->body();
+        } else {
+            return "Message sent successfully";
         }
     }
 }

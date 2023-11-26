@@ -1,3 +1,6 @@
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-messaging-compat.js"></script>
 <script src="{{asset('./front-end/js/jquery.min.js')}}"></script>
 <script src="{{asset('./front-end/js/jquery-migrate-3.0.1.min.js')}}"></script>
 <script src="{{asset('./front-end/js/popper.min.js')}}"></script>

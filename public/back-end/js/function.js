@@ -612,3 +612,22 @@ function handleUpdateReview(){
     $('.review-update').val(review)
     $('.name-review').text(name)
 }
+
+//firebase
+function sendTokenToServer(token) {
+    console.log(isTokenToServer());
+    if(!isTokenToServer()){
+        setTokenSentToServer(true);
+        console.log('Sending token to server');
+    }else{
+        console.log('Token is already');
+    }
+}
+
+function isTokenToServer(){
+    return window.localStorage.getItem('sentToServer') === '1'
+}
+
+function setTokenSentToServer(sent){
+    window.localStorage.setItem('sentToServer', sent ? 1 : 0)
+}

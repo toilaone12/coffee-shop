@@ -57,6 +57,9 @@ if (!isset($username)) {
 
     <!-- Logout Modal-->
     @include('admin.logout')
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-messaging-compat.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('./back-end/js/jquery.min.js')}}"></script>
     <script src="{{asset('./back-end/js/bootstrap.bundle.min.js')}}"></script>
