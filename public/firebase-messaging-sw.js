@@ -14,6 +14,7 @@ const app = firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 messaging.onBackgroundMessage(function(payload){
     const title = payload.data.title;
+    console.log(payload.data.click_action);
     const option = {
       body: payload.data.body,
       icon: payload.data.icon,

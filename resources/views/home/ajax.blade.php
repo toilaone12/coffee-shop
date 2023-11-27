@@ -1,5 +1,30 @@
 <script>
     $(document).ready(function() {
+        //xu ly firebase
+        let idCustomer = "{{request()->cookie('id_customer')}}";
+        if(idCustomer){
+            const firebaseConfig = {
+                apiKey: "AIzaSyAjiindd25wlTFOvf62iYcVvtc2O82J1bY",
+                authDomain: "send-notification-coffee.firebaseapp.com",
+                projectId: "send-notification-coffee",
+                messagingSenderId: "556052948319",
+                appId: "1:556052948319:web:30dcd91128987b14cbc2ea",
+            };
+            firebase.initializeApp(firebaseConfig)
+            const messaging = firebase.messaging()
+            // subscribeToTopic();
+            messaging.getToken({ vapidKey: "BEZ2_EBRxPYQQywBRw-4cevIi20exEEOLaTzAetv1YqCfTT3RyGP4fYLvUf-2Ua7QX9MMXRs4gI_fdOQEAl6KM8" }).then((currentToken) => {
+                if(currentToken){   
+                    subscribeTokenToTopic(currentToken,idCustomer);
+                    sendTokenToServer(currentToken);
+                }else{
+                    setTokenSentToServer(false);
+                }
+            }).catch((err) => {
+                console.log(err);
+                setTokenSentToServer(false);
+            })
+        }
         //them san pham vao gio hang (doi voi modal)
         $(document).on('click', '#add-waiting-cart', () => { // se chay ke ca khi DOM chua xuat hien
             let id = $('.id-product').val();
@@ -504,14 +529,18 @@
                             data.title.forEach((title) => {
                                 html += `<span class="fs-14 d-block text-secondary mb-2">${title}</span>`
                             })
+                            console.log(data.title);
                             swalNotiWithHTML(data.status, html, data.icon, () => {
                                 location.href = '{{route("cart.home")}}'
                             });
                         } else {
                             let url = data.code;
-                            console.log(url);
                             let dataArray = [
-                                { 'text': 'Có người đặt hàng', 'link': "http://127.0.0.1:8000/admin/order/detail/"+url },
+                                { 
+                                    'id': data.id,
+                                    'text': 'Có người đặt hàng', 
+                                    'link': "http://127.0.0.1:8000/admin/order/detail/"+url, 
+                                },
                                 // Thêm các đối tượng khác vào mảng nếu cần thiết
                             ];
                             // Chuyển đổi mảng thành chuỗi JSON

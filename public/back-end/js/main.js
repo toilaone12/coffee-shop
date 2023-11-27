@@ -1,48 +1,4 @@
 $(document).ready(function() {
-    //xu ly socket
-    let socket = new WebSocket("ws://localhost:8080");
-    socket.onopen = function(e) {
-        console.log("[open] Kết nối đã được thiết lập từ Trang Quản Trị");
-    };
-
-    socket.onmessage = function(event) {
-        const blobData = event.data; // Đây là dữ liệu nhận được dưới dạng Blob
-        // Chuyển đổi Blob thành dữ liệu văn bản
-        blobData.text().then(textData => { // tra ve 1 promise
-            let alert = JSON.parse(textData)[0];
-            swalNotification('Thông báo đặt hàng',alert.text,'success',() => {
-                location.href = alert.link;
-            })
-            // console.log(JSON.parse(textData)[0].text); // In dữ liệu văn bản
-        });
-    };
-
-    // //xu ly firebase
-    // const firebaseConfig = {
-    //     apiKey: "AIzaSyAjiindd25wlTFOvf62iYcVvtc2O82J1bY",
-    //     authDomain: "send-notification-coffee.firebaseapp.com",
-    //     projectId: "send-notification-coffee",
-    //     messagingSenderId: "556052948319",
-    //     appId: "1:556052948319:web:30dcd91128987b14cbc2ea",
-    // };
-    // firebase.initializeApp(firebaseConfig)
-    // const messaging = firebase.messaging()
-    // messaging.getToken({ vapidKey: "BEZ2_EBRxPYQQywBRw-4cevIi20exEEOLaTzAetv1YqCfTT3RyGP4fYLvUf-2Ua7QX9MMXRs4gI_fdOQEAl6KM8" }).then((currentToken) => {
-    //     if(currentToken){   
-    //         console.log(currentToken);
-    //         $('.token').text(currentToken);
-    //         sendTokenToServer(currentToken);
-    //     }else{
-    //         setTokenSentToServer(false);
-    //     }
-    // }).catch((err) => {
-    //     console.log(err);
-    //     setTokenSentToServer(false);
-    // })
-    // messaging.onMessage((payload) => {
-    //     console.log('Message received ', payload);
-    //     $('.message').text(JSON.stringify(payload,null,2));
-    // })
     //dataTable
     $('#myTable').DataTable({
         "responsive": true,

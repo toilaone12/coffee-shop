@@ -1,4 +1,4 @@
-function callAjax(url,method,data,headers,success,error,isFormData = 0){
+function callAjax(url, method, data, headers, success, error, isFormData = 0) {
     $.ajax({
         method: method,
         url: url,
@@ -12,7 +12,7 @@ function callAjax(url,method,data,headers,success,error,isFormData = 0){
     })
 }
 
-function swalQuestion(html, callback){
+function swalQuestion(html, callback) {
     Swal.fire({
         title: '<p class="fs-16">Bạn chắc chắn muốn xóa không?</p>',
         icon: 'warning',
@@ -28,15 +28,15 @@ function swalQuestion(html, callback){
         cancelButtonAriaLabel: 'Đã hủy bỏ'
     }).then((result) => {
         // console.log(arr);
-        if(result.isConfirmed){
+        if (result.isConfirmed) {
             callback(true);
-        }else{
+        } else {
             callback(false);
         }
     });
 }
 
-function swalLogout(callback){
+function swalLogout(callback) {
     Swal.fire({
         title: '<p class="fs-25">Đăng xuất tài khoản</p>',
         icon: 'warning',
@@ -51,15 +51,15 @@ function swalLogout(callback){
         cancelButtonAriaLabel: 'Đã hủy bỏ'
     }).then((result) => {
         // console.log(arr);
-        if(result.isConfirmed){
+        if (result.isConfirmed) {
             callback(true);
-        }else{
+        } else {
             callback(false);
         }
-    }); 
+    });
 }
 
-function swalNotification(title,text,icon,callback){
+function swalNotification(title, text, icon, callback) {
     Swal.fire({
         title: title,
         text: text,
@@ -68,13 +68,13 @@ function swalNotification(title,text,icon,callback){
         showCancelButton: true,
         confirmButtonText: 'Xác nhận',
     }).then((res) => {
-        if(res.isConfirmed){
+        if (res.isConfirmed) {
             callback(true);
         }
     });
 }
 
-function swalNotiWithHTML(title,html,icon,callback){
+function swalNotiWithHTML(title, html, icon, callback) {
     Swal.fire({
         icon: icon, // Biểu tượng của thông báo
         title: title,
@@ -83,7 +83,7 @@ function swalNotiWithHTML(title,html,icon,callback){
         showCancelButton: true,
         confirmButtonText: 'Xác nhận',
     }).then((res) => {
-        if(res.isConfirmed){
+        if (res.isConfirmed) {
             callback(true);
         }
     });
@@ -105,12 +105,12 @@ function debounce(func, delay) {
 }
 
 // giao dien modal them san pham vao gio hang
-function handleBuyProduct(){
+function handleBuyProduct() {
     let id = $(this).data('id');
-    let image = $('.image-'+id).data('image');
-    let name = $('.name-'+id).text();
-    let price = $('.price-'+id+' > span').text().replace('.','');
-    let priceFormatted = parseInt(price.replace(' đ','')).toLocaleString('vi-VN', { currency: 'VND' });
+    let image = $('.image-' + id).data('image');
+    let name = $('.name-' + id).text();
+    let price = $('.price-' + id + ' > span').text().replace('.', '');
+    let priceFormatted = parseInt(price.replace(' đ', '')).toLocaleString('vi-VN', { currency: 'VND' });
     let html = '';
     html += `<img class="card-img-top p-3 image-product" src="${image}" alt="Card image cap">`;
     html += `<div class="card-body">`;
@@ -147,49 +147,49 @@ function handleBuyProduct(){
     handleClickQuantity();
 }
 // xu ly su kien cong tru san pham
-function handleClickQuantity(){
-    $('.btn-number').click(function(){
+function handleClickQuantity() {
+    $('.btn-number').click(function () {
         let type = $(this).data('type');
         let quantity = $('.input-number').val();
         let price = $('.price-modal').text().replace(/[.,đ]/g, '');
         let priceOriginal = $('.price-modal').data('price');
-        if(type === 'minus'){
-            if(quantity <= 1){
+        if (type === 'minus') {
+            if (quantity <= 1) {
                 $('.input-number').val(1)
                 $('.price-modal').text(parseInt(priceOriginal).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-            }else{
+            } else {
                 let minus = parseInt(quantity) - 1;
                 $('.input-number').val(minus);
                 $('.price-modal').text((parseInt(price) - parseInt(priceOriginal)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
             }
-        }else if(type === 'plus'){
-            if(quantity > 99){
+        } else if (type === 'plus') {
+            if (quantity > 99) {
                 $('.input-number').val(99)
                 $('.price-modal').text(parseInt(priceOriginal * 99).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-            }else{
+            } else {
                 let plus = parseInt(quantity) + 1;
                 $('.input-number').val(plus);
                 $('.price-modal').text((parseInt(price) + parseInt(priceOriginal)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
             }
         }
     })
-    $('.input-number').change(function(){
+    $('.input-number').change(function () {
         let quantity = $(this).val();
         let priceOriginal = $('.price-modal').data('price');
-        if(quantity < 1){
+        if (quantity < 1) {
             $(this).val(1);
             $('.price-modal').text(parseInt(priceOriginal).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-        }else if(quantity > 99){
+        } else if (quantity > 99) {
             $('.input-number').val(99)
             $('.price-modal').text(parseInt(priceOriginal * 99).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-        }else{
+        } else {
             $('.price-modal').text((parseInt(quantity) * parseInt(priceOriginal)).toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
         }
     })
 }
 
 function formCartNavbar(url) {
-    if(!$('div').hasClass('form-cart')){ //kiem tra neu chua ton tai thi them khong thi van de nguyen tranh vc k append dc san pham
+    if (!$('div').hasClass('form-cart')) { //kiem tra neu chua ton tai thi them khong thi van de nguyen tranh vc k append dc san pham
         var html = `<div class="form-cart p-2 border">`;
         html += `<div class="fs-18 text-secondary mb-3">Sản phẩm mới thêm</div>`;
         html += `<div class="mb-3 overflow-auto width-cart cart-item">`;
@@ -197,20 +197,20 @@ function formCartNavbar(url) {
         html += `<a href="${url}" class="btn btn-primary fs-13">Xem giỏ hàng</a>`;
         html += `</div>`;
         $('.cart-hover').html(html);
-    } 
+    }
 }
 
-function addToCart(id,image,name,price,quantity) {
+function addToCart(id, image, name, price, quantity) {
     let i = $('.bag > small').text() ? $('.bag > small').text() : 0;
-    if($('div').hasClass('cart-child-'+id)){ //ktra san pham da ton tai chua, co thi cong khong thi xuat hien moi
-        let priceExist = parseInt($('.price-child-'+id).attr('data-price'));
-        let quantityExist = parseInt($('.quantity-child-'+id).text());
+    if ($('div').hasClass('cart-child-' + id)) { //ktra san pham da ton tai chua, co thi cong khong thi xuat hien moi
+        let priceExist = parseInt($('.price-child-' + id).attr('data-price'));
+        let quantityExist = parseInt($('.quantity-child-' + id).text());
         let priceChange = parseInt(price * quantity) + priceExist;
         let quantityChange = parseInt(quantity) + quantityExist;
-        $('.price-child-'+id).text(priceChange.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
-        $('.price-child-'+id).attr('data-price',priceChange)
-        $('.quantity-child-'+id).text(quantityChange)
-    }else{
+        $('.price-child-' + id).text(priceChange.toLocaleString('vi-VN', { currency: 'VND' }) + ' đ');
+        $('.price-child-' + id).attr('data-price', priceChange)
+        $('.quantity-child-' + id).text(quantityChange)
+    } else {
         var option = `<div class="d-flex justify-content-start mr-3 mb-3 cart-child-${id}" style="width: 22rem;">`
         option += `<img loading="lazy" class="object-fit-cover rounded" width="50" height="50" src="${image}" alt="Card image cap">`;
         option += `<div class="d-block" style="width: 90%">`;
@@ -234,14 +234,14 @@ function addToCart(id,image,name,price,quantity) {
 function formResultSearch(result) {
     let html = '';
     let length = result.length > 10 ? 10 : result.length;
-    for(let i = 0; i < length; i++){
+    for (let i = 0; i < length; i++) {
         html += `<li class="fs-15 d-flex align-items-center text-dark p-2 location-item" data-lat=${result[i].position.lat} data-lng=${result[i].position.lng}>`;
-        html += `<span class="icon-location_searching fs-18 mr-2"></span>${result[i].address.label}</li>`;                                                                          
+        html += `<span class="icon-location_searching fs-18 mr-2"></span>${result[i].address.label}</li>`;
     }
     $('#result-list').removeClass('d-none').html(html);
-    $('.location-item').each(function() {
-        $(this).on('click', function() {
-            $('.find-address').val($(this).text()).attr('data-lat',$(this).data('lat')).attr('data-lng',$(this).data('lng'))
+    $('.location-item').each(function () {
+        $(this).on('click', function () {
+            $('.find-address').val($(this).text()).attr('data-lat', $(this).data('lat')).attr('data-lng', $(this).data('lng'))
             $('#result-list').addClass('d-none');
         });
     });
@@ -249,19 +249,35 @@ function formResultSearch(result) {
 //firebase
 function sendTokenToServer(token) {
     // console.log(isTokenToServer());
-    if(!isTokenToServer()){
+    if (!isTokenToServer()) {
         setTokenSentToServer(true);
         console.log('Sending token to server');
-    }else{
+    } else {
         console.log('Token is already');
     }
 }
 
-function isTokenToServer(){
+function isTokenToServer() {
     return window.localStorage.getItem('sentToServer') === '1'
 }
 
-function setTokenSentToServer(sent){
+function setTokenSentToServer(sent) {
     window.localStorage.setItem('sentToServer', sent ? 1 : 0)
 }
 
+function subscribeTokenToTopic(token, topic) {
+    let fcm_server_key = 'AAAAgXdWpV8:APA91bGUQqgU3CDqRS5QfelSoyyG2-Az2nGiATnlyIC4xIxnNuanB-kN3ChySlL960sWObtceid2mUcK-Q3qIxx8CMJtYjx8nmSV6MtFp80AOdESpz1WgNJDWfpCFc1yEQZcN7zvbHaL'
+    fetch('https://iid.googleapis.com/iid/v1/' + token + '/rel/topics/' + topic, {
+        method: 'POST',
+        headers: new Headers({
+            'Authorization': 'key=' + fcm_server_key
+        })
+    }).then(response => {
+        if (response.status < 200 || response.status >= 400) {
+            throw 'Error subscribing to topic: ' + response.status + ' - ' + response.text();
+        }
+        console.log('Subscribed to "' + topic + '"');
+    }).catch(error => {
+        console.error(error);
+    })
+}

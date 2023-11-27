@@ -26,8 +26,8 @@
                   <span class="text-secondary fs-20">Đơn hàng #{{$order->code_order}}</span>
                   <span class="fs-16 text-secondary">
                     Tình trạng đơn hàng: 
-                    <span class="{{$order->status_order == 0 ? 'text-warning' : ($order->status_order == 1 || $order->status_order == 2 ? 'text-success' : 'text-danger')}}">
-                      {{$order->status_order == 0 ? 'Đang chờ nhận đơn' : ($order->status_order == 1 ? 'Đã nhận đơn' : ($order->status_order == 2 ? 'Đang giao hàng' : 'Đã hủy đơn'))}}
+                    <span class="{{$order->status_order == 0 ? 'text-warning' : ($order->status_order == 1 || $order->status_order == 2 || $order->status_order == 3 ? 'text-success' : 'text-danger')}}">
+                      {{$order->status_order == 0 ? 'Đang chờ nhận đơn' : ($order->status_order == 1 ? 'Đã nhận đơn' : ($order->status_order == 2 ? 'Đang giao hàng' : ($order->status_order == 3 ? 'Giao hàng thành công' : 'Đã hủy đơn')))}}
                     </span>
                   </span>
                 </div>

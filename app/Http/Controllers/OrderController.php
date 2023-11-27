@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Coupon;
@@ -147,10 +148,16 @@ class OrderController extends Controller
                 $notis = $handle;
             }
             if ($notis['res'] == 'success') {
-                $request->session()->forget('order');
-                $request->session()->forget('cart');
-                $request->session()->flush();
-                return response(['res' => 'success', 'status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!', 'code' => $codeOrder]);
+                $randomAccount = Account::where('is_online', 1)->inRandomOrder()->first();
+                if ($randomAccount) {
+                    $randomId = $randomAccount->id_account;
+                    // dd($randomId);
+                    // Sử dụng $randomId cho mục đích của bạn
+                    $request->session()->forget('order');
+                    $request->session()->forget('cart');
+                    $request->session()->flush();
+                    return response(['res' => 'success', 'status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!', 'code' => $codeOrder, 'id' => $randomId]);
+                }
             } else {
                 return response(['res' => 'fail', 'status' => 'Thông báo đặt hàng', 'icon' => 'error', 'title' => $notis['status']]);
             }
@@ -185,7 +192,6 @@ class OrderController extends Controller
     }
 
     function change(Request $request){
-        dd($this->handlePushNotification());
         $data = $request->all();
         $status = intval($data['status']);
         $id = $data['id'];
@@ -198,12 +204,18 @@ class OrderController extends Controller
                 if($status == 4){
                     return redirect()->route('order.detail',['code' => $order->code_order]);
                 }else{
-                    if($status == 3){
+                    $code = $order->code_order;
+                    $id = $order->id_customer;
+                    if($status == 1 && $id){
+                        $this->handlePushNotification($id,$code,'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát');
+                    }else if($status == 2 && $id){
+                        $this->handlePushNotification($id,$code,'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát');
+                    }else if($status == 3){
                         $this->handleStatistic($order);
+                        if($id) $this->handlePushNotification($id,$code,'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng');
                     }
                     return redirect()->route('order.adDetail',['code' => $order->code_order]);
                 }
-                $this->handlePushNotification();
             }
         }else{
             if($status == 4){
@@ -216,12 +228,10 @@ class OrderController extends Controller
 
     function export(Request $request){
         $code = $request->get('code');
+        $title = 'Hóa đơn #'.$code;
         $order = Order::where('code_order',$code)->first();
         $details = DetailOrder::where('code_order',$code)->get();
-        $pdf = Pdf::loadView('order.pdf',compact('order','details'))
-        ->setPaper('A4')
-        ->setOptions(['fontMetrics' => ['sans-serif' => 'DejaVu Sans']]);
-        return $pdf->download('Đơn hàng: '.$code.'.pdf');
+        return view('order.pdf',compact('order','details','title'));
     }
 
     function search(Request $request){
@@ -383,12 +393,11 @@ class OrderController extends Controller
                     $noti['status'] = [];
                 }
                 $noti['res'] = 'fail';
-                if (!isset($noti['status'])) {
-                    $noti['status'] = [];
-                }
-                array_push($noti, $error['status']);
+                $noti['status'][] = $error['status'];
+                // array_push($noti, $error['status']);
             }
         }
+        // dd($noti);
         return $noti;
     }
 
@@ -589,22 +598,19 @@ class OrderController extends Controller
         }
     }
 
-    function handlePushNotification(){
+    function handlePushNotification($id,$code,$text){
         $url = 'https://fcm.googleapis.com/fcm/send';
         $server_key = 'AAAAgXdWpV8:APA91bGUQqgU3CDqRS5QfelSoyyG2-Az2nGiATnlyIC4xIxnNuanB-kN3ChySlL960sWObtceid2mUcK-Q3qIxx8CMJtYjx8nmSV6MtFp80AOdESpz1WgNJDWfpCFc1yEQZcN7zvbHaL';
         $message = array(
-
             "data" => array(
                 'title' => 'Đơn hàng của bạn',
-                'body' => 'Đơn hàng của bạn đã được nhận, vui lòng nhấn link để kiểm tra',
+                'body' => $text,
                 'icon' => "https://www.harper7coffee.com/images/favicon.ico",
-                'click_action' => redirect()->route("order.history"),
-                'id_customer' => 1,
+                'click_action' => 'http://127.0.0.1:8000/page/order/detail/'.$code,
             ),
-            'registration_ids' => [
-                "dfuLfoQg0zw2PgbvPZHnQL:APA91bHUBN_XkXcMsmkiIM2cYLvxESLAHZ4_DvvnPNwCBSeNkER8kodCAnC7zoU4lWepXeX5WZxaf5-RDc_W1b3WlHdJqCUmKI8yi5PGAEvX9CAX5JQhzXLRhG_RN2UH3Wdj8926SuYC"
-            ],
+            'to'  => '/topics/'.$id,
         );
+        // dd($message);
 
         $response = Http::withHeaders([
             'Authorization' => 'key=' . $server_key,

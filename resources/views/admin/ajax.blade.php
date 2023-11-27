@@ -1,5 +1,26 @@
 <script>
     $(document).ready(function() {
+        //xu ly socket
+        let socket = new WebSocket("ws://localhost:8080");
+        socket.onopen = function(e) {
+            console.log("[open] Kết nối đã được thiết lập từ Trang Quản Trị");
+        };
+
+        socket.onmessage = function(event) {
+            const blobData = event.data; // Đây là dữ liệu nhận được dưới dạng Blob
+            // Chuyển đổi Blob thành dữ liệu văn bản
+            blobData.text().then(textData => { // tra ve 1 promise
+                let alert = JSON.parse(textData)[0];
+                let idAdmin = "{{request()->cookie('id_account')}}";
+                console.log(idAdmin);
+                if(alert.id == idAdmin){
+                    swalNotification('Thông báo đặt hàng',alert.text,'success',() => {
+                        location.href = alert.link;
+                    })
+                }
+                // console.log(JSON.parse(textData)[0].text); // In dữ liệu văn bản
+            });
+        };
         //dang xuat tai khoan
         $('.logout').click(function() {
             let url = "{{route('admin.logout')}}";
@@ -1412,5 +1433,6 @@
                 }, 
             );
         })
+        
     })
 </script>
