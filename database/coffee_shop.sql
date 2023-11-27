@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 03, 2023 lúc 04:29 AM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th10 27, 2023 lúc 05:03 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,8 +45,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
-(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 1, 1, '2023-08-27 11:08:11', '2023-09-02 16:27:58'),
-(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 599946, 2, 0, '2023-11-03 03:17:00', '2023-11-03 03:17:00');
+(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 1, 1, '2023-08-27 11:08:11', '2023-11-27 14:54:07'),
+(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 123456, 2, 1, '2023-11-03 03:17:00', '2023-11-27 14:53:26');
 
 -- --------------------------------------------------------
 
@@ -160,7 +160,8 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id_customer`, `image_customer`, `name_customer`, `email_customer`, `phone_customer`, `password_customer`, `created_at`, `updated_at`) VALUES
-(1, 'storage/customer/bao-son-1698727645.jpg', 'Bảo Sơn', 'baooson3005@gmail.com', '0386278912', 'e10adc3949ba59abbe56e057f20f883e', '2023-09-25 03:21:29', '2023-10-31 08:04:03');
+(1, 'storage/customer/bao-son-1698727645.jpg', 'Bảo Sơn', 'baooson3005@gmail.com', '0386278912', 'e10adc3949ba59abbe56e057f20f883e', '2023-09-25 03:21:29', '2023-10-31 08:04:03'),
+(2, 'storage/customer/person.svg', 'Tuấn', 'toilaone12@gmail.com', NULL, '69b21e9c5b38d7c34449a5b290363487', '2023-11-27 14:19:50', '2023-11-27 14:19:50');
 
 -- --------------------------------------------------------
 
@@ -181,7 +182,9 @@ CREATE TABLE `customer_coupon` (
 --
 
 INSERT INTO `customer_coupon` (`id_customer_coupon`, `id_customer`, `id_coupon`, `created_at`, `updated_at`) VALUES
-(15, 1, 3, '2023-10-31 08:52:50', '2023-10-31 08:52:50');
+(15, 1, 3, '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
+(17, 1, 2, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(18, 2, 1, '2023-11-27 15:02:32', '2023-11-27 15:02:32');
 
 -- --------------------------------------------------------
 
@@ -200,27 +203,6 @@ CREATE TABLE `detail_notes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `detail_notes`
---
-
-INSERT INTO `detail_notes` (`id_detail`, `id_note`, `id_unit`, `code_note`, `name_ingredient`, `quantity_ingredient`, `price_ingredient`, `created_at`, `updated_at`) VALUES
-(21, 11, 3, '82FJNF', 'Sữa tươi tiệt trùng Vinamilk không đường', 1, 33000, '2023-11-02 15:01:28', '2023-11-02 15:01:28'),
-(22, 11, 1, '82FJNF', 'Sữa đặc Ngôi sao Phương Nam', 1.248, 64500, '2023-11-02 15:01:28', '2023-11-02 15:01:28'),
-(23, 11, 3, '82FJNF', 'Whipping Cream Anchor', 3, 441000, '2023-11-02 15:01:28', '2023-11-02 15:01:28'),
-(24, 11, 2, '82FJNF', 'Cà phê bột Trung Nguyên loại I', 1700, 58000, '2023-11-02 15:06:49', '2023-11-02 15:06:49'),
-(25, 11, 5, '82FJNF', 'Almond Croissant', 15, 23000, '2023-11-02 15:06:49', '2023-11-02 15:06:49'),
-(26, 12, 5, 'COUHOD', 'Ham & Cheese Croissant', 15, 20000, '2023-11-02 15:11:54', '2023-11-02 15:11:54'),
-(27, 12, 5, 'COUHOD', 'Chocolate Croissant', 13, 22000, '2023-11-02 15:11:54', '2023-11-02 15:11:54'),
-(28, 12, 5, 'COUHOD', 'Tiramisu', 10, 40000, '2023-11-02 15:11:54', '2023-11-02 15:11:54'),
-(29, 12, 5, 'COUHOD', 'Red Velvet', 16, 40000, '2023-11-02 15:11:54', '2023-11-02 15:11:54'),
-(30, 12, 5, 'COUHOD', 'Fruits Chocolate', 13, 40000, '2023-11-02 15:11:54', '2023-11-02 15:11:54'),
-(31, 12, 5, 'COUHOD', 'Passion Mousse', 7, 50000, '2023-11-02 15:11:54', '2023-11-02 15:11:54'),
-(32, 12, 2, 'COUHOD', 'Sữa đặc Ngôi sao Phương Nam', 6240, 64500, '2023-11-02 15:14:40', '2023-11-02 15:14:40'),
-(33, 12, 1, 'COUHOD', 'Cà phê bột Trung Nguyên loại I', 3.4, 58000, '2023-11-02 15:14:40', '2023-11-02 15:14:40'),
-(34, 12, 5, 'COUHOD', 'Charsiu Baguette', 5, 39000, '2023-11-02 15:14:40', '2023-11-02 15:14:40'),
-(35, 12, 5, 'COUHOD', 'Bacon & Cheese Baguette', 16, 39000, '2023-11-02 15:14:40', '2023-11-02 15:14:40');
 
 -- --------------------------------------------------------
 
@@ -261,7 +243,17 @@ INSERT INTO `detail_orders` (`id_detail`, `id_order`, `code_order`, `image_produ
 (53, 48, 'B4SWSQ', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-02 16:00:37', '2023-11-02 16:00:37'),
 (54, 48, 'B4SWSQ', 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 2, 78000, NULL, '2023-11-02 16:00:37', '2023-11-02 16:00:37'),
 (55, 49, '5FUNN5', 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 1, 39000, NULL, '2023-11-02 16:04:30', '2023-11-02 16:04:30'),
-(56, 49, '5FUNN5', 'storage/product/charsiu-baguette-1698938663.jpg', 'Charsiu Baguette', 1, 39000, NULL, '2023-11-02 16:04:30', '2023-11-02 16:04:30');
+(56, 49, '5FUNN5', 'storage/product/charsiu-baguette-1698938663.jpg', 'Charsiu Baguette', 1, 39000, NULL, '2023-11-02 16:04:30', '2023-11-02 16:04:30'),
+(57, 50, 'UCSTGD', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 3, 105000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(58, 50, 'UCSTGD', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(59, 50, 'UCSTGD', 'storage/product/ham-cheese-croissant-1698938486.jpg', 'Ham & Cheese Croissant', 1, 35000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(60, 50, 'UCSTGD', 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 1, 35000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(61, 50, 'UCSTGD', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 1, 28000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(62, 51, 'EVFXC1', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-11-24 16:54:12', '2023-11-24 16:54:12'),
+(63, 52, 'BB9WEM', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-24 16:56:37', '2023-11-24 16:56:37'),
+(64, 53, 'JZH21S', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-24 17:03:35', '2023-11-24 17:03:35'),
+(65, 54, '22P1L6', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-11-27 14:34:35', '2023-11-27 14:34:35'),
+(66, 55, '34AQI4', 'storage/product/tiramisu-1698938830.jpg', 'Tiramisu', 2, 80000, NULL, '2023-11-27 15:02:32', '2023-11-27 15:02:32');
 
 -- --------------------------------------------------------
 
@@ -336,15 +328,15 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quantity_ingredient`, `created_at`, `updated_at`) VALUES
-(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 26.864, '2023-09-03 03:49:36', '2023-11-02 16:00:37'),
-(3, 2, 'Cà phê bột Trung Nguyên loại I', 5750, '2023-09-03 07:15:16', '2023-11-02 16:00:37'),
-(4, 5, 'Plain Croissant', 3, '2023-09-03 07:24:01', '2023-11-01 16:07:31'),
-(5, 3, 'Sữa tươi tiệt trùng Vinamilk không đường', 0.6, '2023-11-02 15:06:53', '2023-11-02 16:00:37'),
+(2, 1, 'Sữa đặc Ngôi sao Phương Nam', 26.724, '2023-09-03 03:49:36', '2023-11-24 17:03:35'),
+(3, 2, 'Cà phê bột Trung Nguyên loại I', 555, '2023-09-03 07:15:16', '2023-11-27 14:34:35'),
+(4, 5, 'Plain Croissant', 2, '2023-09-03 07:24:01', '2023-11-05 16:55:30'),
+(5, 3, 'Sữa tươi tiệt trùng Vinamilk không đường', 0.36, '2023-11-02 15:06:53', '2023-11-24 17:03:35'),
 (6, 3, 'Whipping Cream Anchor', 2.9, '2023-11-02 15:06:53', '2023-11-02 15:46:41'),
 (7, 5, 'Almond Croissant', 12, '2023-11-02 15:06:53', '2023-11-02 15:48:30'),
-(8, 5, 'Ham & Cheese Croissant', 12, '2023-11-02 15:14:45', '2023-11-02 15:48:30'),
-(9, 5, 'Chocolate Croissant', 13, '2023-11-02 15:14:45', '2023-11-02 15:14:45'),
-(10, 5, 'Tiramisu', 10, '2023-11-02 15:14:45', '2023-11-02 15:14:45'),
+(8, 5, 'Ham & Cheese Croissant', 11, '2023-11-02 15:14:45', '2023-11-05 16:55:30'),
+(9, 5, 'Chocolate Croissant', 12, '2023-11-02 15:14:45', '2023-11-05 16:55:30'),
+(10, 5, 'Tiramisu', 8, '2023-11-02 15:14:45', '2023-11-27 15:02:32'),
 (11, 5, 'Red Velvet', 16, '2023-11-02 15:14:45', '2023-11-02 15:14:45'),
 (12, 5, 'Fruits Chocolate', 13, '2023-11-02 15:14:45', '2023-11-02 15:14:45'),
 (13, 5, 'Passion Mousse', 6, '2023-11-02 15:14:45', '2023-11-02 16:04:30'),
@@ -376,7 +368,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6, '2023_09_11_142633_create_news', 6),
 (7, '2023_09_20_221428_create_cart', 7),
 (8, '2023_10_22_170352_create_detail_orders', 8),
-(9, '2023_10_31_153534_create_statistic', 9);
+(9, '2023_10_31_153534_create_statistic', 9),
+(10, '0000_00_00_000000_create_websockets_statistics_entries_table', 10);
 
 -- --------------------------------------------------------
 
@@ -428,14 +421,6 @@ CREATE TABLE `notes` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `notes`
---
-
-INSERT INTO `notes` (`id_note`, `id_supplier`, `code_note`, `name_note`, `quantity_note`, `status_note`, `created_at`, `updated_at`) VALUES
-(11, 3, '82FJNF', 'Phiếu ngày 02/11/2023', 5, 1, '2023-11-02 15:01:28', '2023-11-02 15:06:53'),
-(12, 2, 'COUHOD', 'Phiếu ngày 02/11/2023', 10, 1, '2023-11-02 15:11:54', '2023-11-02 15:14:45');
-
 -- --------------------------------------------------------
 
 --
@@ -473,7 +458,13 @@ INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `pho
 (46, 0, 'XF2JZS', 'kiều đặng bảo sơn', '0386278998', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 220000, 7000, 0, 227000, 3, '2023-11-02', '2023-11-02 15:46:41', '2023-11-02 15:48:50'),
 (47, 1, '97F655', 'Bảo Sơn', '0386278912', 'Phố Vũ Tông Phan, Phường Khương Trung, Quận Thanh Xuân, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 210000, 12000, 0, 220000, 3, '2023-11-02', '2023-11-02 15:48:30', '2023-11-02 15:49:02'),
 (48, 1, 'B4SWSQ', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 153000, 7000, 30600, 129400, 3, '2023-11-02', '2023-11-02 16:00:37', '2023-11-02 16:01:00'),
-(49, 1, '5FUNN5', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 78000, 7000, 0, 85000, 3, '2023-11-02', '2023-11-02 16:04:30', '2023-11-02 16:04:44');
+(49, 1, '5FUNN5', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 78000, 7000, 0, 85000, 3, '2023-11-02', '2023-11-02 16:04:30', '2023-11-02 16:04:44'),
+(50, 1, 'UCSTGD', 'Bảo Sơn', '0386278912', 'Bún Đậu Mắm Tôm - 9 Lô 5 Đền Lừ, 9 Đường Đền Lừ 1, Phường Hoàng Văn Thụ, Quận Hoàng Mai, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 243000, 10000, 0, 253000, 3, '2023-11-05', '2023-11-05 16:55:30', '2023-11-05 16:55:42'),
+(51, 0, 'EVFXC1', 'kiều đặng bảo sơn', '0386278998', 'Tân Trào, Phố Đào Tấn, Phường Cống Vị, Quận Ba Đình, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 35000, 6000, 0, 41000, 0, NULL, '2023-11-24 16:54:12', '2023-11-24 16:54:12'),
+(52, 0, 'BB9WEM', 'kiều đặng bảo sơn', '0386278998', 'Đường Nghĩa Dũng, Phường Phúc Xá, Quận Ba Đình, Hà Nội, Việt Nam', 'nga@gmail.com', 40000, 10000, 0, 50000, 0, NULL, '2023-11-24 16:56:37', '2023-11-24 16:56:37'),
+(53, 0, 'JZH21S', 'abc', '0386278993', 'Bệnh Viện K - Co So Tan Trieu, Phố Quán Sứ, Phường Hàng Bông, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 40000, 8000, 0, 48000, 0, NULL, '2023-11-24 17:03:35', '2023-11-24 17:03:35'),
+(54, 1, '22P1L6', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 35000, 7000, 0, 42000, 3, '2023-11-27', '2023-11-27 14:34:35', '2023-11-27 14:37:07'),
+(55, 2, '34AQI4', 'Tuấn', '0333112333', 'Ngõ 123 Trung Kính, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 80000, 12000, 0, 92000, 3, '2023-11-27', '2023-11-27 15:02:32', '2023-11-27 15:07:17');
 
 -- --------------------------------------------------------
 
@@ -501,18 +492,18 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_product`, `subname_product`, `slug_product`, `price_product`, `description_product`, `number_reviews_product`, `is_special`, `created_at`, `updated_at`) VALUES
-(1, 15, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 'Black Coffee Filter', 'ca-phe-den', 35000, '<p>Black Coffee Filter</p>', NULL, 0, '2023-08-24 14:44:49', '2023-10-28 14:53:50'),
-(3, 15, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 'Milk Coffee Filter', 'ca-phe-nau', 35000, '<p>Milk Coffee Filter</p>', NULL, 0, '2023-09-04 08:55:54', '2023-10-28 14:53:50'),
+(1, 15, 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 'Black Coffee Filter', 'ca-phe-den', 35000, '<p>Black Coffee Filter</p>', NULL, 1, '2023-08-24 14:44:49', '2023-11-05 16:14:24'),
+(3, 15, 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 'Milk Coffee Filter', 'ca-phe-nau', 35000, '<p>Milk Coffee Filter</p>', NULL, 1, '2023-09-04 08:55:54', '2023-11-05 16:14:35'),
 (4, 5, 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 'Bánh sừng bò', 'plain-croissant', 28000, '<p>Bánh sừng bò</p>', NULL, 1, '2023-09-14 15:25:20', '2023-10-28 14:53:50'),
-(5, 15, 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 'Cà phê Bạc xỉu', 'ca-phe-bac-xiu', 40000, NULL, NULL, 0, '2023-11-02 15:19:09', '2023-11-02 15:19:09'),
-(6, 5, 'storage/product/almond-croissant-1698938426.jpg', 'Almond Croissant', 'Almond Croissant', 'almond-croissant', 35000, '<p>Almond Croissant</p>', NULL, 0, '2023-11-02 15:20:26', '2023-11-02 15:20:26'),
-(7, 5, 'storage/product/ham-cheese-croissant-1698938486.jpg', 'Ham & Cheese Croissant', 'Ham & Cheese Croissant', 'ham-cheese-croissant', 35000, '<p>Ham &amp; Cheese Croissant</p>', NULL, 0, '2023-11-02 15:21:26', '2023-11-02 15:21:26'),
+(5, 15, 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 'Cà phê Bạc xỉu', 'ca-phe-bac-xiu', 40000, NULL, NULL, 1, '2023-11-02 15:19:09', '2023-11-05 16:14:42'),
+(6, 5, 'storage/product/almond-croissant-1698938426.jpg', 'Almond Croissant', 'Almond Croissant', 'almond-croissant', 35000, '<p>Almond Croissant</p>', NULL, 1, '2023-11-02 15:20:26', '2023-11-05 16:14:49'),
+(7, 5, 'storage/product/ham-cheese-croissant-1698938486.jpg', 'Ham & Cheese Croissant', 'Ham & Cheese Croissant', 'ham-cheese-croissant', 35000, '<p>Ham &amp; Cheese Croissant</p>', NULL, 1, '2023-11-02 15:21:26', '2023-11-05 16:14:59'),
 (8, 15, 'storage/product/ca-phe-kem-beo-1698938540.jpg', 'Cà phê kem béo', 'Cà phê kem béo', 'ca-phe-kem-beo', 50000, '<p>Cà phê kem béo</p>', NULL, 0, '2023-11-02 15:22:20', '2023-11-02 15:22:20'),
-(9, 7, 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 'Bacon & Cheese Baguette', 'bacon-cheese-baguette', 39000, '<p>Bacon &amp; Cheese Baguette</p>', NULL, 0, '2023-11-02 15:23:03', '2023-11-02 15:23:47'),
+(9, 7, 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 'Bacon & Cheese Baguette', 'bacon-cheese-baguette', 39000, '<p>Bacon &amp; Cheese Baguette</p>', NULL, 1, '2023-11-02 15:23:03', '2023-11-05 16:15:50'),
 (10, 7, 'storage/product/charsiu-baguette-1698938663.jpg', 'Charsiu Baguette', 'Charsiu Baguette', 'charsiu-baguette', 39000, '<p>Charsiu Baguette</p>', NULL, 5, '2023-11-02 15:24:23', '2023-11-02 15:24:23'),
 (11, 5, 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 'Chocolate Croissant', 'chocolate-croissant', 35000, '<p>Chocolate Croissant</p>', NULL, 0, '2023-11-02 15:25:16', '2023-11-02 15:25:16'),
-(12, 6, 'storage/product/tiramisu-1698938830.jpg', 'Tiramisu', 'Tiramisu', 'tiramisu', 40000, '<p>Tiramisu</p>', NULL, 0, '2023-11-02 15:27:11', '2023-11-02 15:27:26'),
-(15, 6, 'storage/product/red-velvet-1698939004.jpg', 'Red velvet', 'Red velvet', 'red-velvet', 40000, '<p>Red velvet</p>', NULL, 0, '2023-11-02 15:30:04', '2023-11-02 15:30:04');
+(12, 6, 'storage/product/tiramisu-1698938830.jpg', 'Tiramisu', 'Tiramisu', 'tiramisu', 40000, '<p>Tiramisu</p>', NULL, 1, '2023-11-02 15:27:11', '2023-11-05 16:16:04'),
+(15, 6, 'storage/product/red-velvet-1698939004.jpg', 'Red velvet', 'Red velvet', 'red-velvet', 40000, '<p>Red velvet</p>', NULL, 1, '2023-11-02 15:30:04', '2023-11-05 16:16:15');
 
 -- --------------------------------------------------------
 
@@ -642,7 +633,9 @@ CREATE TABLE `statistic` (
 INSERT INTO `statistic` (`id_statistic`, `quantity_statistic`, `price_statistic`, `date_statistic`, `created_at`, `updated_at`) VALUES
 (2, 16, 563000, '2023-10-31', '2023-10-31 09:18:26', '2023-10-31 10:17:37'),
 (3, 10, 361000, '2023-11-01', '2023-11-01 16:08:16', '2023-11-01 16:24:32'),
-(4, 17, 661400, '2023-11-02', '2023-11-02 15:48:50', '2023-11-02 16:04:44');
+(4, 17, 661400, '2023-11-02', '2023-11-02 15:48:50', '2023-11-02 16:04:44'),
+(5, 7, 253000, '2023-11-05', '2023-11-05 16:55:42', '2023-11-05 16:55:42'),
+(6, 3, 134000, '2023-11-27', '2023-11-27 14:37:07', '2023-11-27 15:05:16');
 
 -- --------------------------------------------------------
 
@@ -692,6 +685,22 @@ INSERT INTO `units` (`id_unit`, `fullname_unit`, `abbreviation_unit`, `created_a
 (3, 'Liter', 'l', '2023-08-30 09:56:10', '2023-08-30 09:56:10'),
 (4, 'Milliliter', 'ml', '2023-08-30 09:56:17', '2023-08-30 09:56:17'),
 (5, 'Chiếc/Cái/Cốc', 'c', '2023-08-30 09:56:40', '2023-08-30 10:13:07');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `websockets_statistics_entries`
+--
+
+CREATE TABLE `websockets_statistics_entries` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `app_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `peak_connection_count` int(11) NOT NULL,
+  `websocket_message_count` int(11) NOT NULL,
+  `api_message_count` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -836,6 +845,12 @@ ALTER TABLE `units`
   ADD PRIMARY KEY (`id_unit`);
 
 --
+-- Chỉ mục cho bảng `websockets_statistics_entries`
+--
+ALTER TABLE `websockets_statistics_entries`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -849,7 +864,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -867,13 +882,13 @@ ALTER TABLE `coupon`
 -- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `customer_coupon`
 --
 ALTER TABLE `customer_coupon`
-  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_notes`
@@ -885,7 +900,7 @@ ALTER TABLE `detail_notes`
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -909,7 +924,7 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
@@ -927,7 +942,7 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
@@ -963,7 +978,7 @@ ALTER TABLE `slide`
 -- AUTO_INCREMENT cho bảng `statistic`
 --
 ALTER TABLE `statistic`
-  MODIFY `id_statistic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_statistic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `supplier`
@@ -976,6 +991,12 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `units`
   MODIFY `id_unit` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT cho bảng `websockets_statistics_entries`
+--
+ALTER TABLE `websockets_statistics_entries`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
