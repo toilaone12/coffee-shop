@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Customer;
 use App\Models\CustomerCoupon;
+use App\Models\DetailNote;
 use App\Models\DetailOrder;
 use App\Models\Ingredients;
 use App\Models\News;
@@ -15,8 +16,10 @@ use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\Statistic;
 use App\Models\Units;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -212,7 +215,13 @@ class OrderController extends Controller
     }
 
     function export(Request $request){
-        
+        $code = $request->get('code');
+        $order = Order::where('code_order',$code)->first();
+        $details = DetailOrder::where('code_order',$code)->get();
+        $pdf = Pdf::loadView('order.pdf',compact('order','details'))
+        ->setPaper('A4')
+        ->setOptions(['fontMetrics' => ['sans-serif' => 'DejaVu Sans']]);
+        return $pdf->download('Đơn hàng: '.$code.'.pdf');
     }
 
     function search(Request $request){
@@ -584,6 +593,7 @@ class OrderController extends Controller
         $url = 'https://fcm.googleapis.com/fcm/send';
         $server_key = 'AAAAgXdWpV8:APA91bGUQqgU3CDqRS5QfelSoyyG2-Az2nGiATnlyIC4xIxnNuanB-kN3ChySlL960sWObtceid2mUcK-Q3qIxx8CMJtYjx8nmSV6MtFp80AOdESpz1WgNJDWfpCFc1yEQZcN7zvbHaL';
         $message = array(
+
             "data" => array(
                 'title' => 'Đơn hàng của bạn',
                 'body' => 'Đơn hàng của bạn đã được nhận, vui lòng nhấn link để kiểm tra',
@@ -592,7 +602,7 @@ class OrderController extends Controller
                 'id_customer' => 1,
             ),
             'registration_ids' => [
-                "czsWYJT_QPsSwHuw2d9TbO:APA91bGwZVrEuO4u_vsPjUr5XXMc-qLPqQXFEyVbAkZX_9PVRc37N45zYqTuszAemsPCCduKMvFeJvQWr86SbWwua-pctmApvIS2DqMrftSzFmNVlls-h1L9MtsM_Q6imYW7fptYQoXv"
+                "dfuLfoQg0zw2PgbvPZHnQL:APA91bHUBN_XkXcMsmkiIM2cYLvxESLAHZ4_DvvnPNwCBSeNkER8kodCAnC7zoU4lWepXeX5WZxaf5-RDc_W1b3WlHdJqCUmKI8yi5PGAEvX9CAX5JQhzXLRhG_RN2UH3Wdj8926SuYC"
             ],
         );
 

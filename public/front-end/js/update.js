@@ -33,10 +33,20 @@ $(document).ready(function(){
     };
     firebase.initializeApp(firebaseConfig)
     const messaging = firebase.messaging()
+    // subscribeToTopic();
     messaging.getToken({ vapidKey: "BEZ2_EBRxPYQQywBRw-4cevIi20exEEOLaTzAetv1YqCfTT3RyGP4fYLvUf-2Ua7QX9MMXRs4gI_fdOQEAl6KM8" }).then((currentToken) => {
         if(currentToken){   
             console.log(currentToken);
             // $('.token').text(currentToken);
+            // Xóa token khi người dùng đăng xuất
+            messaging.deleteToken(currentToken).then(() => {
+                console.log('Token deleted successfully');
+                // Xử lý khi token được xóa thành công
+            }).catch((err) => {
+                console.log('Unable to delete token:', err);
+                // Xử lý khi có lỗi xóa token
+            });
+
             sendTokenToServer(currentToken);
         }else{
             setTokenSentToServer(false);
@@ -45,6 +55,7 @@ $(document).ready(function(){
         console.log(err);
         setTokenSentToServer(false);
     })
+
     //quen mat khau
     $('.forgot-password').on('click', () => {
         $('#userModal').modal('hide');

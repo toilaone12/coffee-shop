@@ -163,7 +163,7 @@
                         <div class="card">
                             <h5 class="card-header">Cài đặt</h5>
                             <div class="card-body">
-                                <a href="{{route('order.export')}}" class="btn btn-primary w-100">In hóa đơn</a>
+                                <a href="{{route('order.export',['code' => $order->code_order])}}" class="btn btn-primary w-100">In hóa đơn</a>
                             </div>
                         </div>
                     </div>
