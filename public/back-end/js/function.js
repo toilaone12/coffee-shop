@@ -211,8 +211,16 @@ function handleUpdateProductClick() {
     let specialOptions = `<option value="">---Lựa chọn---</option>`;
     specialOptions += `<option value="0" ${!isSpecial && 'selected'}>Không</option>`;
     specialOptions += `<option value="1" ${isSpecial && 'selected'}>Có</option>`;
-    listCate.forEach(category => {
-        selectOptions += `<option value="${category.id_category}" ${category.id_category === idCategory ? 'selected' : ''}>${category.name_category}</option>`;
+    listCate.forEach(parent => {
+        if(parent.id_parent_category == 0){
+            selectOptions += `<optgroup label="${parent.name_category}">`
+            listCate.forEach(child => {
+                if(child.id_parent_category != 0 && child.id_parent_category == parent.id_category){
+                    selectOptions += `<option value="${child.id_category}" ${child.id_category === idCategory ? 'selected' : ''}>⊢–${child.name_category}</option>`;
+                }
+            });
+            selectOptions += `</optgroup>`
+        }
     });
     $('.id-product').val(id);
     $('.image-update').attr('src',image);

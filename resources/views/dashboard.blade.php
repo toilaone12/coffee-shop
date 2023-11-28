@@ -62,6 +62,7 @@ if (!isset($username)) {
     <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-messaging-compat.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('./back-end/js/jquery.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.6.2/jQuery.print.min.js" integrity="sha512-t3XNbzH2GEXeT9juLjifw/5ejswnjWWMMDxsdCg4+MmvrM+MwqGhxlWeFJ53xN/SBHPDnW0gXYvBx/afZZfGMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{asset('./back-end/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('./back-end/js/function.js')}}"></script>
     <script src="{{asset('./back-end/js/main.js')}}"></script>

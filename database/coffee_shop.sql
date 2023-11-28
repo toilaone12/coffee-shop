@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 27, 2023 lúc 05:03 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th10 28, 2023 lúc 11:30 AM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -97,7 +97,7 @@ INSERT INTO `category` (`id_category`, `name_category`, `id_parent_category`, `s
 (8, 'Salad', 3, 'salad', '2023-08-21 15:02:21', '2023-10-24 08:57:25'),
 (9, 'Bò bít tết', 3, 'bo-bit-tet', '2023-08-21 15:02:28', '2023-10-24 08:57:25'),
 (10, 'Mì Ý', 3, 'mi-y', '2023-08-21 15:02:39', '2023-10-24 08:57:25'),
-(11, 'Pasta', 4, 'pasta', '2023-08-21 16:00:50', '2023-10-24 08:57:25'),
+(11, 'Bar Snack', 4, 'bar-snack', '2023-08-21 16:00:50', '2023-11-28 09:53:28'),
 (15, 'Cà phê phin', 1, 'ca-phe-phin', '2023-08-24 14:34:19', '2023-10-24 08:57:25'),
 (16, 'Cà phê pha máy', 1, 'ca-phe-pha-may', '2023-08-24 14:34:30', '2023-10-24 08:57:25'),
 (17, 'Cà phê giấy lọc', 1, 'ca-phe-giay-loc', '2023-08-24 14:34:39', '2023-10-24 08:57:25'),
@@ -203,6 +203,15 @@ CREATE TABLE `detail_notes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `detail_notes`
+--
+
+INSERT INTO `detail_notes` (`id_detail`, `id_note`, `id_unit`, `code_note`, `name_ingredient`, `quantity_ingredient`, `price_ingredient`, `created_at`, `updated_at`) VALUES
+(36, 13, 1, 'DQ9CVN', 'Gà', 2, 180000, '2023-11-28 10:12:59', '2023-11-28 10:12:59'),
+(37, 13, 1, 'DQ9CVN', 'Khoai tây', 6, 40000, '2023-11-28 10:12:59', '2023-11-28 10:12:59'),
+(38, 13, 1, 'DQ9CVN', 'Hành tây', 5, 10000, '2023-11-28 10:12:59', '2023-11-28 10:12:59');
 
 -- --------------------------------------------------------
 
@@ -341,7 +350,10 @@ INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quant
 (12, 5, 'Fruits Chocolate', 13, '2023-11-02 15:14:45', '2023-11-02 15:14:45'),
 (13, 5, 'Passion Mousse', 6, '2023-11-02 15:14:45', '2023-11-02 16:04:30'),
 (14, 5, 'Charsiu Baguette', 5, '2023-11-02 15:14:45', '2023-11-02 15:14:45'),
-(15, 5, 'Bacon & Cheese Baguette', 13, '2023-11-02 15:14:45', '2023-11-02 16:04:30');
+(15, 5, 'Bacon & Cheese Baguette', 13, '2023-11-02 15:14:45', '2023-11-02 16:04:30'),
+(16, 1, 'Gà', 2, '2023-11-28 10:29:30', '2023-11-28 10:29:30'),
+(17, 1, 'Khoai tây', 6, '2023-11-28 10:29:30', '2023-11-28 10:29:30'),
+(18, 1, 'Hành tây', 5, '2023-11-28 10:29:30', '2023-11-28 10:29:30');
 
 -- --------------------------------------------------------
 
@@ -420,6 +432,13 @@ CREATE TABLE `notes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `notes`
+--
+
+INSERT INTO `notes` (`id_note`, `id_supplier`, `code_note`, `name_note`, `quantity_note`, `status_note`, `created_at`, `updated_at`) VALUES
+(13, 2, 'DQ9CVN', 'Phiếu hàng ngày 28/11/2023', 3, 1, '2023-11-28 10:12:59', '2023-11-28 10:29:30');
 
 -- --------------------------------------------------------
 
@@ -503,7 +522,8 @@ INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_produ
 (10, 7, 'storage/product/charsiu-baguette-1698938663.jpg', 'Charsiu Baguette', 'Charsiu Baguette', 'charsiu-baguette', 39000, '<p>Charsiu Baguette</p>', NULL, 5, '2023-11-02 15:24:23', '2023-11-02 15:24:23'),
 (11, 5, 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 'Chocolate Croissant', 'chocolate-croissant', 35000, '<p>Chocolate Croissant</p>', NULL, 0, '2023-11-02 15:25:16', '2023-11-02 15:25:16'),
 (12, 6, 'storage/product/tiramisu-1698938830.jpg', 'Tiramisu', 'Tiramisu', 'tiramisu', 40000, '<p>Tiramisu</p>', NULL, 1, '2023-11-02 15:27:11', '2023-11-05 16:16:04'),
-(15, 6, 'storage/product/red-velvet-1698939004.jpg', 'Red velvet', 'Red velvet', 'red-velvet', 40000, '<p>Red velvet</p>', NULL, 1, '2023-11-02 15:30:04', '2023-11-05 16:16:15');
+(15, 6, 'storage/product/red-velvet-1698939004.jpg', 'Red velvet', 'Red velvet', 'red-velvet', 40000, '<p>Red velvet</p>', NULL, 1, '2023-11-02 15:30:04', '2023-11-05 16:16:15'),
+(16, 11, 'storage/product/harper-snack-set-no1-1701165256.jpg', 'Harper Snack Set No.1', 'Harper Snack Set No.1', 'harper-snack-set-no1', 89000, '<ul>\r\n	<li>Gà tẩm bột chiên | Batter Fried Chicken</li>\r\n	<li>Hành tây chiên | Onion Rings</li>\r\n	<li>Khoai tây muối chiên | French Fries</li>\r\n</ul>', NULL, 1, '2023-11-28 09:54:17', '2023-11-28 09:54:17');
 
 -- --------------------------------------------------------
 
@@ -894,7 +914,7 @@ ALTER TABLE `customer_coupon`
 -- AUTO_INCREMENT cho bảng `detail_notes`
 --
 ALTER TABLE `detail_notes`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_orders`
@@ -918,7 +938,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT cho bảng `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `id_ingredient` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_ingredient` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `migrations`
@@ -936,7 +956,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
@@ -948,7 +968,7 @@ ALTER TABLE `order`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `recipe`

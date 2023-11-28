@@ -39,7 +39,7 @@ class OrderController extends Controller
     }
 
     function adminDetail($code){
-        $title = 'Chi tiết đơn hàng';
+        $title = 'Chi tiết đơn hàng #'.$code;
         $order = Order::where('code_order',$code)->first();
         $list = DetailOrder::where('code_order',$code)->get();
         $listStatus = [

@@ -163,7 +163,7 @@
                         <div class="card">
                             <h5 class="card-header">Cài đặt</h5>
                             <div class="card-body">
-                                <a href="{{route('order.export',['code' => $order->code_order])}}" class="btn btn-primary w-100">In hóa đơn</a>
+                                <a href="#" data-toggle="modal" data-target="#invoice" class="btn btn-primary w-100">In hóa đơn</a>
                             </div>
                         </div>
                     </div>
@@ -182,6 +182,87 @@
         </div>
     </div>
     <!-- End of Main Content -->
-
+    <!-- Modal Invoice -->
+    <div class="modal fade" id="invoice" tabindex="-1" role="dialog" aria-labelledby="invoiceLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="invoiceLabel">Hóa đơn</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body form-invoice">
+        
+                            <div class="row">
+                                <div class="col-xl-12 fs-30">
+                                    Harper 7 Coffee
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-7">
+                                    <ul class="list-unstyled float-start">
+                                        <li style="font-size: 25px;">Khách hàng</li>
+                                        <li>Người nhận: {{$order->name_order}}</li>
+                                        <li>Số điện thoại: {{$order->phone_order}}</li>
+                                        <li>Địa chỉ: {{$order->address_order}}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xl-5">
+                                    <ul class="list-unstyled float-end">
+                                        <li style="font-size: 25px; color: red;">Cửa hàng</li>
+                                        <li>104A Nhà D2, 215 Tô Hiệu, Dịch Vọng, Cầu Giấy</li>
+                                        <li>(+84) 985 104 987</li>
+                                        <li>harper7coffee@gmail.com</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="text-center mt-3 fs-28">Hóa đơn #{{$order->code_order}}</p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Tên mặt hàng</th>
+                                        <th scope="col" class="text-center">Số lượng</th>
+                                        <th scope="col" class="text-center">Đơn giá</th>
+                                        <th scope="col" class="text-center">Giá thành</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $allTotal = 0; @endphp
+                                    @foreach($list as $one)
+                                    @php $allTotal += $one->price_product; @endphp
+                                    <tr>
+                                        <td>{{$one->name_product}}</td>
+                                        <td class="text-center">x{{$one->quantity_product}}</td>
+                                        <td class="text-center">{{number_format($one->price_product / $one->quantity_product,0,',','.')}} đ</td>
+                                        <td class="text-center">{{number_format($one->price_product,0,',','.')}} đ</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <ul class="list-unstyled float-start ms-4">
+                                        <li><span class="mr-1 float-start">Thành tiền:</span>{{number_format($allTotal,0,',','.')}} đ</li>
+                                        <li> <span class="mr-1">Tổng tiền được giảm:</span>{{number_format($order->fee_discount,0,',','.')}} đ</li>
+                                        <li><span class="float-start mr-1">Phí vận chuyển: </span>{{number_format($order->fee_ship,0,',','.')}} đ</li>
+                                        <li><span class="float-start mr-1">Tổng tiền phải thanh toán: </span>{{number_format($allTotal - $order->fee_discount + $order->fee_ship,0,',','.')}} đ</li>
+                                    </ul>
+                                </div>
+                            </div>
+                         
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary print-invoice">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Invoice -->
 </div>
 @endsection

@@ -255,4 +255,12 @@ $(document).ready(function() {
         let phone = $('.phone-customer').text();
         location.href = 'tel:'+phone;
     })
+    //in hoa don
+    $('.print-invoice').on('click',function(){
+        $('.form-invoice').print();
+    })
+    //in hoa don phieu hang
+    $('.export-detail-note').on('click',function(){
+        $('.form-detail-note').print();
+    })
 });

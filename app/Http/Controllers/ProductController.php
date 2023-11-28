@@ -20,7 +20,8 @@ class ProductController extends Controller
     function list(){
         $title = 'Danh sách sản phẩm';
         $list = Product::all();
-        $listCate = Category::where('id_parent_category','!=',0)->get();
+        $listCate = Category::all();
+        // dd($listCate);
         return view('product.list',compact('title','list','listCate'));
     }
 

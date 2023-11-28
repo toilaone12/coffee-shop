@@ -22,8 +22,9 @@ class DetailNoteController extends Controller
         $title = 'Chi tiết phiếu hàng';
         $list = DetailNote::where('code_note',$code)->get();
         $note = Notes::where('code_note',$code)->first();
+        $supplier = Supplier::find($note->id_supplier);
         $listUnit = Units::all();
-        return view('notes.detail',compact('title','list','listUnit','note'));
+        return view('notes.detail',compact('title','list','listUnit','note','supplier'));
     }
     
     function insert(Request $request)
@@ -164,18 +165,6 @@ class DetailNoteController extends Controller
         }else{
             return response()->json(['res' => 'fail'],200);
         }
-    }
-
-    function printPDF(Request $request){
-        $id = $request->get('id');
-        $list = DetailNote::join('units as u','u.id_unit','detail_notes.id_unit')->where('id_note',$id)->get();
-        $note = Notes::where('id_note',$id)->first();
-        $supplier = Supplier::where('id_supplier',$note->id_supplier)->first();
-        $fullname = Cookie::get('fullname');
-        $pdf = Pdf::loadView('notes.pdf',compact('supplier','note','list','fullname'))
-        ->setPaper('A4')
-        ->setOptions(['fontMetrics' => ['sans-serif' => 'DejaVu Sans']]);
-        return $pdf->download('Mã phiếu: '.$note->code_note.'.pdf');
     }
 
     function export(Request $request){

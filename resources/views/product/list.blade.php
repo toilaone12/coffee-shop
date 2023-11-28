@@ -23,7 +23,6 @@
                                     <th>Tiêu đề</th>
                                     <th>Giá cả</th>
                                     <th>Mô tả</th>
-                                    <th>Số lần đánh giá</th>
                                     <th>Món Best Sellers</th>
                                     <th>Chức năng</th>
                                 </tr>
@@ -48,7 +47,6 @@
                                     <td class="subname-{{$one->id_product}}">{{$one->subname_product}}</td>
                                     <td class="price-{{$one->id_product}}">{{$one->price_product}}</td>
                                     <td class="description-{{$one->id_product}}">{{$one->description_product}}</td>
-                                    <td class="number-reviews-{{$one->id_product}}">{{$one->number_reviews_product ? $one->number_reviews_product : 0}}</td>
                                     <td class="is-special-{{$one->id_product}}" data-special="{{$one->is_special}}">{{$one->is_special ? 'Có' : 'Không'}}</td>
                                     <td>
                                         <button style="width: 45px;" class="btn mb-1 btn-primary choose-product" data-id="{{$one->id_product}}" data-toggle="modal" data-target="#updateModal">
@@ -132,15 +130,17 @@
                                 <div class="form-group">
                                     <label for="id">Danh mục sản phẩm</label>
                                     <select name="id_category" class="form-control" id="id">
-                                        <optgroup label="parent">
-                                            @foreach($listCate as $key => $cate)
-                                            @if($cate->id_parent == 0)
-                                            <option value="{{$cate->id_category}}">{{$cate->name_category}}</option>
-                                            @else
-                                            <option value="{{$cate->id_category}}">{{$cate->name_category}}</option>
+                                        @foreach($listCate as $key => $parent)
+                                        @if($parent->id_parent_category == 0)
+                                        <optgroup label="{{$parent->name_category}}">
+                                            @foreach($listCate as $key => $child)
+                                            @if($child->id_parent_category != 0 && $child->id_parent_category == $parent->id_category)
+                                            <option value="{{$child->id_category}}">⊢–{{$child->name_category}}</option>
                                             @endif
                                             @endforeach
                                         </optgroup>
+                                        @endif
+                                        @endforeach
                                     </select>
                                     @error('id_category')
                                     <span class="text-danger">{{$message}}</span>
