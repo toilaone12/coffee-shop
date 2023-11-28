@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Gallery;
+use App\Models\Notification;
 use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\Review;
@@ -19,7 +20,17 @@ class CategoryController extends Controller
         $title = 'Danh sách danh mục';
         $list = Category::all();
         $listParent = Category::where('id_parent_category',0)->get();
-        return view('category.list',compact('title','list','listParent'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('category.list',compact('title','list','listParent','notifications','dot','all'));
     }
 
     function insert(Request $request){
@@ -38,6 +49,14 @@ class CategoryController extends Controller
         ];
         $insert = Category::create($db);
         if($insert){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm danh mục "'.$data['name_category'].'"',
+                'link' => redirect()->route('category.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('category.list')->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
         }else{
             return redirect()->route('category.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -55,12 +74,21 @@ class CategoryController extends Controller
         //neu cap nhat khong co loi 
         if(count($errors) == 0){
             $category = Category::find($data['id_category']);
+            $name = $category->name_category;
             $category->name_category = $data['name_category'];
             $category->id_parent_category = $data['id_parent_category'];
             $category->slug_category = Str::slug($data['name_category'],'-');
             $update = $category->save();
             //neu cap nhat thanh cong
             if($update){
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật từ "'.$name.'" thành "'.$data['name_category'].'"',
+                    'link' => redirect()->route('category.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'title' => 'Sửa danh mục', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành danh mục '.$data['name_category'].' thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Sửa danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -76,8 +104,17 @@ class CategoryController extends Controller
         $noti = [];
         //neu ton tai danh muc
         if($category){
+            $name = $category->name_category;
             $idParent = $category->id_parent_category;
             $category->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa danh mục "'.$name.'"',
+                'link' => redirect()->route('category.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             //neu la danh muc cha
             if($idParent == 0){
                 $categoryChild = Category::where('id_parent_category',$category->id_category)->get();
@@ -136,8 +173,17 @@ class CategoryController extends Controller
         $noti = [];
         foreach($data['arrId'] as $key => $id){
             $category = Category::where('id_category',$id)->first(); //tim danh muc dau 
+            $name = $category->name_category;
             $idParent = $category->id_parent_category; //ma cha 
             $category->delete(); //xoa danh muc dau
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa danh mục "'.$name.'"',
+                'link' => redirect()->route('category.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             if($idParent == 0){  //neu la danh muc goc
                 $categoryChild = Category::where('id_parent_category',$category->id_category)->get(); // tim danh muc con
                 foreach($categoryChild as $child){

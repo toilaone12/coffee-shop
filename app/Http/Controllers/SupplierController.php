@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetailNote;
 use App\Models\Notes;
+use App\Models\Notification;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,17 @@ class SupplierController extends Controller
     function list(){
         $title = 'Danh sách nhà cung cấp';
         $list = Supplier::all();
-        return view('supplier.list',compact('title','list'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('supplier.list',compact('title','list','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -36,6 +47,14 @@ class SupplierController extends Controller
         ];
         $insert = Supplier::create($db);
         if($insert){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm nhà cung cấp "'.$data['name_supplier'].'"',
+                'link' => redirect()->route('supplier.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('supplier.list')->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
         }else{
             return redirect()->route('supplier.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -63,6 +82,14 @@ class SupplierController extends Controller
             $supplier->address_supplier = $data['address_supplier'];
             $update = $supplier->save();
             if($update){
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật lại nhà cung cấp "'.$data['name_supplier'].'"',
+                    'link' => redirect()->route('supplier.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'title' => 'Sửa nhà cung cấp', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành nhà cung cấp '.$data['name_supplier'].' thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Sửa nhà cung cấp', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -77,7 +104,16 @@ class SupplierController extends Controller
         $supplier = Supplier::find($data['id']);
         $noti = [];
         if($supplier){
+            $name = $supplier->name_supplier;
             $supplier->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa nhà cung cấp "'.$name.'"',
+                'link' => redirect()->route('supplier.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             $notes = Notes::where('id_supplier',$supplier->id_supplier)->get();
             if(count($notes) > 0){
                 foreach($notes as $note){
@@ -120,7 +156,17 @@ class SupplierController extends Controller
         foreach($data['arrId'] as $key => $id){
             $supplier = Supplier::where('id_supplier',$id)->first();
             if($supplier){
+                $name = $supplier->name_supplier;
+                
                 $supplier->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa nhà cung cấp "'.$name.'"',
+                    'link' => redirect()->route('supplier.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 $notes = Notes::where('id_supplier',$supplier->id_supplier)->get();
                 if(count($notes) > 0){
                     foreach($notes as $note){

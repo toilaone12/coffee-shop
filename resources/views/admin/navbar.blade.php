@@ -62,6 +62,33 @@
                 </a>
             </div>
         </li>
+        <li class="nav-item dropdown no-arrow">
+            <a href="#" class="nav-link dropdown-toggle" id="notification" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    <i class="fa-regular fa-bell fs-20"></i>
+                    @if($dot)
+                    <i class="fa-solid fa-circle text-danger fs-10 dot-bell position-relative" style="top: -10px; left: -12px;"></i>
+                    @endif
+                </span>
+            </a>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in overflow-auto notification" style="height: 520px; width: 25rem !important;" aria-labelledby="notification">
+                @foreach($notifications as $noti)
+                <div class="border-bottom px-2 pt-2 choose-notification cursor-pointer" data-id="{{$noti->id_notification}}">
+                    <a href="{{$noti->link}}" class="text-decoration-none">
+                        <div class="d-flex align-item-center justify-content-between mb-1">
+                            <span class="fs-12 d-block text-secondary">{{date('d/m/Y',strtotime($noti->created_at))}}</span>
+                            @if($noti->is_read == 0)
+                            <i class="fa-solid fa-circle text-danger fs-10 dot-notification"></i>
+                            @endif
+                        </div>
+                        <p class="fs-15 text-dark">{{$noti->content}}</p>
+                    </a>
+                </div>
+                @endforeach
+                <span class="text-center fs-15 d-block mt-2 load-more-notification cursor-pointer" data-page="0"><i class="fa-solid fa-angle-down"></i> Xem thêm</span>
+            </div>
+        </li>
 
     </ul>
 

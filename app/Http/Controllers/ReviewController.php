@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Notification;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -14,7 +16,17 @@ class ReviewController extends Controller
         $title = 'Danh sách đánh giá';
         $list = Review::all();
         $listProduct = Product::all();
-        return view('review.list',compact('title','list','listProduct'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('review.list',compact('title','list','listProduct','notifications','dot'));
     }
 
     function reply(Request $request){
@@ -39,6 +51,15 @@ class ReviewController extends Controller
                 ];
                 $insert = Review::create($db);
                 if($insert){
+                    $customer = Customer::find($data['id_reply']);
+                    $noti = [
+                        'id_account' => request()->cookie('id_account'),
+                        'id_customer' => 0,
+                        'content' => 'Bạn đã phản hồi nội dung của khách hàng "'.$customer->name_customer.'"',
+                        'link' => redirect()->route('review.list')->getTargetUrl(),
+                        'is_read' => 0,
+                    ];
+                    Notification::create($noti);
                     return redirect()->route('review.list')->with('success','Phản hồi thành công');
                 }else{
                     return redirect()->route('review.list')->with('error','Phản hồi thất bại');
@@ -59,6 +80,15 @@ class ReviewController extends Controller
             $review->content_review = $data['title_reply'];
             $update = $review->save();
             if($update){
+                $customer = Customer::find($review->id_reply);
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật phản hồi nội dung của khách hàng "'.$customer->name_customer.'"',
+                    'link' => redirect()->route('review.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'title' => 'Sửa phản hồi', 'icon' => 'success', 'status' => 'Sửa phản hồi thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Sửa phản hồi', 'icon' => 'error', 'status' => 'Lỗi truy vấn']);

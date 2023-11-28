@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gallery;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +16,17 @@ class GalleryController extends Controller
         $id = $request->get('id');
         $title = 'Danh sách quảng cáo';
         $list = Gallery::where('id_product',$id)->get();
-        return view('gallery.list',compact('title','list','id'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('gallery.list',compact('title','list','id','notifications','dot'));
     }
 
     function insert(Request $request){

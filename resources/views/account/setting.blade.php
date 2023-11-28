@@ -17,6 +17,7 @@
 
                     }
                     ?>
+                    
                     <div class="card-body">
                         <form method="POST" action="{{route('account.update')}}">
                             @csrf

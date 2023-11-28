@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,17 @@ class SlideController extends Controller
     function list(){
         $title = 'Danh sách quảng cáo';
         $list = Slide::all();
-        return view('slide.list',compact('title','list'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('slide.list',compact('title','list','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -40,6 +51,14 @@ class SlideController extends Controller
         ];
         $insert = Slide::create($db);
         if($insert){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm quảng cáo "'.$data['name_slide'].'"',
+                'link' => redirect()->route('slide.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('slide.list')->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
         }else{
             return redirect()->route('slide.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -77,6 +96,14 @@ class SlideController extends Controller
             $slide->slug_slide = $data['slug_slide'];
             $update = $slide->save();
             if($update){
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật lại quảng cáo "'.$data['name_slide'].'"',
+                    'link' => redirect()->route('slide.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'title' => 'Sửa quảng cáo', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành quảng cáo về '.$data['name_slide'].' thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Sửa quảng cáo', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -88,8 +115,18 @@ class SlideController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Slide::find($data['id'])->delete();
-        if($delete){
+        $slide = Slide::find($data['id']);
+        if($slide){
+            $name = $slide->name_slide;
+            $slide->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa quảng cáo "'.$name.'"',
+                'link' => redirect()->route('slide.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return response()->json(['res' => 'success', 'title' => 'Xóa quảng cáo', 'icon' => 'success', 'status' => 'Xóa thành công'],200);
         }else{
             return response()->json(['res' => 'fail', 'title' => 'Sửa quảng cáo', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -100,8 +137,18 @@ class SlideController extends Controller
         $data = $request->all();
         $noti = [];
         foreach($data['arrId'] as $key => $id){
-            $delete = Slide::where('id_slide',$id)->delete();
-            if($delete){
+            $slide = Slide::where('id_slide',$id)->first();
+            if($slide){
+                $name = $slide->name_slide;
+                $slide->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa quảng cáo "'.$name.'"',
+                    'link' => redirect()->route('slide.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 $noti += ['res' => 'success'];
             }else{
                 $noti += ['res' => 'fail'];

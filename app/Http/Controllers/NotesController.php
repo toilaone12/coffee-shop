@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetailNote;
 use App\Models\Note;
 use App\Models\Notes;
+use App\Models\Notification;
 use App\Models\Supplier;
 use App\Models\Units;
 use Illuminate\Http\Request;
@@ -18,7 +19,17 @@ class NotesController extends Controller
         $list = Notes::all();
         $listSupplier = Supplier::all();
         $listUnit = Units::all();
-        return view('notes.list',compact('title','list','listSupplier','listUnit'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('notes.list',compact('title','list','listSupplier','listUnit','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -33,6 +44,14 @@ class NotesController extends Controller
         ]);
 
         if(!$validator->fails()){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm mã phiếu "#'.$codeNote.'"',
+                'link' => redirect()->route('notes.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             $result = [
                 'id_supplier' => $data['id_supplier'],
                 'code_note' => $codeNote,
@@ -61,6 +80,14 @@ class NotesController extends Controller
                 'quantity_note' => $data['quantity_note'],
                 'list' => $list,
             ];
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã sửa mã phiếu "#'.$list[0]->code_note.'"',
+                'link' => redirect()->route('notes.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Sửa thành công', 'status' => 'Bạn đã sửa phiếu thành công.', 'result' => $result],200);           
         }else{
             return response()->json(['res' => 'warning', 'status' => $validator->errors()]);
@@ -69,8 +96,18 @@ class NotesController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Notes::find($data['id'])->delete();
-        if($delete){
+        $notes = Notes::find($data['id']);
+        if($notes){
+            $code = $notes->code_note;
+            $notes->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa mã phiếu "#'.$code.'"',
+                'link' => redirect()->route('coupon.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             $deleteDetailNote = DetailNote::where('id_note',$data['id'])->delete();
             if(($deleteDetailNote)){
                 return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Xóa phiếu hàng', 'status' => 'Xóa thành công.'],200);           
@@ -86,8 +123,18 @@ class NotesController extends Controller
         $data = $request->all();
         $noti = [];
         foreach($data['arrId'] as $key => $id){
-            $delete = Notes::where('id_note',$id)->delete();
-            if($delete){
+            $note = Notes::where('id_note',$id)->first();
+            if($note){
+                $code = $note->code_note;
+                $note->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa mã phiếu "#'.$code.'"',
+                    'link' => redirect()->route('coupon.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 $deleteDetailNote = DetailNote::where('id_note',$id)->delete();
                 if($deleteDetailNote){
                     $noti += ['res' => 'success'];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetailNote;
 use App\Models\Ingredients;
+use App\Models\Notification;
 use App\Models\Units;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,17 @@ class UnitsController extends Controller
     function list(){
         $title = 'Danh sách đơn vị tính';
         $list = Units::all();
-        return view('units.list',compact('title','list'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('units.list',compact('title','list','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -33,6 +44,14 @@ class UnitsController extends Controller
         ];;
         $insert = Units::create($db);
         if($insert){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm đơn vị tính "'.$data['fullname_unit'].'"',
+                'link' => redirect()->route('units.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('units.list')->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
         }else{
             return redirect()->route('units.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -56,10 +75,19 @@ class UnitsController extends Controller
         
         if(count($errors) == 0){
             $unit = Units::find($data['id_unit']);
+            $name = $unit->fullname_unit;
             $unit->fullname_unit = $data['fullname_unit'];
             $unit->abbreviation_unit = $data['abbreviation_unit'];
             $update = $unit->save();
             if($update){
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật đơn vị tính từ "'.$name.'" thành "'.$data['fullname_unit'].'"',
+                    'link' => redirect()->route('unit.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'title' => 'Sửa đơn vị', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành đơn vị '.$data['fullname_unit'].' thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Sửa đơn vị', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -71,8 +99,18 @@ class UnitsController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Units::find($data['id'])->delete();
-        if($delete){
+        $unit = Units::find($data['id']);
+        if($unit){
+            $name = $unit->fullname_unit;
+            $unit->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa đơn vị tính "'.$name.'"',
+                'link' => redirect()->route('unit.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             $ingredient = Ingredients::where('id_unit',$data['id'])->delete();
             $detailNote = DetailNote::where('id_unit',$data['id'])->delete();
             return response()->json(['res' => 'success', 'title' => 'Xoá đơn vị', 'icon' => 'success', 'status' => 'Xóa thành công']);
@@ -85,8 +123,18 @@ class UnitsController extends Controller
         $data = $request->all();
         $noti = [];
         foreach($data['arrId'] as $key => $id){
-            $delete = Units::where('id_unit',$id)->delete();
-            if($delete){
+            $unit = Units::where('id_unit',$id)->first();
+            if($unit){
+                $name = $unit->fullname_unit;
+                $unit->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa đơn vị tính "'.$name.'"',
+                    'link' => redirect()->route('category.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 $ingredient = Ingredients::where('id_unit',$id)->delete();
                 $detailNote = DetailNote::where('id_unit',$id)->delete();
                 $noti += ['res' => 'success'];

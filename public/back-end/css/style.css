@@ -154,3 +154,7 @@ div.dataTables_paginate ul.pagination li a:hover {
     background-color: #007BFF;
     color: #fff;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

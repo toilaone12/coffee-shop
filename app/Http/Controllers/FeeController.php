@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fee;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,17 @@ class FeeController extends Controller
     {
         $title = 'Danh sách phương thức';
         $list = Fee::all();
-        return view('fee.list', compact('title', 'list'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('fee.list', compact('title', 'list','notifications','dot'));
     }
 
     function insert(Request $request)
@@ -32,6 +43,14 @@ class FeeController extends Controller
         ];
         $insert = Fee::create($db);
         if ($insert) {
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm phí vận chuyển cho bán kính "'.$data['radius_fee'].' km" với điều kiện "'.$data['weather_condition'].'"',
+                'link' => redirect()->route('fee.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('fee.list')->with('message', '<span class="mx-3 text-success">Thêm thành công</span>');
         } else {
             return redirect()->route('fee.list')->with('message', '<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -53,6 +72,14 @@ class FeeController extends Controller
             $fee->fee = $data['fee'];
             $update = $fee->save();
             if ($update) {
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật lại phí vận chuyển cho bán kính "'.$data['radius_fee'].' km" với điều kiện "'.$data['weather_condition'].'"',
+                    'link' => redirect()->route('fee.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'title' => 'Sửa phí vận chuyển', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành công']);
             } else {
                 return response()->json(['res' => 'fail', 'title' => 'Sửa phí vận chuyển', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -65,8 +92,19 @@ class FeeController extends Controller
     function delete(Request $request)
     {
         $data = $request->all();
-        $delete = Fee::find($data['id'])->delete();
-        if ($delete) {
+        $fee = Fee::find($data['id']);
+        if ($fee) {
+            $name = $fee->radius_fee;
+            $condition = $fee->weather_condition;
+            $fee->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa phí vận chuyển với bán kính "'.$name.'" với điều kiện "'.$condition.'"',
+                'link' => redirect()->route('fee.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return response()->json(['res' => 'success', 'title' => 'Xóa phí vận chuyển', 'icon' => 'success', 'status' => 'Xóa thành công']);
         } else {
             return response()->json(['res' => 'fail', 'title' => 'Xóa phí vận chuyển', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -78,8 +116,19 @@ class FeeController extends Controller
         $data = $request->all();
         $noti = [];
         foreach ($data['arrId'] as $key => $id) {
-            $delete = Fee::where('id_fee', $id)->delete();
-            if ($delete) {
+            $fee = Fee::where('id_fee', $id)->first();
+            if ($fee) {
+                $name = $fee->radius_fee;
+                $condition = $fee->weather_condition;
+                $fee->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa phí vận chuyển với bán kính "'.$name.'" với điều kiện "'.$condition.'"',
+                    'link' => redirect()->route('fee.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 $noti += ['res' => 'success'];
             } else {
                 $noti += ['res' => 'fail'];

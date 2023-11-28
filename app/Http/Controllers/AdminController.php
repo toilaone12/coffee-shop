@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\DetailOrder;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Statistic;
 use Carbon\Carbon;
@@ -20,6 +21,16 @@ class AdminController extends Controller
         if(isset($username) && $username != ''){
             $isOnline = Account::where('is_online',1)->get();
             $statistic = Statistic::where('date_statistic',date('Y-m-d'))->first();
+            $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+            $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+            $dot = false;
+            foreach($all as $noti){
+                if($noti->is_read == 0){
+                    $dot = true;
+                }else{
+                    $dot = false;
+                }
+            }
             // $order = Order::where('date_updated',date('Y-m-d'))->get();
             $order = Order::where('date_updated',date('Y-m-d'))->get();
             $arrDetail = [];
@@ -59,7 +70,7 @@ class AdminController extends Controller
                 $allTotal+= $one->price_statistic;
             }
             // dd($allTotal);
-            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth'));
+            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth','notifications','dot'));
         }else{
             return redirect()->route('admin.login');
         }

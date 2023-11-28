@@ -60,7 +60,7 @@
                         <a href="#" class="text-white btn btn-primary d-block mb-3 w-100" data-toggle="modal" data-target="#note">
                             In phiếu hàng (bằng PDF)
                         </a>
-                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-unit d-block mb-3">Xóa nhiều</button>
+                        <button disabled class="w-100 disabled btn btn-primary delete-all delete-all-detail d-block mb-3">Xóa nhiều</button>
                         <button class="w-100 btn btn-primary choose-all d-block">Chọn nhiều</button>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ use App\Models\DetailNote;
 use App\Models\DetailOrder;
 use App\Models\Ingredients;
 use App\Models\News;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Recipe;
@@ -35,19 +36,39 @@ class OrderController extends Controller
     {
         $title = 'Danh sách đơn hàng';
         $list = Order::all();
-        return view('order.list', compact('title', 'list'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('order.list', compact('title', 'list','notifications','dot'));
     }
 
     function adminDetail($code){
         $title = 'Chi tiết đơn hàng #'.$code;
         $order = Order::where('code_order',$code)->first();
         $list = DetailOrder::where('code_order',$code)->get();
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
         $listStatus = [
             1 => 'Nhận đơn hàng',
             2 => 'Giao cho vận chuyển',
             3 => 'Giao thành công',
         ];
-        return view('order.admin_detail', compact('title', 'order','list','listStatus'));
+        return view('order.admin_detail', compact('title', 'order','list','listStatus','notifications','dot'));
     }
 
     function create(){

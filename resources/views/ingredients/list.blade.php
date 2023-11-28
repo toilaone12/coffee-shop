@@ -25,7 +25,7 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td><input type="checkbox" value="{{$one->id_ingredient}}" name="" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="name-{{$one->id_ingredient}}">{{$one->name_ingredient}}</td>
                                     @foreach($listUnits as $unit)

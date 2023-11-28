@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\News;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +18,17 @@ class NewsController extends Controller
     function list(){
         $title = 'Danh sách tin tức';
         $list = News::all();
-        return view('news.list',compact('title','list'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('news.list',compact('title','list','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -47,6 +58,14 @@ class NewsController extends Controller
         ];
         $insert = News::create($db);
         if($insert){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm tin tức "'.$data['title_new'].'"',
+                'link' => redirect()->route('news.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('news.list')->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
         }else{
             return redirect()->route('news.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -85,6 +104,14 @@ class NewsController extends Controller
             $new->slug_new = $slug;
             $update = $new->save();
             if($update){
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật lại tin tức "'.$data['title_new'].'"',
+                    'link' => redirect()->route('news.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Sửa tin tức', 'status' => 'Thay đổi dữ liệu thành tin tức thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa tin tức', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -96,8 +123,18 @@ class NewsController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = News::find($data['id'])->delete();
-        if($delete){
+        $news = News::find($data['id']);
+        if($news){
+            $title = $news->title_new;
+            $news->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa tin tức "'.$title.'"',
+                'link' => redirect()->route('news.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return response()->json(['res' => 'success', 'title' => 'Xóa tin tức', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
             return response()->json(['res' => 'fail', 'title' => 'Xóa tin tức', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -108,8 +145,18 @@ class NewsController extends Controller
         $data = $request->all();
         $noti = [];
         foreach($data['arrId'] as $key => $id){
-            $delete = News::where('id_new',$id)->delete();
-            if($delete){
+            $news = News::where('id_new',$id)->first();
+            if($news){
+                $title = $news->title_new;
+                $news->delete();
+                $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa tin tức "'.$title.'"',
+                'link' => redirect()->route('news.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
                 $noti += ['res' => 'success'];
             }else{
                 $noti += ['res' => 'fail'];

@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\DetailNote;
 use App\Models\Ingredients;
 use App\Models\Notes;
+use App\Models\Notification;
 use App\Models\Supplier;
 use App\Models\Units;
 use Illuminate\Http\Request;
@@ -22,9 +23,24 @@ class DetailNoteController extends Controller
         $title = 'Chi tiết phiếu hàng';
         $list = DetailNote::where('code_note',$code)->get();
         $note = Notes::where('code_note',$code)->first();
-        $supplier = Supplier::find($note->id_supplier);
-        $listUnit = Units::all();
-        return view('notes.detail',compact('title','list','listUnit','note','supplier'));
+        if(count($list) != 0){
+            $supplier = Supplier::find($note->id_supplier);
+            $listUnit = Units::all();
+            $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+            $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+            $dot = false;
+            foreach($all as $noti){
+                if($noti->is_read == 0){
+                    $dot = true;
+                }else{
+                    $dot = false;
+                }
+            }
+            return view('notes.detail',compact('title','list','listUnit','note','supplier','notifications','dot'));
+        }else{
+            $note->delete();
+            return redirect()->route('notes.list');
+        }
     }
     
     function insert(Request $request)
@@ -74,6 +90,14 @@ class DetailNoteController extends Controller
                 }
             }
             if ($noti['res'] == 'success') {
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã thêm chi tiết phiếu hàng "#'.$data['code_note'].'"',
+                    'link' => redirect()->route('detail.list',['code' => $data['code_note']])->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Thêm thành công', 'status' => 'Bạn đã thêm phiếu chi tiết thành công.'], 200);
             } else if($noti['res'] == 'fail') {
                 return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Thêm thất bại', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -146,6 +170,14 @@ class DetailNoteController extends Controller
                 }
             }
             if ($noti['res'] == 'success') {
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã sửa chi tiết phiếu hàng "#'.$data['code_note'].'"',
+                    'link' => redirect()->route('detail.list',['code' => $data['code_note']])->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Sửa thành công', 'status' => 'Bạn đã sửa phiếu chi tiết thành công.'], 200);
             } else if($noti['res'] == 'fail') {
                 return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa thất bại', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -159,11 +191,52 @@ class DetailNoteController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = DetailNote::find($data['id'])->delete();
-        if($delete){
+        $detail = DetailNote::find($data['id']);
+        if($detail){
+            $code = $detail->code_note;
+            $name = $detail->name_ingredients;
+            $detail->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa nguyên liệu "'.$name.'" trong chi tiết phiếu hàng "#'.$code.'"',
+                'link' => redirect()->route('detail.list',['code' => $code])->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return response()->json(['res' => 'success'],200);
         }else{
             return response()->json(['res' => 'fail'],200);
+        }
+    }
+
+    function deleteAll(Request $request)
+    {
+        $data = $request->all();
+        $noti = [];
+        foreach ($data['arrId'] as $key => $id) {
+            $detail = DetailNote::where('id_detail',$id)->first();
+            if ($detail) {
+                $code = $detail->code_note;
+                $name = $detail->name_ingredients;
+                $detail->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa nguyên liệu "'.$name.'" trong chi tiết phiếu hàng "#'.$code.'"',
+                    'link' => redirect()->route('detail.list',['code' => $code])->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
+                $noti += ['res' => 'success'];
+            } else {
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if ($noti['res'] == 'success') {
+            return response()->json(['res' => 'success', 'title' => 'Xóa phí vận chuyển', 'icon' => 'success', 'status' => 'Xóa thành công']);
+        } else {
+            return response()->json(['res' => 'fail', 'title' => 'Xóa phí vận chuyển', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
     }
 

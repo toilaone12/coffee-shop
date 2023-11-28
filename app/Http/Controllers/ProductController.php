@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Gallery;
+use App\Models\Notification;
 use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\Review;
@@ -21,8 +22,18 @@ class ProductController extends Controller
         $title = 'Danh sách sản phẩm';
         $list = Product::all();
         $listCate = Category::all();
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
         // dd($listCate);
-        return view('product.list',compact('title','list','listCate'));
+        return view('product.list',compact('title','list','listCate','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -56,6 +67,14 @@ class ProductController extends Controller
         ];
         $insert = Product::create($db);
         if($insert){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm sản phẩm "'.$data['name_product'].'"',
+                'link' => redirect()->route('product.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('product.list')->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
         }else{
             return redirect()->route('product.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -88,6 +107,7 @@ class ProductController extends Controller
                 }
             }
             $product = Product::find($data['id_product']);
+            $name = $product->name_product;
             $product->image_product = $image ? $pathStorage.$fileName : $pathStorage.$data['image_original_product'];
             $product->id_category = $data['id_category'];
             $product->name_product = $data['name_product'];
@@ -97,6 +117,14 @@ class ProductController extends Controller
             $product->is_special = $data['is_special'];
             $update = $product->save();
             if($update){
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật từ "'.$name.'" thành "'.$data['name_product'].'"',
+                    'link' => redirect()->route('product.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'title' => 'Sửa sản phẩm', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu của sản phẩm về '.$data['name_product'].' thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title' => 'Sửa sản phẩm', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -108,8 +136,18 @@ class ProductController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Product::find($data['id'])->delete();
-        if($delete){
+        $product = Product::find($data['id']);
+        if($product){
+            $name = $product->name_product;
+            $product->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa sản phẩm"'.$name.'"',
+                'link' => redirect()->route('product.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             $review = Review::where('id_product',$data['id'])->delete();
             $recipe = Recipe::where('id_product',$data['id'])->delete();
             $gallery = Gallery::where('id_product',$data['id'])->delete();
@@ -123,8 +161,18 @@ class ProductController extends Controller
         $data = $request->all();
         $noti = [];
         foreach($data['arrId'] as $key => $id){
-            $delete = Product::where('id_product',$id)->delete();
-            if($delete){
+            $product = Product::where('id_product',$id)->first();
+            if($product){
+                $name = $product->name_product;
+                $product->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa sản phẩm "'.$name.'"',
+                    'link' => redirect()->route('product.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 $review = Review::where('id_product',$id)->delete();
                 $recipe = Recipe::where('id_product',$id)->delete();
                 $gallery = Gallery::where('id_product',$id)->delete();

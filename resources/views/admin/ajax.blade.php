@@ -1338,6 +1338,48 @@
                 }
             });
         })
+        //xoa nhieu phieu hang
+        $('.delete-all-detail').click(function() {
+            let arrId = [];
+            let url = '{{route("detail.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các nguyên liệu trong phiếu hàng này';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            html += ' không?</span>';
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            if (data.res === 'success') {
+                                swalNotification('Xóa thành công!', 'Bạn đã xóa thành công.', 'success',
+                                    function(callback) {
+                                        if (callback) {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+                            } else {
+                                swalNotification('Xóa không thành công!', 'Bạn đã xóa không thành công.', 'error');
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
         //xuat nguyen lieu
         $('#myTable').on('click', '.export-ingredients', function() {
             let url = "{{route('detail.export')}}";
@@ -1433,6 +1475,57 @@
                 }, 
             );
         })
-        
+        //doc thong bao
+        $(document).on('click','.choose-notification',function(){
+            let id = $(this).data('id');
+            let choose = $(this);
+            let url = "{{route('notification.one')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            };
+            let data = {
+                id: id,
+            };
+            callAjax(url, method, data, headers,
+                function(data) {
+                    if(data.res == 'success'){
+                        choose.find('.dot-notification').remove();
+                        if(data.count == 0) $('.dot-bell').remove();
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 
+            );
+        });
+        //xem thong thong bao
+        $(document).on('click','.load-more-notification',function(){
+            let page = parseInt($(this).data('page')) + 1;
+            let load = $(this);
+            let id = "{{request()->cookie('id_account')}}";
+            let choose = $(this);
+            let url = "{{route('notification.load')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            };
+            let data = {
+                id: id,
+                page: page,
+            };
+            callAjax(url, method, data, headers,
+                function(data) {
+                    if(data.res == 'success' && data.count != 0){
+                        // console.log(data);
+                        formNotification(data.list,data.page,data.count);
+                        load.remove();
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 
+            );
+        })
     })
 </script>

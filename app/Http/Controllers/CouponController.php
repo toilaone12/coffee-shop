@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\CustomerCoupon;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,7 +16,17 @@ class CouponController extends Controller
     function list(){
         $title = "Danh sách mã khuyến mãi";
         $list = Coupon::all();
-        return view('coupon.list',compact('title','list'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('coupon.list',compact('title','list','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -46,6 +57,14 @@ class CouponController extends Controller
         ];
         $insert = Coupon::create($db);
         if($insert){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã thêm mã khuyến mãi "'.$data['name_coupon'].'"',
+                'link' => redirect()->route('coupon.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('coupon.list')->with('message','<span class="mx-3 text-success">Thêm thành công</span>');
         }else{
             return redirect()->route('coupon.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -80,6 +99,14 @@ class CouponController extends Controller
             $coupon->expiration_time = $data['expiration_time'];
             $update = $coupon->save();
             if($update){
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cập nhật lại "'.$data['name_coupon'].'"',
+                    'link' => redirect()->route('coupon.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 return response()->json(['res' => 'success', 'title'=> 'Sửa mã khuyến mãi', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu thành công']);
             }else{
                 return response()->json(['res' => 'fail', 'title'=> 'Sửa mã khuyến mãi', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -91,8 +118,18 @@ class CouponController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Coupon::find($data['id'])->delete();
-        if($delete){
+        $coupon = Coupon::find($data['id']);
+        if($coupon){
+            $name = $coupon->name_coupon;
+            $coupon->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa khuyến mãi "'.$name.'"',
+                'link' => redirect()->route('coupon.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return response()->json(['res' => 'success', 'title'=> 'Xoá mã khuyến mãi', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
             return response()->json(['res' => 'fail', 'title'=> 'Xoá mã khuyến mãi', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
@@ -103,8 +140,18 @@ class CouponController extends Controller
         $data = $request->all();
         $noti = [];
         foreach($data['arrId'] as $key => $id){
-            $delete = Coupon::where('id_coupon',$id)->delete();
-            if($delete){
+            $coupon = Coupon::where('id_coupon',$id)->first();
+            if($coupon){
+                $name = $coupon->name_coupon;
+                $coupon->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa khuyến mãi "'.$name.'"',
+                    'link' => redirect()->route('coupon.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 $noti += ['res' => 'success'];
             }else{
                 $noti += ['res' => 'fail'];

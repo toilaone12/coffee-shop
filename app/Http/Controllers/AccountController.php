@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Notification;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -16,7 +17,17 @@ class AccountController extends Controller
         $title = 'Danh sách tài khoản';
         $list = Account::all();
         $listRole = Role::all();
-        return view('account.list',compact('title','list','listRole'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('account.list',compact('title','list','listRole','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -65,6 +76,14 @@ class AccountController extends Controller
                 ];
                 $insert = Account::create($db);
                 if($insert){
+                    $noti = [
+                        'id_account' => request()->cookie('id_account'),
+                        'id_customer' => 0,
+                        'content' => 'Bạn đã đăng ký cho tài khoản "'.$data['username_account'].'"',
+                        'link' => redirect()->route('account.list')->getTargetUrl(),
+                        'is_read' => 0,
+                    ];
+                    Notification::create($noti);
                     return redirect()->route('account.list')->with('message','<span class="mx-3 mt-2 text-success">Đăng ký thành công, vui lòng kiểm tra email đã đăng ký</span>');
                 }else{
                     return redirect()->route('account.list')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -94,6 +113,14 @@ class AccountController extends Controller
         $account->otp_account = $data['otp_account'];
         $update = $account->save();
         if($update){
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã cập nhật lại thông tin',
+                'link' => redirect()->route('account.setting')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return redirect()->route('account.setting')->with('message','<span class="mx-3 mt-2 text-success">Cập nhật thông tin thành công!</span>');
         }else{
             return redirect()->route('account.setting')->with('message','<span class="mx-3 text-success">Lỗi truy vấn!</span>');
@@ -102,8 +129,17 @@ class AccountController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Account::find($data['id'])->delete();
-        if($delete){
+        $account = Account::find($data['id']);
+        if($account){
+            $account->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa tài khoản "'.$account->username_account.'"',
+                'link' => redirect()->route('account.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             return response()->json(['res' => 'success', 'title' => 'Xóa tài khoản', 'icon' => 'success', 'status' => 'Xóa thành công'],200);
         }else{
             return response()->json(['res' => 'fail', 'title' => 'Xóa tài khoản', 'icon' => 'error', 'status' => 'Xóa không thành công'],200);
@@ -114,8 +150,17 @@ class AccountController extends Controller
         $data = $request->all();
         $noti = [];
         foreach($data['arrId'] as $key => $id){
-            $delete = Account::where('id_account',$id)->delete();
-            if($delete){
+            $account = Account::where('id_account',$id)->get();
+            if($account){
+                $account->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa tài khoản "'.$account->username_account.'"',
+                    'link' => redirect()->route('account.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
                 $noti += ['res' => 'success'];
             }else{
                 $noti += ['res' => 'fail'];
@@ -132,6 +177,16 @@ class AccountController extends Controller
         $title = "Cài đặt";
         $id = Cookie::get('id_account');
         $one = Account::find($id);
-        return view('account.setting',compact('title','one'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('account.setting',compact('title','one','notifications','dot','all'));
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use App\Models\Ingredients;
+use App\Models\Notification;
 use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\Review;
@@ -20,7 +21,17 @@ class IngredientsController extends Controller
         $title = 'Danh sách nguyên liệu';
         $list = Ingredients::all();
         $listUnits = Units::all();
-        return view('ingredients.list', compact('title', 'list', 'listUnits'));
+        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+        $dot = false;
+        foreach($all as $noti){
+            if($noti->is_read == 0){
+                $dot = true;
+            }else{
+                $dot = false;
+            }
+        }
+        return view('ingredients.list', compact('title', 'list', 'listUnits','notifications','dot'));
     }
 
     function update(Request $request)
@@ -53,6 +64,14 @@ class IngredientsController extends Controller
                 $ingredient->quantity_ingredient = $quantityUpdate ? $quantityUpdate : $ingredient->quantity_ingredient;
                 $update = $ingredient->save();
                 if ($update) {
+                    $noti = [
+                        'id_account' => request()->cookie('id_account'),
+                        'id_customer' => 0,
+                        'content' => 'Bạn đã cập nhật nguyên liệu "'.$data['name_ingredient'].'"',
+                        'link' => redirect()->route('ingredients.list')->getTargetUrl(),
+                        'is_read' => 0,
+                    ];
+                    Notification::create($noti);
                     return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Sửa nguyên liệu', 'status' => 'Bạn đã sửa nguyên liệu thành công']);
                 } else {
                     return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa nguyên liệu', 'status' => 'Lỗi truy vấn']);
@@ -65,9 +84,19 @@ class IngredientsController extends Controller
 
     function delete(Request $request){
         $data = $request->all();
-        $delete = Ingredients::find($data['id'])->delete();
+        $ingredient = Ingredients::find($data['id']);
         $noti = [];
-        if($delete){
+        if($ingredient){
+            $name = $ingredient->name_ingredient;
+            $ingredient->delete();
+            $noti = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => 'Bạn đã xóa nguyên liệu "'.$name.'"',
+                'link' => redirect()->route('ingredients.list')->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
             $recipes = Recipe::whereJsonContains('component_recipe', [['id_ingredient' => $data['id']]])->get();
             foreach($recipes as $key => $recipe){
                 $idProduct = $recipe->id_product;
@@ -93,11 +122,23 @@ class IngredientsController extends Controller
     function deleteAll(Request $request){
         $data = $request->all();
         $noti = [];
+        // dd($data['arrId'] );
         foreach($data['arrId'] as $key => $id){
-            $delete = Ingredients::where('id_ingredient',$id)->delete();
-            if($delete){
-                $recipes = Recipe::whereJsonContains('component_recipe', [['id_ingredient' => $data['id']]])->get();
+            $ingredient = Ingredients::where('id_ingredient',$id)->first();
+            if($ingredient){
+                $name = $ingredient->name_ingredient;
+                $ingredient->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa nguyên liệu "'.$name.'"',
+                    'link' => redirect()->route('ingredients.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
+                $recipes = Recipe::whereJsonContains('component_recipe', [['id_ingredient' => $id]])->get();
                 foreach($recipes as $key => $recipe){
+                    // dd($recipes);
                     $idProduct = $recipe->id_product;
                     $delete = $recipe->delete();
                     if($delete){
@@ -105,9 +146,9 @@ class IngredientsController extends Controller
                         $review = Review::where('id_product',$idProduct)->delete();
                         $recipe = Recipe::where('id_product',$idProduct)->delete();
                         $gallery = Gallery::where('id_product',$idProduct)->delete();
-                        $noti += ['res' => 'success'];
                     }
                 }
+                $noti += ['res' => 'success'];
             }else{
                 $noti += ['res' => 'fail'];
             }

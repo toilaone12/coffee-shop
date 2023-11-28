@@ -13,6 +13,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
@@ -158,6 +159,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[DetailNoteController::class, 'insert'])->name('detail.insert');
         Route::post('/update',[DetailNoteController::class, 'update'])->name('detail.update');
         Route::post('/delete',[DetailNoteController::class, 'delete'])->name('detail.delete');
+        Route::post('/delete-all',[DetailNoteController::class, 'deleteAll'])->name('detail.deleteAll');
         Route::get('/print-pdf',[DetailNoteController::class, 'printPDF'])->name('detail.pdf');
         Route::get('/export',[DetailNoteController::class, 'export'])->name('detail.export');
     });
@@ -195,6 +197,11 @@ Route::prefix('admin')->group(function(){
             Route::post('/delete',[NewsController::class, 'delete'])->name('news.delete');
             Route::post('/delete-all',[NewsController::class, 'deleteAll'])->name('news.deleteAll');
         });
+    });
+    //Thong bao
+    Route::prefix('notification')->group(function(){
+        Route::post('/one',[NotificationController::class, 'one'])->name('notification.one');
+        Route::post('/load',[NotificationController::class, 'load'])->name('notification.load');
     });
 });
 //Trang nguoi dung

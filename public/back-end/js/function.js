@@ -639,3 +639,23 @@ function isTokenToServer(){
 function setTokenSentToServer(sent){
     window.localStorage.setItem('sentToServer', sent ? 1 : 0)
 }
+
+function formNotification(list, page, count){
+    let html = '';
+    list.forEach(one => {
+        let formattedDate = moment(one.created_at).format('DD/MM/YYYY');
+        html += `<div class="border-bottom px-2 pt-2 choose-notification cursor-pointer" data-id="{{$noti->id_notification}}">`;
+        html += `<a href="${one.link}" class="text-decoration-none">`;
+        html += `<div class="d-flex align-item-center justify-content-between mb-1">`;
+        html += `<span class="fs-12 d-block text-secondary">${formattedDate}</span>`;
+        if(one.is_read == 0) html += `<i class="fa-solid fa-circle text-danger fs-10 dot-notification"></i>`;
+        html += `</div>`;
+        html += `<p class="fs-15 text-dark">${one.content}</p>`;
+        html += `</a>`;
+        html += `</div>`;    
+    })
+    if(count == 7){
+        html += `<span class="text-center fs-15 d-block mt-2 load-more-notification cursor-pointer" data-page="${page}"><i class="fa-solid fa-angle-down"></i> Xem thêm</span>`
+    }
+    $('.notification').append(html);
+}
