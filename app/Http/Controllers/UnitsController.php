@@ -84,7 +84,7 @@ class UnitsController extends Controller
                     'id_account' => request()->cookie('id_account'),
                     'id_customer' => 0,
                     'content' => 'Bạn đã cập nhật đơn vị tính từ "'.$name.'" thành "'.$data['fullname_unit'].'"',
-                    'link' => redirect()->route('unit.list')->getTargetUrl(),
+                    'link' => redirect()->route('units.list')->getTargetUrl(),
                     'is_read' => 0,
                 ];
                 Notification::create($noti);
@@ -107,7 +107,7 @@ class UnitsController extends Controller
                 'id_account' => request()->cookie('id_account'),
                 'id_customer' => 0,
                 'content' => 'Bạn đã xóa đơn vị tính "'.$name.'"',
-                'link' => redirect()->route('unit.list')->getTargetUrl(),
+                'link' => redirect()->route('units.list')->getTargetUrl(),
                 'is_read' => 0,
             ];
             Notification::create($noti);
@@ -131,7 +131,7 @@ class UnitsController extends Controller
                     'id_account' => request()->cookie('id_account'),
                     'id_customer' => 0,
                     'content' => 'Bạn đã xóa đơn vị tính "'.$name.'"',
-                    'link' => redirect()->route('category.list')->getTargetUrl(),
+                    'link' => redirect()->route('units.list')->getTargetUrl(),
                     'is_read' => 0,
                 ];
                 Notification::create($noti);

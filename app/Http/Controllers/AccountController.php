@@ -15,19 +15,26 @@ class AccountController extends Controller
     //
     function list(){
         $title = 'Danh sách tài khoản';
-        $list = Account::all();
-        $listRole = Role::all();
-        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
-        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
-        $dot = false;
-        foreach($all as $noti){
-            if($noti->is_read == 0){
-                $dot = true;
-            }else{
-                $dot = false;
+        $id = Cookie::get('id_account');
+        $one = Account::find($id);
+        if (isset($id) && $id != '' && $one) {
+            $list = Account::all();
+            $listRole = Role::all();
+            $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+            $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+            $dot = false;
+            foreach($all as $noti){
+                if($noti->is_read == 0){
+                    $dot = true;
+                }else{
+                    $dot = false;
+                }
             }
+            return view('account.list',compact('title','list','listRole','notifications','dot'));
+        }else{
+            return redirect()->route('admin.login');
+
         }
-        return view('account.list',compact('title','list','listRole','notifications','dot'));
     }
 
     function insert(Request $request){
@@ -150,7 +157,7 @@ class AccountController extends Controller
         $data = $request->all();
         $noti = [];
         foreach($data['arrId'] as $key => $id){
-            $account = Account::where('id_account',$id)->get();
+            $account = Account::where('id_account',$id)->first();
             if($account){
                 $account->delete();
                 $noti = [
@@ -177,16 +184,22 @@ class AccountController extends Controller
         $title = "Cài đặt";
         $id = Cookie::get('id_account');
         $one = Account::find($id);
-        $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
-        $all = Notification::where('id_account',request()->cookie('id_account'))->get();
-        $dot = false;
-        foreach($all as $noti){
-            if($noti->is_read == 0){
-                $dot = true;
-            }else{
-                $dot = false;
+        if (isset($id) && $id != '' && $one) {
+            $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+            $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+            $dot = false;
+            foreach($all as $noti){
+                if($noti->is_read == 0){
+                    $dot = true;
+                }else{
+                    $dot = false;
+                }
             }
+            return view('account.setting',compact('title','one','notifications','dot','all'));
+        }else{
+            return redirect()->route('admin.login');
+
         }
-        return view('account.setting',compact('title','one','notifications','dot','all'));
+        
     }
 }

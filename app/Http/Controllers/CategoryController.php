@@ -173,65 +173,68 @@ class CategoryController extends Controller
         $noti = [];
         foreach($data['arrId'] as $key => $id){
             $category = Category::where('id_category',$id)->first(); //tim danh muc dau 
-            $name = $category->name_category;
-            $idParent = $category->id_parent_category; //ma cha 
-            $category->delete(); //xoa danh muc dau
-            $noti = [
-                'id_account' => request()->cookie('id_account'),
-                'id_customer' => 0,
-                'content' => 'Bạn đã xóa danh mục "'.$name.'"',
-                'link' => redirect()->route('category.list')->getTargetUrl(),
-                'is_read' => 0,
-            ];
-            Notification::create($noti);
-            if($idParent == 0){  //neu la danh muc goc
-                $categoryChild = Category::where('id_parent_category',$category->id_category)->get(); // tim danh muc con
-                foreach($categoryChild as $child){
-                    $deleteChild = $child->delete(); //xoa danh muc con
-                    if($deleteChild){
-                        $products = Product::where('id_category',$child->id_category)->get(); //tim san pham cua danh muc con
-                        if(count($products) > 0){ //neu co san pham
-                            foreach($products as $key => $product){
-                                $deleteProduct = $product->delete(); // xoa san pham
-                                if($deleteProduct){
-                                    $recipe = Recipe::where('id_product',$product->id_product)->delete(); // xoa cong thuc
-                                    $gallery = Gallery::where('id_product',$product->id_product)->delete(); // xoa danh muc hinh anh
-                                    $review = Review::where('id_product',$product->id_product)->delete(); // xoa danh gia
-                                    if($recipe || $gallery || $review){
-                                        $noti += ['res' => 'success'];
-                                    }else{
-                                        $noti += ['res' => 'error'];
+            if($category){
+                $name = $category->name_category;
+                // dd($name);
+                $category->delete(); //xoa danh muc dau
+                $noti = [
+                        'id_account' => request()->cookie('id_account'),
+                        'id_customer' => 0,
+                        'content' => 'Bạn đã xóa danh mục "' . $name . '"',
+                        'link' => redirect()->route('category.list')->getTargetUrl(),
+                        'is_read' => 0,
+                    ];
+                Notification::create($noti);
+                $idParent = $category->id_parent_category; //ma cha 
+                if($idParent == 0){  //neu la danh muc goc
+                    $categoryChild = Category::where('id_parent_category',$category->id_category)->get(); // tim danh muc con
+                    if(count($categoryChild) != 0){
+                        foreach($categoryChild as $child){
+                            $deleteChild = $child->delete(); //xoa danh muc con
+                            if($deleteChild){
+                                $products = Product::where('id_category',$child->id_category)->get(); //tim san pham cua danh muc con
+                                if(count($products) > 0){ //neu co san pham
+                                    foreach($products as $key => $product){
+                                        $deleteProduct = $product->delete(); // xoa san pham
+                                        if($deleteProduct){
+                                            $recipe = Recipe::where('id_product',$product->id_product)->delete(); // xoa cong thuc
+                                            $gallery = Gallery::where('id_product',$product->id_product)->delete(); // xoa danh muc hinh anh
+                                            $review = Review::where('id_product',$product->id_product)->delete(); // xoa danh gia
+                                            $noti += ['res' => 'success'];
+                                        }else{
+                                            $noti += ['res' => 'success'];
+                                        }
                                     }
                                 }else{
-                                    $noti += ['res' => 'error'];
+                                    $noti += ['res' => 'success'];
                                 }
+                            } else {
+                                $noti += ['res' => 'success'];
                             }
-                        }else{
-                            $noti += ['res' => 'success'];
                         }
+                    }else{
+                        $noti += ['res' => 'success'];
                     }
-                }
-            }else{ //neu la danh muc con
-                $products = Product::where('id_category',$id)->get();
-                if(count($products) > 0){
-                    foreach($products as $key => $product){
-                        $deleteProduct = $product->delete();
-                        if($deleteProduct){
-                            $recipe = Recipe::where('id_product',$product->id_product)->delete();
-                            $gallery = Gallery::where('id_product',$product->id_product)->delete();
-                            $review = Review::where('id_product',$product->id_product)->delete();
-                            if($recipe || $gallery || $review){
+                }else{ //neu la danh muc con
+                    $products = Product::where('id_category',$id)->get();
+                    if(count($products) > 0){
+                        foreach($products as $key => $product){
+                            $deleteProduct = $product->delete();
+                            if($deleteProduct){
+                                $recipe = Recipe::where('id_product',$product->id_product)->delete();
+                                $gallery = Gallery::where('id_product',$product->id_product)->delete();
+                                $review = Review::where('id_product',$product->id_product)->delete();
                                 $noti += ['res' => 'success'];
                             }else{
-                                $noti += ['res' => 'error'];
+                                $noti += ['res' => 'success'];
                             }
-                        }else{
-                            $noti += ['res' => 'error'];
                         }
+                    }else{
+                        $noti += ['res' => 'success'];
                     }
-                }else{
-                    $noti += ['res' => 'success'];
                 }
+            } else {
+                $noti += ['res' => 'success'];
             }
         }
         if($noti['res'] == 'success'){

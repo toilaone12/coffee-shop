@@ -232,7 +232,7 @@ class OrderController extends Controller
                     }else if($status == 2 && $id){
                         $this->handlePushNotification($id,$code,'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát','Bạn đã giao đơn cho bên vận chuyển');
                     }else if($status == 3){
-                        // $this->handleStatistic($order);
+                        $this->handleStatistic($order);
                         if($id) $this->handlePushNotification($id,$code,'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng','Bạn đã nhận thông báo nhận hàng thành công từ khách hàng');
                     }
                     return redirect()->route('order.adDetail',['code' => $order->code_order]);

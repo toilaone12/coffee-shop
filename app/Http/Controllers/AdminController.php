@@ -125,7 +125,7 @@ class AdminController extends Controller
                 return redirect()->route('admin.dashboard');
             }
         } else {
-            return redirect()->route('admin.login');
+            return redirect()->route('admin.login')->with('error','Tài khoản hoặc mật khẩu sai hoặc không tồn tại');
         }
     }
 
