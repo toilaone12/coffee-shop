@@ -18,7 +18,8 @@ class AdminController extends Controller
     function dashboard() {
         $title = 'Trang chủ';
         $username = Cookie::get('username');
-        if(isset($username) && $username != ''){
+        $checkOnline = Account::where('id_account',request()->cookie('id_account'))->first();
+        if(isset($username) && $username != '' && $checkOnline->is_online == 1){
             $isOnline = Account::where('is_online',1)->get();
             $statistic = Statistic::where('date_statistic',date('Y-m-d'))->first();
             $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();

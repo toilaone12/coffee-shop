@@ -38,7 +38,9 @@ class DetailNoteController extends Controller
             }
             return view('notes.detail',compact('title','list','listUnit','note','supplier','notifications','dot'));
         }else{
-            $note->delete();
+            if($note){
+                $note->delete();
+            }
             return redirect()->route('notes.list');
         }
     }

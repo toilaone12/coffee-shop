@@ -228,12 +228,12 @@ class OrderController extends Controller
                     $code = $order->code_order;
                     $id = $order->id_customer;
                     if($status == 1 && $id){
-                        $this->handlePushNotification($id,$code,'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát');
+                        $this->handlePushNotification($id,$code,'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát','Bạn đã nhận đơn hàng');
                     }else if($status == 2 && $id){
-                        $this->handlePushNotification($id,$code,'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát');
+                        $this->handlePushNotification($id,$code,'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát','Bạn đã giao đơn cho bên vận chuyển');
                     }else if($status == 3){
-                        $this->handleStatistic($order);
-                        if($id) $this->handlePushNotification($id,$code,'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng');
+                        // $this->handleStatistic($order);
+                        if($id) $this->handlePushNotification($id,$code,'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng','Bạn đã nhận thông báo nhận hàng thành công từ khách hàng');
                     }
                     return redirect()->route('order.adDetail',['code' => $order->code_order]);
                 }
@@ -619,7 +619,7 @@ class OrderController extends Controller
         }
     }
 
-    function handlePushNotification($id,$code,$text){
+    function handlePushNotification($id,$code,$text,$textAdmin){
         $url = 'https://fcm.googleapis.com/fcm/send';
         $server_key = 'AAAAgXdWpV8:APA91bGUQqgU3CDqRS5QfelSoyyG2-Az2nGiATnlyIC4xIxnNuanB-kN3ChySlL960sWObtceid2mUcK-Q3qIxx8CMJtYjx8nmSV6MtFp80AOdESpz1WgNJDWfpCFc1yEQZcN7zvbHaL';
         $message = array(
@@ -641,6 +641,22 @@ class OrderController extends Controller
         if ($response->failed()) {
             return "Error: " . $response->body();
         } else {
+            $noti = [
+                'id_account' => 0,
+                'id_customer' => $id,
+                'content' => $text,
+                'link' => 'http://127.0.0.1:8000/page/order/detail/'.$code,
+                'is_read' => 0,
+            ];
+            Notification::create($noti);
+            $noti1 = [
+                'id_account' => request()->cookie('id_account'),
+                'id_customer' => 0,
+                'content' => $textAdmin,
+                'link' => redirect()->route('order.adDetail',['code' => $code])->getTargetUrl(),
+                'is_read' => 0,
+            ];
+            Notification::create($noti1);
             return "Message sent successfully";
         }
     }
