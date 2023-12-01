@@ -356,70 +356,115 @@ class OrderController extends Controller
     function handleOrderWithDB($idCustomer, $code, $order)
     {
         $noti = [];
-        $errorHandle = [];
+        $handleIngredients = [];
         $isTrueCart = true;
         $carts = Cart::where('id_customer', $idCustomer)->get();
         foreach ($carts as $key => $one) {
-            $handleIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product']);
-            if ($handleIngredients['res'] == 'false') {
-                $isTrueCart = false;
-                array_push($errorHandle, $handleIngredients);
+            $handleIngredients[] = $this->handleIngredients($one['id_product'], $one['quantity_product']);
+        }
+        // dd($handleIngredients);
+        //xu ly loc cac san pham trung nhau de lay tong so luong nguyen lieu can dung 
+        $sums = [];
+        foreach ($handleIngredients as $item) {
+            foreach ($item as $key => $value) {
+                // Kiểm tra xem khóa đã tồn tại trong mảng tổng hay chưa
+                if (!isset($sums[$key]['quantityProduct'])) {
+                    $sums[$key]['nameProduct'][] = $value['nameProduct']; // Giữ nguyên giá trị 'enoughProduct'
+                    $sums[$key]['enoughProduct'][] = $value['enoughProduct']; // Giữ nguyên giá trị 'enoughProduct'
+                    $sums[$key]['quantityIngredient'] = $value['quantityIngredient']; // Giữ nguyên giá trị 'quantityIngredient'
+                    $sums[$key]['quantityComsumptions'] = $value['quantityComsumptions']; // Giữ nguyên giá trị 'quantityComsumptions'
+                    $sums[$key]['quantityProduct'] = 0;
+                } 
+                // Thực hiện cộng giá trị 'quantity' vào mảng tổng
+                $sums[$key]['quantityProduct'] += $value['quantityProduct'];
+                $sums[$key]['quantityAll'][] = $value['quantityProduct'];
             }
         }
-        if ($isTrueCart) {
-            $dataOrder = [
-                'code_order' => $code,
-                'id_customer' => $idCustomer,
-                'name_order' => $order['fullname'],
-                'phone_order' => $order['phone'],
-                'address_order' => $order['address'],
-                'email_order' => $order['email'],
-                'subtotal_order' => $order['subtotal'],
-                'fee_ship' => $order['fee_ship'],
-                'fee_discount' => $order['fee_discount'],
-                'total_order' => $order['total'],
-                'email_order' => $order['email'],
-                'status_order' => 0,
-                'date_updated' => date('Y-m-d')
-            ];
-            // dd($dataOrder);
-            $insertOrder = Order::create($dataOrder);
-            $id = $insertOrder->id_order;
-            foreach ($carts as $key => $one) {
-                $dataDetailOrder = [
-                    'id_order' => $id,
-                    'code_order' => $code,
-                    'image_product' => $one['image_product'],
-                    'name_product' => $one['name_product'],
-                    'quantity_product' => $one['quantity_product'],
-                    'price_product' => $one['price_product'],
-                    'note_product' => $one['note_product'],
-                ];
-                $insertDetail = DetailOrder::create($dataDetailOrder);
-                if ($insertDetail) {
-                    Cart::where('id_customer', $idCustomer)->delete();
-                    $noti += ['res' => 'success'];
-                } else {
-                    $noti += ['res' => 'fail'];
+        // dd($sums);
+        //tinh toan de dua ra lieu san pham co du khong
+        $b = [];
+        $isIngredients = true;
+        foreach($sums as $key => $sum){
+            if($sum['quantityIngredient'] < $sum['quantityProduct']){
+                // dd($sum);
+                foreach($sum['quantityAll'] as $key => $a){
+                    foreach($sum['enoughProduct'] as $key1 => $c){
+                        if($key == $key1){
+                            $b[] = $sum['quantityAll'];
+                            $sum['quantityIngredient'] -= $a;
+                            if($sum['quantityIngredient'] < 0){
+                                // $b[] = [ 
+                                //     'name' => $sum['nameProduct'][0],
+                                //     'quantityEnough' => $a / $c,
+                                // ];
+                                // $isIngredients = false;
+                            }
+                        }
+                    }
                 }
-                $this->handleGiftCoupon($order['subtotal'], $idCustomer); // tang ma khuyen mai
-                if ($order['code_discount'] != '') {
-                    $coupon = Coupon::where('code_coupon', $order['code_discount'])->first();
-                    CustomerCoupon::where('id_customer', $idCustomer)->where('id_coupon', $coupon->id_coupon)->delete();
-                }
-            }
-        } else {
-            foreach ($errorHandle as $error) {
-                if (!isset($noti['status'])) {
-                    $noti['status'] = [];
-                }
-                $noti['res'] = 'fail';
-                $noti['status'][] = $error['status'];
-                // array_push($noti, $error['status']);
             }
         }
-        // dd($noti);
-        return $noti;
+        dd($b);
+        if($isIngredients){
+
+        }else{
+            $noti['status'] = ['error' => 'Món '.$b[0]['name'].' vừa đủ '.$b[0]['quantityEnough'].' sản phẩm và các sản phẩm sẽ không đủ.' ];
+        }
+        dd($noti);
+        // if ($isTrueCart) {
+        //     $dataOrder = [
+        //         'code_order' => $code,
+        //         'id_customer' => $idCustomer,
+        //         'name_order' => $order['fullname'],
+        //         'phone_order' => $order['phone'],
+        //         'address_order' => $order['address'],
+        //         'email_order' => $order['email'],
+        //         'subtotal_order' => $order['subtotal'],
+        //         'fee_ship' => $order['fee_ship'],
+        //         'fee_discount' => $order['fee_discount'],
+        //         'total_order' => $order['total'],
+        //         'email_order' => $order['email'],
+        //         'status_order' => 0,
+        //         'date_updated' => date('Y-m-d')
+        //     ];
+        //     // dd($dataOrder);
+        //     $insertOrder = Order::create($dataOrder);
+        //     $id = $insertOrder->id_order;
+        //     foreach ($carts as $key => $one) {
+        //         $dataDetailOrder = [
+        //             'id_order' => $id,
+        //             'code_order' => $code,
+        //             'image_product' => $one['image_product'],
+        //             'name_product' => $one['name_product'],
+        //             'quantity_product' => $one['quantity_product'],
+        //             'price_product' => $one['price_product'],
+        //             'note_product' => $one['note_product'],
+        //         ];
+        //         $insertDetail = DetailOrder::create($dataDetailOrder);
+        //         if ($insertDetail) {
+        //             Cart::where('id_customer', $idCustomer)->delete();
+        //             $noti += ['res' => 'success'];
+        //         } else {
+        //             $noti += ['res' => 'fail'];
+        //         }
+        //         $this->handleGiftCoupon($order['subtotal'], $idCustomer); // tang ma khuyen mai
+        //         if ($order['code_discount'] != '') {
+        //             $coupon = Coupon::where('code_coupon', $order['code_discount'])->first();
+        //             CustomerCoupon::where('id_customer', $idCustomer)->where('id_coupon', $coupon->id_coupon)->delete();
+        //         }
+        //     }
+        // } else {
+        //     foreach ($errorHandle as $error) {
+        //         if (!isset($noti['status'])) {
+        //             $noti['status'] = [];
+        //         }
+        //         $noti['res'] = 'fail';
+        //         $noti['status'][] = $error['status'];
+        //         // array_push($noti, $error['status']);
+        //     }
+        // }
+        // // dd($noti);
+        // return $noti;
     }
 
     function handleOrderWithSession($idCustomer, $code, $order, $cart)
@@ -590,32 +635,40 @@ class OrderController extends Controller
                 }
                 $array = [
                     'id' => $one->id_ingredient,
-                    'quantity' => $quantityComsumptions,
+                    'quantity' => $totalProduct,
                 ];
-                array_push($arrIngredients, $array);
-                if ($totalProduct > $quantityIngredient) {
-                    $isTrue = false;
-                } else {
-                    $isTrue = true;
-                }
+                $arrIngredients[$one->id_ingredient] = [
+                    'nameProduct' => $name,
+                    'quantityProduct' => $totalProduct,
+                    'quantityIngredient' => $quantityIngredient,
+                    'enoughProduct' => $quantityComponent,
+                    'quantityComsumptions' => $quantityComsumptions,
+                ];
+                // array_push($arrIngredients, $array);
+                // if ($totalProduct > $quantityIngredient) {
+                //     $isTrue = false;
+                // } else {
+                //     $isTrue = true;
+                // }
             }
+            return $arrIngredients;
             //xu ly tat ca nguyen lieu trong 1 san pham deu du
-            if (!$isTrue) {
-                return ['res' => 'false', 'status' => $name . ' chỉ còn ' . $enoughProduct . ' sản phẩm'];
-            } else {
-                $noti = [];
-                foreach ($arrIngredients as $key => $one) {
-                    $itemIngredient = Ingredients::find($one['id']);
-                    $itemIngredient->quantity_ingredient = $one['quantity'];
-                    $updateIngredients = $itemIngredient->save();
-                    if ($updateIngredients) {
-                        $noti += ['res' => 'true'];
-                    } else {
-                        $noti += ['res' => 'false', 'status' => 'Lỗi truy vấn'];
-                    }
-                }
-                return $noti;
-            }
+            // if (!$isTrue) {
+            //     return ['res' => 'false', 'status' => $name . ' chỉ còn ' . $enoughProduct . ' sản phẩm'];
+            // } else {
+            //     // $noti = [];
+            //     // foreach ($arrIngredients as $key => $one) {
+            //     //     $itemIngredient = Ingredients::find($one['id']);
+            //     //     $itemIngredient->quantity_ingredient = $one['quantity'];
+            //     //     $updateIngredients = $itemIngredient->save();
+            //     //     if ($updateIngredients) {
+            //     //         $noti += ['res' => 'true'];
+            //     //     } else {
+            //     //         $noti += ['res' => 'false', 'status' => 'Lỗi truy vấn'];
+            //     //     }
+            //     // }
+            //     // return $noti;
+            // }
         }
     }
 
