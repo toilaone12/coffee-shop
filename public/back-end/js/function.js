@@ -51,6 +51,20 @@ function swalNotification(title,text,icon,callback){
     });
 }
 
+function swalNotiWithHTML(title, html, icon, callback) {
+    Swal.fire({
+        icon: icon, // Biểu tượng của thông báo
+        title: title,
+        html: html, // Nội dung HTML
+        showCloseButton: true,
+        confirmButtonText: 'Xác nhận',
+    }).then((res) => {
+        if (res.isConfirmed) {
+            callback(true);
+        }
+    });
+}
+
 function formatDateToISO(dateString) {
     const parts = dateString.split(' ');
     const dateParts = parts[0].split('/');

@@ -13,6 +13,7 @@ class DetailOrder extends Model
     protected $primaryKey = "id_detail";
     protected $fillable = [
         "id_order",
+        "id_product",
         "code_order",
         'image_product',
         'name_product',

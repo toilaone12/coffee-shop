@@ -314,8 +314,8 @@
                         } else {
                             let feeCoupon = parseInt($('.fee-discount').text().replace(/[.,đ]/g, ''));
                             let feeShip = parseInt($('.fee-ship').text().replace(/[.,đ]/g, ''));
-                            swalNotification(data.title, data.status, data.icon, () => {
-                            })
+                            // swalNotification(data.title, data.status, data.icon, () => {
+                            // })
                             let total = data.total.toLocaleString('vi-VN', {
                                 currency: 'VND'
                             });
@@ -525,10 +525,10 @@
                             $('.error-privacy').text('');
                         }
                         if (data.res == 'fail') { //loi
-                            let html = '';
-                            data.title.forEach((title) => {
-                                html += `<span class="fs-14 d-block text-secondary mb-2">${title}</span>`
-                            })
+                            let html = `<span class="fs-14 d-block text-secondary mb-2">${data.title}</span>`;
+                            // data.title.forEach((title) => {
+                            //     html += `<span class="fs-14 d-block text-secondary mb-2">${title}</span>`
+                            // })
                             console.log(data.title);
                             swalNotiWithHTML(data.status, html, data.icon, () => {
                                 location.href = '{{route("cart.home")}}'

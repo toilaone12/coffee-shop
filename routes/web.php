@@ -171,6 +171,8 @@ Route::prefix('admin')->group(function(){
         Route::post('/search',[OrderController::class,'search'])->name('order.search');
         Route::post('/filter',[OrderController::class,'filter'])->name('order.filter');
         Route::get('/export',[OrderController::class,'export'])->name('order.export');
+        Route::get('/check',[OrderController::class,'check'])->name('order.check');
+        Route::post('/updateQuantity',[OrderController::class,'updateQuantityAfterOrder'])->name('order.update');
     });
     //Ma khuyen mai
     Route::prefix('coupon')->group(function(){
