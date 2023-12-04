@@ -45,6 +45,7 @@
                                             $idIngredient = '';
                                             $unitName = '';
                                             $idUnit = '';
+                                            $abbreviationUnit = '';
                                         @endphp
 
                                         @foreach($listIngredients as $ingredient)
@@ -60,6 +61,7 @@
                                             @if($unit->id_unit == $recipe->id_unit)
                                                 @php
                                                     $unitName = $unit->fullname_unit;
+                                                    $abbreviationUnit = $unit->abbreviation_unit;
                                                     $idUnit = $recipe->id_unit;
                                                 @endphp
                                             @endif
@@ -68,12 +70,13 @@
                                         </div>
                                         Nguyên liệu: <span class="id-ingredient-{{$one->id_recipe}}-{{$key}}" data-id="{{$idIngredient}}">{{ $ingredientName }}</span><br>
                                         Đơn vị: <span class="id-unit-{{$one->id_recipe}}-{{$key}}" data-id="{{$idUnit}}">{{ $unitName }}</span><br>
-                                        Số lượng cần: <span class="quantity-recipe-{{$one->id_recipe}}-{{$key}}">{{$recipe->quantity_recipe_need}}</span><br>
+                                        Số lượng cần: <span class="quantity-recipe-{{$one->id_recipe}}-{{$key}}">{{$recipe->quantity_recipe_need}} </span>{{$abbreviationUnit}}<br>
                                     @endforeach
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary choose-recipe" data-id="{{$one->id_recipe}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button class="btn btn-danger delete-recipe" data-id="{{$one->id_recipe}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn btn-primary d-block mb-2 choose-recipe" data-id="{{$one->id_recipe}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn btn-primary d-block mb-2 check-recipe" data-id="{{$one->id_recipe}}" ><i class="fa-solid fa-check"></i></button>
+                                        <button class="btn btn-danger d-block delete-recipe" data-id="{{$one->id_recipe}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach

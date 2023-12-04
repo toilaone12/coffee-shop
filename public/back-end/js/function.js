@@ -572,7 +572,7 @@ function handleUpdateRecipeClick(){
         html += `</div>`;
         html += `<div class="form-group">`;
         html += `<label for="quantity">Số lượng cần</label>`
-        html += `<input type="number" min=1 name="quantity_recipe_need" id="quantity" value="${quantityRecipe}" class="form-control quantity-update">`
+        html += `<input type="number" min=1 name="quantity_recipe_need" id="quantity" value="${quantityRecipe.trim()}" class="form-control quantity-update">`
         html +=` <span class="text-danger error-quantity"></span>`
         html += `</div>`
         html += `</div>`;

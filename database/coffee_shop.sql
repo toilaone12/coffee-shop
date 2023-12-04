@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 28, 2023 lúc 06:26 PM
+-- Thời gian đã tạo: Th12 04, 2023 lúc 04:41 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -222,6 +222,7 @@ INSERT INTO `detail_notes` (`id_detail`, `id_note`, `id_unit`, `code_note`, `nam
 CREATE TABLE `detail_orders` (
   `id_detail` int(10) UNSIGNED NOT NULL,
   `id_order` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
   `code_order` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_product` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -236,33 +237,38 @@ CREATE TABLE `detail_orders` (
 -- Đang đổ dữ liệu cho bảng `detail_orders`
 --
 
-INSERT INTO `detail_orders` (`id_detail`, `id_order`, `code_order`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
-(41, 41, 'B88DCB', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 7, 245000, 'a', '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
-(42, 41, 'B88DCB', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 8, 280000, 'b', '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
-(43, 42, '28J27Q', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, 'it duong', '2023-10-31 09:26:07', '2023-10-31 09:26:07'),
-(44, 43, 'IZ4VFN', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 2, 56000, NULL, '2023-11-01 16:07:31', '2023-11-01 16:07:31'),
-(45, 44, 'HMLJEE', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-11-01 16:15:13', '2023-11-01 16:15:13'),
-(46, 45, '703NZG', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 2, 70000, NULL, '2023-11-01 16:23:43', '2023-11-01 16:23:43'),
-(47, 45, '703NZG', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 5, 175000, NULL, '2023-11-01 16:23:43', '2023-11-01 16:23:43'),
-(48, 46, 'XF2JZS', 'storage/product/ca-phe-kem-beo-1698938540.jpg', 'Cà phê kem béo', 2, 100000, NULL, '2023-11-02 15:46:41', '2023-11-02 15:46:41'),
-(49, 46, 'XF2JZS', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 3, 120000, NULL, '2023-11-02 15:46:41', '2023-11-02 15:46:41'),
-(50, 47, '97F655', 'storage/product/almond-croissant-1698938426.jpg', 'Almond Croissant', 3, 105000, NULL, '2023-11-02 15:48:30', '2023-11-02 15:48:30'),
-(51, 47, '97F655', 'storage/product/ham-cheese-croissant-1698938486.jpg', 'Ham & Cheese Croissant', 3, 105000, NULL, '2023-11-02 15:48:30', '2023-11-02 15:48:30'),
-(52, 48, 'B4SWSQ', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-11-02 16:00:37', '2023-11-02 16:00:37'),
-(53, 48, 'B4SWSQ', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-02 16:00:37', '2023-11-02 16:00:37'),
-(54, 48, 'B4SWSQ', 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 2, 78000, NULL, '2023-11-02 16:00:37', '2023-11-02 16:00:37'),
-(55, 49, '5FUNN5', 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 1, 39000, NULL, '2023-11-02 16:04:30', '2023-11-02 16:04:30'),
-(56, 49, '5FUNN5', 'storage/product/charsiu-baguette-1698938663.jpg', 'Charsiu Baguette', 1, 39000, NULL, '2023-11-02 16:04:30', '2023-11-02 16:04:30'),
-(57, 50, 'UCSTGD', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 3, 105000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
-(58, 50, 'UCSTGD', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
-(59, 50, 'UCSTGD', 'storage/product/ham-cheese-croissant-1698938486.jpg', 'Ham & Cheese Croissant', 1, 35000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
-(60, 50, 'UCSTGD', 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 1, 35000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
-(61, 50, 'UCSTGD', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 1, 28000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
-(62, 51, 'EVFXC1', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-11-24 16:54:12', '2023-11-24 16:54:12'),
-(63, 52, 'BB9WEM', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-24 16:56:37', '2023-11-24 16:56:37'),
-(64, 53, 'JZH21S', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-24 17:03:35', '2023-11-24 17:03:35'),
-(65, 54, '22P1L6', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-11-27 14:34:35', '2023-11-27 14:34:35'),
-(66, 55, '34AQI4', 'storage/product/tiramisu-1698938830.jpg', 'Tiramisu', 2, 80000, NULL, '2023-11-27 15:02:32', '2023-11-27 15:02:32');
+INSERT INTO `detail_orders` (`id_detail`, `id_order`, `id_product`, `code_order`, `image_product`, `name_product`, `quantity_product`, `price_product`, `note_product`, `created_at`, `updated_at`) VALUES
+(41, 41, 1, 'B88DCB', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 7, 245000, 'a', '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
+(42, 41, 3, 'B88DCB', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 8, 280000, 'b', '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
+(43, 42, 3, '28J27Q', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, 'it duong', '2023-10-31 09:26:07', '2023-10-31 09:26:07'),
+(44, 43, 4, 'IZ4VFN', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 2, 56000, NULL, '2023-11-01 16:07:31', '2023-11-01 16:07:31'),
+(45, 44, 1, 'HMLJEE', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-11-01 16:15:13', '2023-11-01 16:15:13'),
+(46, 45, 1, '703NZG', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 2, 70000, NULL, '2023-11-01 16:23:43', '2023-11-01 16:23:43'),
+(47, 45, 3, '703NZG', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 5, 175000, NULL, '2023-11-01 16:23:43', '2023-11-01 16:23:43'),
+(48, 46, 8, 'XF2JZS', 'storage/product/ca-phe-kem-beo-1698938540.jpg', 'Cà phê kem béo', 2, 100000, NULL, '2023-11-02 15:46:41', '2023-11-02 15:46:41'),
+(49, 46, 5, 'XF2JZS', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 3, 120000, NULL, '2023-11-02 15:46:41', '2023-11-02 15:46:41'),
+(50, 47, 6, '97F655', 'storage/product/almond-croissant-1698938426.jpg', 'Almond Croissant', 3, 105000, NULL, '2023-11-02 15:48:30', '2023-11-02 15:48:30'),
+(51, 47, 7, '97F655', 'storage/product/ham-cheese-croissant-1698938486.jpg', 'Ham & Cheese Croissant', 3, 105000, NULL, '2023-11-02 15:48:30', '2023-11-02 15:48:30'),
+(52, 48, 3, 'B4SWSQ', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-11-02 16:00:37', '2023-11-02 16:00:37'),
+(53, 48, 5, 'B4SWSQ', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-02 16:00:37', '2023-11-02 16:00:37'),
+(54, 48, 9, 'B4SWSQ', 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 2, 78000, NULL, '2023-11-02 16:00:37', '2023-11-02 16:00:37'),
+(55, 49, 9, '5FUNN5', 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 1, 39000, NULL, '2023-11-02 16:04:30', '2023-11-02 16:04:30'),
+(56, 49, 10, '5FUNN5', 'storage/product/charsiu-baguette-1698938663.jpg', 'Charsiu Baguette', 1, 39000, NULL, '2023-11-02 16:04:30', '2023-11-02 16:04:30'),
+(57, 50, 1, 'UCSTGD', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 3, 105000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(58, 50, 5, 'UCSTGD', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(59, 50, 7, 'UCSTGD', 'storage/product/ham-cheese-croissant-1698938486.jpg', 'Ham & Cheese Croissant', 1, 35000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(60, 50, 11, 'UCSTGD', 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 1, 35000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(61, 50, 4, 'UCSTGD', 'storage/product/plain-croissant-1694705119.jpg', 'Plain Croissant', 1, 28000, NULL, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
+(62, 51, 3, 'EVFXC1', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-11-24 16:54:12', '2023-11-24 16:54:12'),
+(63, 52, 5, 'BB9WEM', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-24 16:56:37', '2023-11-24 16:56:37'),
+(64, 53, 5, 'JZH21S', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 1, 40000, NULL, '2023-11-24 17:03:35', '2023-11-24 17:03:35'),
+(65, 54, 1, '22P1L6', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-11-27 14:34:35', '2023-11-27 14:34:35'),
+(66, 55, 12, '34AQI4', 'storage/product/tiramisu-1698938830.jpg', 'Tiramisu', 2, 80000, NULL, '2023-11-27 15:02:32', '2023-11-27 15:02:32'),
+(67, 56, 1, 'B1MWG2', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 22, 770000, NULL, '2023-11-30 16:50:10', '2023-11-30 16:50:10'),
+(68, 56, 3, 'B1MWG2', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 27, 945000, NULL, '2023-11-30 16:50:10', '2023-11-30 16:50:10'),
+(69, 57, 1, 'UV50IH', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-12-02 18:12:20', '2023-12-03 16:28:37'),
+(70, 57, 3, 'UV50IH', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-12-02 18:12:20', '2023-12-02 18:12:20'),
+(71, 57, 5, 'UV50IH', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 4, 160000, NULL, '2023-12-02 18:12:20', '2023-12-03 16:17:43');
 
 -- --------------------------------------------------------
 
@@ -496,7 +502,17 @@ INSERT INTO `notification` (`id_notification`, `id_account`, `id_customer`, `con
 (32, 1, 0, 'Bạn đã xóa sản phẩm\"Cà phê kem béo\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-11-28 17:24:16', '2023-11-28 17:24:16'),
 (33, 1, 0, 'Bạn đã xóa sản phẩm\"Bacon & Cheese Baguette\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-11-28 17:24:16', '2023-11-28 17:24:16'),
 (34, 1, 0, 'Bạn đã xóa sản phẩm\"Charsiu Baguette\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-11-28 17:24:16', '2023-11-28 17:24:16'),
-(35, 1, 0, 'Bạn đã xóa sản phẩm\"Chocolate Croissant\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-11-28 17:24:16', '2023-11-28 17:24:16');
+(35, 1, 0, 'Bạn đã xóa sản phẩm\"Chocolate Croissant\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-11-28 17:24:16', '2023-11-28 17:24:16'),
+(36, 1, 0, 'Bạn đã thêm mã phiếu \"#D7S87J\"', 'http://127.0.0.1:8000/admin/notes/list', 0, '2023-11-28 18:48:38', '2023-11-28 18:48:38'),
+(37, 1, 0, 'Bạn đã thêm chi tiết phiếu hàng \"#D7S87J\"', 'http://127.0.0.1:8000/admin/detail/list?code=D7S87J', 0, '2023-11-28 18:48:44', '2023-11-28 18:48:44'),
+(38, 1, 0, 'Bạn đã xóa nguyên liệu \"\" trong chi tiết phiếu hàng \"#D7S87J\"', 'http://127.0.0.1:8000/admin/detail/list?code=D7S87J', 1, '2023-11-28 18:48:52', '2023-11-28 18:48:59'),
+(39, 1, 0, 'Bạn đã thêm mã phiếu \"#HO24UO\"', 'http://127.0.0.1:8000/admin/notes/list', 0, '2023-11-28 18:50:28', '2023-11-28 18:50:28'),
+(40, 1, 0, 'Bạn đã thêm mã phiếu \"#HO24UO\"', 'http://127.0.0.1:8000/admin/notes/list', 0, '2023-11-28 18:50:34', '2023-11-28 18:50:34'),
+(41, 1, 0, 'Bạn đã thêm chi tiết phiếu hàng \"#HO24UO\"', 'http://127.0.0.1:8000/admin/detail/list?code=HO24UO', 0, '2023-11-28 18:50:40', '2023-11-28 18:50:40'),
+(42, 1, 0, 'Bạn đã xóa nguyên liệu \"\" trong chi tiết phiếu hàng \"#HO24UO\"', 'http://127.0.0.1:8000/admin/detail/list?code=HO24UO', 0, '2023-11-28 18:55:05', '2023-11-28 18:55:05'),
+(43, 1, 0, 'Bạn đã xóa nguyên liệu \"\" trong chi tiết phiếu hàng \"#HO24UO\"', 'http://127.0.0.1:8000/admin/detail/list?code=HO24UO', 0, '2023-11-28 18:55:05', '2023-11-28 18:55:05'),
+(44, 0, 1, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/UV50IH', 0, '2023-12-03 16:23:36', '2023-12-03 16:23:36'),
+(45, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/UV50IH', 0, '2023-12-03 16:23:36', '2023-12-03 16:23:36');
 
 -- --------------------------------------------------------
 
@@ -527,7 +543,7 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `phone_order`, `address_order`, `email_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `date_updated`, `created_at`, `updated_at`) VALUES
-(41, 1, 'B88DCB', 'Bảo Sơn', '0386278912', '40 Ngõ 3 Cầu Bươu, Xã Tả Thanh Oai, Huyện Thanh Trì, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 525000, 6000, 0, 531000, 3, '2023-10-31', '2023-10-31 08:52:50', '2023-10-31 10:16:03'),
+(41, 1, 'B88DCB', 'Bảo Sơn', '0386278912', '40 Ngõ 3 Cầu Bươu, Xã Tả Thanh Oai, Huyện Thanh Trì, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 525000, 6000, 0, 531000, 0, '2023-10-31', '2023-10-31 08:52:50', '2023-10-31 10:16:03'),
 (42, 1, '28J27Q', 'Bảo Sơn', '0386278912', '3/235 Ngõ 235 Yên Hòa, Phường Yên Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 12000, 15000, 32000, 3, '2023-10-31', '2023-10-31 09:26:07', '2023-10-31 10:17:37'),
 (43, 0, 'IZ4VFN', 'kiều đặng bảo sơn', '0386278998', 'Đường Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 56000, 12000, 0, 68000, 3, '2023-11-01', '2023-11-01 16:07:31', '2023-11-01 16:08:16'),
 (44, 0, 'HMLJEE', 'Tuấn', '0386278998', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 7000, 0, 42000, 3, '2023-11-01', '2023-11-01 16:15:13', '2023-11-01 16:24:32'),
@@ -541,7 +557,9 @@ INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `pho
 (52, 0, 'BB9WEM', 'kiều đặng bảo sơn', '0386278998', 'Đường Nghĩa Dũng, Phường Phúc Xá, Quận Ba Đình, Hà Nội, Việt Nam', 'nga@gmail.com', 40000, 10000, 0, 50000, 0, NULL, '2023-11-24 16:56:37', '2023-11-24 16:56:37'),
 (53, 0, 'JZH21S', 'abc', '0386278993', 'Bệnh Viện K - Co So Tan Trieu, Phố Quán Sứ, Phường Hàng Bông, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 40000, 8000, 0, 48000, 0, NULL, '2023-11-24 17:03:35', '2023-11-24 17:03:35'),
 (54, 1, '22P1L6', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 35000, 7000, 0, 42000, 3, '2023-11-27', '2023-11-27 14:34:35', '2023-11-27 14:37:07'),
-(55, 2, '34AQI4', 'Tuấn', '0333112333', 'Ngõ 123 Trung Kính, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 80000, 12000, 0, 92000, 3, '2023-11-27', '2023-11-27 15:02:32', '2023-11-27 15:07:17');
+(55, 2, '34AQI4', 'Tuấn', '0333112333', 'Ngõ 123 Trung Kính, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 80000, 12000, 0, 92000, 3, '2023-11-27', '2023-11-27 15:02:32', '2023-11-27 15:07:17'),
+(56, 1, 'B1MWG2', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 6930000, 7000, 0, 6937000, 0, '2023-11-30', '2023-11-30 16:50:10', '2023-11-30 16:50:10'),
+(57, 1, 'UV50IH', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 230000, 7000, 0, 237000, 2, '2023-12-03', '2023-12-02 18:12:20', '2023-12-03 16:23:33');
 
 -- --------------------------------------------------------
 
@@ -948,7 +966,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -978,13 +996,13 @@ ALTER TABLE `customer_coupon`
 -- AUTO_INCREMENT cho bảng `detail_notes`
 --
 ALTER TABLE `detail_notes`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -1020,19 +1038,19 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT cho bảng `product`

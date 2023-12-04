@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\Units;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RecipeController extends Controller
 {
@@ -126,6 +127,73 @@ class RecipeController extends Controller
             return response()->json(['res' => 'success', 'title' => 'Xóa công thức', 'icon' => 'success', 'status' => 'Xóa công thức thành công']);
         }else{
             return response()->json(['res' => 'fail', 'title' => 'Xóa công thức', 'icon' => 'error', 'status' => 'Xóa công thức thất bại']);
+        }
+    }
+
+    function check(Request $request){
+        $id = $request->get('id');
+        $recipe = Recipe::find($id);
+        $components = json_decode($recipe->component_recipe);
+        $product = Product::find($recipe->id_product);
+        $arrIngredients = [];
+        foreach ($components as $key => $one) {
+            $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
+            $ingredient = Ingredients::find(intval($one->id_ingredient)); //tim nguyen lieu trong ds nguyen lieu
+            $unitIngredient = Units::find(intval($ingredient->id_unit)); //tim don vi cua nguyen lieu
+            $abbreviationComponent = $unitComponent->abbreviation_unit; //ky hieu don vi cua thanh phan trong cong thuc
+            $abbreviationIngredient = $unitIngredient->abbreviation_unit; //ky hieu don vi cua nguyen lieu
+            $quantityIngredient = floatval($ingredient->quantity_ingredient); //so luong nguyen lieu
+            $quantityComponent = intval($one->quantity_recipe_need); // so luong cua thanh phan trong nguyen lieu
+            $totalProduct = 0;
+            $quantityComponentConvert = 0;
+            if ($abbreviationComponent == $abbreviationIngredient) { //ktra 2 don vi giong nhau k 
+                $quantityComponentConvert = $quantityComponent;
+            } else {
+                $quantityComponentConvert = $this->convertUnit($quantityComponent, $abbreviationComponent, $abbreviationIngredient);
+            }
+            $totalProduct = intval($quantityIngredient / $quantityComponentConvert);
+            $arrIngredients[] = $totalProduct;
+        }
+        // dd($arrIngredients);
+        $status = 'Số lượng bạn có thể làm ra sản phẩm '.$product->name_product.' là '.min($arrIngredients).' sản phẩm';
+        return response()->json(['res' => 'success', 'title' => 'Thông báo số lượng có thể làm ra', 'icon' => 'success', 'status' => $status]);
+    }
+
+    function convertUnit($value, $fromUnit, $toUnit)
+    {
+        // Chuyển đơn vị đầu vào và đầu ra thành chữ thường để so sánh
+        $fromUnit = strtolower($fromUnit);
+        $toUnit = strtolower($toUnit);
+
+        // Biến đổi giá trị dựa trên đơn vị đầu vào và đầu ra
+        switch ("$fromUnit-$toUnit") {
+            case 'kg-l':
+                return $value; // 1 kg = 1 l
+            case 'kg-g':
+                return $value * 1000; // 1 kg = 1000 g
+            case 'kg-ml':
+                return $value * 1000; // 1 kg = 1000 g
+            case 'g-ml':
+                return $value; // 1 g = 1 ml
+            case 'g-kg':
+                return $value / 1000; // 1 g = 0.001 kg
+            case 'g-l':
+                return $value / 1000; // 1 g = 0.001 l
+            case 'ml-g':
+                return $value; // 1 ml = 1 g
+            case 'ml-l':
+                return $value / 1000; // 1 ml = 0.001 l
+            case 'ml-kg':
+                return $value / 1000; // 1 ml = 0.001 kg
+            case 'l-kg':
+                return $value; // 1 l = 1 kg
+            case 'l-g':
+                return $value * 1000; // 1 l = 1000 g
+            case 'l-ml':
+                return $value * 1000; // 1 l = 1000 ml
+            default:
+                Log::error("Không thể chuyển đổi từ $fromUnit sang $toUnit");
+                return null; // Trả về null nếu không thể chuyển đổi
         }
     }
 }

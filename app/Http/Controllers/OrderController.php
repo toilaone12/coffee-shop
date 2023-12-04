@@ -65,9 +65,9 @@ class OrderController extends Controller
             }
         }
         $listStatus = [
-            3 => 'Nhận đơn hàng',
-            4 => 'Giao cho vận chuyển',
-            5 => 'Giao thành công',
+            1 => 'Nhận đơn hàng',
+            2 => 'Giao cho vận chuyển',
+            3 => 'Giao thành công',
         ];
         return view('order.admin_detail', compact('title', 'order', 'list', 'listStatus', 'notifications', 'dot'));
     }
@@ -78,90 +78,90 @@ class OrderController extends Controller
         return response()->json(['res' => 'success', 'detail' => $orderDetail]);
     }
 
-    function check(Request $request)
-    {
-        $id = $request->get('id');
-        $noti = [];
-        $handleIngredients = [];
-        $orderDetail = DetailOrder::where('id_order', $id)->get();
-        foreach ($orderDetail as $key => $one) {
-            $handleIngredients[] = $this->handleIngredients($one['id_product'], $one['quantity_product']);
-        }
-        //xu ly loc cac san pham trung nhau de lay tong so luong nguyen lieu can dung 
-        $sums = [];
-        foreach ($handleIngredients as $item) {
-            foreach ($item as $key => $value) {
-                // Kiểm tra xem khóa đã tồn tại trong mảng tổng hay chưa
-                if (!isset($sums[$key]['quantityProduct'])) {
-                    $sums[$key]['quantityIngredient'] = $value['quantityIngredient']; // Giữ nguyên giá trị 'quantityIngredient'
-                    $sums[$key]['quantityProduct'] = 0;
-                }
-                // Thực hiện cộng giá trị 'quantity' vào mảng tổng
-                $sums[$key]['quantityProductBuy'][] = $value['quantityProductBuy']; //  so luong mua cua khach
-                $sums[$key]['nameProduct'][] = $value['nameProduct']; // ten sp
-                $sums[$key]['nameIngredient'][] = $value['nameIngredient']; // ten sp
-                $sums[$key]['enoughProduct'][] = $value['enoughProduct']; // so luong du
-                $sums[$key]['quantityProduct'] += $value['quantityProduct']; // so luong cong lai khi trung san pham
-                $sums[$key]['totalIngredientOneProduct'][] = $value['quantityProduct']; // so luong khi lam ra san pham
-                $sums[$key]['ingredientRecipeNeed'][] = $value['ingredientRecipeNeed']; // so luong nguyen lieu can trong cong thuc
-            }
-        }
-        //tinh toan de dua ra lieu san pham co du khong
-        $checkProduct = [];
-        $isIngredients = true;
-        foreach ($sums as $key => $sum) {
-            if ($sum['quantityIngredient'] < $sum['quantityProduct']) {
-                $quantityIngredient = $sum['quantityIngredient'];
-                foreach ($sum['totalIngredientOneProduct'] as $index => $total) {
-                    if (isset($sum['enoughProduct'][$index])) {
-                        if ($quantityIngredient > $total) {
-                            $quantityIngredient -= $total;
-                        } else {
-                            $quantityComsumptions = $quantityIngredient / $sum['ingredientRecipeNeed'][$index];
-                            $isIngredients = false;
-                            $checkProduct[] = [
-                                'id' => $key,
-                                'name' => $sum['nameProduct'][$index],
-                                'nameIngredient' => $sum['nameIngredient'][$index],
-                                'quantityComsumptions' => intval($quantityComsumptions),
-                            ];
-                            // break;
-                        }
-                    }
-                }
-            }
-        }
-        // dd($checkProduct);
-        if (!$isIngredients) {
-            $error = '<span class="d-block fs-20 text-left">Do có: </span>';
-            $uniqueNames = [];
-            foreach ($checkProduct as $key => $check) {
-                $name = $check['name'];
-                if (!in_array($name, $uniqueNames)) {
-                    $uniqueNames[] = $name;
-                    $error .= '<span class="text-danger text-left fs-18 d-block">+) Món ' . $name;
-                } else {
-                    $error .= ' và';
-                }
-                $error .= $check['quantityComsumptions'] ? ' chỉ còn đủ ' . $check['quantityComsumptions'] : ' không còn đủ ';
-                $error .= ' sản phẩm do';
-                $error .= $check['quantityComsumptions'] ? ' thiếu nguyên liệu ' . $check['nameIngredient'] : ' sản phẩm trên đã sử dụng hết ';
-            }
-            $error .= '</span>';
-            $error .= '<span class="text-danger text-left fs-18 d-block">=> Cho nên sẽ không đặt được các sản phẩm còn lại </span>';
-            $noti['status'] = $error;
-            return response()->json(['res' => 'fail', 'title' => 'Thông báo kiểm tra đơn hàng', 'icon' => 'error', 'status' => $noti['status']]);
-        } else {
-            $order = Order::find($id);
-            $order->status_order = 1;
-            $update = $order->save();
-            if ($update) {
-                return response()->json(['res' => 'success', 'title' => 'Thông báo kiểm tra đơn hàng', 'icon' => 'success', 'status' => 'Đủ nguyên liệu để chế biến sản phẩm']);
-            } else {
-                return response()->json(['res' => 'fail', 'title' => 'Thông báo kiểm tra đơn hàng', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
-            }
-        }
-    }
+    // function check(Request $request)
+    // {
+    //     $id = $request->get('id');
+    //     $noti = [];
+    //     $handleIngredients = [];
+    //     $orderDetail = DetailOrder::where('id_order', $id)->get();
+    //     foreach ($orderDetail as $key => $one) {
+    //         $handleIngredients[] = $this->handleIngredients($one['id_product'], $one['quantity_product']);
+    //     }
+    //     //xu ly loc cac san pham trung nhau de lay tong so luong nguyen lieu can dung 
+    //     $sums = [];
+    //     foreach ($handleIngredients as $item) {
+    //         foreach ($item as $key => $value) {
+    //             // Kiểm tra xem khóa đã tồn tại trong mảng tổng hay chưa
+    //             if (!isset($sums[$key]['quantityProduct'])) {
+    //                 $sums[$key]['quantityIngredient'] = $value['quantityIngredient']; // Giữ nguyên giá trị 'quantityIngredient'
+    //                 $sums[$key]['quantityProduct'] = 0;
+    //             }
+    //             // Thực hiện cộng giá trị 'quantity' vào mảng tổng
+    //             $sums[$key]['quantityProductBuy'][] = $value['quantityProductBuy']; //  so luong mua cua khach
+    //             $sums[$key]['nameProduct'][] = $value['nameProduct']; // ten sp
+    //             $sums[$key]['nameIngredient'][] = $value['nameIngredient']; // ten sp
+    //             $sums[$key]['enoughProduct'][] = $value['enoughProduct']; // so luong du
+    //             $sums[$key]['quantityProduct'] += $value['quantityProduct']; // so luong cong lai khi trung san pham
+    //             $sums[$key]['totalIngredientOneProduct'][] = $value['quantityProduct']; // so luong khi lam ra san pham
+    //             $sums[$key]['ingredientRecipeNeed'][] = $value['ingredientRecipeNeed']; // so luong nguyen lieu can trong cong thuc
+    //         }
+    //     }
+    //     //tinh toan de dua ra lieu san pham co du khong
+    //     $checkProduct = [];
+    //     $isIngredients = true;
+    //     foreach ($sums as $key => $sum) {
+    //         if ($sum['quantityIngredient'] < $sum['quantityProduct']) {
+    //             $quantityIngredient = $sum['quantityIngredient'];
+    //             foreach ($sum['totalIngredientOneProduct'] as $index => $total) {
+    //                 if (isset($sum['enoughProduct'][$index])) {
+    //                     if ($quantityIngredient > $total) {
+    //                         $quantityIngredient -= $total;
+    //                     } else {
+    //                         $quantityComsumptions = $quantityIngredient / $sum['ingredientRecipeNeed'][$index];
+    //                         $isIngredients = false;
+    //                         $checkProduct[] = [
+    //                             'id' => $key,
+    //                             'name' => $sum['nameProduct'][$index],
+    //                             'nameIngredient' => $sum['nameIngredient'][$index],
+    //                             'quantityComsumptions' => intval($quantityComsumptions),
+    //                         ];
+    //                         // break;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     // dd($checkProduct);
+    //     if (!$isIngredients) {
+    //         $error = '<span class="d-block fs-20 text-left">Do có: </span>';
+    //         $uniqueNames = [];
+    //         foreach ($checkProduct as $key => $check) {
+    //             $name = $check['name'];
+    //             if (!in_array($name, $uniqueNames)) {
+    //                 $uniqueNames[] = $name;
+    //                 $error .= '<span class="text-danger text-left fs-18 d-block">+) Món ' . $name;
+    //             } else {
+    //                 $error .= ' và';
+    //             }
+    //             $error .= $check['quantityComsumptions'] ? ' chỉ còn đủ ' . $check['quantityComsumptions'] : ' không còn đủ ';
+    //             $error .= ' sản phẩm do';
+    //             $error .= $check['quantityComsumptions'] ? ' thiếu nguyên liệu ' . $check['nameIngredient'] : ' sản phẩm trên đã sử dụng hết ';
+    //         }
+    //         $error .= '</span>';
+    //         $error .= '<span class="text-danger text-left fs-18 d-block">=> Cho nên sẽ không đặt được các sản phẩm còn lại </span>';
+    //         $noti['status'] = $error;
+    //         return response()->json(['res' => 'fail', 'title' => 'Thông báo kiểm tra đơn hàng', 'icon' => 'error', 'status' => $noti['status']]);
+    //     } else {
+    //         $order = Order::find($id);
+    //         $order->status_order = 1;
+    //         $update = $order->save();
+    //         if ($update) {
+    //             return response()->json(['res' => 'success', 'title' => 'Thông báo kiểm tra đơn hàng', 'icon' => 'success', 'status' => 'Đủ nguyên liệu để chế biến sản phẩm']);
+    //         } else {
+    //             return response()->json(['res' => 'fail', 'title' => 'Thông báo kiểm tra đơn hàng', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
+    //         }
+    //     }
+    // }
 
     function updateQuantityAfterOrder(Request $request)
     {
@@ -340,16 +340,16 @@ class OrderController extends Controller
             $order->date_updated = date('Y-m-d');
             $update = $order->save();
             if ($update) {
-                if ($status == 5) {
+                if ($status == 4) {
                     return redirect()->route('order.detail', ['code' => $order->code_order]);
                 } else {
                     $code = $order->code_order;
                     $id = $order->id_customer;
-                    if ($status == 2 && $id) {
+                    if ($status == 1 && $id) {
                         $this->handlePushNotification($id, $code, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'Bạn đã nhận đơn hàng');
-                    } else if ($status == 3 && $id) {
+                    } else if ($status == 2 && $id) {
                         $this->handlePushNotification($id, $code, 'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát', 'Bạn đã giao đơn cho bên vận chuyển');
-                    } else if ($status == 4) {
+                    } else if ($status == 3) {
                         $this->handleStatistic($order);
                         if ($id) $this->handlePushNotification($id, $code, 'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng', 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng');
                     }
@@ -531,20 +531,25 @@ class OrderController extends Controller
         if (!$isIngredients) {
             $error = '<span class="d-block fs-20 text-left">Do có: </span>';
             $uniqueNames = [];
+            $count = [];
             foreach ($checkProduct as $key => $check) {
                 $name = $check['name'];
+                $count[] = $check['quantityComsumptions'];
                 if (!in_array($name, $uniqueNames)) {
                     $uniqueNames[] = $name;
                     $error .= '<span class="text-danger text-left fs-18 d-block">+) Món ' . $name;
                 } else {
-                    $error .= ' và';
+                    // $error .= ' và';
                 }
-                $error .= $check['quantityComsumptions'] ? ' chỉ còn đủ ' . $check['quantityComsumptions'] : ' không còn đủ ';
-                $error .= ' sản phẩm do';
-                $error .= $check['quantityComsumptions'] ? ' thiếu nguyên liệu ' . $check['nameIngredient'] : ' sản phẩm trên đã sử dụng hết ';
+                if(min($count) == $check['quantityComsumptions']){
+                    $error .= min($count) ? ' chỉ còn đủ ' . min($count) : ' không còn đủ ';
+                    $error .= ' sản phẩm do';
+                    $error .= $check['quantityComsumptions'] ? ' thiếu nguyên liệu ' . $check['nameIngredient'] : ' các     sản phẩm trên đã sử dụng hết ' . $check['nameIngredient'];
+                }
             }
             $error .= '</span>';
             $error .= '<span class="text-danger text-left fs-18 d-block">=> Cho nên sẽ không đặt được các sản phẩm còn lại </span>';
+            $noti['res'] = 'fail';
             $noti['status'] = $error;
         } else {
             $dataOrder = [
@@ -579,6 +584,12 @@ class OrderController extends Controller
                 $insertDetail = DetailOrder::create($dataDetailOrder);
                 if ($insertDetail) {
                     Cart::where('id_customer', $idCustomer)->delete();
+                    $noti += ['res' => 'success'];
+                } else {
+                    $noti += ['res' => 'fail'];
+                }
+                $resolveIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product'], 1);
+                if($resolveIngredients){
                     $noti += ['res' => 'success'];
                 } else {
                     $noti += ['res' => 'fail'];
@@ -678,24 +689,35 @@ class OrderController extends Controller
                 } else {
                     $noti += ['res' => 'fail'];
                 }
+                $resolveIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product'], 1);
+                if($resolveIngredients){
+                    $noti += ['res' => 'success'];
+                } else {
+                    $noti += ['res' => 'fail'];
+                }
             }
         } else {
             $error = '<span class="d-block fs-20 text-left">Do có: </span>';
             $uniqueNames = [];
-            foreach($checkProduct as $key => $check){
+            $count = [];
+            foreach ($checkProduct as $key => $check) {
                 $name = $check['name'];
+                $count[] = $check['quantityComsumptions'];
                 if (!in_array($name, $uniqueNames)) {
                     $uniqueNames[] = $name;
                     $error .= '<span class="text-danger text-left fs-18 d-block">+) Món ' . $name;
-                }else{
-                    $error .= ' và';
+                } else {
+                    // $error .= ' và';
                 }
-                $error .= $check['quantityComsumptions'] ? ' chỉ còn đủ '.$check['quantityComsumptions'] : ' không còn đủ ';
-                $error .= ' sản phẩm do';
-                $error .= $check['quantityComsumptions'] ? ' thiếu nguyên liệu '.$check['nameIngredient'] : ' sản phẩm trên đã sử dụng hết ';
+                if(min($count) == $check['quantityComsumptions']){
+                    $error .= min($count) ? ' chỉ còn đủ ' . min($count) : ' không còn đủ ';
+                    $error .= ' sản phẩm do';
+                    $error .= $check['quantityComsumptions'] ? ' thiếu nguyên liệu ' . $check['nameIngredient'] : ' sản phẩm trên đã sử dụng hết ' . $check['nameIngredient'];
+                }
             }
             $error .= '</span>';
             $error .= '<span class="text-danger text-left fs-18 d-block">=> Cho nên sẽ không đặt được các sản phẩm còn lại </span>';
+            $noti['res'] = 'fail';
             $noti['status'] = $error;
         }
         return $noti;
@@ -777,14 +799,13 @@ class OrderController extends Controller
         }
     }
 
-    function handleIngredients($id, $quantity)
+    function handleIngredients($id, $quantity, $isHandle = 0)
     {
         $recipe = Recipe::where('id_product', $id)->first();
         $product = Product::find($id);
         $name = $product->name_product;
         if ($recipe) {
             $components = json_decode($recipe->component_recipe);
-            $isTrue = false;
             $arrIngredients = [];
             foreach ($components as $key => $one) {
                 $unitComponent = Units::find(intval($one->id_unit)); // tim don vi cua thanh phan trong cong thuc
@@ -800,24 +821,36 @@ class OrderController extends Controller
                 $quantityComponentConvert = 0;
                 if ($abbreviationComponent == $abbreviationIngredient) { //ktra 2 don vi giong nhau k 
                     $quantityComponentConvert = $quantityComponent;
-                    $totalProduct = $quantityComponent * $quantity; // tong so luong hien tai
-                    $enoughProduct = intval($quantityIngredient / $quantityComponent);
-                    $quantityComsumptions = $quantityIngredient - ($quantityComponent * $quantity); //so luong tieu thu
+                    $totalProduct = $quantityComponentConvert * $quantity; // tong so luong hien tai
+                    $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
+                    $quantityComsumptions = $quantityIngredient - ($quantityComponentConvert * $quantity); //so luong tieu thu
                 } else {
                     $quantityComponentConvert = $this->convertUnit($quantityComponent, $abbreviationComponent, $abbreviationIngredient);
                     $totalProduct = $quantityComponentConvert * $quantity;
                     $enoughProduct = intval($quantityIngredient / $quantityComponentConvert);
                     $quantityComsumptions = $quantityIngredient - ($quantityComponentConvert * $quantity); //so luong tieu thu
                 }
-                $arrIngredients[$one->id_ingredient] = [
-                    'nameProduct' => $name,
-                    'nameIngredient' => $nameIngredient,
-                    'quantityProduct' => $totalProduct,
-                    'quantityIngredient' => $quantityIngredient,
-                    'enoughProduct' => $enoughProduct,
-                    'quantityProductBuy' => $quantity,
-                    'ingredientRecipeNeed' => $quantityComponentConvert,
-                ];
+                if($isHandle){
+                    // dd(1);
+                    $ingredient->quantity_ingredient = $quantityComsumptions;
+                    $updateIngredients = $ingredient->save();
+                    if($updateIngredients){
+                        $arrIngredients += ['res' => 'true'];
+                    }else{
+                        $arrIngredients += ['res' => 'false', 'status' => 'Lỗi truy vấn'];
+                    }
+                }else{
+                    // dd(2);
+                    $arrIngredients[$one->id_ingredient] = [
+                        'nameProduct' => $name,
+                        'nameIngredient' => $nameIngredient,
+                        'quantityProduct' => $totalProduct,
+                        'quantityIngredient' => $quantityIngredient,
+                        'enoughProduct' => $enoughProduct,
+                        'quantityProductBuy' => $quantity,
+                        'ingredientRecipeNeed' => $quantityComponentConvert,
+                    ];
+                }
             }
             return $arrIngredients;
         }

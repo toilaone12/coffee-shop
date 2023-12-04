@@ -98,6 +98,7 @@ Route::prefix('admin')->group(function(){
     //Cong thuc
     Route::prefix('recipe')->group(function(){
         Route::get('/list',[RecipeController::class, 'list'])->name('recipe.list');
+        Route::get('/check',[RecipeController::class, 'check'])->name('recipe.check');
         Route::group(['middleware' => 'auth.roles'],function(){
             Route::post('/insert',[RecipeController::class, 'insert'])->name('recipe.insert');
             Route::post('/update',[RecipeController::class, 'update'])->name('recipe.update');

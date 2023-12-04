@@ -601,6 +601,27 @@
                 }
             );
         });
+        //kiem tra so luong nguyen lieu se ra dc bao nhieu san pham
+        $('.check-recipe').on('click', function() {
+            let id = $(this).data('id');
+            let url = '{{route("recipe.check")}}';
+            let method = "GET";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: id,
+            };
+            callAjax(url, method, data, headers,
+                function(data) {
+                    // console.log(data);
+                    swalNotification(data.title,data.status,data.icon,() => {})
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
+        })
         //xoa cong thuc cho san pham
         $('#myTable').on('click', '.delete-recipe', function() {
             let id = $(this).data('id');
