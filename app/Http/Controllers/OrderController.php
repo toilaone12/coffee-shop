@@ -65,9 +65,9 @@ class OrderController extends Controller
             }
         }
         $listStatus = [
-            2 => 'Nhận đơn hàng',
-            3 => 'Giao cho vận chuyển',
-            4 => 'Giao thành công',
+            3 => 'Nhận đơn hàng',
+            4 => 'Giao cho vận chuyển',
+            5 => 'Giao thành công',
         ];
         return view('order.admin_detail', compact('title', 'order', 'list', 'listStatus', 'notifications', 'dot'));
     }
@@ -173,7 +173,20 @@ class OrderController extends Controller
         $detail->price_product = $total;
         $update = $detail->save();
         if ($update) {
-            return response()->json(['res' => 'success', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'success', 'status' => 'Chỉnh số lượng đơn hàng thành công', 'total' => $total]);
+            $list = DetailOrder::where('id_order',$detail->id_order)->get();
+            $allTotal = 0;
+            foreach($list as $one){
+                $allTotal += $one->price_product;
+            }
+            $order = Order::find($detail->id_order);
+            $order->subtotal_order = $allTotal;
+            $order->total_order = $allTotal + $order->fee_discount + $order->fee_ship;
+            $update = $order->save();
+            if($update){
+                return response()->json(['res' => 'success', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'success', 'status' => 'Chỉnh số lượng đơn hàng thành công', 'total' => $total]);
+            }else{
+                return response()->json(['res' => 'fail', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
+            }
         } else {
             return response()->json(['res' => 'fail', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }

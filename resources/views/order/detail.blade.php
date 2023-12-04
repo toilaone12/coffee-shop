@@ -9,7 +9,7 @@
     /* Màu mặc định */
   }
 </style>
-@elseif($status == 1)
+@elseif($status == 3)
 <style>
   #progressbar-2 li:nth-child(2):after {
     left: 1%;
@@ -18,7 +18,7 @@
     /* Màu mặc định */
   }
 </style>
-@elseif($status == 2)
+@elseif($status == 4)
 <style>
   #progressbar-2 li:nth-child(3):after {
     left: 1%;

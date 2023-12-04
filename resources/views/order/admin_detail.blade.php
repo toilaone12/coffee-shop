@@ -1,6 +1,6 @@
 @extends('dashboard')
 @section('content')
-@if($order->status_order == 1)
+@if($order->status_order == 3)
 <style>
   #progressbar-2 li:nth-child(1):after {
     left: 1%;
@@ -9,7 +9,7 @@
     /* Màu mặc định */
   }
 </style>
-@elseif($order->status_order == 2)
+@elseif($order->status_order == 4)
 <style>
   #progressbar-2 li:nth-child(2):after {
     left: 1%;
@@ -18,7 +18,7 @@
     /* Màu mặc định */
   }
 </style>
-@elseif($order->status_order == 3)
+@elseif($order->status_order == 5)
 <style>
   #progressbar-2 li:nth-child(3):after {
     left: 1%;
@@ -42,11 +42,11 @@
     <!-- Main Content -->
     <div id="content" class="mx-5">
         <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 pt-0 pb-lg-2 pb-md-2 pb-ssm-0">
-            @if($order->status_order != 5)
+            @if($order->status_order != 6)
             <li class="active text-center" id="step1"></li>
-            <li class="step0 {{$order->status_order >= 2 ? 'active' : ''}} text-center" id="step2"></li>
-            <li class="step0 {{$order->status_order >= 3 ? 'active' : ''}} text-center" id="step3"></li>
-            <li class="step0 {{$order->status_order >= 4 ? 'active' : ''}} text-muted text-end" id="step4"></li>
+            <li class="step0 {{$order->status_order >= 3 ? 'active' : ''}} text-center" id="step2"></li>
+            <li class="step0 {{$order->status_order >= 4 ? 'active' : ''}} text-center" id="step3"></li>
+            <li class="step0 {{$order->status_order >= 5 ? 'active' : ''}} text-muted text-end" id="step4"></li>
             @else
             <li class="cancel text-center w-100" id="step1"></li>
             <li class="step0 d-none text-center" id="step2"></li>
@@ -54,7 +54,7 @@
             <li class="step0 cancel text-danger text-muted text-end" id="step5"></li>
             @endif
         </ul>
-        @if($order->status_order == 5)
+        @if($order->status_order == 6)
         <div class="d-flex justify-content-between">
             <div class="d-lg-flex">
                 <div>
@@ -177,7 +177,7 @@
                         <div class="card">
                             <h5 class="card-header">Thay đổi trạng thái đơn hàng</h5>
                             <div class="card-body status-order">
-                                <button data-id="{{$order->id_order}}" class="w-100 btn btn-primary d-block check-order {{$order->status_order == 0 ? 'disabled' : ''}}">Kiểm tra đơn hàng</button>
+                                <button data-id="{{$order->id_order}}" class="w-100 btn btn-primary d-block check-order {{$order->status_order == 1 ? 'disabled' : ''}}">Kiểm tra đơn hàng</button>
                                 @foreach($listStatus as $key => $status)
                                 <a href="{{route('order.change',['id' => $order->id_order,'status' => $key])}}" class="w-100 btn btn-primary d-block {{$key > 1 ? 'mt-3': ''}} {{$key == $order->status_order || $key != intval($order->status_order) + 1 ? 'disabled' : ''}}">{{$status}}</a>
                                 @endforeach
