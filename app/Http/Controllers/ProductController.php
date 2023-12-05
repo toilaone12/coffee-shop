@@ -198,10 +198,12 @@ class ProductController extends Controller
         $reviews = Review::where('id_product',$product->id_product)->get();
         $gallerys = Gallery::where('id_product',$product->id_product)->limit(4)->get();
         $carts = array();
+        $notifications = array();
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
         }
-        return view('product.home',compact('product','title','parentCategorys','childCategorys','carts','relates','reviews','gallerys'));
+        return view('product.home',compact('product','title','parentCategorys','childCategorys','carts','relates','reviews','gallerys','notifications'));
     }
 
     function menu(){

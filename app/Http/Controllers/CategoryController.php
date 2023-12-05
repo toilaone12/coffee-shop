@@ -252,8 +252,10 @@ class CategoryController extends Controller
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $carts = array();
+        $notifications = array();
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
         }
         $arrayProductInCategory = [];
         foreach($childCategorys as $key => $child){
@@ -271,7 +273,7 @@ class CategoryController extends Controller
         }
         // dd($arrayProductInCategory);
         $listChilds = collect($arrayProductInCategory);
-        return view('category.home',compact('lists','title','parentCategorys','childCategorys','listChilds','carts'));
+        return view('category.home',compact('lists','title','parentCategorys','childCategorys','listChilds','carts','notifications'));
     }
 
     function search(Request $request){
