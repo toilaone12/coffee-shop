@@ -27,7 +27,7 @@ class HomeController extends Controller
         $notifications = array();
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(2)->get();
         }
         return view('home.content',compact(
             'title',

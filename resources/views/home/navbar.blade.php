@@ -157,13 +157,25 @@
                         </div>
                         @endif
                     </a>
-                    <div class="notification-hover user-left rounded">
+                    <div class="notification-hover notification-left rounded">
                         <div class="form-notification rounded overflow-auto">
-                            @foreach($notifications as $noti)
-                            <div class="border-bottom border-secondary px-3 py-2 choose-notification cursor-pointer">
-                                <a href="{{$noti->link}}" class="text-light fs-14">{{$noti->content}}</a>
+                            <div class="bg-light px-3 pt-2 w-100">
+                                <span class="fs-20 text-dark font-weight-bold">Thông báo</span>
                             </div>
-                            @endforeach
+                            <div class="notification-body">
+                                @foreach($notifications as $noti)
+                                <div class="d-flex align-item-center justify-content-between px-3 pt-2 cursor-pointer">
+                                    <span class="fs-12 d-block text-secondary">{{date('d/m/Y',strtotime($noti->created_at))}}</span>
+                                    @if($noti->is_read == 0)
+                                    <img src="{{asset('front-end/image/dot.png')}}" alt="">
+                                    @endif
+                                </div>
+                                <div class="border-bottom border-secondary px-3 pb-2 choose-notification cursor-pointer">
+                                    <a href="{{$noti->link}}" class="text-light fs-14">{{$noti->content}}</a>
+                                </div>
+                                @endforeach
+                            </div>
+                            <!-- <span class="text-center fs-15 d-block mt-2 load-more-notification cursor-pointer" data-page="0"><i class="icon-angle-down"></i> Xem thêm</span> -->
                         </div>
                     </div>
                 </li>

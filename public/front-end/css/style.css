@@ -625,6 +625,10 @@ pre code {
     left: -125%;
     width: 250px;
   }
+  .notification-left {
+    left: -205%;
+    width: 350px;
+  }
   .width-cart {
     height: 22rem;
   }
@@ -2455,6 +2459,11 @@ pre code {
   .user-left {
     width: 108%;
     left: 50%;
+  }
+
+  .notification-left {
+    left: 50%;
+    width: 395px;
   }
 
   .width-cart {
@@ -14034,7 +14043,11 @@ textarea.form-control {
 }
 .form-notification {
   background-color: #000;
-  height: 350px;
+  height: 600px;
+}
+
+.notification-body {
+  height: 506px;
 }
 /* Hiển thị khung khi hover vào biểu tượng giỏ hàng */
 .nav-item.cart:hover .cart-hover {
