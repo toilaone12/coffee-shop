@@ -260,9 +260,10 @@ class OrderController extends Controller
                 }
                 $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
             }
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
             $parentCategorys = Category::where('id_parent_category', 0)->get();
             $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
-            return view('order.home', compact('list', 'title', 'parentCategorys', 'childCategorys', 'order', 'subtotal', 'total', 'news'));
+            return view('order.home', compact('list', 'title', 'parentCategorys', 'childCategorys', 'order', 'subtotal', 'total', 'news', 'notifications'));
         }
     }
 
@@ -310,9 +311,10 @@ class OrderController extends Controller
         $idCustomer = request()->cookie('id_customer');
         $carts = Cart::where('id_customer', $idCustomer)->get();
         $orders = Order::where('id_customer', $idCustomer)->get();
+        $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
         $parentCategorys = Category::where('id_parent_category', 0)->get();
         $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
-        return view('order.history', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'orders'));
+        return view('order.history', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'orders', 'notifications'));
     }
 
     function detail($code)
@@ -321,12 +323,13 @@ class OrderController extends Controller
         $carts = array();
         $idCustomer = request()->cookie('id_customer');
         $carts = Cart::where('id_customer', $idCustomer)->get();
+        $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
         $order = Order::where('code_order', $code)->first();
         $orderDetail = DetailOrder::where('code_order', $code)->get();
         $status = $order->status_order;
         $parentCategorys = Category::where('id_parent_category', 0)->get();
         $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
-        return view('order.detail', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'order', 'orderDetail', 'status'));
+        return view('order.detail', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'order', 'orderDetail', 'status', 'notifications'));
     }
 
     function change(Request $request)

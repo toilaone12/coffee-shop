@@ -625,6 +625,10 @@ pre code {
     left: -125%;
     width: 250px;
   }
+  .notification-left {
+    left: -205%;
+    width: 350px;
+  }
   .width-cart {
     height: 22rem;
   }
@@ -2455,6 +2459,11 @@ pre code {
   .user-left {
     width: 108%;
     left: 50%;
+  }
+
+  .notification-left {
+    left: 50%;
+    width: 395px;
   }
 
   .width-cart {
@@ -11174,9 +11183,9 @@ h5,
 }
 
 .ftco-navbar-light .navbar-nav>.nav-item.cart>a .bag {
-  position: absolute;
-  top: 5px;
-  right: 9px;
+  position: relative;
+  top: -39px;
+  right: -8px;
   width: 24px;
   height: 24px;
   text-align: center;
@@ -14014,7 +14023,7 @@ textarea.form-control {
 .cart-hover ul li {
     margin: 5px 0;
 }
-.user-hover {
+.user-hover{
   /* background-color: #fff; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: absolute;
@@ -14023,12 +14032,33 @@ textarea.form-control {
   display: none;
   z-index: 999; /* Để đảm bảo nó nằm trên các phần tử khác */
 }
+.notification-hover{
+  /* background-color: #fff; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 80%;
+  transform: translateX(-50%);
+  display: none;
+  z-index: 999; /* Để đảm bảo nó nằm trên các phần tử khác */
+}
+.form-notification {
+  background-color: #000;
+  height: 600px;
+}
+
+.notification-body {
+  height: 506px;
+}
 /* Hiển thị khung khi hover vào biểu tượng giỏ hàng */
 .nav-item.cart:hover .cart-hover {
     display: block;
 }
 
 .nav-item.user:hover .user-hover {
+  display: block;
+}
+
+.nav-item.noti:hover .notification-hover {
   display: block;
 }
 
@@ -14098,6 +14128,12 @@ textarea.form-control {
 .password-toggle-btn:focus,
 .re-password-toggle-btn:focus {
     outline: none;
+}
+
+.dot-notification{
+  position: relative;
+  top: -35px;
+  left: 5px;
 }
 
 @-webkit-keyframes loader-rotate {
