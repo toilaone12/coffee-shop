@@ -260,10 +260,11 @@ class OrderController extends Controller
                 }
                 $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
             }
-            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
             $parentCategorys = Category::where('id_parent_category', 0)->get();
             $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
-            return view('order.home', compact('list', 'title', 'parentCategorys', 'childCategorys', 'order', 'subtotal', 'total', 'news', 'notifications'));
+            return view('order.home', compact('list', 'title', 'parentCategorys', 'childCategorys', 'order', 'subtotal', 'total', 'news', 'notifications', 'isDot'));
         }
     }
 
@@ -294,13 +295,13 @@ class OrderController extends Controller
                     $request->session()->forget('order');
                     $request->session()->forget('cart');
                     $request->session()->flush();
-                    return response(['res' => 'success', 'status' => 'Thông báo đặt hàng', 'icon' => 'success', 'title' => 'Đặt hàng thành công!', 'code' => $codeOrder, 'id' => $randomId]);
+                    return response(['res' => 'success', 'title' => 'Thông báo đặt hàng', 'icon' => 'success', 'status' => 'Đặt hàng thành công!', 'code' => $codeOrder, 'id' => $randomId]);
                 }
             } else {
-                return response(['res' => 'fail', 'status' => 'Thông báo đặt hàng', 'icon' => 'error', 'title' => $notis['status']]);
+                return response(['res' => 'fail', 'title' => 'Thông báo đặt hàng', 'icon' => 'error', 'status' => $notis['status']]);
             }
         } else {
-            return response(['res' => 'warning', 'status' => 'Hãy đồng ý với yêu cầu!']);
+            return response(['res' => 'warning', 'title' => 'Hãy đồng ý với yêu cầu!']);
         }
     }
 
@@ -593,16 +594,12 @@ class OrderController extends Controller
             } else {
                 $noti += ['res' => 'fail'];
             }
-            $resolveIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product'], 1);
-            if($resolveIngredients){
-                $noti += ['res' => 'success'];
-            } else {
-                $noti += ['res' => 'fail'];
-            }
             $this->handleGiftCoupon($order['subtotal'], $idCustomer); // tang ma khuyen mai
             if ($order['code_discount'] != '') {
                 $coupon = Coupon::where('code_coupon', $order['code_discount'])->first();
                 CustomerCoupon::where('id_customer', $idCustomer)->where('id_coupon', $coupon->id_coupon)->delete();
+                $coupon->quantity_coupon -= 1;
+                $coupon->save();
             }
         }
         return $noti;
@@ -716,12 +713,6 @@ class OrderController extends Controller
             } else {
                 $noti += ['res' => 'fail'];
             }
-            $resolveIngredients = $this->handleIngredients($one['id_product'], $one['quantity_product'], 1);
-            if($resolveIngredients){
-                $noti += ['res' => 'success'];
-            } else {
-                $noti += ['res' => 'fail'];
-            }
         }
         return $noti;
     }
@@ -741,18 +732,12 @@ class OrderController extends Controller
                 ];
                 if ($subtotal >= $isPrice && $isPrice != 0) {
                     $insert = CustomerCoupon::create($dataCoupon);
-                    $one = Coupon::find($coupon->id_coupon);
-                    $one->quantity_coupon = $one->quantity_coupon - 1;
-                    $update = $one->save();
                 }
                 $existOrder = Order::where('id_customer', $idCustomer)->get();
                 $countOrder = count($existOrder);
                 $isBuy = $coupon->is_buy;
                 if ($countOrder == $isBuy && $isBuy != 0) {
                     $insert = CustomerCoupon::create($dataCoupon);
-                    $one = Coupon::find($coupon->id_coupon);
-                    $one->quantity_coupon = $one->quantity_coupon - 1;
-                    $update = $one->save();
                 }
             } else {
                 $noti += ['res' => 'false'];

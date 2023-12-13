@@ -105,14 +105,16 @@ class CartController extends Controller
         }
         $carts = array();
         $notifications = array();
+        $isDot = '';
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
         }
         $relatedProduct = Product::whereIn('id_category',$arrayIdCategory)->get();
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        return view('cart.home',compact('notifications','list','title','parentCategorys','childCategorys','relatedProduct', 'cart', 'customer','carts'));
+        return view('cart.home',compact('notifications','list','title','parentCategorys','childCategorys','relatedProduct', 'cart', 'customer','carts','isDot'));
     }
 
     function delete(Request $request){

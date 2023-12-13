@@ -358,7 +358,7 @@
             let keyword = ($('.find-address').val());
             if (keyword.length > 0) {
                 // console.log($('.find-address').val());
-                let apiKey = 'X5rp4KMjYtFLZvjKBlRWIGh_BKUecHaGUQ8sGwkOOT4';
+                let apiKey = 'M--tqWacqVfZvRoIjEeEN9Pn_nPJV6IHlRPHaQBUN3M';
                 let url = `https://discover.search.hereapi.com/v1/discover`;
                 let method = 'GET';
                 let headers = {};
@@ -670,5 +670,60 @@
             let slug = $(this).data('slug');
             location.href = "{{ route('product.detail', ['slug' => ':slug']) }}".replace(':slug', slug);
         })
+
+        //xem them thong bao
+        $(document).on('click','.load-more-notification',function(){
+            let page = parseInt($(this).attr('data-page')) + 1;
+            let load = $(this);
+            let id = "{{request()->cookie('id_customer')}}";
+            let choose = $(this);
+            let url = "{{route('notification.load')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            };
+            let data = {
+                id: id,
+                page: page,
+                isCustomer: 1,
+            };
+            callAjax(url, method, data, headers,
+                function(data) {
+                    if(data.res == 'success' && data.count != 0){
+                        formNotification(data.list,data.page,data.count);
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 
+            );
+        })
+
+        //doc thong bao
+        $(document).on('click','.choose-notification',function(){
+            let id = $(this).data('id');
+            let choose = $(this);
+            let url = "{{route('notification.one')}}";
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            };
+            console.log(id);
+            let data = {
+                id: id,
+            };
+            callAjax(url, method, data, headers,
+                function(data) {
+                    if(data.res == 'success'){
+                        // location.href = data.link;
+                        // choose.find('.dot-notification').remove();
+                        // if(data.count == 0) $('.dot-bell').remove();
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }, 
+            );
+        });
     })
 </script>

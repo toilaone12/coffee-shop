@@ -16,15 +16,19 @@ class NotificationController extends Controller
         $update = $notification->update();
         if($update){
             $count = Notification::where('is_read',0)->get();
-            return response()->json(['res' => 'success', 'count' => count($count)]);
+            return response()->json(['res' => 'success', 'count' => count($count), 'link' => $notification->link]);
         }
     }
 
     function load(Request $request){
         $data = $request->all();
-        $offset = intval($data['page']) * 7;
+        $offset = intval($data['page']) * 3;
         // DB::enableQueryLog();
-        $notification = Notification::where('id_account',$data['id'])->orderBy('id_notification','desc')->skip($offset)->take(7)->get();
+        if($data['isCustomer']){
+            $notification = Notification::where('id_customer',$data['id'])->orderBy('id_notification','desc')->skip($offset)->take(3)->get();
+        }else{
+            $notification = Notification::where('id_account',$data['id'])->orderBy('id_notification','desc')->skip($offset)->take(3)->get();
+        }
         // $db = DB::getQueryLog();
         // dd($db);
         return response()->json(['res' => 'success', 'list' => $notification, 'page' => intval($data['page']), 'count' => count($notification)]);

@@ -175,10 +175,14 @@ class NewsController extends Controller
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $carts = array();
+        $isDot = '';
+        $notifications = array();
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
         }
-        return view('news.home',compact('lists','title','parentCategorys','childCategorys','carts'));
+        return view('news.home',compact('lists','title','parentCategorys','childCategorys','carts','notifications','isDot'));
     }
     
     function detail($slug){
@@ -186,6 +190,9 @@ class NewsController extends Controller
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $one = News::where('slug_new',$slug)->first();
         $title = $one->title_new;
-        return view('news.detail',compact('one','title','parentCategorys','childCategorys'));
+        $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+        $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+        $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
+        return view('news.detail',compact('one','title','parentCategorys','childCategorys','isDot','notifications','carts'));
     }
 }

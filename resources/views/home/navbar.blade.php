@@ -36,7 +36,7 @@
                         @endforeach
                     </div>
                 </li>
-                <li class="nav-item"><a href="" class="nav-link fs-14">Liên hệ</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link fs-14">Liên hệ</a></li>
                 <li class="nav-item cart dropdown">
                     <a class="nav-link" style="cursor: pointer;">
                         <span class="icon icon-shopping_cart"></span>
@@ -151,31 +151,33 @@
                 <li class="nav-item noti dropdown">
                     <a class="nav-link cursor-pointer">
                         <span class="icon icon-notifications fs-22 text-light cursor-pointer"></span>
-                        @if(count($notifications) > 0)
+                        @if(count($isDot) > 0)
                         <div class="dot-notification">
                             <img src="{{asset('front-end/image/dot.png')}}" alt="">
                         </div>
                         @endif
                     </a>
                     <div class="notification-hover notification-left rounded">
-                        <div class="form-notification rounded overflow-auto">
+                        <div class="form-notification rounded overflow-hidden">
                             <div class="bg-light px-3 pt-2 w-100">
                                 <span class="fs-20 text-dark font-weight-bold">Thông báo</span>
                             </div>
-                            <div class="notification-body">
+                            <div class="notification-body overflow-auto">
                                 @foreach($notifications as $noti)
-                                <div class="d-flex align-item-center justify-content-between px-3 pt-2 cursor-pointer">
-                                    <span class="fs-12 d-block text-secondary">{{date('d/m/Y',strtotime($noti->created_at))}}</span>
-                                    @if($noti->is_read == 0)
-                                    <img src="{{asset('front-end/image/dot.png')}}" alt="">
-                                    @endif
-                                </div>
-                                <div class="border-bottom border-secondary px-3 pb-2 choose-notification cursor-pointer">
-                                    <a href="{{$noti->link}}" class="text-light fs-14">{{$noti->content}}</a>
-                                </div>
+                                <a href="{{$noti->link}}" class="choose-notification" data-id="{{$noti->id_notification}}">
+                                    <div class="d-flex align-item-center justify-content-between px-3 pt-2 cursor-pointer">
+                                        <span class="fs-12 d-block text-secondary">{{date('d/m/Y',strtotime($noti->created_at))}}</span>
+                                        @if($noti->is_read == 0)
+                                        <img src="{{asset('front-end/image/dot.png')}}" alt="">
+                                        @endif
+                                    </div>
+                                    <div class="border-bottom border-secondary px-3 pb-2 cursor-pointer">
+                                        <a href="{{$noti->link}}" class="text-light fs-14">{{$noti->content}}</a>
+                                    </div>
+                                </a>
                                 @endforeach
                             </div>
-                            <!-- <span class="text-center fs-15 d-block mt-2 load-more-notification cursor-pointer" data-page="0"><i class="icon-angle-down"></i> Xem thêm</span> -->
+                            <span class="text-center fs-15 d-block mt-2 load-more-notification cursor-pointer" data-page="0"><i class="icon-angle-down"></i> Xem thêm</span>
                         </div>
                     </div>
                 </li>

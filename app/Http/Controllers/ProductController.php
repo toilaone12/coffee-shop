@@ -198,12 +198,14 @@ class ProductController extends Controller
         $reviews = Review::where('id_product',$product->id_product)->get();
         $gallerys = Gallery::where('id_product',$product->id_product)->limit(4)->get();
         $carts = array();
+        $isDot = '';
         $notifications = array();
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
         }
-        return view('product.home',compact('product','title','parentCategorys','childCategorys','carts','relates','reviews','gallerys','notifications'));
+        return view('product.home',compact('product','title','parentCategorys','childCategorys','carts','relates','reviews','gallerys','notifications','isDot'));
     }
 
     function menu(){
@@ -212,9 +214,13 @@ class ProductController extends Controller
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $carts = array();
+        $isDot = '';
+        $notifications = array();
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
         }
-        return view('product.menu',compact('products','title','parentCategorys','childCategorys','carts'));
+        return view('product.menu',compact('products','title','parentCategorys','childCategorys','carts','notifications','isDot'));
     }
 }

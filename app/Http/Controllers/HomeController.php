@@ -25,9 +25,11 @@ class HomeController extends Controller
         $news = News::orderBy('updated_at', 'desc')->get();
         $carts = array();
         $notifications = array();
+        $isDot = '';
         if(request()->cookie('id_customer')){
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(2)->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
         }
         return view('home.content',compact(
             'title',
@@ -37,7 +39,8 @@ class HomeController extends Controller
             'childCategorys',
             'news',
             'carts',
-            'notifications'
+            'notifications',
+            'isDot'
         ));
     }
 }

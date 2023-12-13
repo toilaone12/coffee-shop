@@ -14070,6 +14070,10 @@ textarea.form-control {
   overflow: auto!important;
 }
 
+.overflow-hidden {
+  overflow: hidden!important;
+}
+
 .overflow-auto::-webkit-scrollbar {
   width: 5px; /* Độ rộng của thanh cuộn */
 }

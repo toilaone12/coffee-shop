@@ -281,3 +281,25 @@ function subscribeTokenToTopic(token, topic) {
         console.error(error);
     })
 }
+
+function formNotification(list, page, count){
+    let html = '';
+    list.forEach(one => {
+        let formattedDate = moment(one.created_at).format('DD/MM/YYYY');
+        html += `<a href="${one.link}" class="choose-notification" data-id="${one.id_notification}">`
+        html += `<div class="d-flex align-item-center justify-content-between px-3 pt-2 cursor-pointer">`;
+        html += `<span class="fs-12 d-block text-secondary">${formattedDate}</span>`;
+        if(one.is_read == 0) html += `<img src="http://127.0.0.1:8000/front-end/image/dot.png" alt="">`;
+        html += `</div>`;
+        html += `<div class="border-bottom border-secondary px-3 pb-2 cursor-pointer">`;
+        html += `<a href="${one.link}" class="text-light fs-14">${one.content}</a>`;
+        html += `</div>`;    
+        html += `</a>`;    
+    })
+    if(count == 7){
+        $('.load-more-notification').attr('data-page',page);
+    }else{
+        $('.load-more-notification').remove();
+    }
+    $('.notification-body').append(html);
+}

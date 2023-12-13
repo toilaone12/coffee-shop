@@ -8,7 +8,7 @@
 
     @yield('content')
 
-    <footer class="ftco-footer ftco-section img">
+    <footer id="contact" class="ftco-footer ftco-section img">
         <div class="overlay"></div>
         <div class="container">
             <div class="row mb-5">
