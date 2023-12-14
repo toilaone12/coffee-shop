@@ -169,7 +169,9 @@
                         <div class="card">
                             <h5 class="card-header">Cài đặt</h5>
                             <div class="card-body">
-                                <a href="#" data-toggle="modal" data-target="#invoice" class="btn btn-primary w-100 invoice {{$order->status_order == 0 ? 'disabled' : ''}}">In hóa đơn</a>
+                                <a href="#" data-toggle="modal" data-target="#invoice" class="btn btn-primary w-100 invoice {{$order->status_order == 0 || $order->status_order == 4 ? 'disabled' : ''}}">In hóa đơn</a>
+                                <a class="btn btn-primary w-100 open-qr mt-3">Thanh toán bằng QR Code</a>
+                                <img src="" alt="" class="draw-qr">
                             </div>
                         </div>
                     </div>

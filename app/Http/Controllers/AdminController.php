@@ -35,6 +35,8 @@ class AdminController extends Controller
             // $order = Order::where('date_updated',date('Y-m-d'))->get();
             $order = Order::where('date_updated',date('Y-m-d'))->get();
             $arrDetail = [];
+            $arrOrder = [0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0];
+            $count = 1;
             foreach($order as $key => $one){
                 if($one->status_order == 3){
                     $orderDetail = DetailOrder::where("id_order",$one->id_order)->get();
@@ -56,6 +58,13 @@ class AdminController extends Controller
                         }
                     }
                 }
+                if (array_key_exists($one->status_order, $arrOrder)) {
+                    // Nếu đã tồn tại, tăng giá trị đếm số lượng sản phẩm của trạng thái đó lên 1
+                    $arrOrder[$one->status_order]++;
+                } else {
+                    // Nếu chưa tồn tại, khởi tạo giá trị đếm là 1 cho trạng thái đó
+                    $arrOrder[$one->status_order] = 1;
+                }
             }
             $arrFilter = [
                 '7days' => 'Một tuần trước',
@@ -72,7 +81,7 @@ class AdminController extends Controller
             }
             $order = Order::where('date_updated',date('Y-m-d'))->get();
             // dd($allTotal);
-            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth','notifications','dot','order'));
+            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth','notifications','dot','order','arrOrder'));
         }else{
             return redirect()->route('admin.login');
         }

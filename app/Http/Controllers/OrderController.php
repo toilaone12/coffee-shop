@@ -18,7 +18,6 @@ use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\Statistic;
 use App\Models\Units;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -27,7 +26,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Ramsey\Uuid\Type\Integer;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\DataUriWriter;
 
 class OrderController extends Controller
 {
@@ -341,7 +341,7 @@ class OrderController extends Controller
         $status = intval($data['status']);
         $id = $data['id'];
         $order = Order::find($id);
-        if ($order->status_order + 1 == $status) {
+        if ($order->status_order + 1 == $status || $status == 4) {
             $order->status_order = $status;
             $order->date_updated = date('Y-m-d');
             $update = $order->save();

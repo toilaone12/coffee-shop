@@ -12,6 +12,7 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "beyondcode/laravel-websockets": "^2.0@beta",
         "bluerhinos/phpmqtt": "^1.0",
+        "chillerlan/php-qrcode": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

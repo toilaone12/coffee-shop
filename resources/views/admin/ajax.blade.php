@@ -602,7 +602,7 @@
             );
         });
         //kiem tra so luong nguyen lieu se ra dc bao nhieu san pham
-        $('.check-recipe').on('click', function() {
+        $('#myTable').on('click', '.check-recipe', function() {
             let id = $(this).data('id');
             let url = '{{route("recipe.check")}}';
             let method = "GET";
@@ -1549,78 +1549,100 @@
             );
         })
         //kiem tra don hang
-        $('.check-order').on('click',function(){
-            let id = $(this).data('id');
-            let url = "{{route('order.check')}}";
-            let method = "GET";
+        // $('.check-order').on('click',function(){
+        //     let id = $(this).data('id');
+        //     let url = "{{route('order.check')}}";
+        //     let method = "GET";
+        //     let headers = {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     };
+        //     let data = {
+        //         id: id,
+        //     };
+        //     callAjax(url, method, data, headers,
+        //         function(data) {
+        //             // console.log(data);
+        //             if(data.res == 'success'){
+        //                 $('.invoice').removeClass('disabled')
+        //                 location.reload();
+        //             } 
+        //             if(data.res == 'fail'){
+        //                 $('.quantity').addClass('change-quantity-order');
+        //             }
+        //             swalNotiWithHTML(data.title, data.status, data.icon,() => {});
+        //         },
+        //         function(err) {
+        //             console.log(err);
+        //         }, 
+        //     );
+        // })
+        //thay doi so luong khi khong du hang
+        // $(document).on('click','.change-quantity-order',function(e){
+        //     e.preventDefault();
+        //     var change = $(this);
+        //     var currentValue = $(this).data('quantity');
+        //     var dataId = $(this).data('id');
+            
+        //     // Thay thế ô <td> bằng ô <input>
+        //     $(this).html('<input type="tel" class="input-quantity form-control" min=1 max='+currentValue+' value="' + currentValue + '" data-id="' + dataId + '">');
+            
+        //     // Focus vào ô input
+        //     $('.input-quantity').focus();
+            
+        //     // Xử lý khi người dùng blur (click ra khỏi ô input)
+        //     $('.input-quantity').on('blur', function() {
+        //         var input = $(this);
+        //         var newValue = $(this).val().trim();
+        //         var dataId = $(this).data('id');
+        //         if (newValue <= 1) {
+        //             // Giá trị không hợp lệ, thông báo lỗi hoặc xử lý theo ý của bạn
+        //             change.html('<input type="tel" class="input-quantity form-control" min=1 max='+currentValue+' value="' + currentValue + '" data-id="' + dataId + '">');
+        //             $(this).focus();
+        //         } else {
+        //             // Thay thế ô <input> bằng giá trị mới trong ô <td> nếu giá trị hợp lệ
+        //             $(this).parent().html(newValue);
+        //             let url = "{{route('order.update')}}";
+        //             let method = "POST";
+        //             let headers = {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             };
+        //             let data = {
+        //                 id: dataId,
+        //                 quantity: newValue,
+        //             };
+        //             callAjax(url, method, data, headers,
+        //                 function(data) {
+        //                     if(data.res == 'success') change.closest('tr').find('.price').text(data.total);
+        //                     // swalNotification(data.title, data.status, data.icon,() => {});
+        //                 },
+        //                 function(err) {
+        //                     console.log(err);
+        //                 }, 
+        //             );
+        //         }
+        //     });
+        // })
+        //ve ma qr
+        $('.open-qr').on('click', function(){
+            let url = "https://api.beta-a2b.work/1/vehicle/qrcode";
+            let method = "POST";
             let headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                
             };
             let data = {
-                id: id,
+                bank_bin: 970407,
+                bank_number: 19036433368016,
+                price_trip: 30000,
             };
             callAjax(url, method, data, headers,
                 function(data) {
-                    // console.log(data);
-                    if(data.res == 'success'){
-                        $('.invoice').removeClass('disabled')
-                        location.reload();
-                    } 
-                    if(data.res == 'fail'){
-                        $('.quantity').addClass('change-quantity-order');
-                    }
-                    swalNotiWithHTML(data.title, data.status, data.icon,() => {});
+                    console.log(data);
+                    $('.draw-qr').attr('src',data.link)
                 },
                 function(err) {
                     console.log(err);
                 }, 
             );
-        })
-        //thay doi so luong khi khong du hang
-        $(document).on('click','.change-quantity-order',function(e){
-            e.preventDefault();
-            var change = $(this);
-            var currentValue = $(this).data('quantity');
-            var dataId = $(this).data('id');
-            
-            // Thay thế ô <td> bằng ô <input>
-            $(this).html('<input type="tel" class="input-quantity form-control" min=1 max='+currentValue+' value="' + currentValue + '" data-id="' + dataId + '">');
-            
-            // Focus vào ô input
-            $('.input-quantity').focus();
-            
-            // Xử lý khi người dùng blur (click ra khỏi ô input)
-            $('.input-quantity').on('blur', function() {
-                var input = $(this);
-                var newValue = $(this).val().trim();
-                var dataId = $(this).data('id');
-                if (newValue <= 1) {
-                    // Giá trị không hợp lệ, thông báo lỗi hoặc xử lý theo ý của bạn
-                    change.html('<input type="tel" class="input-quantity form-control" min=1 max='+currentValue+' value="' + currentValue + '" data-id="' + dataId + '">');
-                    $(this).focus();
-                } else {
-                    // Thay thế ô <input> bằng giá trị mới trong ô <td> nếu giá trị hợp lệ
-                    $(this).parent().html(newValue);
-                    let url = "{{route('order.update')}}";
-                    let method = "POST";
-                    let headers = {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    };
-                    let data = {
-                        id: dataId,
-                        quantity: newValue,
-                    };
-                    callAjax(url, method, data, headers,
-                        function(data) {
-                            if(data.res == 'success') change.closest('tr').find('.price').text(data.total);
-                            // swalNotification(data.title, data.status, data.icon,() => {});
-                        },
-                        function(err) {
-                            console.log(err);
-                        }, 
-                    );
-                }
-            });
         })
     })
 </script>
