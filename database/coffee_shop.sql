@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 14, 2023 lúc 03:22 PM
+-- Thời gian đã tạo: Th12 14, 2023 lúc 03:34 PM
 -- Phiên bản máy phục vụ: 10.4.25-MariaDB
 -- Phiên bản PHP: 7.4.30
 
@@ -538,7 +538,19 @@ INSERT INTO `notification` (`id_notification`, `id_account`, `id_customer`, `con
 (61, 0, 1, 'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/VF6Q1I', 0, '2023-12-14 02:00:59', '2023-12-14 02:00:59'),
 (62, 1, 0, 'Bạn đã giao đơn cho bên vận chuyển', 'http://127.0.0.1:8000/admin/order/detail/VF6Q1I', 0, '2023-12-14 02:00:59', '2023-12-14 02:00:59'),
 (63, 0, 1, 'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng', 'http://127.0.0.1:8000/page/order/detail/VF6Q1I', 0, '2023-12-14 02:01:02', '2023-12-14 02:01:02'),
-(64, 1, 0, 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng', 'http://127.0.0.1:8000/admin/order/detail/VF6Q1I', 0, '2023-12-14 02:01:02', '2023-12-14 02:01:02');
+(64, 1, 0, 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng', 'http://127.0.0.1:8000/admin/order/detail/VF6Q1I', 0, '2023-12-14 02:01:02', '2023-12-14 02:01:02'),
+(65, 0, 1, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/B88DCB', 0, '2023-12-14 14:30:30', '2023-12-14 14:30:30'),
+(66, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/B88DCB', 0, '2023-12-14 14:30:30', '2023-12-14 14:30:30'),
+(67, 0, 1, 'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/B88DCB', 0, '2023-12-14 14:31:05', '2023-12-14 14:31:05'),
+(68, 1, 0, 'Bạn đã giao đơn cho bên vận chuyển', 'http://127.0.0.1:8000/admin/order/detail/B88DCB', 0, '2023-12-14 14:31:05', '2023-12-14 14:31:05'),
+(69, 0, 1, 'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng', 'http://127.0.0.1:8000/page/order/detail/B88DCB', 0, '2023-12-14 14:31:16', '2023-12-14 14:31:16'),
+(70, 1, 0, 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng', 'http://127.0.0.1:8000/admin/order/detail/B88DCB', 0, '2023-12-14 14:31:16', '2023-12-14 14:31:16'),
+(71, 0, 1, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/USM7PL', 0, '2023-12-14 14:32:42', '2023-12-14 14:32:42'),
+(72, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/USM7PL', 0, '2023-12-14 14:32:42', '2023-12-14 14:32:42'),
+(73, 0, 1, 'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/USM7PL', 0, '2023-12-14 14:32:52', '2023-12-14 14:32:52'),
+(74, 1, 0, 'Bạn đã giao đơn cho bên vận chuyển', 'http://127.0.0.1:8000/admin/order/detail/USM7PL', 0, '2023-12-14 14:32:52', '2023-12-14 14:32:52'),
+(75, 0, 1, 'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng', 'http://127.0.0.1:8000/page/order/detail/USM7PL', 0, '2023-12-14 14:33:04', '2023-12-14 14:33:04'),
+(76, 1, 0, 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng', 'http://127.0.0.1:8000/admin/order/detail/USM7PL', 0, '2023-12-14 14:33:04', '2023-12-14 14:33:04');
 
 -- --------------------------------------------------------
 
@@ -569,7 +581,7 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `phone_order`, `address_order`, `email_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `date_updated`, `created_at`, `updated_at`) VALUES
-(41, 1, 'B88DCB', 'Bảo Sơn', '0386278912', '40 Ngõ 3 Cầu Bươu, Xã Tả Thanh Oai, Huyện Thanh Trì, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 525000, 6000, 0, 531000, 0, '2023-10-31', '2023-10-31 08:52:50', '2023-10-31 10:16:03'),
+(41, 1, 'B88DCB', 'Bảo Sơn', '0386278912', '40 Ngõ 3 Cầu Bươu, Xã Tả Thanh Oai, Huyện Thanh Trì, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 525000, 6000, 0, 531000, 3, '2023-12-14', '2023-10-31 08:52:50', '2023-12-14 14:31:14'),
 (42, 1, '28J27Q', 'Bảo Sơn', '0386278912', '3/235 Ngõ 235 Yên Hòa, Phường Yên Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 12000, 15000, 32000, 3, '2023-10-31', '2023-10-31 09:26:07', '2023-10-31 10:17:37'),
 (43, 0, 'IZ4VFN', 'kiều đặng bảo sơn', '0386278998', 'Đường Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 56000, 12000, 0, 68000, 3, '2023-11-01', '2023-11-01 16:07:31', '2023-11-01 16:08:16'),
 (44, 0, 'HMLJEE', 'Tuấn', '0386278998', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 7000, 0, 42000, 3, '2023-11-01', '2023-11-01 16:15:13', '2023-11-01 16:24:32'),
@@ -587,9 +599,9 @@ INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `pho
 (56, 1, 'B1MWG2', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 6930000, 7000, 0, 6937000, 3, '2023-12-14', '2023-11-30 16:50:10', '2023-12-14 02:00:38'),
 (57, 1, 'UV50IH', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 230000, 7000, 0, 237000, 2, '2023-12-03', '2023-12-02 18:12:20', '2023-12-03 16:23:33'),
 (58, 1, 'VF6Q1I', 'Bảo Sơn', '0386278912', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'anh@gmail.com', 35000, 12000, 0, 47000, 3, '2023-12-14', '2023-12-14 01:57:50', '2023-12-14 02:01:01'),
-(59, 1, 'USM7PL', 'Tuấn Anh', '0339912333', 'Ngõ 123 Yên Xá, Xã Tân Triều, Huyện Thanh Trì, Hà Nội, Việt Nam', 'nga@gmail.com', 305000, 12000, 0, 317000, 0, '2023-12-14', '2023-12-14 01:58:42', '2023-12-14 01:58:42'),
+(59, 1, 'USM7PL', 'Tuấn Anh', '0339912333', 'Ngõ 123 Yên Xá, Xã Tân Triều, Huyện Thanh Trì, Hà Nội, Việt Nam', 'nga@gmail.com', 305000, 12000, 0, 317000, 3, '2023-12-14', '2023-12-14 01:58:42', '2023-12-14 14:33:03'),
 (60, 0, '927EJ1', 'kiều đặng bảo sơn', '0386278998', '333store, Phố Ao Sen, Phường Mộ Lao, Quận Hà Đông, Hà Nội, Việt Nam', '123@gmail', 70000, 12000, 0, 82000, 3, '2023-12-14', '2023-12-14 01:59:36', '2023-12-14 01:59:54'),
-(61, 0, '9CELRO', 'kiều đặng bảo sơn', '0386278998', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 155000, 12000, 0, 167000, 3, '2023-12-14', '2023-12-14 02:15:34', '2023-12-14 02:19:45');
+(61, 0, '9CELRO', 'kiều đặng bảo sơn', '0386278998', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 155000, 12000, 0, 167000, 0, '2023-12-14', '2023-12-14 02:15:34', '2023-12-14 02:19:45');
 
 -- --------------------------------------------------------
 
@@ -766,7 +778,7 @@ INSERT INTO `statistic` (`id_statistic`, `quantity_statistic`, `price_statistic`
 (4, 17, 661400, '2023-11-02', '2023-11-02 15:48:50', '2023-11-02 16:04:44'),
 (5, 7, 253000, '2023-11-05', '2023-11-05 16:55:42', '2023-11-05 16:55:42'),
 (6, 3, 134000, '2023-11-27', '2023-11-27 14:37:07', '2023-11-27 15:05:16'),
-(7, 56, 7233000, '2023-12-14', '2023-12-14 01:59:54', '2023-12-14 02:19:45');
+(7, 76, 8081000, '2023-12-14', '2023-12-14 01:59:54', '2023-12-14 14:33:03');
 
 -- --------------------------------------------------------
 
@@ -1079,7 +1091,7 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
