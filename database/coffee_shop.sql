@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 04, 2023 lúc 04:41 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th12 14, 2023 lúc 03:22 PM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,7 +46,7 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
 (1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 1, 1, '2023-08-27 11:08:11', '2023-11-27 14:54:07'),
-(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 123456, 2, 1, '2023-11-03 03:17:00', '2023-11-27 14:53:26');
+(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 123456, 2, 0, '2023-11-03 03:17:00', '2023-12-14 02:07:27');
 
 -- --------------------------------------------------------
 
@@ -268,7 +268,14 @@ INSERT INTO `detail_orders` (`id_detail`, `id_order`, `id_product`, `code_order`
 (68, 56, 3, 'B1MWG2', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 27, 945000, NULL, '2023-11-30 16:50:10', '2023-11-30 16:50:10'),
 (69, 57, 1, 'UV50IH', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-12-02 18:12:20', '2023-12-03 16:28:37'),
 (70, 57, 3, 'UV50IH', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, NULL, '2023-12-02 18:12:20', '2023-12-02 18:12:20'),
-(71, 57, 5, 'UV50IH', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 4, 160000, NULL, '2023-12-02 18:12:20', '2023-12-03 16:17:43');
+(71, 57, 5, 'UV50IH', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 4, 160000, NULL, '2023-12-02 18:12:20', '2023-12-03 16:17:43'),
+(72, 58, 1, 'VF6Q1I', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-12-14 01:57:50', '2023-12-14 01:57:50'),
+(73, 59, 17, 'USM7PL', 'storage/product/chicken-sandwich-1702518321.jpg', 'Chicken Sandwich', 3, 147000, NULL, '2023-12-14 01:58:42', '2023-12-14 01:58:42'),
+(74, 59, 18, 'USM7PL', 'storage/product/sousvide-beef-salad-1702518416.jpg', 'Sousvide Beef Salad', 2, 158000, NULL, '2023-12-14 01:58:42', '2023-12-14 01:58:42'),
+(75, 60, 3, '927EJ1', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, '123123', '2023-12-14 01:59:36', '2023-12-14 01:59:36'),
+(76, 60, 6, '927EJ1', 'storage/product/almond-croissant-1698938426.jpg', 'Almond Croissant', 1, 35000, NULL, '2023-12-14 01:59:36', '2023-12-14 01:59:36'),
+(77, 61, 1, '9CELRO', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-12-14 02:15:34', '2023-12-14 02:15:34'),
+(78, 61, 5, '9CELRO', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 3, 120000, 'avad', '2023-12-14 02:15:34', '2023-12-14 02:15:34');
 
 -- --------------------------------------------------------
 
@@ -512,7 +519,26 @@ INSERT INTO `notification` (`id_notification`, `id_account`, `id_customer`, `con
 (42, 1, 0, 'Bạn đã xóa nguyên liệu \"\" trong chi tiết phiếu hàng \"#HO24UO\"', 'http://127.0.0.1:8000/admin/detail/list?code=HO24UO', 0, '2023-11-28 18:55:05', '2023-11-28 18:55:05'),
 (43, 1, 0, 'Bạn đã xóa nguyên liệu \"\" trong chi tiết phiếu hàng \"#HO24UO\"', 'http://127.0.0.1:8000/admin/detail/list?code=HO24UO', 0, '2023-11-28 18:55:05', '2023-11-28 18:55:05'),
 (44, 0, 1, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/UV50IH', 0, '2023-12-03 16:23:36', '2023-12-03 16:23:36'),
-(45, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/UV50IH', 0, '2023-12-03 16:23:36', '2023-12-03 16:23:36');
+(45, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/UV50IH', 0, '2023-12-03 16:23:36', '2023-12-03 16:23:36'),
+(46, 1, 0, 'Bạn đã thêm sản phẩm \"Chicken Sandwich\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-14 01:45:21', '2023-12-14 01:45:21'),
+(47, 1, 0, 'Bạn đã cập nhật từ \"Chicken Sandwich\" thành \"Chicken Sandwich\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-14 01:45:35', '2023-12-14 01:45:35'),
+(48, 1, 0, 'Bạn đã cập nhật từ \"Chocolate Croissant\" thành \"Chocolate Croissant\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-14 01:45:46', '2023-12-14 01:45:46'),
+(49, 1, 0, 'Bạn đã thêm sản phẩm \"Sousvide Beef Salad\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-14 01:46:56', '2023-12-14 01:46:56'),
+(50, 1, 0, 'Bạn đã thêm sản phẩm \"Harper Snack Set No.2\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-14 01:47:51', '2023-12-14 01:47:51'),
+(51, 1, 0, 'Bạn đã cập nhật từ \"Bacon & Cheese Baguette\" thành \"Bacon & Cheese Baguette\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-14 01:48:28', '2023-12-14 01:48:28'),
+(52, 1, 0, 'Bạn đã thêm sản phẩm \"Harper Snack Set No.3\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-14 01:50:26', '2023-12-14 01:50:26'),
+(53, 0, 1, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/B1MWG2', 0, '2023-12-14 02:00:26', '2023-12-14 02:00:26'),
+(54, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/B1MWG2', 0, '2023-12-14 02:00:26', '2023-12-14 02:00:26'),
+(55, 0, 1, 'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/B1MWG2', 0, '2023-12-14 02:00:35', '2023-12-14 02:00:35'),
+(56, 1, 0, 'Bạn đã giao đơn cho bên vận chuyển', 'http://127.0.0.1:8000/admin/order/detail/B1MWG2', 0, '2023-12-14 02:00:35', '2023-12-14 02:00:35'),
+(57, 0, 1, 'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng', 'http://127.0.0.1:8000/page/order/detail/B1MWG2', 0, '2023-12-14 02:00:39', '2023-12-14 02:00:39'),
+(58, 1, 0, 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng', 'http://127.0.0.1:8000/admin/order/detail/B1MWG2', 0, '2023-12-14 02:00:39', '2023-12-14 02:00:39'),
+(59, 0, 1, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/VF6Q1I', 0, '2023-12-14 02:00:55', '2023-12-14 02:00:55'),
+(60, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/VF6Q1I', 0, '2023-12-14 02:00:55', '2023-12-14 02:00:55'),
+(61, 0, 1, 'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/VF6Q1I', 0, '2023-12-14 02:00:59', '2023-12-14 02:00:59'),
+(62, 1, 0, 'Bạn đã giao đơn cho bên vận chuyển', 'http://127.0.0.1:8000/admin/order/detail/VF6Q1I', 0, '2023-12-14 02:00:59', '2023-12-14 02:00:59'),
+(63, 0, 1, 'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng', 'http://127.0.0.1:8000/page/order/detail/VF6Q1I', 0, '2023-12-14 02:01:02', '2023-12-14 02:01:02'),
+(64, 1, 0, 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng', 'http://127.0.0.1:8000/admin/order/detail/VF6Q1I', 0, '2023-12-14 02:01:02', '2023-12-14 02:01:02');
 
 -- --------------------------------------------------------
 
@@ -558,8 +584,12 @@ INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `pho
 (53, 0, 'JZH21S', 'abc', '0386278993', 'Bệnh Viện K - Co So Tan Trieu, Phố Quán Sứ, Phường Hàng Bông, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 40000, 8000, 0, 48000, 0, NULL, '2023-11-24 17:03:35', '2023-11-24 17:03:35'),
 (54, 1, '22P1L6', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 35000, 7000, 0, 42000, 3, '2023-11-27', '2023-11-27 14:34:35', '2023-11-27 14:37:07'),
 (55, 2, '34AQI4', 'Tuấn', '0333112333', 'Ngõ 123 Trung Kính, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 80000, 12000, 0, 92000, 3, '2023-11-27', '2023-11-27 15:02:32', '2023-11-27 15:07:17'),
-(56, 1, 'B1MWG2', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 6930000, 7000, 0, 6937000, 0, '2023-11-30', '2023-11-30 16:50:10', '2023-11-30 16:50:10'),
-(57, 1, 'UV50IH', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 230000, 7000, 0, 237000, 2, '2023-12-03', '2023-12-02 18:12:20', '2023-12-03 16:23:33');
+(56, 1, 'B1MWG2', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 6930000, 7000, 0, 6937000, 3, '2023-12-14', '2023-11-30 16:50:10', '2023-12-14 02:00:38'),
+(57, 1, 'UV50IH', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 230000, 7000, 0, 237000, 2, '2023-12-03', '2023-12-02 18:12:20', '2023-12-03 16:23:33'),
+(58, 1, 'VF6Q1I', 'Bảo Sơn', '0386278912', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'anh@gmail.com', 35000, 12000, 0, 47000, 3, '2023-12-14', '2023-12-14 01:57:50', '2023-12-14 02:01:01'),
+(59, 1, 'USM7PL', 'Tuấn Anh', '0339912333', 'Ngõ 123 Yên Xá, Xã Tân Triều, Huyện Thanh Trì, Hà Nội, Việt Nam', 'nga@gmail.com', 305000, 12000, 0, 317000, 0, '2023-12-14', '2023-12-14 01:58:42', '2023-12-14 01:58:42'),
+(60, 0, '927EJ1', 'kiều đặng bảo sơn', '0386278998', '333store, Phố Ao Sen, Phường Mộ Lao, Quận Hà Đông, Hà Nội, Việt Nam', '123@gmail', 70000, 12000, 0, 82000, 3, '2023-12-14', '2023-12-14 01:59:36', '2023-12-14 01:59:54'),
+(61, 0, '9CELRO', 'kiều đặng bảo sơn', '0386278998', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 155000, 12000, 0, 167000, 3, '2023-12-14', '2023-12-14 02:15:34', '2023-12-14 02:19:45');
 
 -- --------------------------------------------------------
 
@@ -596,10 +626,14 @@ INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_produ
 (8, 15, 'storage/product/ca-phe-kem-beo-1698938540.jpg', 'Cà phê kem béo', 'Cà phê kem béo', 'ca-phe-kem-beo', 50000, '<p>Cà phê kem béo</p>', NULL, 0, '2023-11-02 15:22:20', '2023-11-02 15:22:20'),
 (9, 7, 'storage/product/bacon-cheese-baguette-1698938583.jpg', 'Bacon & Cheese Baguette', 'Bacon & Cheese Baguette', 'bacon-cheese-baguette', 39000, '<p>Bacon &amp; Cheese Baguette</p>', NULL, 1, '2023-11-02 15:23:03', '2023-11-05 16:15:50'),
 (10, 7, 'storage/product/charsiu-baguette-1698938663.jpg', 'Charsiu Baguette', 'Charsiu Baguette', 'charsiu-baguette', 39000, '<p>Charsiu Baguette</p>', NULL, 5, '2023-11-02 15:24:23', '2023-11-02 15:24:23'),
-(11, 5, 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 'Chocolate Croissant', 'chocolate-croissant', 35000, '<p>Chocolate Croissant</p>', NULL, 0, '2023-11-02 15:25:16', '2023-11-02 15:25:16'),
+(11, 5, 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 'Chocolate Croissant', 'chocolate-croissant', 35000, '<p>Chocolate Croissant</p>', NULL, 1, '2023-11-02 15:25:16', '2023-12-14 01:45:46'),
 (12, 6, 'storage/product/tiramisu-1698938830.jpg', 'Tiramisu', 'Tiramisu', 'tiramisu', 40000, '<p>Tiramisu</p>', NULL, 1, '2023-11-02 15:27:11', '2023-11-05 16:16:04'),
 (15, 6, 'storage/product/red-velvet-1698939004.jpg', 'Red velvet', 'Red velvet', 'red-velvet', 40000, '<p>Red velvet</p>', NULL, 1, '2023-11-02 15:30:04', '2023-11-05 16:16:15'),
-(16, 11, 'storage/product/harper-snack-set-no1-1701165256.jpg', 'Harper Snack Set No.1', 'Harper Snack Set No.1', 'harper-snack-set-no1', 89000, '<ul>\r\n	<li>Gà tẩm bột chiên | Batter Fried Chicken</li>\r\n	<li>Hành tây chiên | Onion Rings</li>\r\n	<li>Khoai tây muối chiên | French Fries</li>\r\n</ul>', NULL, 1, '2023-11-28 09:54:17', '2023-11-28 09:54:17');
+(16, 11, 'storage/product/harper-snack-set-no1-1701165256.jpg', 'Harper Snack Set No.1', 'Harper Snack Set No.1', 'harper-snack-set-no1', 89000, '<ul>\r\n	<li>Gà tẩm bột chiên | Batter Fried Chicken</li>\r\n	<li>Hành tây chiên | Onion Rings</li>\r\n	<li>Khoai tây muối chiên | French Fries</li>\r\n</ul>', NULL, 1, '2023-11-28 09:54:17', '2023-11-28 09:54:17'),
+(17, 7, 'storage/product/chicken-sandwich-1702518321.jpg', 'Chicken Sandwich', 'Chicken Sandwich', 'chicken-sandwich', 49000, '<p>Sandwich lườn gà xông khói</p>', NULL, 1, '2023-12-14 01:45:21', '2023-12-14 01:45:35'),
+(18, 8, 'storage/product/sousvide-beef-salad-1702518416.jpg', 'Sousvide Beef Salad', 'Sousvide Beef Salad', 'sousvide-beef-salad', 79000, '<p>Salad Rocket và Bò nấu sousvide</p>', NULL, 1, '2023-12-14 01:46:56', '2023-12-14 01:46:56'),
+(19, 11, 'storage/product/harper-snack-set-no2-1702518471.jpg', 'Harper Snack Set No.2', 'Harper Snack Set No.2', 'harper-snack-set-no2', 89000, '<ul>\r\n	<li>Xúc xích | Hot dog</li>\r\n	<li>Hành tây chiên | Onion Rings</li>\r\n	<li>Khoai tây muối chiên | French Fries</li>\r\n</ul>', NULL, 1, '2023-12-14 01:47:51', '2023-12-14 01:47:51'),
+(20, 11, 'storage/product/harper-snack-set-no3-1702518626.jpg', 'Harper Snack Set No.3', 'Harper Snack Set No.3', 'harper-snack-set-no3', 89000, '<ul>\r\n	<li>Gà tẩm bột chiên | Batter Fried Chicken&nbsp;(x2)</li>\r\n	<li>Khoai tây muối chiên | French Fries&nbsp;(x2)</li>\r\n</ul>', NULL, 1, '2023-12-14 01:50:26', '2023-12-14 01:50:26');
 
 -- --------------------------------------------------------
 
@@ -731,7 +765,8 @@ INSERT INTO `statistic` (`id_statistic`, `quantity_statistic`, `price_statistic`
 (3, 10, 361000, '2023-11-01', '2023-11-01 16:08:16', '2023-11-01 16:24:32'),
 (4, 17, 661400, '2023-11-02', '2023-11-02 15:48:50', '2023-11-02 16:04:44'),
 (5, 7, 253000, '2023-11-05', '2023-11-05 16:55:42', '2023-11-05 16:55:42'),
-(6, 3, 134000, '2023-11-27', '2023-11-27 14:37:07', '2023-11-27 15:05:16');
+(6, 3, 134000, '2023-11-27', '2023-11-27 14:37:07', '2023-11-27 15:05:16'),
+(7, 56, 7233000, '2023-12-14', '2023-12-14 01:59:54', '2023-12-14 02:19:45');
 
 -- --------------------------------------------------------
 
@@ -966,7 +1001,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -1002,7 +1037,7 @@ ALTER TABLE `detail_notes`
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -1044,19 +1079,19 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `recipe`
@@ -1086,7 +1121,7 @@ ALTER TABLE `slide`
 -- AUTO_INCREMENT cho bảng `statistic`
 --
 ALTER TABLE `statistic`
-  MODIFY `id_statistic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_statistic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `supplier`

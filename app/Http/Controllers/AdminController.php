@@ -70,8 +70,9 @@ class AdminController extends Controller
             foreach($statisticMonth as $key => $one){
                 $allTotal+= $one->price_statistic;
             }
+            $order = Order::where('date_updated',date('Y-m-d'))->get();
             // dd($allTotal);
-            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth','notifications','dot'));
+            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth','notifications','dot','order'));
         }else{
             return redirect()->route('admin.login');
         }
