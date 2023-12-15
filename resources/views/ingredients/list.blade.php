@@ -38,10 +38,10 @@
                                     </td>
                                     @endif
                                     @endforeach
-                                    <td class="quantity-{{$one->id_ingredients}}">{{$one->quantity_ingredient}}</td>
+                                    <td class="quantity-{{$one->id_ingredient}}">{{$one->quantity_ingredient}}</td>
                                     <td>
                                         <button class="btn btn-primary choose-ingredients" data-id="{{$one->id_ingredient}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button class="btn btn-danger delete-ingredient" data-id="{{$one->id_ingredient}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn btn-danger delete-ingredient mt-lg-2" data-id="{{$one->id_ingredient}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -88,7 +88,15 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="option">Đơn vị tính</label>
-                                    <select name="id_unit" id="" class="form-control id-unit-update">
+                                    <select name="id_unit" id="option" class="form-control id-unit-update">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="quantity">Số lượng</label>
+                                    <input type="number" step="any" name="quantity_ingredient" id="quantity" class="form-control quantity-update">
+                                    <span class="text-danger error-quantity"></span>
                                     </select>
                                 </div>
                             </div>

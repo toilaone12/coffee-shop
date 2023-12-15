@@ -39,29 +39,23 @@ class IngredientsController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'name_ingredient' => ['required', 'regex: /^[\p{L}\s\p{P}]+$/u'],
+            'quantity_ingredient' => ['required'],
         ], [
             'name_ingredient.required' => 'Tên nguyên liệu bắt buộc phải có',
             'name_ingredient.regex' => 'Tên nguyên liệu bắt buộc phải là chữ cái',
+            'quantity_ingredient.required' => 'Số lượng nguyên liệu bắt buộc phải có',
         ]);
         if (!$validator->fails()) {
-            $existIngredient = Ingredients::where('name_ingredient', $data['name_ingredient'])->first();
-            if ($existIngredient) {
-                return response()->json(['res' => 'warning', 'status' => ['name_ingredient' => 'Tên nguyên liệu đã tồn tại']]);
-            } else {
-                $ingredient = Ingredients::find($data['id_ingredient']);
-                $quantityUpdate = 0;
-                if ($ingredient->id_unit === 1 && $data['id_unit'] == 2) {
-                    $quantityUpdate = $this->convertUnit($ingredient->quantity_ingredient, 'kg', 'g');
-                } else if ($ingredient->id_unit === 2 && $data['id_unit'] == 1) {
-                    $quantityUpdate = $this->convertUnit($ingredient->quantity_ingredient, 'g', 'kg');
-                } else if ($ingredient->id_unit === 3 && $data['id_unit'] == 4) {
-                    $quantityUpdate = $this->convertUnit($ingredient->quantity_ingredient, 'l', 'ml');
-                } else if ($ingredient->id_unit === 4 && $data['id_unit'] == 3) {
-                    $quantityUpdate = $this->convertUnit($ingredient->quantity_ingredient, 'ml', 'l');
-                }
+            $ingredient = Ingredients::find($data['id_ingredient']);
+            $unitOld = Units::find($ingredient->id_unit);
+            $unitNew = Units::find($data['id_unit']);
+            $abbreviationOld = $unitOld->abbreviation_unit;
+            $abbreviationNew = $unitNew->abbreviation_unit;
+            $quantityUpdate = $this->convertUnit(doubleval($data['quantity_ingredient']), $abbreviationOld, $abbreviationNew);
+            if($quantityUpdate){
                 $ingredient->id_unit = $data['id_unit'];
                 $ingredient->name_ingredient = $data['name_ingredient'];
-                $ingredient->quantity_ingredient = $quantityUpdate ? $quantityUpdate : $ingredient->quantity_ingredient;
+                $ingredient->quantity_ingredient = $quantityUpdate;
                 $update = $ingredient->save();
                 if ($update) {
                     $noti = [
@@ -76,6 +70,8 @@ class IngredientsController extends Controller
                 } else {
                     return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa nguyên liệu', 'status' => 'Lỗi truy vấn']);
                 }
+            }else{
+                return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Sửa nguyên liệu', 'status' => 'Không thể quy đổi đơn vị từ '.$unitNew->fullname_unit.' sang '.$unitOld->fullname_unit]);
             }
         } else {
             return response()->json(['res' => 'warning', 'status' => $validator->errors()]);
@@ -193,9 +189,18 @@ class IngredientsController extends Controller
                 return $value * 1000; // 1 l = 1000 g
             case 'l-ml':
                 return $value * 1000; // 1 l = 1000 ml
+            case 'kg-kg':
+                return $value; // 1 l = 1 kg
+            case 'g-g':
+                return $value; // 1 l = 1 kg
+            case 'ml-ml':
+                return $value; // 1 l = 1 kg
+            case 'l-l':
+                return $value; // 1 l = 1 kg
+            case 'c-c':
+                return $value; // 1 l = 1 kg
             default:
-                Log::error("Không thể chuyển đổi từ $fromUnit sang $toUnit");
-                return null; // Trả về null nếu không thể chuyển đổi
+                return false; // Trả về null nếu không thể chuyển đổi
         }
     }
 }

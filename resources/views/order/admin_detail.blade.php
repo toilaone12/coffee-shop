@@ -170,8 +170,7 @@
                             <h5 class="card-header">Cài đặt</h5>
                             <div class="card-body">
                                 <a href="#" data-toggle="modal" data-target="#invoice" class="btn btn-primary w-100 invoice {{$order->status_order == 0 || $order->status_order == 4 ? 'disabled' : ''}}">In hóa đơn</a>
-                                <a class="btn btn-primary w-100 open-qr mt-3">Thanh toán bằng QR Code</a>
-                                <img src="" alt="" class="draw-qr">
+                                <a class="btn btn-primary w-100 open-qr mt-3" data-code="{{$order->code_order}}" data-name="{{$order->name_order}}" data-price="{{$order->total_order}}">Thanh toán bằng QR Code</a>
                             </div>
                         </div>
                     </div>
@@ -268,6 +267,42 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                     <button type="submit" class="btn btn-primary print-invoice">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Invoice -->
+
+    <!-- Modal Invoice -->
+    <div class="modal fade" id="qrcode" tabindex="-1" role="dialog" aria-labelledby="qrcodeLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qrcodeLabel">Mã QrCode chủ cửa hàng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body form-invoice">
+                            <div class="row">
+                                <div class="col-xl-12 fs-30 text-center font-weight-bold mb-3">
+                                    Harper 7 Coffee
+                                </div>
+                            </div>
+                            <div class="rounded">
+                                <img src="https://api.beta-a2b.work/bank/970407/19036433368016.svg?m=100000&c=Khach+hang+Son+thanh+toan+don+hang" alt="" class="mx-auto d-block p-2 border border-primary rounded img-qrcode">
+                            </div>
+                            <p class="text-center mt-3 fs-20 font-weight-bold">Kiều Đặng Bảo Sơn</p>
+                            <p class="text-center mt-1 fs-20">19036433368016</p>
+                            <p class="text-center mt-1 fs-16">Ngân hàng Techcombank - Chi nhánh Nguyễn Trãi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
                 </div>
             </div>
         </div>

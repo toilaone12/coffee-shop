@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
+use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 class DetailNoteController extends Controller
 {
@@ -246,8 +247,13 @@ class DetailNoteController extends Controller
         $id = $request->get('id');
         $list = DetailNote::where('id_note',$id)->get();
         $noti = [];
+        $isTrue = true;
         foreach($list as $key => $one){
             $existIngredient = Ingredients::where('name_ingredient', $one->name_ingredient)->first();
+            $unitOld = Units::find($existIngredient->id_unit);
+            $unitNew = Units::find($one->id_unit);
+            $abbreviationOld = $unitOld->abbreviation_unit;
+            $abbreviationNew = $unitNew->abbreviation_unit;
             if(!$existIngredient){
                 $db = [
                     'id_unit' => $one->id_unit,
@@ -255,32 +261,58 @@ class DetailNoteController extends Controller
                     'quantity_ingredient' => $one->quantity_ingredient,
                 ];
                 $ingredient = Ingredients::create($db);
+                // $ingredient = true;
                 if($ingredient){
-                    $noti += ['res' => 'success'];
+                    $noti[] = [
+                        'noti' => 'success',
+                    ];
                 }else{
-                    $noti += ['res' => 'fail'];
+                    $noti[] = [
+                        'noti' => 'error',
+                        'status' => 'Lỗi truy vấn',
+                    ];
                 }
             }else{
-                if($existIngredient->id_unit === 1 && $one->id_unit == 2){
-                    $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'g', 'kg');
-                }else if($existIngredient->id_unit === 2 && $one->id_unit == 1){
-                    $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'kg', 'g');
-                }else if($existIngredient->id_unit === 3 && $one->id_unit == 4){
-                    $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'ml', 'l');
-                }else if($existIngredient->id_unit === 4 && $one->id_unit == 3){
-                    $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'l', 'ml');
-                }
-                $quantityUpdate = $existIngredient->quantity_ingredient + $one->quantity_ingredient;
-                $existIngredient->quantity_ingredient = $quantityUpdate;
-                $update = $existIngredient->save();
-                if($update){
-                    $noti += ['res' => 'success'];
+                $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, $abbreviationOld, $abbreviationNew);
+                if($one->quantity_ingredient){
+                    $quantityUpdate = $existIngredient->quantity_ingredient + $one->quantity_ingredient;
+                    $existIngredient->quantity_ingredient = $quantityUpdate;
+                    $update = $existIngredient->save();
+                    if($update){
+                        $noti[] = [
+                            'noti' => 'success',
+                            'quantityUpdate' => $quantityUpdate,
+                        ];
+                    }else{
+                        $noti[] = [
+                            'noti' => 'error',
+                            'status' => 'Lỗi truy vấn',
+                        ];
+                    }
                 }else{
-                    $noti += ['res' => 'fail'];
+                    $noti[] = [
+                        'noti' => 'error',
+                        'status' => 'Nguyên liệu "'.$one->name_ingredient.'" không thể quy đổi đơn vị từ '.$abbreviationNew.' sang '.$abbreviationOld,
+                    ];
                 }
             }
         }
-        if($noti['res'] == 'success'){
+        $reason = '';
+        foreach($noti as $key => $one){
+            if($one['noti'] == 'error'){
+                $reason .= $one['status'];
+                $isTrue = false;
+                if($key == 0) $reason .= ' và ';
+            }else{
+                if($one['quantityUpdate']){
+                    
+                }
+            }
+        }
+        $reason = rtrim($reason,' và ');
+        if(!$isTrue){
+            return response()->json(['res' => 'fail', 'icon' => 'error', 'title'=> 'Xuất nguyên liệu', 'status' => $reason]);
+        }else{
             $note = Notes::find($id);
             $note->status_note = 1;
             $update = $note->save();
@@ -289,27 +321,54 @@ class DetailNoteController extends Controller
             }else{
                 return response()->json(['res' => 'fail', 'icon' => 'error', 'title'=> 'Xuất nguyên liệu', 'status' => 'Bạn đã xuất nguyên liệu thất bại']);
             }
+
         }
     }
     //ham quy doi
-    function convertUnit($value, $fromUnit, $toUnit) {
+    function convertUnit($value, $fromUnit, $toUnit)
+    {
         // Chuyển đơn vị đầu vào và đầu ra thành chữ thường để so sánh
         $fromUnit = strtolower($fromUnit);
         $toUnit = strtolower($toUnit);
-    
+
         // Biến đổi giá trị dựa trên đơn vị đầu vào và đầu ra
         switch ("$fromUnit-$toUnit") {
+            case 'kg-l':
+                return $value; // 1 kg = 1 l
             case 'kg-g':
                 return $value * 1000; // 1 kg = 1000 g
+            case 'kg-ml':
+                return $value * 1000; // 1 kg = 1000 g
+            case 'g-ml':
+                return $value; // 1 g = 1 ml
             case 'g-kg':
                 return $value / 1000; // 1 g = 0.001 kg
+            case 'g-l':
+                return $value / 1000; // 1 g = 0.001 l
+            case 'ml-g':
+                return $value; // 1 ml = 1 g
             case 'ml-l':
                 return $value / 1000; // 1 ml = 0.001 l
+            case 'ml-kg':
+                return $value / 1000; // 1 ml = 0.001 kg
+            case 'l-kg':
+                return $value; // 1 l = 1 kg
+            case 'l-g':
+                return $value * 1000; // 1 l = 1000 g
             case 'l-ml':
                 return $value * 1000; // 1 l = 1000 ml
+            case 'kg-kg':
+                return $value; // 1 l = 1 kg
+            case 'g-g':
+                return $value; // 1 l = 1 kg
+            case 'ml-ml':
+                return $value; // 1 l = 1 kg
+            case 'l-l':
+                return $value; // 1 l = 1 kg
+            case 'c-c':
+                return $value; // 1 l = 1 kg
             default:
-                Log::error("Không thể chuyển đổi từ $fromUnit sang $toUnit");
-                return null; // Trả về null nếu không thể chuyển đổi
+                return false; // Trả về null nếu không thể chuyển đổi
         }
     }
 }

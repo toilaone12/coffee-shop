@@ -216,19 +216,36 @@ class CartController extends Controller
         }
     }
 
-    function convertUnit($value, $fromUnit, $toUnit) {
+    function convertUnit($value, $fromUnit, $toUnit)
+    {
         // Chuyển đơn vị đầu vào và đầu ra thành chữ thường để so sánh
         $fromUnit = strtolower($fromUnit);
         $toUnit = strtolower($toUnit);
-    
+
         // Biến đổi giá trị dựa trên đơn vị đầu vào và đầu ra
         switch ("$fromUnit-$toUnit") {
+            case 'kg-l':
+                return $value; // 1 kg = 1 l
             case 'kg-g':
                 return $value * 1000; // 1 kg = 1000 g
+            case 'kg-ml':
+                return $value * 1000; // 1 kg = 1000 g
+            case 'g-ml':
+                return $value; // 1 g = 1 ml
             case 'g-kg':
                 return $value / 1000; // 1 g = 0.001 kg
+            case 'g-l':
+                return $value / 1000; // 1 g = 0.001 l
+            case 'ml-g':
+                return $value; // 1 ml = 1 g
             case 'ml-l':
                 return $value / 1000; // 1 ml = 0.001 l
+            case 'ml-kg':
+                return $value / 1000; // 1 ml = 0.001 kg
+            case 'l-kg':
+                return $value; // 1 l = 1 kg
+            case 'l-g':
+                return $value * 1000; // 1 l = 1000 g
             case 'l-ml':
                 return $value * 1000; // 1 l = 1000 ml
             default:

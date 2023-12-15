@@ -789,9 +789,18 @@ class OrderController extends Controller
                 return $value * 1000; // 1 l = 1000 g
             case 'l-ml':
                 return $value * 1000; // 1 l = 1000 ml
+            case 'kg-kg':
+                return $value; // 1 l = 1 kg
+            case 'g-g':
+                return $value; // 1 l = 1 kg
+            case 'ml-ml':
+                return $value; // 1 l = 1 kg
+            case 'l-l':
+                return $value; // 1 l = 1 kg
+            case 'c-c':
+                return $value; // 1 l = 1 kg
             default:
-                Log::error("Không thể chuyển đổi từ $fromUnit sang $toUnit");
-                return null; // Trả về null nếu không thể chuyển đổi
+                return false; // Trả về null nếu không thể chuyển đổi
         }
     }
 

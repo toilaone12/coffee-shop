@@ -473,13 +473,15 @@
             callAjax(url, method, formData, headers,
                 function(data) {
                     // console.log(data);
-                    if (data.res === 'success' || data.res === 'error') {
+                    if (data.res === 'success' || data.res === 'fail') {
                         swalNotification(data.title,data.status,data.icon,() => {location.reload()})
-                        if ($('.error-name').text() != '') {
+                        if ($('.error-name').text() != '' || $('.error-quantity').text() != '') {
                             $('.error-name').text('');
+                            $('.error-quantity').text('');
                         }
                     } else if (data.res === 'warning') {
                         $('.error-name').text(data.status.name_ingredient ? data.status.name_ingredient : '');
+                        $('.error-quantity').text(data.status.quantity_ingredient ? data.status.quantity_ingredient : '');
                     }
                 },
                 function(err) {
@@ -1624,20 +1626,24 @@
         // })
         //ve ma qr
         $('.open-qr').on('click', function(){
-            let url = "https://api.beta-a2b.work/1/vehicle/qrcode";
+            let name = $(this).attr('data-name');
+            let price = $(this).attr('data-price');
+            let code = $(this).attr('data-code');
+            let url = "https://api.beta-a2b.work/1/api/qrcode";
             let method = "POST";
-            let headers = {
-                
+            // console.log('Khach hang '+convertVietnameseToEnglish(name)+' thanh toan hoa don #'+code);
+            let headers = {         
             };
             let data = {
                 bank_bin: 970407,
                 bank_number: 19036433368016,
-                price_trip: 30000,
+                price: price,
+                content: 'Khach hang '+convertVietnameseToEnglish(name)+' thanh toan hoa don #'+code
             };
             callAjax(url, method, data, headers,
                 function(data) {
-                    console.log(data);
-                    $('.draw-qr').attr('src',data.link)
+                    $('#qrcode').modal('show');
+                    $('.img-qrcode').attr('src',data.link)
                 },
                 function(err) {
                     console.log(err);
