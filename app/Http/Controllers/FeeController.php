@@ -165,14 +165,17 @@ class FeeController extends Controller
         } else {
             $condition = 'Sun';
         }
-        $checkFee = Fee::where('weather_condition', $condition)->where('radius_fee', '>=', $distance)->orderBy('radius_fee', 'desc')->first();
+        // DB::enableQueryLog();
+        $checkFee = Fee::where('weather_condition', $condition)->where('radius_fee', '>=', $distance)->orderBy('radius_fee', 'asc')->first();
+        // dd(DB::getQueryLog());
+        // dd($url);
         if ($checkFee) {
             return response()->json(['res' => 'success', 'fee' => $checkFee->fee]);
         } else {
             if ($condition == 'Rain') {
-                return response()->json(['res' => 'success', 'weather' => $condition, 'fee' => 3000 * round($distance)]);
+                return response()->json(['res' => 'success', 'weather' => $condition, 'fee' => 5000 * round($distance)]);
             } else {
-                return response()->json(['res' => 'success', 'weather' => $condition, 'fee' => 1000 * round($distance)]);
+                return response()->json(['res' => 'success', 'weather' => $condition, 'fee' => 3000 * round($distance)]);
             }
         }
         // return array('distance' => $distance, 'duration' => $duration);

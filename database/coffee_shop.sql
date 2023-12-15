@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 14, 2023 lúc 05:34 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th12 15, 2023 lúc 03:51 PM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -136,7 +136,8 @@ CREATE TABLE `coupon` (
 INSERT INTO `coupon` (`id_coupon`, `name_coupon`, `code_coupon`, `quantity_coupon`, `type_coupon`, `discount_coupon`, `expiration_time`, `is_buy`, `is_price`, `created_at`, `updated_at`) VALUES
 (1, 'Mã khuyến mãi cho người mua lần đầu', 'FIRSTBUY15', 1000, 1, 15000, '2062-12-30 09:45:00', 1, NULL, '2023-09-06 03:13:35', '2023-09-06 08:05:04'),
 (2, 'Mã khuyến mãi cho người mua 3 sản phẩm trở lên', 'OVER3PRODUCT', 10000, 0, 20, '2024-12-06 10:20:00', 0, 200000, '2023-09-06 03:20:47', '2023-09-06 03:20:47'),
-(3, 'Mã giảm giá tháng 10', 'COUPONT10', 50, 1, 15000, '2023-10-31 23:59:00', 0, 100000, '2023-09-06 04:59:12', '2023-09-06 04:59:12');
+(3, 'Mã giảm giá tháng 10', 'COUPONT10', 50, 1, 15000, '2023-10-31 23:59:00', 0, 100000, '2023-09-06 04:59:12', '2023-09-06 04:59:12'),
+(7, 'Khuyến mãi tháng 12', 'COUPONT12', 99, 1, 100000, '2023-12-31 23:59:00', 1, 100000, '2023-12-15 13:56:52', '2023-12-15 14:48:47');
 
 -- --------------------------------------------------------
 
@@ -161,7 +162,8 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`id_customer`, `image_customer`, `name_customer`, `email_customer`, `phone_customer`, `password_customer`, `created_at`, `updated_at`) VALUES
 (1, 'storage/customer/bao-son-1698727645.jpg', 'Bảo Sơn', 'baooson3005@gmail.com', '0386278912', 'e10adc3949ba59abbe56e057f20f883e', '2023-09-25 03:21:29', '2023-10-31 08:04:03'),
-(2, 'storage/customer/person.svg', 'Tuấn', 'toilaone12@gmail.com', NULL, '69b21e9c5b38d7c34449a5b290363487', '2023-11-27 14:19:50', '2023-11-27 14:19:50');
+(2, 'storage/customer/person.svg', 'Tuấn', 'toilaone12@gmail.com', NULL, '69b21e9c5b38d7c34449a5b290363487', '2023-11-27 14:19:50', '2023-11-27 14:19:50'),
+(3, 'storage/customer/person.svg', 'Nga', 'bokazem69@gmail.com', NULL, 'e10adc3949ba59abbe56e057f20f883e', '2023-12-15 13:55:09', '2023-12-15 13:55:09');
 
 -- --------------------------------------------------------
 
@@ -184,7 +186,9 @@ CREATE TABLE `customer_coupon` (
 INSERT INTO `customer_coupon` (`id_customer_coupon`, `id_customer`, `id_coupon`, `created_at`, `updated_at`) VALUES
 (15, 1, 3, '2023-10-31 08:52:50', '2023-10-31 08:52:50'),
 (17, 1, 2, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
-(18, 2, 1, '2023-11-27 15:02:32', '2023-11-27 15:02:32');
+(18, 2, 1, '2023-11-27 15:02:32', '2023-11-27 15:02:32'),
+(19, 3, 1, '2023-12-15 14:13:58', '2023-12-15 14:13:58'),
+(20, 3, 2, '2023-12-15 14:13:58', '2023-12-15 14:13:58');
 
 -- --------------------------------------------------------
 
@@ -211,7 +215,9 @@ CREATE TABLE `detail_notes` (
 INSERT INTO `detail_notes` (`id_detail`, `id_note`, `id_unit`, `code_note`, `name_ingredient`, `quantity_ingredient`, `price_ingredient`, `created_at`, `updated_at`) VALUES
 (36, 13, 1, 'DQ9CVN', 'Gà', 2, 180000, '2023-11-28 10:12:59', '2023-11-28 10:12:59'),
 (37, 13, 1, 'DQ9CVN', 'Khoai tây', 6, 40000, '2023-11-28 10:12:59', '2023-11-28 10:12:59'),
-(38, 13, 1, 'DQ9CVN', 'Hành tây', 5, 10000, '2023-11-28 10:12:59', '2023-11-28 10:12:59');
+(38, 13, 1, 'DQ9CVN', 'Hành tây', 5, 10000, '2023-11-28 10:12:59', '2023-11-28 10:12:59'),
+(45, 17, 1, 'ISDSC9', 'Xúc xích', 5, 62000, '2023-12-15 14:16:26', '2023-12-15 14:16:26'),
+(46, 17, 2, 'ISDSC9', 'Khoai tây', 1000, 40000, '2023-12-15 14:16:26', '2023-12-15 14:28:23');
 
 -- --------------------------------------------------------
 
@@ -275,7 +281,11 @@ INSERT INTO `detail_orders` (`id_detail`, `id_order`, `id_product`, `code_order`
 (75, 60, 3, '927EJ1', 'storage/product/ca-phe-nau-1693817752.jpg', 'Cà phê nâu', 1, 35000, '123123', '2023-12-14 01:59:36', '2023-12-14 01:59:36'),
 (76, 60, 6, '927EJ1', 'storage/product/almond-croissant-1698938426.jpg', 'Almond Croissant', 1, 35000, NULL, '2023-12-14 01:59:36', '2023-12-14 01:59:36'),
 (77, 61, 1, '9CELRO', 'storage/product/ca-phe-den-1692888289.jpg', 'Cà phê đen', 1, 35000, NULL, '2023-12-14 02:15:34', '2023-12-14 02:15:34'),
-(78, 61, 5, '9CELRO', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 3, 120000, 'avad', '2023-12-14 02:15:34', '2023-12-14 02:15:34');
+(78, 61, 5, '9CELRO', 'storage/product/ca-phe-bac-xiu-1698938349.jpg', 'Cà phê Bạc xỉu', 3, 120000, 'avad', '2023-12-14 02:15:34', '2023-12-14 02:15:34'),
+(79, 62, 6, 'CGG2B2', 'storage/product/almond-croissant-1698938426.jpg', 'Almond Croissant', 5, 175000, NULL, '2023-12-15 13:52:21', '2023-12-15 13:52:21'),
+(80, 63, 11, 'YDR4AC', 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 3, 105000, 'avc', '2023-12-15 13:53:09', '2023-12-15 13:53:09'),
+(81, 64, 20, 'TP7I6M', 'storage/product/harper-snack-set-no3-1702518626.jpg', 'Harper Snack Set No.3', 3, 267000, NULL, '2023-12-15 14:13:58', '2023-12-15 14:13:58'),
+(82, 65, 19, 'GRIWGA', 'storage/product/harper-snack-set-no2-1702518471.jpg', 'Harper Snack Set No.2', 1, 89000, NULL, '2023-12-15 14:48:47', '2023-12-15 14:48:47');
 
 -- --------------------------------------------------------
 
@@ -365,8 +375,9 @@ INSERT INTO `ingredients` (`id_ingredient`, `id_unit`, `name_ingredient`, `quant
 (14, 5, 'Charsiu Baguette', 5, '2023-11-02 15:14:45', '2023-11-02 15:14:45'),
 (15, 5, 'Bacon & Cheese Baguette', 13, '2023-11-02 15:14:45', '2023-11-02 16:04:30'),
 (16, 1, 'Gà', 2, '2023-11-28 10:29:30', '2023-11-28 10:29:30'),
-(17, 1, 'Khoai tây', 6, '2023-11-28 10:29:30', '2023-11-28 10:29:30'),
-(18, 1, 'Hành tây', 5, '2023-11-28 10:29:30', '2023-11-28 10:29:30');
+(17, 1, 'Khoai tây', 8, '2023-11-28 10:29:30', '2023-12-15 14:40:16'),
+(18, 1, 'Hành tây', 5, '2023-11-28 10:29:30', '2023-11-28 10:29:30'),
+(19, 1, 'Xúc xích', 15, '2023-12-15 14:18:09', '2023-12-15 14:40:16');
 
 -- --------------------------------------------------------
 
@@ -451,7 +462,8 @@ CREATE TABLE `notes` (
 --
 
 INSERT INTO `notes` (`id_note`, `id_supplier`, `code_note`, `name_note`, `quantity_note`, `status_note`, `created_at`, `updated_at`) VALUES
-(13, 2, 'DQ9CVN', 'Phiếu hàng ngày 28/11/2023', 3, 1, '2023-11-28 10:12:59', '2023-11-28 10:29:30');
+(13, 2, 'DQ9CVN', 'Phiếu hàng ngày 28/11/2023', 3, 1, '2023-11-28 10:12:59', '2023-11-28 10:29:30'),
+(17, 2, 'ISDSC9', 'Phiếu ngày 15/12/2023', 2, 1, '2023-12-15 14:16:26', '2023-12-15 14:40:16');
 
 -- --------------------------------------------------------
 
@@ -551,7 +563,19 @@ INSERT INTO `notification` (`id_notification`, `id_account`, `id_customer`, `con
 (74, 1, 0, 'Bạn đã giao đơn cho bên vận chuyển', 'http://127.0.0.1:8000/admin/order/detail/USM7PL', 0, '2023-12-14 14:32:52', '2023-12-14 14:32:52'),
 (75, 0, 1, 'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng', 'http://127.0.0.1:8000/page/order/detail/USM7PL', 1, '2023-12-14 14:33:04', '2023-12-14 14:38:55'),
 (76, 1, 0, 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng', 'http://127.0.0.1:8000/admin/order/detail/USM7PL', 0, '2023-12-14 14:33:04', '2023-12-14 14:33:04'),
-(77, 1, 0, 'Bạn đã thêm công thức sản phẩm \"Harper Snack Set No.1\"', 'http://127.0.0.1:8000/admin/recipe/list', 0, '2023-12-14 14:41:53', '2023-12-14 14:41:53');
+(77, 1, 0, 'Bạn đã thêm công thức sản phẩm \"Harper Snack Set No.1\"', 'http://127.0.0.1:8000/admin/recipe/list', 0, '2023-12-14 14:41:53', '2023-12-14 14:41:53'),
+(78, 1, 0, 'Bạn đã thêm mã khuyến mãi \"Khuyến mãi tháng 12\"', 'http://127.0.0.1:8000/admin/coupon/list', 0, '2023-12-15 13:56:52', '2023-12-15 13:56:52'),
+(79, 1, 0, 'Bạn đã thêm công thức sản phẩm \"Harper Snack Set No.3\"', 'http://127.0.0.1:8000/admin/recipe/list', 0, '2023-12-15 14:14:37', '2023-12-15 14:14:37'),
+(80, 1, 0, 'Bạn đã thêm mã phiếu \"#ISDSC9\"', 'http://127.0.0.1:8000/admin/notes/list', 0, '2023-12-15 14:15:21', '2023-12-15 14:15:21'),
+(81, 1, 0, 'Bạn đã thêm chi tiết phiếu hàng \"#ISDSC9\"', 'http://127.0.0.1:8000/admin/detail/list?code=ISDSC9', 0, '2023-12-15 14:16:26', '2023-12-15 14:16:26'),
+(82, 1, 0, 'Bạn đã sửa mã phiếu \"#ISDSC9\"', 'http://127.0.0.1:8000/admin/notes/list', 0, '2023-12-15 14:16:31', '2023-12-15 14:16:31'),
+(83, 1, 0, 'Bạn đã sửa chi tiết phiếu hàng \"#ISDSC9\"', 'http://127.0.0.1:8000/admin/detail/list?code=ISDSC9', 0, '2023-12-15 14:16:37', '2023-12-15 14:16:37'),
+(84, 1, 0, 'Bạn đã sửa mã phiếu \"#ISDSC9\"', 'http://127.0.0.1:8000/admin/notes/list', 0, '2023-12-15 14:21:44', '2023-12-15 14:21:44'),
+(85, 1, 0, 'Bạn đã sửa mã phiếu \"#ISDSC9\"', 'http://127.0.0.1:8000/admin/notes/list', 0, '2023-12-15 14:28:18', '2023-12-15 14:28:18'),
+(86, 1, 0, 'Bạn đã sửa chi tiết phiếu hàng \"#ISDSC9\"', 'http://127.0.0.1:8000/admin/detail/list?code=ISDSC9', 0, '2023-12-15 14:28:23', '2023-12-15 14:28:23'),
+(87, 1, 0, 'Bạn đã thêm công thức sản phẩm \"Harper Snack Set No.2\"', 'http://127.0.0.1:8000/admin/recipe/list', 0, '2023-12-15 14:40:51', '2023-12-15 14:40:51'),
+(88, 0, 3, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/GRIWGA', 0, '2023-12-15 14:50:10', '2023-12-15 14:50:10'),
+(89, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/GRIWGA', 0, '2023-12-15 14:50:10', '2023-12-15 14:50:10');
 
 -- --------------------------------------------------------
 
@@ -582,7 +606,7 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `phone_order`, `address_order`, `email_order`, `subtotal_order`, `fee_ship`, `fee_discount`, `total_order`, `status_order`, `date_updated`, `created_at`, `updated_at`) VALUES
-(41, 1, 'B88DCB', 'Bảo Sơn', '0386278912', '40 Ngõ 3 Cầu Bươu, Xã Tả Thanh Oai, Huyện Thanh Trì, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 525000, 6000, 0, 531000, 3, '2023-12-14', '2023-10-31 08:52:50', '2023-12-14 15:21:04'),
+(41, 1, 'B88DCB', 'Bảo Sơn', '0386278912', '40 Ngõ 3 Cầu Bươu, Xã Tả Thanh Oai, Huyện Thanh Trì, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 525000, 6000, 0, 531000, 3, '2023-12-15', '2023-10-31 08:52:50', '2023-12-15 13:49:51'),
 (42, 1, '28J27Q', 'Bảo Sơn', '0386278912', '3/235 Ngõ 235 Yên Hòa, Phường Yên Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 12000, 15000, 32000, 3, '2023-10-31', '2023-10-31 09:26:07', '2023-10-31 10:17:37'),
 (43, 0, 'IZ4VFN', 'kiều đặng bảo sơn', '0386278998', 'Đường Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 56000, 12000, 0, 68000, 3, '2023-11-01', '2023-11-01 16:07:31', '2023-11-01 16:08:16'),
 (44, 0, 'HMLJEE', 'Tuấn', '0386278998', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 35000, 7000, 0, 42000, 3, '2023-11-01', '2023-11-01 16:15:13', '2023-11-01 16:24:32'),
@@ -592,17 +616,21 @@ INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `pho
 (48, 1, 'B4SWSQ', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 153000, 7000, 30600, 129400, 3, '2023-11-02', '2023-11-02 16:00:37', '2023-11-02 16:01:00'),
 (49, 1, '5FUNN5', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 78000, 7000, 0, 85000, 3, '2023-11-02', '2023-11-02 16:04:30', '2023-11-02 16:04:44'),
 (50, 1, 'UCSTGD', 'Bảo Sơn', '0386278912', 'Bún Đậu Mắm Tôm - 9 Lô 5 Đền Lừ, 9 Đường Đền Lừ 1, Phường Hoàng Văn Thụ, Quận Hoàng Mai, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 243000, 10000, 0, 253000, 3, '2023-11-05', '2023-11-05 16:55:30', '2023-11-05 16:55:42'),
-(51, 0, 'EVFXC1', 'kiều đặng bảo sơn', '0386278998', 'Tân Trào, Phố Đào Tấn, Phường Cống Vị, Quận Ba Đình, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 35000, 6000, 0, 41000, 0, NULL, '2023-11-24 16:54:12', '2023-11-24 16:54:12'),
+(51, 0, 'EVFXC1', 'kiều đặng bảo sơn', '0386278998', 'Tân Trào, Phố Đào Tấn, Phường Cống Vị, Quận Ba Đình, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 35000, 6000, 0, 41000, 3, '2023-12-15', '2023-11-24 16:54:12', '2023-12-15 13:53:41'),
 (52, 0, 'BB9WEM', 'kiều đặng bảo sơn', '0386278998', 'Đường Nghĩa Dũng, Phường Phúc Xá, Quận Ba Đình, Hà Nội, Việt Nam', 'nga@gmail.com', 40000, 10000, 0, 50000, 0, NULL, '2023-11-24 16:56:37', '2023-11-24 16:56:37'),
 (53, 0, 'JZH21S', 'abc', '0386278993', 'Bệnh Viện K - Co So Tan Trieu, Phố Quán Sứ, Phường Hàng Bông, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 40000, 8000, 0, 48000, 0, NULL, '2023-11-24 17:03:35', '2023-11-24 17:03:35'),
 (54, 1, '22P1L6', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 35000, 7000, 0, 42000, 3, '2023-11-27', '2023-11-27 14:34:35', '2023-11-27 14:37:07'),
 (55, 2, '34AQI4', 'Tuấn', '0333112333', 'Ngõ 123 Trung Kính, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam', 'toilaone12@gmail.com', 80000, 12000, 0, 92000, 3, '2023-11-27', '2023-11-27 15:02:32', '2023-11-27 15:07:17'),
-(56, 1, 'B1MWG2', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 6930000, 7000, 0, 6937000, 3, '2023-12-14', '2023-11-30 16:50:10', '2023-12-14 02:00:38'),
+(56, 1, 'B1MWG2', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'baooson3005@gmail.com', 6930000, 7000, 0, 6937000, 3, '2023-12-15', '2023-11-30 16:50:10', '2023-12-15 13:49:51'),
 (57, 1, 'UV50IH', 'Bảo Sơn', '0386278912', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 230000, 7000, 0, 237000, 2, '2023-12-03', '2023-12-02 18:12:20', '2023-12-03 16:23:33'),
-(58, 1, 'VF6Q1I', 'Bảo Sơn', '0386278912', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'anh@gmail.com', 35000, 12000, 0, 47000, 3, '2023-12-14', '2023-12-14 01:57:50', '2023-12-14 02:01:01'),
-(59, 1, 'USM7PL', 'Tuấn Anh', '0339912333', 'Ngõ 123 Yên Xá, Xã Tân Triều, Huyện Thanh Trì, Hà Nội, Việt Nam', 'nga@gmail.com', 305000, 12000, 0, 317000, 3, '2023-12-14', '2023-12-14 01:58:42', '2023-12-14 14:33:03'),
-(60, 0, '927EJ1', 'kiều đặng bảo sơn', '0386278998', '333store, Phố Ao Sen, Phường Mộ Lao, Quận Hà Đông, Hà Nội, Việt Nam', '123@gmail', 70000, 12000, 0, 82000, 3, '2023-12-14', '2023-12-14 01:59:36', '2023-12-14 01:59:54'),
-(61, 0, '9CELRO', 'kiều đặng bảo sơn', '0386278998', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 155000, 12000, 0, 167000, 3, '2023-12-14', '2023-12-14 02:15:34', '2023-12-14 15:18:46');
+(58, 1, 'VF6Q1I', 'Bảo Sơn', '0386278912', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'anh@gmail.com', 35000, 12000, 0, 47000, 3, '2023-12-15', '2023-12-14 01:57:50', '2023-12-15 13:49:51'),
+(59, 1, 'USM7PL', 'Tuấn Anh', '0339912333', 'Ngõ 123 Yên Xá, Xã Tân Triều, Huyện Thanh Trì, Hà Nội, Việt Nam', 'nga@gmail.com', 305000, 12000, 0, 317000, 3, '2023-12-15', '2023-12-14 01:58:42', '2023-12-15 13:49:51'),
+(60, 0, '927EJ1', 'kiều đặng bảo sơn', '0386278998', '333store, Phố Ao Sen, Phường Mộ Lao, Quận Hà Đông, Hà Nội, Việt Nam', '123@gmail', 70000, 12000, 0, 82000, 3, '2023-12-15', '2023-12-14 01:59:36', '2023-12-15 13:49:51'),
+(61, 0, '9CELRO', 'kiều đặng bảo sơn', '0386278998', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'bokazem69@gmail.com', 155000, 12000, 0, 167000, 3, '2023-12-15', '2023-12-14 02:15:34', '2023-12-15 13:49:51'),
+(62, 0, 'CGG2B2', 'kiều đặng bảo sơn', '0386278998', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'nga@gmail.com', 175000, 12000, 0, 187000, 3, '2023-12-15', '2023-12-15 13:52:21', '2023-12-15 13:54:19'),
+(63, 0, 'YDR4AC', 'nam anh', '0386278998', 'Phố Nghĩa Tân, Phường Nghĩa Tân, Quận Cầu Giấy, Hà Nội, Việt Nam', 'namanh@gmail.com', 105000, 8000, 0, 113000, 3, '2023-12-15', '2023-12-15 13:53:09', '2023-12-15 13:53:22'),
+(64, 3, 'TP7I6M', 'Nga', '0389911233', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'nga@gmail.com', 267000, 21000, 0, 288000, 0, '2023-12-15', '2023-12-15 14:13:58', '2023-12-15 14:13:58'),
+(65, 3, 'GRIWGA', 'Nga', '0331123312', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'nga@gmail.com', 89000, 24000, 100000, 13000, 1, '2023-12-15', '2023-12-15 14:48:47', '2023-12-15 14:50:08');
 
 -- --------------------------------------------------------
 
@@ -679,7 +707,9 @@ INSERT INTO `recipe` (`id_recipe`, `id_product`, `component_recipe`, `created_at
 (11, 11, '[{\"id_ingredient\":\"9\",\"id_unit\":\"5\",\"quantity_recipe_need\":\"1\"}]', '2023-11-02 15:40:26', '2023-11-02 15:40:26'),
 (12, 12, '[{\"id_ingredient\":\"10\",\"id_unit\":\"5\",\"quantity_recipe_need\":\"1\"}]', '2023-11-02 15:40:37', '2023-11-02 15:45:33'),
 (13, 15, '[{\"id_ingredient\":\"11\",\"id_unit\":\"5\",\"quantity_recipe_need\":\"1\"}]', '2023-11-02 15:45:47', '2023-11-02 15:45:47'),
-(14, 16, '[{\"id_ingredient\":\"16\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"50\"},{\"id_ingredient\":\"17\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"50\"},{\"id_ingredient\":\"18\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"20\"}]', '2023-12-14 14:41:53', '2023-12-14 14:41:53');
+(14, 16, '[{\"id_ingredient\":\"16\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"50\"},{\"id_ingredient\":\"17\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"50\"},{\"id_ingredient\":\"18\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"20\"}]', '2023-12-14 14:41:53', '2023-12-14 14:41:53'),
+(15, 20, '[{\"id_ingredient\":\"16\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"250\"},{\"id_ingredient\":\"17\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"150\"}]', '2023-12-15 14:14:37', '2023-12-15 14:14:37'),
+(16, 19, '[{\"id_ingredient\":\"19\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"50\"},{\"id_ingredient\":\"17\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"100\"},{\"id_ingredient\":\"18\",\"id_unit\":\"2\",\"quantity_recipe_need\":\"50\"}]', '2023-12-15 14:40:51', '2023-12-15 14:40:51');
 
 -- --------------------------------------------------------
 
@@ -781,7 +811,7 @@ INSERT INTO `statistic` (`id_statistic`, `quantity_statistic`, `price_statistic`
 (4, 17, 661400, '2023-11-02', '2023-11-02 15:48:50', '2023-11-02 16:04:44'),
 (5, 7, 253000, '2023-11-05', '2023-11-05 16:55:42', '2023-11-05 16:55:42'),
 (6, 3, 134000, '2023-11-27', '2023-11-27 14:37:07', '2023-11-27 15:05:16'),
-(7, 80, 8248000, '2023-12-14', '2023-12-14 01:59:54', '2023-12-14 15:18:46');
+(7, 89, 8589000, '2023-12-15', '2023-12-14 01:59:54', '2023-12-15 13:54:19');
 
 -- --------------------------------------------------------
 
@@ -1016,7 +1046,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -1028,31 +1058,31 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT cho bảng `coupon`
 --
 ALTER TABLE `coupon`
-  MODIFY `id_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `customer_coupon`
 --
 ALTER TABLE `customer_coupon`
-  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_notes`
 --
 ALTER TABLE `detail_notes`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -1070,7 +1100,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT cho bảng `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `id_ingredient` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_ingredient` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `migrations`
@@ -1088,19 +1118,19 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_note` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
@@ -1112,7 +1142,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT cho bảng `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `id_recipe` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_recipe` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `review`

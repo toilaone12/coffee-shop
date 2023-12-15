@@ -251,20 +251,22 @@ class DetailNoteController extends Controller
         //kiem tra quy doi
         foreach($list as $key => $one){
             $ingredient = Ingredients::where('name_ingredient', $one->name_ingredient)->first();
-            $unitOld = Units::find($ingredient->id_unit);
-            $unitNew = Units::find($one->id_unit);
-            $abbreviationOld = $unitOld->abbreviation_unit;
-            $abbreviationNew = $unitNew->abbreviation_unit;
-            $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, $abbreviationOld, $abbreviationNew);
-            if($one->quantity_ingredient){
-                $noti[] = [
-                    'noti' => 'success',
-                ];
-            }else{
-                $noti[] = [
-                    'noti' => 'error',
-                    'status' => 'Nguyên liệu "'.$one->name_ingredient.'" không thể quy đổi đơn vị từ '.$abbreviationNew.' sang '.$abbreviationOld,
-                ];
+            if($ingredient){
+                $unitOld = Units::find($ingredient->id_unit);
+                $unitNew = Units::find($one->id_unit);
+                $abbreviationOld = $unitOld->abbreviation_unit;
+                $abbreviationNew = $unitNew->abbreviation_unit;
+                $quantity = $this->convertUnit($one->quantity_ingredient, $abbreviationOld, $abbreviationNew);
+                if($quantity){
+                    $noti[] = [
+                        'noti' => 'success',
+                    ];
+                }else{
+                    $noti[] = [
+                        'noti' => 'error',
+                        'status' => 'Nguyên liệu "'.$one->name_ingredient.'" không thể quy đổi đơn vị từ '.$abbreviationNew.' sang '.$abbreviationOld,
+                    ];
+                }
             }
         }
         // dd($noti);
@@ -280,6 +282,7 @@ class DetailNoteController extends Controller
         if(!$isTrue){
             return response()->json(['res' => 'fail', 'icon' => 'error', 'title'=> 'Xuất nguyên liệu', 'status' => $reason]);
         }else{
+            $a = [];
             foreach($list as $key => $one){
                 $existIngredient = Ingredients::where('name_ingredient', $one->name_ingredient)->first();
                 $unitOld = Units::find($ingredient->id_unit);
@@ -295,8 +298,34 @@ class DetailNoteController extends Controller
                     $ingredient = Ingredients::create($db);
                     // $ingredient = true;
                 }else{
-                    $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, $abbreviationOld, $abbreviationNew);
+                    if ($existIngredient->id_unit === 1 && $one->id_unit == 2) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'g', 'kg');
+                    } else if ($existIngredient->id_unit === 2 && $one->id_unit == 1) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'kg', 'g');
+                    } else if ($existIngredient->id_unit === 3 && $one->id_unit == 4) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'ml', 'l');
+                    } else if ($existIngredient->id_unit === 4 && $one->id_unit == 3) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'l', 'ml');
+                    } else if ($existIngredient->id_unit === 1 && $one->id_unit == 3) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'g', 'ml');
+                    } else if ($existIngredient->id_unit === 1 && $one->id_unit == 4) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'g', 'l');
+                    } else if ($existIngredient->id_unit === 2 && $one->id_unit == 3) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'kg', 'ml');
+                    } else if ($existIngredient->id_unit === 2 && $one->id_unit == 4) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'kg', 'l');
+                    } else if ($existIngredient->id_unit === 3 && $one->id_unit == 1) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'ml', 'g');
+                    } else if ($existIngredient->id_unit === 3 && $one->id_unit == 2) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'ml', 'kg');
+                    } else if ($existIngredient->id_unit === 4 && $one->id_unit == 1) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'l', 'g');
+                    } else if ($existIngredient->id_unit === 4 && $one->id_unit == 2) {
+                        $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'l', 'kg');
+                    }
                     $quantityUpdate = $existIngredient->quantity_ingredient + $one->quantity_ingredient;
+                    // $a[] = $quantityUpdate;
+                    // // dd($quantityUpdate);
                     $existIngredient->quantity_ingredient = $quantityUpdate;
                     $update = $existIngredient->save();
                     if($update){
@@ -313,6 +342,7 @@ class DetailNoteController extends Controller
                     }
                 }
             }
+            // dd($a);
             $note = Notes::find($id);
             $note->status_note = 1;
             $update = $note->save();

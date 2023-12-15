@@ -20,7 +20,8 @@
         <div class="row d-flex pt-4 ml-lg-3">
           @if(($arrCoupon))
           @foreach($arrCoupon as $key => $one)
-          <div class="col-md-6 text-center mb-ssm-3">
+
+          <div class="col-md-6 text-center mb-ssm-3 mb-3">
             <div class="card">
               <div class="card-header text-center">
                 <span class="text-secondary fs-20">Mã giảm giá</span>

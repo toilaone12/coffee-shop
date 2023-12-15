@@ -46,6 +46,11 @@ class OrderController extends Controller
                 $dot = false;
             }
         }
+        // $a = Statistic::where('date_statistic','2023-12-14')->get();
+        // foreach ($a as $key => $b) {
+        //     $b->date_statistic = '2023-12-15';
+        //     $b->save();
+        // }
         return view('order.list', compact('title', 'list', 'notifications', 'dot'));
     }
 
@@ -72,11 +77,11 @@ class OrderController extends Controller
         return view('order.admin_detail', compact('title', 'order', 'list', 'listStatus', 'notifications', 'dot'));
     }
 
-    function create()
-    {
-        $orderDetail = DetailOrder::where('updated_at', 'like', "%2023-10-31%")->get();
-        return response()->json(['res' => 'success', 'detail' => $orderDetail]);
-    }
+    // function create()
+    // {
+    //     $orderDetail = DetailOrder::where('updated_at', 'like', "%2023-10-31%")->get();
+    //     return response()->json(['res' => 'success', 'detail' => $orderDetail]);
+    // }
 
     // function check(Request $request)
     // {
@@ -163,34 +168,34 @@ class OrderController extends Controller
     //     }
     // }
 
-    function updateQuantityAfterOrder(Request $request)
-    {
-        $data = $request->all();
-        $detail = DetailOrder::find($data['id']);
-        $price = $detail->price_product / $detail->quantity_product;
-        $total = $data['quantity'] * $price;
-        $detail->quantity_product = $data['quantity'];
-        $detail->price_product = $total;
-        $update = $detail->save();
-        if ($update) {
-            $list = DetailOrder::where('id_order',$detail->id_order)->get();
-            $allTotal = 0;
-            foreach($list as $one){
-                $allTotal += $one->price_product;
-            }
-            $order = Order::find($detail->id_order);
-            $order->subtotal_order = $allTotal;
-            $order->total_order = $allTotal + $order->fee_discount + $order->fee_ship;
-            $update = $order->save();
-            if($update){
-                return response()->json(['res' => 'success', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'success', 'status' => 'Chỉnh số lượng đơn hàng thành công', 'total' => $total]);
-            }else{
-                return response()->json(['res' => 'fail', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
-            }
-        } else {
-            return response()->json(['res' => 'fail', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
-        }
-    }
+    // function updateQuantityAfterOrder(Request $request)
+    // {
+    //     $data = $request->all();
+    //     $detail = DetailOrder::find($data['id']);
+    //     $price = $detail->price_product / $detail->quantity_product;
+    //     $total = $data['quantity'] * $price;
+    //     $detail->quantity_product = $data['quantity'];
+    //     $detail->price_product = $total;
+    //     $update = $detail->save();
+    //     if ($update) {
+    //         $list = DetailOrder::where('id_order',$detail->id_order)->get();
+    //         $allTotal = 0;
+    //         foreach($list as $one){
+    //             $allTotal += $one->price_product;
+    //         }
+    //         $order = Order::find($detail->id_order);
+    //         $order->subtotal_order = $allTotal;
+    //         $order->total_order = $allTotal + $order->fee_discount + $order->fee_ship;
+    //         $update = $order->save();
+    //         if($update){
+    //             return response()->json(['res' => 'success', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'success', 'status' => 'Chỉnh số lượng đơn hàng thành công', 'total' => $total]);
+    //         }else{
+    //             return response()->json(['res' => 'fail', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
+    //         }
+    //     } else {
+    //         return response()->json(['res' => 'fail', 'title' => 'Thông báo chỉnh số lượng đơn hàng', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
+    //     }
+    // }
 
     //page
     function apply(Request $request)
