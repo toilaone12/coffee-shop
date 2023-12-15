@@ -248,33 +248,54 @@ class DetailNoteController extends Controller
         $list = DetailNote::where('id_note',$id)->get();
         $noti = [];
         $isTrue = true;
+        //kiem tra quy doi
         foreach($list as $key => $one){
-            $existIngredient = Ingredients::where('name_ingredient', $one->name_ingredient)->first();
-            $unitOld = Units::find($existIngredient->id_unit);
+            $ingredient = Ingredients::where('name_ingredient', $one->name_ingredient)->first();
+            $unitOld = Units::find($ingredient->id_unit);
             $unitNew = Units::find($one->id_unit);
             $abbreviationOld = $unitOld->abbreviation_unit;
             $abbreviationNew = $unitNew->abbreviation_unit;
-            if(!$existIngredient){
-                $db = [
-                    'id_unit' => $one->id_unit,
-                    'name_ingredient' => $one->name_ingredient,
-                    'quantity_ingredient' => $one->quantity_ingredient,
+            $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, $abbreviationOld, $abbreviationNew);
+            if($one->quantity_ingredient){
+                $noti[] = [
+                    'noti' => 'success',
                 ];
-                $ingredient = Ingredients::create($db);
-                // $ingredient = true;
-                if($ingredient){
-                    $noti[] = [
-                        'noti' => 'success',
-                    ];
-                }else{
-                    $noti[] = [
-                        'noti' => 'error',
-                        'status' => 'Lỗi truy vấn',
-                    ];
-                }
             }else{
-                $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, $abbreviationOld, $abbreviationNew);
-                if($one->quantity_ingredient){
+                $noti[] = [
+                    'noti' => 'error',
+                    'status' => 'Nguyên liệu "'.$one->name_ingredient.'" không thể quy đổi đơn vị từ '.$abbreviationNew.' sang '.$abbreviationOld,
+                ];
+            }
+        }
+        // dd($noti);
+        $reason = '';
+        foreach($noti as $key => $one){
+            if($one['noti'] == 'error'){
+                $reason .= $one['status'];
+                $isTrue = false;
+                if($key == 0) $reason .= ' và ';
+            }
+        }
+        $reason = rtrim($reason,' và ');
+        if(!$isTrue){
+            return response()->json(['res' => 'fail', 'icon' => 'error', 'title'=> 'Xuất nguyên liệu', 'status' => $reason]);
+        }else{
+            foreach($list as $key => $one){
+                $existIngredient = Ingredients::where('name_ingredient', $one->name_ingredient)->first();
+                $unitOld = Units::find($ingredient->id_unit);
+                $unitNew = Units::find($one->id_unit);
+                $abbreviationOld = $unitOld->abbreviation_unit;
+                $abbreviationNew = $unitNew->abbreviation_unit;
+                if(!$existIngredient){
+                    $db = [
+                        'id_unit' => $one->id_unit,
+                        'name_ingredient' => $one->name_ingredient,
+                        'quantity_ingredient' => $one->quantity_ingredient,
+                    ];
+                    $ingredient = Ingredients::create($db);
+                    // $ingredient = true;
+                }else{
+                    $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, $abbreviationOld, $abbreviationNew);
                     $quantityUpdate = $existIngredient->quantity_ingredient + $one->quantity_ingredient;
                     $existIngredient->quantity_ingredient = $quantityUpdate;
                     $update = $existIngredient->save();
@@ -282,6 +303,7 @@ class DetailNoteController extends Controller
                         $noti[] = [
                             'noti' => 'success',
                             'quantityUpdate' => $quantityUpdate,
+                            'name' => $one->name_ingredient
                         ];
                     }else{
                         $noti[] = [
@@ -289,30 +311,8 @@ class DetailNoteController extends Controller
                             'status' => 'Lỗi truy vấn',
                         ];
                     }
-                }else{
-                    $noti[] = [
-                        'noti' => 'error',
-                        'status' => 'Nguyên liệu "'.$one->name_ingredient.'" không thể quy đổi đơn vị từ '.$abbreviationNew.' sang '.$abbreviationOld,
-                    ];
                 }
             }
-        }
-        $reason = '';
-        foreach($noti as $key => $one){
-            if($one['noti'] == 'error'){
-                $reason .= $one['status'];
-                $isTrue = false;
-                if($key == 0) $reason .= ' và ';
-            }else{
-                if($one['quantityUpdate']){
-                    
-                }
-            }
-        }
-        $reason = rtrim($reason,' và ');
-        if(!$isTrue){
-            return response()->json(['res' => 'fail', 'icon' => 'error', 'title'=> 'Xuất nguyên liệu', 'status' => $reason]);
-        }else{
             $note = Notes::find($id);
             $note->status_note = 1;
             $update = $note->save();
