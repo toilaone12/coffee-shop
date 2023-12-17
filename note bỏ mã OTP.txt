@@ -1,0 +1,3 @@
+note: bỏ mã OTP
+check lỗi khi sử title new update vẫn bị lôi trang gd
+nhung cái bắt buộc thì thêm * 
