@@ -36,9 +36,9 @@
                         <img src="{{ asset($product->image_product) }}" width="65" height="50" alt="Thumbnail Image">
                     </div>
                     @foreach($gallerys as $one)
-                        <div class="rounded px-2 py-2 border-secondary border">
-                            <img src="{{ asset($one->image_gallery) }}" width="65" height="50" alt="Thumbnail Image">
-                        </div>
+                    <div class="rounded px-2 py-2 border-secondary border">
+                        <img src="{{ asset($one->image_gallery) }}" width="65" height="50" alt="Thumbnail Image">
+                    </div>
                     @endforeach
                 </div>
             </div>
@@ -85,10 +85,10 @@
             @foreach($relates as $related)
             <div class="col-md-3">
                 <div class="menu-wrap">
-                    <a href="#" class="menu-img img mb-4 image-{{$related->id_product}}" style="background-image: url('{{asset($related->image_product)}}');" data-image="{{asset($related->image_product)}}">
+                    <a href="{{route('product.detail',['slug' => $related->slug_product])}}" class="menu-img img mb-4 image-{{$related->id_product}}" style="background-image: url('{{asset($related->image_product)}}');" data-image="{{asset($related->image_product)}}">
                     </a>
                     <div class="text">
-                        <h3 class="text-center"><a href="#" class="name-{{$related->id_product}}">{{$related->name_product}}</a></h3>
+                        <h3 class="text-center"><a href="{{route('product.detail',['slug' => $related->slug_product])}}" class="name-{{$related->id_product}}">{{$related->name_product}}</a></h3>
                         <p class="text-center price price-{{$related->id_product}}"><span>{{number_format($related->price_product,0,',','.')}} đ</span></p>
                         <p>
                             <button type="button" class="btn btn-primary btn-outline-primary open-modal-{{$related->id_product}} product m-auto d-block" data-toggle="modal" data-target="#exampleModal" data-id="{{$related->id_product}}">
@@ -153,15 +153,15 @@
                             </div>
                             <span class="d-flex mb-2">
                                 @for($i = 1; $i <= intval($review->rating_review); $i++) <li style="list-style:none">
-                                    <span class="icon-star text-warning cursor-pointer mr-1 fs-16">
-                                    </span>
-                                </li>
-                                @endfor
-                                @for($i = intval($review->rating_review); $i < 5; $i++) <li style="list-style:none">
-                                    <span class="icon-star text-secondary cursor-pointer mr-1 fs-16">
-                                    </span>
-                                </li>
-                                @endfor
+                                        <span class="icon-star text-warning cursor-pointer mr-1 fs-16">
+                                        </span>
+                                    </li>
+                                    @endfor
+                                    @for($i = intval($review->rating_review); $i < 5; $i++) <li style="list-style:none">
+                                        <span class="icon-star text-secondary cursor-pointer mr-1 fs-16">
+                                        </span>
+                                        </li>
+                                        @endfor
                             </span>
                             <div class="card">
                                 <span class="fs-16 text-dark px-3 py-2">

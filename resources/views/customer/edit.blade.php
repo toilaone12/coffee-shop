@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="update-info" enctype="multipart/form-data">
+            <form class="update-info" enctype="multipart/form-data" data-id="{{request()->cookie('id_customer')}}">
                 <div class="modal-body">
                     <div class="form-group mb-3">
                         <div class="row">

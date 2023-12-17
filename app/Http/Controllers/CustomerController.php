@@ -179,6 +179,7 @@ class CustomerController extends Controller
 
     function update(Request $request){
         $data = $request->all();
+        // dd($data);
         $validation = Validator::make($data,[
             'fullname' => ['required', 'regex: /^[\p{L}a-zA-Z\s]+$/u'],
             'phone' => ['required', 'regex: /^(03[2-9]|05[6-9]|07[06-9]|08[1-9]|09[0-9]|01[2-9])[0-9]{7}$/'],
@@ -204,6 +205,7 @@ class CustomerController extends Controller
                 }
             }
             $customer = Customer::find($data['id']);
+            // dd($data['id']);
             $customer->image_customer = $image ? 'storage/customer/'.$fileName : $data['image_original'];
             $customer->name_customer = $data['fullname'];
             $customer->phone_customer = $data['phone'];

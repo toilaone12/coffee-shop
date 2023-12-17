@@ -154,7 +154,7 @@ class RecipeController extends Controller
             $totalProduct = intval($quantityIngredient / $quantityComponentConvert);
             $arrIngredients[] = $totalProduct;
         }
-        // dd($arrIngredients);
+        // dd($arrIngredients); 
         $status = 'Số lượng bạn có thể làm ra sản phẩm '.$product->name_product.' ít nhất là '.min($arrIngredients).' sản phẩm';
         return response()->json(['res' => 'success', 'title' => 'Thông báo số lượng có thể làm ra', 'icon' => 'success', 'status' => $status]);
     }

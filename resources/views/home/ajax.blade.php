@@ -2,7 +2,7 @@
     $(document).ready(function() {
         //xu ly firebase
         let idCustomer = "{{request()->cookie('id_customer')}}";
-        if(idCustomer){
+        if (idCustomer) {
             const firebaseConfig = {
                 apiKey: "AIzaSyAjiindd25wlTFOvf62iYcVvtc2O82J1bY",
                 authDomain: "send-notification-coffee.firebaseapp.com",
@@ -13,11 +13,13 @@
             firebase.initializeApp(firebaseConfig)
             const messaging = firebase.messaging()
             // subscribeToTopic();
-            messaging.getToken({ vapidKey: "BEZ2_EBRxPYQQywBRw-4cevIi20exEEOLaTzAetv1YqCfTT3RyGP4fYLvUf-2Ua7QX9MMXRs4gI_fdOQEAl6KM8" }).then((currentToken) => {
-                if(currentToken){   
-                    subscribeTokenToTopic(currentToken,idCustomer);
+            messaging.getToken({
+                vapidKey: "BEZ2_EBRxPYQQywBRw-4cevIi20exEEOLaTzAetv1YqCfTT3RyGP4fYLvUf-2Ua7QX9MMXRs4gI_fdOQEAl6KM8"
+            }).then((currentToken) => {
+                if (currentToken) {
+                    subscribeTokenToTopic(currentToken, idCustomer);
                     sendTokenToServer(currentToken);
-                }else{
+                } else {
                     setTokenSentToServer(false);
                 }
             }).catch((err) => {
@@ -305,8 +307,7 @@
                 callAjax(url, method, data, headers,
                     (data) => {
                         if (data.res === 'warning') {
-                            swalNotification(data.title, data.status, data.icon, () => {
-                            });
+                            swalNotification(data.title, data.status, data.icon, () => {});
                             $('.quantity-cart-' + id).val(data.quantity);
                             $('.total-' + id).text((parseInt(data.quantity) * price).toLocaleString('vi-VN', {
                                 currency: 'VND'
@@ -535,11 +536,10 @@
                             });
                         } else {
                             let url = data.code;
-                            let dataArray = [
-                                { 
+                            let dataArray = [{
                                     'id': data.id,
-                                    'text': 'Có người đặt hàng', 
-                                    'link': "http://127.0.0.1:8000/admin/order/detail/"+url, 
+                                    'text': 'Có người đặt hàng',
+                                    'link': "http://127.0.0.1:8000/admin/order/detail/" + url,
                                 },
                                 // Thêm các đối tượng khác vào mảng nếu cần thiết
                             ];
@@ -575,9 +575,11 @@
             location.href = "{{route('customer.home')}}";
         })
         //sua thong tin ca nhan
-        $(document).on('submit','.update-info', (e) => {
+        $(document).on('submit', '.update-info', (e) => {
             e.preventDefault();
+            console.log($('.update-info').attr('data-id'));
             let formData = new FormData($('.update-info')[0]);
+            formData.append('id', $('.update-info').data('id'));
             let url = "{{route('customer.update')}}";
             let method = 'POST';
             let headers = {
@@ -605,7 +607,7 @@
             );
         })
         //doi mat khau
-        $(document).on('submit','.change-password', (e) => {
+        $(document).on('submit', '.change-password', (e) => {
             e.preventDefault();
             let formData = new FormData($('.change-password')[0]);
             let url = "{{route('customer.updatePassword')}}";
@@ -666,13 +668,13 @@
         })
 
         //chon san pham tu detail
-        $('.choose-product').on('click', function(){
+        $('.choose-product').on('click', function() {
             let slug = $(this).data('slug');
             location.href = "{{ route('product.detail', ['slug' => ':slug']) }}".replace(':slug', slug);
         })
 
         //xem them thong bao
-        $(document).on('click','.load-more-notification',function(){
+        $(document).on('click', '.load-more-notification', function() {
             let page = parseInt($(this).attr('data-page')) + 1;
             let load = $(this);
             let id = "{{request()->cookie('id_customer')}}";
@@ -689,18 +691,18 @@
             };
             callAjax(url, method, data, headers,
                 function(data) {
-                    if(data.res == 'success' && data.count != 0){
-                        formNotification(data.list,data.page,data.count);
+                    if (data.res == 'success' && data.count != 0) {
+                        formNotification(data.list, data.page, data.count);
                     }
                 },
                 function(err) {
                     console.log(err);
-                }, 
+                },
             );
         })
 
         //doc thong bao
-        $(document).on('click','.choose-notification',function(){
+        $(document).on('click', '.choose-notification', function() {
             let id = $(this).data('id');
             let choose = $(this);
             let url = "{{route('notification.one')}}";
@@ -714,7 +716,7 @@
             };
             callAjax(url, method, data, headers,
                 function(data) {
-                    if(data.res == 'success'){
+                    if (data.res == 'success') {
                         // location.href = data.link;
                         // choose.find('.dot-notification').remove();
                         // if(data.count == 0) $('.dot-bell').remove();
@@ -722,7 +724,7 @@
                 },
                 function(err) {
                     console.log(err);
-                }, 
+                },
             );
         });
     })

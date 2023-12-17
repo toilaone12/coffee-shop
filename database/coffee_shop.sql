@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 15, 2023 lúc 03:51 PM
+-- Thời gian đã tạo: Th12 17, 2023 lúc 04:25 AM
 -- Phiên bản máy phục vụ: 10.4.25-MariaDB
 -- Phiên bản PHP: 7.4.30
 
@@ -45,8 +45,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id_account`, `fullname_account`, `username_account`, `email_account`, `password_account`, `otp_account`, `id_role`, `is_online`, `created_at`, `updated_at`) VALUES
-(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 1, 1, '2023-08-27 11:08:11', '2023-11-27 14:54:07'),
-(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 123456, 2, 0, '2023-11-03 03:17:00', '2023-12-14 02:07:27');
+(1, 'Kiều Đặng Bảo Sơn', 'son', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', 123456, 1, 1, '2023-08-27 11:08:11', '2023-12-15 15:07:41'),
+(6, 'UID-28126', 'dung', 'bokazem69@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 123456, 2, 0, '2023-11-03 03:17:00', '2023-12-15 15:07:34');
 
 -- --------------------------------------------------------
 
@@ -163,7 +163,7 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`id_customer`, `image_customer`, `name_customer`, `email_customer`, `phone_customer`, `password_customer`, `created_at`, `updated_at`) VALUES
 (1, 'storage/customer/bao-son-1698727645.jpg', 'Bảo Sơn', 'baooson3005@gmail.com', '0386278912', 'e10adc3949ba59abbe56e057f20f883e', '2023-09-25 03:21:29', '2023-10-31 08:04:03'),
 (2, 'storage/customer/person.svg', 'Tuấn', 'toilaone12@gmail.com', NULL, '69b21e9c5b38d7c34449a5b290363487', '2023-11-27 14:19:50', '2023-11-27 14:19:50'),
-(3, 'storage/customer/person.svg', 'Nga', 'bokazem69@gmail.com', NULL, 'e10adc3949ba59abbe56e057f20f883e', '2023-12-15 13:55:09', '2023-12-15 13:55:09');
+(3, 'storage/customer/ngaa-1702654896.jpg', 'Ngaa', 'bokazem69@gmail.com', '0386278998', 'e10adc3949ba59abbe56e057f20f883e', '2023-12-15 13:55:09', '2023-12-15 15:41:36');
 
 -- --------------------------------------------------------
 
@@ -188,7 +188,8 @@ INSERT INTO `customer_coupon` (`id_customer_coupon`, `id_customer`, `id_coupon`,
 (17, 1, 2, '2023-11-05 16:55:30', '2023-11-05 16:55:30'),
 (18, 2, 1, '2023-11-27 15:02:32', '2023-11-27 15:02:32'),
 (19, 3, 1, '2023-12-15 14:13:58', '2023-12-15 14:13:58'),
-(20, 3, 2, '2023-12-15 14:13:58', '2023-12-15 14:13:58');
+(20, 3, 2, '2023-12-15 14:13:58', '2023-12-15 14:13:58'),
+(23, 3, 7, '2023-12-15 15:23:21', '2023-12-15 15:23:21');
 
 -- --------------------------------------------------------
 
@@ -285,7 +286,8 @@ INSERT INTO `detail_orders` (`id_detail`, `id_order`, `id_product`, `code_order`
 (79, 62, 6, 'CGG2B2', 'storage/product/almond-croissant-1698938426.jpg', 'Almond Croissant', 5, 175000, NULL, '2023-12-15 13:52:21', '2023-12-15 13:52:21'),
 (80, 63, 11, 'YDR4AC', 'storage/product/chocolate-croissant-1698938716.jpg', 'Chocolate Croissant', 3, 105000, 'avc', '2023-12-15 13:53:09', '2023-12-15 13:53:09'),
 (81, 64, 20, 'TP7I6M', 'storage/product/harper-snack-set-no3-1702518626.jpg', 'Harper Snack Set No.3', 3, 267000, NULL, '2023-12-15 14:13:58', '2023-12-15 14:13:58'),
-(82, 65, 19, 'GRIWGA', 'storage/product/harper-snack-set-no2-1702518471.jpg', 'Harper Snack Set No.2', 1, 89000, NULL, '2023-12-15 14:48:47', '2023-12-15 14:48:47');
+(82, 65, 19, 'GRIWGA', 'storage/product/harper-snack-set-no2-1702518471.jpg', 'Harper Snack Set No.2', 1, 89000, NULL, '2023-12-15 14:48:47', '2023-12-15 14:48:47'),
+(83, 66, 22, 'QAGA2R', 'storage/product/harper-4-1702653507.jpg', 'harper 4', 5, 400000, 'ádasdád', '2023-12-15 15:23:21', '2023-12-15 15:23:21');
 
 -- --------------------------------------------------------
 
@@ -575,7 +577,26 @@ INSERT INTO `notification` (`id_notification`, `id_account`, `id_customer`, `con
 (86, 1, 0, 'Bạn đã sửa chi tiết phiếu hàng \"#ISDSC9\"', 'http://127.0.0.1:8000/admin/detail/list?code=ISDSC9', 0, '2023-12-15 14:28:23', '2023-12-15 14:28:23'),
 (87, 1, 0, 'Bạn đã thêm công thức sản phẩm \"Harper Snack Set No.2\"', 'http://127.0.0.1:8000/admin/recipe/list', 0, '2023-12-15 14:40:51', '2023-12-15 14:40:51'),
 (88, 0, 3, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/GRIWGA', 0, '2023-12-15 14:50:10', '2023-12-15 14:50:10'),
-(89, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/GRIWGA', 0, '2023-12-15 14:50:10', '2023-12-15 14:50:10');
+(89, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/GRIWGA', 0, '2023-12-15 14:50:10', '2023-12-15 14:50:10'),
+(90, 1, 0, 'Bạn đã đăng ký cho tài khoản \"tuan\"', 'http://127.0.0.1:8000/admin/account/list', 0, '2023-12-15 15:08:03', '2023-12-15 15:08:03'),
+(91, 1, 0, 'Bạn đã xóa tài khoản \"tuan\"', 'http://127.0.0.1:8000/admin/account/list', 0, '2023-12-15 15:12:22', '2023-12-15 15:12:22'),
+(92, 1, 0, 'Bạn đã thêm tin tức \"Bà Trương Mỹ Lan bị truy tố chiếm đoạt hơn 304.000 tỷ đồng của SCB\"', 'http://127.0.0.1:8000/admin/news/list', 0, '2023-12-15 15:13:55', '2023-12-15 15:13:55'),
+(93, 1, 0, 'Bạn đã cập nhật lại tin tức \"Bà Trương Mỹ Lan bị truy tố chiếm đoạt hơn 304.000 tỷ đồng của SCB 123213\"', 'http://127.0.0.1:8000/admin/news/list', 0, '2023-12-15 15:14:51', '2023-12-15 15:14:51'),
+(94, 1, 0, 'Bạn đã xóa tin tức \"Bà Trương Mỹ Lan bị truy tố chiếm đoạt hơn 304.000 tỷ đồng của SCB 123213\"', 'http://127.0.0.1:8000/admin/news/list', 0, '2023-12-15 15:16:32', '2023-12-15 15:16:32'),
+(95, 1, 0, 'Bạn đã thêm sản phẩm \"abc\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-15 15:17:52', '2023-12-15 15:17:52'),
+(96, 1, 0, 'Bạn đã thêm sản phẩm \"harper 4\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-15 15:18:27', '2023-12-15 15:18:27'),
+(97, 1, 0, 'Bạn đã cập nhật từ \"abc\" thành \"abc\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-15 15:19:29', '2023-12-15 15:19:29'),
+(98, 1, 0, 'Bạn đã cập nhật từ \"abc\" thành \"abcad\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-15 15:19:47', '2023-12-15 15:19:47'),
+(99, 1, 0, 'Bạn đã xóa sản phẩm\"abcad\"', 'http://127.0.0.1:8000/admin/product/list', 0, '2023-12-15 15:20:21', '2023-12-15 15:20:21'),
+(100, 0, 3, 'Đơn của bạn đã được nhận đơn, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/QAGA2R', 0, '2023-12-15 15:26:57', '2023-12-15 15:26:57'),
+(101, 1, 0, 'Bạn đã nhận đơn hàng', 'http://127.0.0.1:8000/admin/order/detail/QAGA2R', 0, '2023-12-15 15:26:57', '2023-12-15 15:26:57'),
+(102, 0, 3, 'Đơn của bạn đang được vận chuyển, vui lòng chờ đợi chốc lát', 'http://127.0.0.1:8000/page/order/detail/QAGA2R', 0, '2023-12-15 15:27:28', '2023-12-15 15:27:28'),
+(103, 1, 0, 'Bạn đã giao đơn cho bên vận chuyển', 'http://127.0.0.1:8000/admin/order/detail/QAGA2R', 0, '2023-12-15 15:27:28', '2023-12-15 15:27:28'),
+(104, 0, 3, 'Đơn của bạn đã được giao thành công, cảm ơn bạn vì đã mua hàng', 'http://127.0.0.1:8000/page/order/detail/QAGA2R', 0, '2023-12-15 15:28:05', '2023-12-15 15:28:05'),
+(105, 1, 0, 'Bạn đã nhận thông báo nhận hàng thành công từ khách hàng', 'http://127.0.0.1:8000/admin/order/detail/QAGA2R', 0, '2023-12-15 15:28:05', '2023-12-15 15:28:05'),
+(106, 1, 0, 'Bạn đã thêm quảng cáo \"a\"', 'http://127.0.0.1:8000/admin/slide/list', 0, '2023-12-15 15:33:50', '2023-12-15 15:33:50'),
+(107, 1, 0, 'Bạn đã cập nhật lại quảng cáo \"aa\"', 'http://127.0.0.1:8000/admin/slide/list', 0, '2023-12-15 15:35:00', '2023-12-15 15:35:00'),
+(108, 1, 0, 'Bạn đã xóa quảng cáo \"aa\"', 'http://127.0.0.1:8000/admin/slide/list', 0, '2023-12-15 15:35:12', '2023-12-15 15:35:12');
 
 -- --------------------------------------------------------
 
@@ -630,7 +651,8 @@ INSERT INTO `order` (`id_order`, `id_customer`, `code_order`, `name_order`, `pho
 (62, 0, 'CGG2B2', 'kiều đặng bảo sơn', '0386278998', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội, Việt Nam', 'nga@gmail.com', 175000, 12000, 0, 187000, 3, '2023-12-15', '2023-12-15 13:52:21', '2023-12-15 13:54:19'),
 (63, 0, 'YDR4AC', 'nam anh', '0386278998', 'Phố Nghĩa Tân, Phường Nghĩa Tân, Quận Cầu Giấy, Hà Nội, Việt Nam', 'namanh@gmail.com', 105000, 8000, 0, 113000, 3, '2023-12-15', '2023-12-15 13:53:09', '2023-12-15 13:53:22'),
 (64, 3, 'TP7I6M', 'Nga', '0389911233', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'nga@gmail.com', 267000, 21000, 0, 288000, 0, '2023-12-15', '2023-12-15 14:13:58', '2023-12-15 14:13:58'),
-(65, 3, 'GRIWGA', 'Nga', '0331123312', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'nga@gmail.com', 89000, 24000, 100000, 13000, 1, '2023-12-15', '2023-12-15 14:48:47', '2023-12-15 14:50:08');
+(65, 3, 'GRIWGA', 'Nga', '0331123312', 'Phố Cửa Nam, Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'nga@gmail.com', 89000, 24000, 100000, 13000, 1, '2023-12-15', '2023-12-15 14:48:47', '2023-12-15 14:50:08'),
+(66, 3, 'QAGA2R', 'Nga', '0386278998', 'Phố Cửa Nam, Quận Hoàn Kiếm, Hà Nội, Việt Nam', 'nga@gmail.com', 400000, 24000, 0, 424000, 3, '2023-12-15', '2023-12-15 15:23:21', '2023-12-15 15:28:04');
 
 -- --------------------------------------------------------
 
@@ -674,7 +696,8 @@ INSERT INTO `product` (`id_product`, `id_category`, `image_product`, `name_produ
 (17, 7, 'storage/product/chicken-sandwich-1702518321.jpg', 'Chicken Sandwich', 'Chicken Sandwich', 'chicken-sandwich', 49000, '<p>Sandwich lườn gà xông khói</p>', NULL, 1, '2023-12-14 01:45:21', '2023-12-14 01:45:35'),
 (18, 8, 'storage/product/sousvide-beef-salad-1702518416.jpg', 'Sousvide Beef Salad', 'Sousvide Beef Salad', 'sousvide-beef-salad', 79000, '<p>Salad Rocket và Bò nấu sousvide</p>', NULL, 1, '2023-12-14 01:46:56', '2023-12-14 01:46:56'),
 (19, 11, 'storage/product/harper-snack-set-no2-1702518471.jpg', 'Harper Snack Set No.2', 'Harper Snack Set No.2', 'harper-snack-set-no2', 89000, '<ul>\r\n	<li>Xúc xích | Hot dog</li>\r\n	<li>Hành tây chiên | Onion Rings</li>\r\n	<li>Khoai tây muối chiên | French Fries</li>\r\n</ul>', NULL, 1, '2023-12-14 01:47:51', '2023-12-14 01:47:51'),
-(20, 11, 'storage/product/harper-snack-set-no3-1702518626.jpg', 'Harper Snack Set No.3', 'Harper Snack Set No.3', 'harper-snack-set-no3', 89000, '<ul>\r\n	<li>Gà tẩm bột chiên | Batter Fried Chicken&nbsp;(x2)</li>\r\n	<li>Khoai tây muối chiên | French Fries&nbsp;(x2)</li>\r\n</ul>', NULL, 1, '2023-12-14 01:50:26', '2023-12-14 01:50:26');
+(20, 11, 'storage/product/harper-snack-set-no3-1702518626.jpg', 'Harper Snack Set No.3', 'Harper Snack Set No.3', 'harper-snack-set-no3', 89000, '<ul>\r\n	<li>Gà tẩm bột chiên | Batter Fried Chicken&nbsp;(x2)</li>\r\n	<li>Khoai tây muối chiên | French Fries&nbsp;(x2)</li>\r\n</ul>', NULL, 1, '2023-12-14 01:50:26', '2023-12-14 01:50:26'),
+(22, 11, 'storage/product/harper-4-1702653507.jpg', 'harper 4', 'harper 4', 'harper-4', 80000, '<p>harper 4</p>', NULL, 1, '2023-12-15 15:18:27', '2023-12-15 15:18:27');
 
 -- --------------------------------------------------------
 
@@ -811,7 +834,7 @@ INSERT INTO `statistic` (`id_statistic`, `quantity_statistic`, `price_statistic`
 (4, 17, 661400, '2023-11-02', '2023-11-02 15:48:50', '2023-11-02 16:04:44'),
 (5, 7, 253000, '2023-11-05', '2023-11-05 16:55:42', '2023-11-05 16:55:42'),
 (6, 3, 134000, '2023-11-27', '2023-11-27 14:37:07', '2023-11-27 15:05:16'),
-(7, 89, 8589000, '2023-12-15', '2023-12-14 01:59:54', '2023-12-15 13:54:19');
+(7, 94, 9013000, '2023-12-15', '2023-12-14 01:59:54', '2023-12-15 15:28:04');
 
 -- --------------------------------------------------------
 
@@ -1040,13 +1063,13 @@ ALTER TABLE `websockets_statistics_entries`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `id_account` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_account` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -1070,7 +1093,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `customer_coupon`
 --
 ALTER TABLE `customer_coupon`
-  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_customer_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `detail_notes`
@@ -1082,7 +1105,7 @@ ALTER TABLE `detail_notes`
 -- AUTO_INCREMENT cho bảng `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT cho bảng `fee`
@@ -1112,7 +1135,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT cho bảng `news`
 --
 ALTER TABLE `news`
-  MODIFY `id_new` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_new` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `notes`
@@ -1124,19 +1147,19 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT cho bảng `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id_notification` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT cho bảng `recipe`
@@ -1160,7 +1183,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT cho bảng `slide`
 --
 ALTER TABLE `slide`
-  MODIFY `id_slide` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_slide` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `statistic`
