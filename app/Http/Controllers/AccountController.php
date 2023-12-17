@@ -57,6 +57,7 @@ class AccountController extends Controller
             '*.regex' => 'Mật khẩu chỉ được chứa chữ cái và số và phải từ 6 ký tự.',
         ])->validate();
         $checkEmail = Account::where('email_account',$email)->orWhere('username_account',$username)->first();
+        // dd($checkEmail);
         if($checkEmail){
             return redirect()->route('account.list')->with('message','<span class="mx-3 text-danger">Email hoặc tài khoản của bạn đã tồn tại!</span>');
         }else{
@@ -105,19 +106,19 @@ class AccountController extends Controller
             'fullname_account' => ['regex:/^[a-zA-Z\sÀ-Ỹà-ỹ-]+$/u'],
             'password_account' => ['regex:/^[A-Za-z0-9]{6,32}+$/'],
             're_password_account' => ['same:password_account', 'regex:/^[A-Za-z0-9]{6,32}+$/'],
-            'otp_account' => ['size:6']
+            // 'otp_account' => ['size:6']
         ],[
             're_password_account.same' => 'Mật khẩu và mật khẩu xác nhận không khớp.',
             'password_account.regex' => 'Mật khẩu chỉ được chứa chữ cái và số và phải từ 6 ký tự.',
             're_password_account.regex' => 'Mật khẩu chỉ được chứa chữ cái và số và phải từ 6 ký tự.',
             'fullname_account.regex' => 'Tài khoản phải là chữ cái',
-            'otp_account.size' => 'Mã xác nhận phải đủ 6 số.',
+            // 'otp_account.size' => 'Mã xác nhận phải đủ 6 số.',
         ])->validate();
         $account = Account::find($data['id_account']);
         $account->fullname_account = $data['fullname_account'];
-        $account->username_account = $data['username_account'];
+        // $account->username_account = $data['username_account'];
         $account->password_account = md5($data['password_account']);
-        $account->otp_account = $data['otp_account'];
+        // $account->otp_account = $data['otp_account'];
         $update = $account->save();
         if($update){
             $noti = [

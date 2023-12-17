@@ -79,7 +79,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thêm quảng cáo</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm ảnh danh mục sản phẩm</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -99,7 +99,7 @@
                             <input type="hidden" name="id_product" value="{{$id}}">
                             <div class="row">
                                 <div class="col-lg-7">
-                                    <label>Hình ảnh</label>
+                                    <label>Hình ảnh (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input change-multi-image" name="image_gallery[]"  multiple accept="image/*">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>

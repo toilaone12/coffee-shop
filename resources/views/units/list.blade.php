@@ -79,7 +79,7 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="form-group">
-                                    <label for="fullname">Tên đơn vị</label>
+                                    <label for="fullname">Tên đơn vị (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="fullname_unit" id="fullname" class="form-control">
                                     @error('fullname_unit')
                                     <span class="text-danger">{{$message}}</span>
@@ -88,7 +88,7 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="abbreviation">Ký hiệu</label>
+                                    <label for="abbreviation">Ký hiệu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="abbreviation_unit" id="abbreviation" class="form-control">
                                     @error('abbreviation_unit')
                                     <span class="text-danger">{{$message}}</span>
@@ -122,14 +122,14 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="form-group">
-                                <label for="fullname">Tên đơn vị</label>
+                                <label for="fullname">Tên đơn vị (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <input type="text" name="" id="fullname" class="form-control fullname-update">
                                 <span class="text-danger error-fullname"></span>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="abbreviation">Ký hiệu</label>
+                                <label for="abbreviation">Ký hiệu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <input type="text" name="" id="abbreviation" class="form-control abbreviation-update">
                                 <span class="text-danger error-abbreviation"></span>
                             </div>

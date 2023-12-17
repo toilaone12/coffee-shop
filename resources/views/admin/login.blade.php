@@ -77,7 +77,7 @@
                                             <p class="text-danger small ml-3 mt-1">{{$message}}</p>
                                             @enderror
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <div class="otp-container">
                                                 <input type="phone" class="otp-input" maxlength="1" />
                                                 <input type="phone" class="otp-input" maxlength="1" />
@@ -87,7 +87,7 @@
                                                 <input type="phone" class="otp-input" maxlength="1" />
                                             </div>
                                             <input type="hidden" class="otp-account" name="otp_account">
-                                        </div>
+                                        </div> -->
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" {{$remember ? 'checked' : ''}} name="remember" id="customCheck">

@@ -102,7 +102,7 @@
                     <div class="modal-body">
                         <input type="hidden" name="id_reply" class="id-reply">
                         <div class="form-group">
-                            <label for="reply">Phản hồi khách hàng (<span class="name-review"></span>)</label>
+                            <label for="reply">Phản hồi khách hàng (<span class="name-review"></span>) (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="title_reply" id="reply" class="form-control reply">
                             @error('title_reply')
                             <span class="text-danger">{{$message}}</span>
@@ -135,7 +135,7 @@
                     <div class="modal-body">
                         <input type="hidden" name="id_review" class="id-reply">
                         <div class="form-group">
-                            <label for="reply-update">Phản hồi khách hàng (<span class="name-review"></span>)</label>
+                            <label for="reply-update">Phản hồi khách hàng (<span class="name-review"></span>) (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="title_reply" id="reply-update" class="form-control review-update reply">
                             <span class="text-danger error-reply"></span>
                         </div>

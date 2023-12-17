@@ -84,7 +84,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên tài khoản</label>
+                                    <label for="name">Tên tài khoản (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="username_account" id="name" class="form-control">
                                     @error('username_account')
                                     <span class="text-danger">{{$message}}</span>
@@ -93,7 +93,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="option">Chức vụ</label>
+                                    <label for="option">Chức vụ (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="id_role" id="" class="form-control">
                                         @foreach($listRole as $key => $role)
                                         <option value="{{$role->id_role}}" class="form-control">{{$role->name_role}}</option>
@@ -106,13 +106,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email đăng ký</label>
+                            <label for="email">Email đăng ký (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="email" name="email_account" id="email" class="form-control">
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3 password-container">
-                                    <label for="password" class="form-label">Mật khẩu</label>
+                                    <label for="password" class="form-label">Mật khẩu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="password" class="form-control" id="password" name="password_account">
                                     <button type="button" class="password-toggle-btn">
                                         <i class="fa-solid fa-eye text-secondary"></i>
@@ -124,7 +124,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3 password-container">
-                                    <label for="re-password" class="form-label">Nhập lại mật khẩu</label>
+                                    <label for="re-password" class="form-label">Nhập lại mật khẩu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="password" class="form-control" id="re-password" name="re_password_account">
                                     <button type="button" class="re-password-toggle-btn">
                                         <i class="fa-solid fa-eye text-secondary"></i>

@@ -138,7 +138,7 @@
                         </tr>
                         <tr>
                             <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                <p style="margin: 0;">Đây là tên tài khoản của bạn: {{$email}}</p>
+                                <p style="margin: 0;">Đây là tên tài khoản của bạn: {{$username}}</p>
                             </td>
                         </tr> <!-- COPY -->
                         <tr>
@@ -146,11 +146,11 @@
                                 <p style="margin: 0;">Mật khẩu: {{$password}}</p>
                             </td>
                         </tr> <!-- COPY -->
-                        <tr>
+                        <!-- <tr>
                             <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                                 <p style="margin: 0;">Mã OTP: {{$otp}}</p>
                             </td>
-                        </tr> <!-- COPY -->
+                        </tr> COPY -->
                         <tr>
                             <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                                 <p style="margin: 0;">Có gì thắc mắc hãy liên hệ với Café Harper Seven của chúng tôi qua email.</p>

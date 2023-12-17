@@ -113,7 +113,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="name">Tên sản phẩm</label>
+                                <label for="name">Tên sản phẩm (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <select name="id_product" id="name" class="form-control id-product">
                                     @foreach($listProduct as $key => $one)
                                     <option 
@@ -128,7 +128,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="option">Thành phần công thức</label>
+                        <label for="option">Thành phần công thức (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                         <div class="row">
                             <div class="text-center btn btn-success add-component-recipe pe-auto w-25 mr-3" style="margin-left: 12px; cursor: pointer;">Thêm thành phần</div>
                             <div class="text-center btn btn-success remove-component-recipe pe-auto w-25" style="cursor: pointer;">Xóa cái cuối cùng</div>
@@ -161,14 +161,14 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="name">Tên sản phẩm</label>
+                                <label for="name">Tên sản phẩm (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <select name="id_product" id="name" class="form-control id-product-recipe">
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="option">Thành phần công thức</label>
+                        <label for="option">Thành phần công thức (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                         <div class="row">
                             <div class="text-center btn btn-success add-component-recipe-update pe-auto w-25 mr-3" style="margin-left: 12px; cursor: pointer;">Thêm thành phần</div>
                             <div class="text-center btn btn-success remove-component-recipe-update pe-auto w-25" style="cursor: pointer;">Xóa cái cuối cùng</div>

@@ -119,17 +119,17 @@
           <div class="cart-total mb-3">
             <h3>Thông tin khách hàng</h3>
             <div class="form-group">
-              <label for="fullname">Họ và tên</label>
+              <label for="fullname">Họ và tên (<span title="Bắt buộc phải nhập" class="text-danger fs-16 mx-auto cursor-pointer">*</span>)</label>
               <input type="text" name="fullname" id="fullname" value="{{$customer ? $customer->name_customer : (isset($order) ? $order['fullname'] : '')}}" class="form-control fullname-order pl-3">
               <span class="text-danger error-fullname-order"></span>
             </div>
             <div class="form-group">
-              <label for="phone">Số điện thoại</label>
+              <label for="phone">Số điện thoại (<span title="Bắt buộc phải nhập" class="text-danger fs-16 mx-auto cursor-pointer">*</span>)</label>
               <input type="phone" name="phone" id="phone" max="10" value="{{$customer ? $customer->phone_customer : (isset($order) ? $order['phone'] : '')}}" class="form-control phone-order pl-3">
               <span class="text-danger error-phone-order"></span>
             </div>
             <div class="form-group">
-              <label for="email">Email</label>
+              <label for="email">Email (<span title="Bắt buộc phải nhập" class="text-danger fs-16 mx-auto cursor-pointer">*</span>)</label>
               <input type="email" name="email" id="email" value="{{isset($order) ? $order['email'] : ''}}" class="form-control email-order pl-3">
               <span class="text-danger error-email-order"></span>
             </div>

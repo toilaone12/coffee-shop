@@ -57,9 +57,9 @@ Route::prefix('admin')->group(function(){
     Route::prefix('account')->group(function(){
         Route::get('/list',[AccountController::class, 'list'])->name('account.list');
         Route::get('/setting',[AccountController::class, 'setting'])->name('account.setting');
+        Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update');
         Route::group(['middleware' => 'auth.roles'],function(){
             Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert');
-            Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update');
             Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete');
             Route::post('/deleteAll',[AccountController::class, 'deleteAll'])->name('account.deleteAll');
         });
@@ -142,7 +142,7 @@ Route::prefix('admin')->group(function(){
             Route::post('/delete-all',[SupplierController::class, 'deleteAll'])->name('supplier.deleteAll');
         });
     });
-    //Chức vụ
+    //Khach hang
     Route::prefix('customer')->group(function(){
         Route::get('/list',[CustomerController::class, 'list'])->name('customer.list');
     });

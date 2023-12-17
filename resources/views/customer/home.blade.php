@@ -81,7 +81,7 @@
                   <form class="change-password">
                     <input type="hidden" name="id" value={{$customer->id_customer}}>
                     <div class="form-group">
-                      <label class="fs-15" for="password-customer">Mật khẩu mới</label>
+                      <label class="fs-15" for="password-customer">Mật khẩu mới (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                       <input type="password" name="password" id="password-customer" class="form-control" style="height: 39px !important;">
                       <button type="button" class="password-toggle-btn" style="right: 15px !important;">
                         <i class="icon-eye fs-20 text-secondary"></i>
@@ -89,7 +89,7 @@
                       <div class="text-danger fs-12 mt-1 error-password"></div>
                     </div>
                     <div class="form-group position-relative">
-                      <label class="fs-15" for="repassword-customer">Nhập lại mật khẩu mới</label>
+                      <label class="fs-15" for="repassword-customer">Nhập lại mật khẩu mới (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                       <input type="password" name="repassword" id="repassword-customer" class="form-control" style="height: 39px !important;">
                       <button type="button" class="re-password-toggle-btn" style="right: 0px !important;">
                         <i class="icon-eye fs-20 text-secondary"></i>

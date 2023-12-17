@@ -111,19 +111,21 @@ class AdminController extends Controller
         Validator::make($data, [
             'username_account' => ['required'],
             'password_account' => ['required', 'min:6', 'max:32'],
-            'otp_account' => ['required', 'size:6'],
+            // 'otp_account' => ['required', 'size:6'],
         ], [
             'username_account.required' => 'Tài khoản không được để trống dữ liệu',
             'password_account.required' => 'Mật khẩu không được để trống dữ liệu',
             'password_account.min' => 'Mật khẩu phải ít nhất có 6 ký tự',
             'password_account.max' => 'Mật khẩu phải nhiều nhất có 32 ký tự',
-            'otp_account.required' => 'Mã xác nhận không được để trống dữ liệu',
-            'otp_account.size' => 'Mã xác nhận phải đủ 6 số',
+            // 'otp_account.required' => 'Mã xác nhận không được để trống dữ liệu',
+            // 'otp_account.size' => 'Mã xác nhận phải đủ 6 số',
         ])->validate();
-        $signIn = Account::where('username_account', $data['username_account'])
-        ->where('password_account', md5($data['password_account']))
-        ->where('otp_account',$data['otp_account'])->first();
+        // $signIn = Account::where('username_account', $data['username_account'])
+        // ->where('password_account', md5($data['password_account']))
+        // ->where('otp_account',$data['otp_account'])->first();
         // dd(md5($data['password_account']));
+        $signIn = Account::where('username_account', $data['username_account'])
+        ->where('password_account', md5($data['password_account']))->first();
         if ($signIn) {
             $account = Account::find($signIn->id_account);
             $account->is_online = 1;

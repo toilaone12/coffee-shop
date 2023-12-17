@@ -317,11 +317,12 @@ class OrderController extends Controller
         $idCustomer = request()->cookie('id_customer');
         $carts = Cart::where('id_customer', $idCustomer)->get();
         $orders = Order::where('id_customer', $idCustomer)->get();
+        $customer = Customer::find(request()->cookie('id_customer'));
         $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification', 'desc')->limit(7)->get();
         $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read', 0)->orderBy('id_notification', 'desc')->get();
         $parentCategorys = Category::where('id_parent_category', 0)->get();
         $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
-        return view('order.history', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'orders', 'notifications', 'isDot'));
+        return view('order.history', compact('customer','title', 'parentCategorys', 'childCategorys', 'carts', 'orders', 'notifications', 'isDot'));
     }
 
     function detail($code)
@@ -329,6 +330,7 @@ class OrderController extends Controller
         $title = 'Chi tiết đơn hàng';
         $carts = array();
         $idCustomer = request()->cookie('id_customer');
+        $customer = Customer::find(request()->cookie('id_customer'));
         $carts = Cart::where('id_customer', $idCustomer)->get();
         $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification', 'desc')->limit(7)->get();
         $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read', 0)->orderBy('id_notification', 'desc')->get();
@@ -337,7 +339,7 @@ class OrderController extends Controller
         $status = $order->status_order;
         $parentCategorys = Category::where('id_parent_category', 0)->get();
         $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
-        return view('order.detail', compact('title', 'parentCategorys', 'childCategorys', 'carts', 'order', 'orderDetail', 'status', 'notifications', 'isDot'));
+        return view('order.detail', compact('customer','title', 'parentCategorys', 'childCategorys', 'carts', 'order', 'orderDetail', 'status', 'notifications', 'isDot'));
     }
 
     function change(Request $request)

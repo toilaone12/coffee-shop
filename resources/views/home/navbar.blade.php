@@ -112,8 +112,8 @@
                     <div class="user-hover user-left rounded">
                         <div class="bg-black px-3 py-3 rounded cursor-pointer">
                             <div class="d-flex align-items-center border-bottom border-secondary pb-3 open-info">
-                                <img src="{{asset(request()->cookie('image_customer'))}}" width="36" height="36" loading="lazy" class="border border-secondary p-1 bg-light img rounded-circle">
-                                <span class="ml-3 fs-15">{{request()->cookie('name_customer')}}</span>
+                                <img src="{{asset($customer->image_customer)}}" width="36" height="36" loading="lazy" class="border border-secondary p-1 bg-light img rounded-circle">
+                                <span class="ml-3 fs-15">{{$customer->name_customer}}</span>
                             </div>
                             <div class="d-flex align-items-center mt-3 open-cart">
                                 <div class="rounded-circle bg-secondary p-2 d-flex align-items-center">

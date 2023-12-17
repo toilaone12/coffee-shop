@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-7">
-                                <label class="fs-15">Ảnh đại diện mới</label>
+                                <label class="fs-15">Ảnh đại diện mới (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input border change-image-profile" name="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                     <label class="fs-15 custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
@@ -32,14 +32,14 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="fs-15" for="fullname">Họ & tên</label>
+                                <label class="fs-15" for="fullname">Họ & tên (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <input type="text" name="fullname" id="fullname" value="{{$customer->name_customer}}" style="outline:none" class="border w-100 text-secondary fs-14 px-2 py-1 rounded fullname-update">
                                 <span class="text-danger error-fullname fs-12"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="fs-15" for="email">Email</label>
+                                <label class="fs-15" for="email">Email (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <input type="text" name="email" id="email" value="{{$customer->email_customer}}" style="outline:none" class="border w-100 text-secondary fs-14 px-2 py-1 rounded email-update">
                                 <span class="text-danger error-email fs-12"></span>
                             </div>
@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="fs-15" for="phone">Số điện thoại</label>
+                                <label class="fs-15" for="phone">Số điện thoại (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <input type="text" name="phone" id="phone" value="{{$customer->phone_customer}}" style="outline:none" class="border w-100 text-secondary fs-14 px-2 py-1 rounded phone-update">
                                 <span class="text-danger error-phone fs-12"></span>
                             </div>

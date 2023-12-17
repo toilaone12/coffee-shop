@@ -1,3 +1,6 @@
-note: bỏ mã OTP
-check lỗi khi sử title new update vẫn bị lôi trang gd
-nhung cái bắt buộc thì thêm * 
+note: bỏ mã OTP //da check
+check lỗi khi sử title new update vẫn bị lôi trang gd //da check
+nhung cái bắt buộc thì thêm * // da check
+chuc nang
+role: da check
+phan quyen: da check cac chuc nang out ra trang chinh

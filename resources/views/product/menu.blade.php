@@ -27,7 +27,7 @@
                     @if($child->id_parent_category == $parent->id_category)
                         @foreach($products as $keyProduct => $product)
                             @if($child->id_category == $product->id_category)
-                            <div class="pricing-entry d-flex ftco-animate align-items-center choose-product" data-slug="{{$product->slug_product}}">
+                            <div class="pricing-entry d-flex ftco-animate align-items-center choose-product cursor-pointer" data-slug="{{$product->slug_product}}">
                                 <div class="img" style="background-image: url('{{asset($product->image_product)}}');"></div>
                                 <div class="desc pl-3">
                                     <div class="d-flex text">

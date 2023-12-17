@@ -100,14 +100,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên phiếu hàng</label>
+                                    <label for="name">Tên phiếu hàng (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="name_note" id="name" class="form-control name-insert">
                                     <span class="text-danger error-insert-name"></span>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="option">Danh sách nhà cung cấp</label>
+                                    <label for="option">Danh sách nhà cung cấp (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="id_supplier" id="" class="form-control">
                                         @foreach($listSupplier as $key => $supplier)
                                         <option value="{{$supplier->id_supplier}}" class="form-control id-supplier-insert">{{$supplier->name_supplier}}</option>
@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="quantity">Tổng số nguyên liệu cần nhập</label>
+                            <label for="quantity">Tổng số nguyên liệu cần nhập (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="number" min=1 name="quantity_note" id="quantity" class="form-control quantity-insert">
                             <span class="text-danger error-insert-quantity"></span>
                         </div>
@@ -171,21 +171,21 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên phiếu hàng</label>
+                                    <label for="name">Tên phiếu hàng (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="name_note" id="name" class="form-control name-update">
                                     <span class="text-danger error-update-name"></span>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="supplier">Nhà cung cấp</label>
+                                    <label for="supplier">Nhà cung cấp (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="id_supplier" id="supplier" class="form-control id-supplier-update">
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="quantity">Số lượng</label>
+                            <label for="quantity">Số lượng (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="number" name="quantity_note" id="quantity" class="form-control quantity-update">
                             <span class="text-danger error-update-quantity"></span>
                         </div>

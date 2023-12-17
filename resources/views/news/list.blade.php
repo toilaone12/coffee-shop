@@ -93,7 +93,7 @@
                         <div class="form-group mb-3">
                             <div class="row">
                                 <div class="col-lg-7">
-                                    <label>Hình ảnh tin tức</label>
+                                    <label>Hình ảnh tin tức (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input change-image" name="image_new" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
@@ -112,7 +112,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name">Tiêu đề</label>
+                            <label for="name">Tiêu đề (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="title_new" id="name" class="form-control">
                             @error('title_new')
                             <span class="text-danger">{{$message}}</span>
@@ -126,7 +126,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="ckeditor1">Nội dung</label>
+                            <label for="ckeditor1">Nội dung (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <textarea class="form-control" id="ckeditor1" name="content_new" rows="3" placeholder="Nhập mô tả">
                             </textarea>
                             @error('content_new')
@@ -167,7 +167,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
-                                    <label>Hình ảnh quảng cáo</label>
+                                    <label>Hình ảnh bài viết (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input change-original-image" name="image_new" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
@@ -178,7 +178,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="title">Tiêu đề</label>
+                            <label for="title">Tiêu đề (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="title_new" id="title" class="form-control title-update">
                             <span class="text-danger error-title"></span>
                         </div>
@@ -188,7 +188,7 @@
                             <span class="text-danger error-subtitle"></span>
                         </div>
                         <div class="form-group">
-                            <label for="subtitle">Nội dung</label>
+                            <label for="subtitle">Nội dung (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <textarea name="content_new" id="ckeditor" cols="30" rows="10"></textarea>
                             <span class="text-danger error-subtitle"></span>
                         </div>

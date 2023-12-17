@@ -80,21 +80,21 @@
                             <input type="hidden" name="id_ingredient" class="id-ingredient">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên nguyên liệu</label>
+                                    <label for="name">Tên nguyên liệu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="name_ingredient" id="name" class="form-control name-update">
                                     <span class="text-danger error-name"></span>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="option">Đơn vị tính</label>
+                                    <label for="option">Đơn vị tính (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="id_unit" id="option" class="form-control id-unit-update">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="quantity">Số lượng</label>
+                                    <label for="quantity">Số lượng (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" step="any" name="quantity_ingredient" id="quantity" class="form-control quantity-update">
                                     <span class="text-danger error-quantity"></span>
                                     </select>

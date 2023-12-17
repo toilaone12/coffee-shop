@@ -53,10 +53,10 @@
                                         {{date('d/m/Y H:i',strtotime($one->expiration_time))}}
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary choose-coupon" data-id="{{$one->id_coupon}}" data-toggle="modal" data-target="#updateModal">
+                                        <button class="btn d-block btn-primary choose-coupon" data-id="{{$one->id_coupon}}" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
-                                        <button class="btn btn-danger delete-coupon" data-id="{{$one->id_coupon}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn d-block mt-2 btn-danger delete-coupon" data-id="{{$one->id_coupon}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -105,7 +105,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên khuyến mãi</label>
+                                    <label for="name">Tên khuyến mãi (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="name_coupon" id="name" class="form-control">
                                     @error('name_coupon')
                                     <span class="text-danger">{{$message}}</span>
@@ -114,7 +114,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="code">Mã khuyến mãi</label>
+                                    <label for="code">Mã khuyến mãi (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="code_coupon" id="code" class="form-control">
                                     @error('code_coupon')
                                     <span class="text-danger">{{$message}}</span>
@@ -125,7 +125,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="quantity">Số lượng</label>
+                                    <label for="quantity">Số lượng (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min=1 name="quantity_coupon" id="quantity" class="form-control">
                                     @error('quantity_coupon')
                                     <span class="text-danger">{{$message}}</span>
@@ -134,7 +134,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="type">Loại giảm giá</label>
+                                    <label for="type">Loại giảm giá (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="type_coupon" id="type" class="form-control">
                                         <option value="0">Theo phần trăm</option>
                                         <option value="1">Theo giá tiền</option>
@@ -145,7 +145,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="discount">Giá được trừ</label>
+                                    <label for="discount">Giá được trừ (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min=1 name="discount_coupon" id="discount" class="form-control">
                                     @error('discount_coupon')
                                     <span class="text-danger">{{$message}}</span>
@@ -154,7 +154,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="time">Thời hạn</label>
+                                    <label for="time">Thời hạn (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="datetime-local" min="{{ date('Y-m-d\TH:i') }}" name="expiration_time" id="time" class="form-control change-datetime">
                                     @error('expiration_time')
                                     <span class="text-danger">{{$message}}</span>
@@ -165,13 +165,13 @@
                         <div class="row">
                             <div class="col-lg-5">
                                 <div class="form-group">
-                                    <label for="is-buy">Điều kiện số lần mua</label>
+                                    <label for="is-buy">Điều kiện số lần mua (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min=0 name="is_buy" id="is-buy" class="form-control">
                                 </div>
                             </div>
                             <div class="col-lg-7">
                                 <div class="form-group">
-                                    <label for="is-price">Điều kiện giá</label>
+                                    <label for="is-price">Điều kiện giá (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min="0" name="is_price" id="is-price" class="form-control">
                                 </div>
                             </div>
@@ -203,14 +203,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên khuyến mãi</label>
+                                    <label for="name">Tên khuyến mãi (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="name_coupon" id="name" class="name-update form-control">
                                     <span class="text-danger error-name"></span>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="code">Mã khuyến mãi</label>
+                                    <label for="code">Mã khuyến mãi (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="code_coupon" id="code" class="code-update form-control">
                                     <span class="text-danger error-code"></span>
                                 </div>
@@ -219,14 +219,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="quantity">Số lượng</label>
+                                    <label for="quantity">Số lượng (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min=1 name="quantity_coupon" id="quantity" class="quantity-update form-control">
                                     <span class="text-danger error-quantity"></span>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="type">Loại giảm giá</label>
+                                    <label for="type">Loại giảm giá (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="type_coupon" id="type" class="type-update form-control">
                                     </select>
                                 </div>
@@ -235,14 +235,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="discount">Giá được trừ</label>
+                                    <label for="discount">Giá được trừ (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min=1 name="discount_coupon" id="discount" class="discount-update form-control">
                                     <span class="text-danger error-discount"></span>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="time">Thời hạn</label>
+                                    <label for="time">Thời hạn (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="datetime-local" min="{{ date('Y-m-d\TH:i') }}" name="expiration_time" id="time" class="time-update form-control change-datetime">
                                     <span class="text-danger error-time"></span>
                                 </div>
@@ -251,13 +251,13 @@
                         <div class="row">
                             <div class="col-lg-5">
                                 <div class="form-group">
-                                    <label for="is-buy">Điều kiện số lần mua</label>
+                                    <label for="is-buy">Điều kiện số lần mua (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min=0 name="is_buy" id="is-buy" class="is-buy-update form-control">
                                 </div>
                             </div>
                             <div class="col-lg-7">
                                 <div class="form-group">
-                                    <label for="is-price">Điều kiện giá</label>
+                                    <label for="is-price">Điều kiện giá (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min="0" name="is_price" id="is-price" class="is-price-update form-control">
                                 </div>
                             </div>

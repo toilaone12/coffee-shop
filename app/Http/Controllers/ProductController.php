@@ -111,6 +111,7 @@ class ProductController extends Controller
             $product->image_product = $image ? $pathStorage.$fileName : $pathStorage.$data['image_original_product'];
             $product->id_category = $data['id_category'];
             $product->name_product = $data['name_product'];
+            $product->slug_product = $slug;
             $product->subname_product = $data['subname_product'];
             $product->price_product = $data['price_product'];
             $product->description_product = $data['description_product'];
@@ -191,21 +192,26 @@ class ProductController extends Controller
     //page 
     function detail($slug){
         $product = Product::where('slug_product',$slug)->first();
-        $title = $product->name_product;
-        $parentCategorys = Category::where('id_parent_category',0)->get();
-        $childCategorys = Category::where('id_parent_category','!=',0)->get();
-        $relates = Product::where('id_category',$product->id_category)->limit(4)->get();
-        $reviews = Review::where('id_product',$product->id_product)->get();
-        $gallerys = Gallery::where('id_product',$product->id_product)->limit(4)->get();
-        $carts = array();
-        $isDot = '';
-        $notifications = array();
-        if(request()->cookie('id_customer')){
-            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
-            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
+        if($product){
+            $title = $product->name_product;
+            $parentCategorys = Category::where('id_parent_category',0)->get();
+            $childCategorys = Category::where('id_parent_category','!=',0)->get();
+            $relates = Product::where('id_category',$product->id_category)->limit(4)->get();
+            $reviews = Review::where('id_product',$product->id_product)->get();
+            $gallerys = Gallery::where('id_product',$product->id_product)->limit(4)->get();
+            $carts = array();
+            $isDot = '';
+            $notifications = array();
+            if(request()->cookie('id_customer')){
+                $customer = Customer::find(request()->cookie('id_customer'));
+                $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+                $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+                $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
+            }
+            return view('product.home',compact('customer','product','title','parentCategorys','childCategorys','carts','relates','reviews','gallerys','notifications','isDot'));
+        }else{
+            return redirect()->route('page.home');
         }
-        return view('product.home',compact('product','title','parentCategorys','childCategorys','carts','relates','reviews','gallerys','notifications','isDot'));
     }
 
     function menu(){
@@ -217,10 +223,11 @@ class ProductController extends Controller
         $isDot = '';
         $notifications = array();
         if(request()->cookie('id_customer')){
+            $customer = Customer::find(request()->cookie('id_customer'));
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
             $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
             $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
         }
-        return view('product.menu',compact('products','title','parentCategorys','childCategorys','carts','notifications','isDot'));
+        return view('product.menu',compact('customer','products','title','parentCategorys','childCategorys','carts','notifications','isDot'));
     }
 }

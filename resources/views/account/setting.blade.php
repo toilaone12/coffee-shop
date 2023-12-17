@@ -27,7 +27,7 @@
                             <div class="row gx-3 mb-3">
                                 <!-- Form Group (first name)-->
                                 <div class="col-md-6">
-                                    <label class="small mb-1" for="inputFirstName">Họ và tên</label>
+                                    <label class="small mb-1" for="inputFirstName">Họ và tên (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input class="form-control" id="inputFirstName" name="fullname_account" value="{{$one->fullname_account}}" type="text" placeholder="Nhập tên">
                                     @error('fullname_account')
                                     <span class="text-danger small">{{$message}}</span>
@@ -36,7 +36,7 @@
                                 <!-- Form Group (last name)-->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputLastName">Tên đăng nhập</label>
-                                    <input class="form-control" id="inputLastName" name="username_account" value="{{$one->username_account}}" type="text" placeholder="Nhập tên đăng nhập">
+                                    <input class="form-control disabled" id="inputLastName" disabled name="username_account" value="{{$one->username_account}}" type="text" placeholder="Nhập tên đăng nhập">
                                     @error('username_account')
                                     <span class="text-danger small">{{$message}}</span>
                                     @enderror
@@ -46,7 +46,7 @@
                             <div class="row gx-3 mb-3">
                                 <!-- Form Group (phone number)-->
                                 <div class="col-md-4">
-                                    <label class="small mb-1" for="inputPhone">Mật khẩu</label>
+                                    <label class="small mb-1" for="inputPhone">Mật khẩu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="password" class="form-control" id="password" name="password_account">
                                     <button type="button" class="password-toggle-btn" style="top: 47px !important; right: 15px !important;">
                                         <i class="fa-solid fa-eye text-secondary"></i>
@@ -57,7 +57,7 @@
                                 </div>
                                 <!-- Form Group (birthday)-->
                                 <div class="col-md-4">
-                                    <label class="small mb-1" for="inputBirthday">Nhập lại mật khẩu</label>
+                                    <label class="small mb-1" for="inputBirthday">Nhập lại mật khẩu (<span class="text-danger mx-auto">*</span>)</label>
                                     <input type="password" class="form-control" id="re-password" name="re_password_account">
                                     <button type="button" class="re-password-toggle-btn" style="top: 47px !important; right: 15px !important;">
                                         <i class="fa-solid fa-eye text-secondary"></i>
@@ -67,13 +67,13 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-4">
+                                <!-- <div class="col-md-4">
                                     <label class="small mb-1" for="inputBirthday">Mã bảo mật</label>
                                     <input class="form-control" id="inputBirthday" type="tel" value="{{$one->otp_account}}" name="otp_account" placeholder="Nhập mã bảo mật">
                                     @error('otp_account')
                                     <span class="text-danger small">{{$message}}</span>
                                     @enderror
-                                </div>
+                                </div> -->
                             </div>
                             <!-- Save changes button-->
                             <button class="btn btn-primary rounded" type="submit">Cập nhật</button>

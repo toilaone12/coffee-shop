@@ -21,7 +21,9 @@
                                     <th>Đơn vị</th>
                                     <th>Số lượng</th>
                                     <th>Đơn giá</th>
+                                    @if($note->status_note == 0)
                                     <th>Chức năng</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,13 +40,13 @@
                                     @endforeach
                                     <td class="quantity-{{$one->id_detail}}">{{$one->quantity_ingredient}}</td>
                                     <td class="price-{{$one->id_detail}}">{{$one->price_ingredient}}</td>
+                                    @if($note->status_note == 0)
                                     <td>
-                                        @if($note->status_note == 0)
                                         <button class="btn btn-danger delete-detail-note" data-id="{{$one->id_detail}}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
-                                        @endif
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

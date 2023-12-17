@@ -65,6 +65,20 @@ function swalNotiWithHTML(title, html, icon, callback) {
     });
 }
 
+function swalPermission(){
+    Swal.fire({
+        title: 'Thông báo quyền truy cập',
+        text: 'Bạn không có quyền để sử dụng chức năng này',
+        icon: 'warning',
+        showCloseButton: true,
+        confirmButtonText: 'Xác nhận',
+    }).then((res) => {
+        if(res.isConfirmed){
+            location.href = 'http://127.0.0.1:8000/admin/dashboard';
+        }
+    });
+}
+
 function convertVietnameseToEnglish(inputString) {
     const mapObj = {
         'à': 'a', 'á': 'a', 'ạ': 'a', 'ả': 'a', 'ã': 'a', 'â': 'a', 'ầ': 'a', 'ấ': 'a', 'ậ': 'a', 'ẩ': 'a', 'ẫ': 'a',
@@ -341,19 +355,19 @@ function handleInsertComponentRecipe(isUpdate=0){
     });
     let html = `<div class="col-lg-4 ${isUpdate ? 'one-update-component' : 'one-component'}">`;
     html += `<div class="form-group">`;
-    html += `<label for="ingredient">Tên nguyên liệu</label>`;
+    html += `<label for="ingredient">Tên nguyên liệu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
     html += `<select name="id_ingredient" id="ingredient" class="id-ingredient-${isUpdate ? 'update' : 'insert'} form-control">`;
     html += optionIngredient;
     html += `</select>`;
     html += `</div>`;
     html += `<div class="form-group">`;
-    html += `<label for="unit">Đơn vị tính</label>`;
+    html += `<label for="unit">Đơn vị tính (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
     html += `<select name="id_unit" id="unit" class="id-unit-${isUpdate ? 'update' : 'insert'} form-control">`;
     html += optionUnit;
     html += `</select>`;
     html += `</div>`;
     html += '<div class="form-group">';
-    html += '<label for="quantity">Số lượng cần</label>'
+    html += '<label for="quantity">Số lượng cần (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>'
     html += `<input type="number" min=1 name="quantity_recipe_need" id="quantity" class="form-control quantity-${isUpdate ? 'update' : 'insert'}">`
     html += '<span class="text-danger error-quantity"></span>'
     html += '</div>'
@@ -447,23 +461,23 @@ function listDetailNote(data){
     for (let i = 0; i < parseInt(data.quantity_note); i++){
         html += `<div class="col-lg-4 border-success form-detail-note border-right border-bottom pt-3 ${i%3 == 0 ? 'border-left' : ''} ${i < 3 ? 'border-top' : ''}">`;
         html += `<div class="form-group">`;
-        html += `<label for="name">Tên nguyên liệu</label>`;
+        html += `<label for="name">Tên nguyên liệu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<input type="text" name="name_ingredients" id="name" class="form-control name-ingredients-insert">`;
         html += `<span class="text-danger error-name"></span>`
         html += `</div>`;
         html += `<div class="form-group">`;
-        html += `<label for="id">Đơn vị tính</label>`;
+        html += `<label for="id">Đơn vị tính (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<select name="id_unit" id="id" class="id-unit-insert form-control">`;
         html += selectOptions;
         html += `</select>`;
         html += `</div>`;
         html += `<div class="form-group">`;
-        html += `<label for="quantity">Số lượng</label>`;
+        html += `<label for="quantity">Số lượng (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<input type="number" min=1 name="quantity_ingredients" id="quantity" class="form-control quantity-ingredients-insert">`;
         html += `<span class="text-danger error-quantity"></span>`
         html += `</div>`;
         html += `<div class="form-group">`;
-        html += `<label for="price">Giá thành (Trên 1 đơn vị)</label>`;
+        html += `<label for="price">Giá thành (Trên 1 đơn vị) (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<input type="phone" min=1 name="price_ingredients" id="price" class="form-control price-autonumeric price-ingredients-insert">`;
         html += `<span class="text-danger error-price"></span>`
         html += `</div>`;
@@ -500,23 +514,23 @@ function listUpdateDetailNote(data){
         });
         html += `<div class="col-lg-4 border-success form-update-detail-note border-right border-bottom pt-3 ${i%3 == 0 ? 'border-left' : ''} ${i < 3 ? 'border-top' : ''}">`;
         html += `<div class="form-group">`;
-        html += `<label for="name">Tên nguyên liệu</label>`;
+        html += `<label for="name">Tên nguyên liệu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<input type="text" name="name_ingredients" id="name" value="${name}" class="form-control name-ingredients-update">`;
         html += `<span class="text-danger error-name"></span>`
         html += `</div>`;
         html += `<div class="form-group">`;
-        html += `<label for="id">Đơn vị tính</label>`;
+        html += `<label for="id">Đơn vị tính (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<select name="id_unit" id="id" class="id-unit-update form-control">`;
         html += selectOptions;
         html += `</select>`;
         html += `</div>`;
         html += `<div class="form-group">`;
-        html += `<label for="quantity">Số lượng</label>`;
+        html += `<label for="quantity">Số lượng (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<input type="number" min=1 name="quantity_ingredients" id="quantity" value="${quantity}" class="form-control quantity-ingredients-update">`;
         html += `<span class="text-danger error-quantity"></span>`
         html += `</div>`;
         html += `<div class="form-group">`;
-        html += `<label for="price">Giá thành (Trên 1 đơn vị)</label>`;
+        html += `<label for="price">Giá thành (Trên 1 đơn vị) (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<input type="phone" min=1 name="price_ingredients" id="price" value="${price}" class="form-control price-autonumeric price-ingredients-update">`;
         html += `<span class="text-danger error-price"></span>`
         html += `</div>`;
@@ -585,19 +599,19 @@ function handleUpdateRecipeClick(){
         });
         html += `<div class="col-lg-4 one-update-component">`;
         html += `<div class="form-group">`;
-        html += `<label for="ingredient">Tên nguyên liệu</label>`;
+        html += `<label for="ingredient">Tên nguyên liệu (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<select name="id_ingredient" id="ingredient" class="id-ingredient-update form-control">`;
         html += optionIngredient;
         html += `</select>`;
         html += `</div>`;
         html += `<div class="form-group">`;
-        html += `<label for="unit">Đơn vị tính</label>`;
+        html += `<label for="unit">Đơn vị tính (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>`;
         html += `<select name="id_unit" id="unit" class="id-unit-update form-control">`;
         html += optionUnit;
         html += `</select>`;
         html += `</div>`;
         html += `<div class="form-group">`;
-        html += `<label for="quantity">Số lượng cần</label>`
+        html += `<label for="quantity">Số lượng cần (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>`
         html += `<input type="number" min=1 name="quantity_recipe_need" id="quantity" value="${quantityRecipe.trim()}" class="form-control quantity-update">`
         html +=` <span class="text-danger error-quantity"></span>`
         html += `</div>`

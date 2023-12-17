@@ -93,7 +93,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên danh mục</label>
+                                    <label for="name">Tên danh mục (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="name_category" id="name" class="form-control">
                                     @error('name_category')
                                     <span class="text-danger">{{$message}}</span>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="option">Thuộc danh mục</label>
+                                    <label for="option">Thuộc danh mục (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="id_parent_category" id="" class="form-control">
                                         <option value="0" class="form-control">Danh mục gốc</option>
                                         @foreach($listParent as $key => $parent)
@@ -141,14 +141,14 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="name">Tên danh mục</label>
+                                <label for="name">Tên danh mục (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <input type="text" name="" id="name" class="form-control name-update">
                                 <span class="text-danger error-name"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="option">Thuộc danh mục</label>
+                                <label for="option">Thuộc danh mục (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                 <select name="id_parent_category" id="" class="form-control id-parent-update">
                                 </select>
                             </div>

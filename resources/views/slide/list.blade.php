@@ -81,7 +81,7 @@
                         <div class="form-group mb-3">
                             <div class="row">
                                 <div class="col-lg-7">
-                                    <label>Hình ảnh quảng cáo</label>
+                                    <label>Hình ảnh quảng cáo (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input change-image" name="image_slide" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
@@ -100,14 +100,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name">Tên quảng cáo</label>
+                            <label for="name">Tên quảng cáo (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="name_slide" id="name" class="form-control">
                             @error('name_slide')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="slug">Slug</label>
+                            <label for="slug">Slug (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="slug_slide" id="slug" class="form-control">
                             @error('slug_slide')
                             <span class="text-danger">{{$message}}</span>
@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
-                                    <label>Hình ảnh quảng cáo</label>
+                                    <label>Hình ảnh quảng cáo (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input change-original-image" name="image_slide" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
@@ -159,12 +159,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name">Tên quảng cáo</label>
+                            <label for="name">Tên quảng cáo (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="name_slide" id="name" class="form-control name-update">
                             <span class="text-danger error-name"></span>
                         </div>
                         <div class="form-group">
-                            <label for="slug">Địa chỉ</label>
+                            <label for="slug">Slug (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="slug_slide" id="slug" class="form-control slug-update">
                             <span class="text-danger error-slug"></span>
                         </div>

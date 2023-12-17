@@ -13177,6 +13177,12 @@ textarea.form-control {
   opacity: 0;
 }
 
+.mfp-img{
+  width: 500px !important;
+  height: 500px !important;
+  object-fit: cover;
+}
+
 #section-counter {
   position: relative;
   z-index: 0;

@@ -86,7 +86,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="radius">Bán kính (<span class="radius-fee">3</span> km)</label>
+                                    <label for="radius">Bán kính (<span class="radius-fee">3</span> km) (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="range" min=0 max=10 step="1" value="3" name="radius_fee" id="radius" class="custom-range range-radius">
                                     @error('radius_fee')
                                     <span class="text-danger">{{$message}}</span>
@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="weather">Thời tiết</label>
+                                    <label for="weather">Thời tiết (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="weather_condition" class="form-control" id="weather">
                                         <option value="Sun">Nắng</option>
                                         <option value="Rain">Mưa</option>
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="fee">Phí vận chuyển</label>
+                            <label for="fee">Phí vận chuyển (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="number" min=0 name="fee" id="fee" class="form-control">
                             @error('fee')
                             <span class="text-danger">{{$message}}</span>
@@ -137,20 +137,20 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="radius">Bán kính (<span class="radius-fee">3</span> km)</label>
+                                    <label for="radius">Bán kính (<span class="radius-fee">3</span> km) (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="range" min=0 max=10 step="1" value="3" name="radius_fee" id="radius" class="custom-range range-radius radius-update">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="weather">Thời tiết</label>
+                                    <label for="weather">Thời tiết (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="weather_condition" class="form-control weather-update" id="weather">
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="fee">Phí vận chuyển</label>
+                            <label for="fee">Phí vận chuyển (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="number" min=0 name="fee" id="fee" class="form-control fee-update">
                             <span class="text-danger error-fee"></span>
                         </div>

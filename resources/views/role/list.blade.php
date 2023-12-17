@@ -81,7 +81,7 @@
                     ?>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Tên chức vụ</label>
+                            <label for="name">Tên chức vụ (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="name_role" id="name" class="form-control">
                             @error('name_role')
                             <span class="text-danger">{{$message}}</span>
@@ -111,7 +111,7 @@
                 <span class="text-success message-role mx-3"></span>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Tên chức vụ</label>
+                        <label for="name">Tên chức vụ (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                         <input type="text" name="" id="name" class="form-control name-update">
                         <span class="text-danger error-name"></span>
                     </div>

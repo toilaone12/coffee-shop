@@ -107,7 +107,7 @@
                         <div class="form-group mb-3">
                             <div class="row">
                                 <div class="col-lg-7">
-                                    <label>Hình ảnh sản phẩm</label>
+                                    <label>Hình ảnh sản phẩm (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <div class="custom-file mt-4">
                                         <input type="file" class="custom-file-input change-image" name="image_product" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
@@ -128,7 +128,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="id">Danh mục sản phẩm</label>
+                                    <label for="id">Danh mục sản phẩm (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="id_category" class="form-control" id="id">
                                         @foreach($listCate as $key => $parent)
                                         @if($parent->id_parent_category == 0)
@@ -149,7 +149,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="option">Món Best Sellers</label>
+                                    <label for="option">Món Best Sellers (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="is_special" id="" class="form-control id-category-update">
                                         <option value="">---Lựa chọn---</option>
                                         <option value="0">Không</option>
@@ -161,7 +161,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên sản phẩm</label>
+                                    <label for="name">Tên sản phẩm (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="name_product" id="name" class="form-control">
                                     @error('name_product')
                                     <span class="text-danger">{{$message}}</span>
@@ -170,7 +170,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="subname">Tiêu đề sản phẩm</label>
+                                    <label for="subname">Tiêu đề sản phẩm </label>
                                     <input type="text" name="subname_product" id="subname" class="form-control">
                                     @error('subname_product')
                                     <span class="text-danger">{{$message}}</span>
@@ -181,7 +181,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label for="price">Giá cả sản phẩm</label>
+                                    <label for="price">Giá cả sản phẩm (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min=0 name="price_product" id="price" class="form-control">
                                     @error('price_product')
                                     <span class="text-danger">{{$message}}</span>
@@ -232,7 +232,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
-                                    <label>Hình ảnh sản phẩm</label>
+                                    <label>Hình ảnh sản phẩm (<span title="Bắt buộc phải có" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <div class="custom-file mt-4">
                                         <input type="file" class="custom-file-input change-original-image" name="image_product" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
@@ -245,14 +245,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="option">Thuộc danh mục</label>
+                                    <label for="option">Thuộc danh mục (<span title="Bắt buộc phải có" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="id_category" id="" class="form-control id-category-update">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="option">Món Best Sellers</label>
+                                    <label for="option">Món Best Sellers (<span title="Bắt buộc phải có" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <select name="is_special" id="" class="form-control is-special-update">
                                     </select>
                                 </div>
@@ -261,7 +261,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="name">Tên sản phẩm</label>
+                                    <label for="name">Tên sản phẩm (<span title="Bắt buộc phải có" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="text" name="name_product" id="name" class="form-control name-update">
                                     <span class="text-danger error-name"></span>
                                 </div>
@@ -277,7 +277,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label for="price">Giá sản phẩm</label>
+                                    <label for="price">Giá sản phẩm (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <input type="number" min=0 name="price_product" id="price" class="form-control price-update">
                                     <span class="text-danger error-price"></span>
                                 </div>

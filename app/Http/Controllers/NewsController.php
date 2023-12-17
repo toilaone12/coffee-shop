@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\News;
 use App\Models\Notification;
 use Illuminate\Http\Request;
@@ -178,21 +179,27 @@ class NewsController extends Controller
         $isDot = '';
         $notifications = array();
         if(request()->cookie('id_customer')){
+            $customer = Customer::find(request()->cookie('id_customer'));
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
             $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
             $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
         }
-        return view('news.home',compact('lists','title','parentCategorys','childCategorys','carts','notifications','isDot'));
+        return view('news.home',compact('customer','lists','title','parentCategorys','childCategorys','carts','notifications','isDot'));
     }
     
     function detail($slug){
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $one = News::where('slug_new',$slug)->first();
-        $title = $one->title_new;
-        $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
-        $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
-        $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
-        return view('news.detail',compact('one','title','parentCategorys','childCategorys','isDot','notifications','carts'));
+        if($one){
+            $title = $one->title_new;
+            $customer = Customer::find(request()->cookie('id_customer'));
+            $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
+            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
+            return view('news.detail',compact('customer','one','title','parentCategorys','childCategorys','isDot','notifications','carts'));
+        }else{
+            return redirect()->route('page.home');
+        }
     }
 }

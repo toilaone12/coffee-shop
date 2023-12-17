@@ -79,21 +79,21 @@
                     ?>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Tên nhà cung cấp</label>
+                            <label for="name">Tên nhà cung cấp (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="name_supplier" id="name" class="form-control">
                             @error('name_supplier')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="phone">Số điện thoại liên hệ</label>
+                            <label for="phone">Số điện thoại liên hệ (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="phone" max=10 min=0 name="phone_supplier" id="phone" class="form-control">
                             @error('phone_supplier')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="address">Địa chỉ</label>
+                            <label for="address">Địa chỉ (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                             <input type="text" name="address_supplier" id="address" class="form-control">
                             @error('address_supplier')
                             <span class="text-danger">{{$message}}</span>
@@ -123,17 +123,17 @@
                 <span class="text-success message-supplier mx-3"></span>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Tên nhà cung cấp</label>
+                        <label for="name">Tên nhà cung cấp (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                         <input type="text" name="" id="name" class="form-control name-update">
                         <span class="text-danger error-name"></span>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Số điện thoại liên hệ</label>
+                        <label for="phone">Số điện thoại liên hệ (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                         <input type="phone" max=10 min=0 name="" id="phone" class="form-control phone-update">
                         <span class="text-danger error-phone"></span>
                     </div>
                     <div class="form-group">
-                        <label for="address">Địa chỉ</label>
+                        <label for="address">Địa chỉ (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                         <input type="text" name="address_supplier" id="address" class="form-control address-update">
                         <span class="text-danger error-address"></span>
                     </div>

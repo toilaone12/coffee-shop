@@ -47,6 +47,7 @@
             let data = {
                 id_role: $('.update-role').attr('data-id'),
                 name_role: $('.name-update').val(),
+                is_ajax: 1,
             }
             let headers = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -62,8 +63,15 @@
                         $('.error-name').text(data.status.name ? data.status.name : '');
                     }
                 },
-                function(err) {
-                    console.log(err);
+                function(xhr, status, error) {
+                    // Xử lý lỗi khi không đủ quyền truy cập
+                    if (xhr.status == 403) {
+                        // Hiển thị thông báo hoặc thực hiện hành động phù hợp cho người dùng
+                        swalPermission();
+                    } else {
+                        // Xử lý các lỗi khác nếu cần
+                        console.log(xhr.responseText);
+                    }
                 }
             );
         })
@@ -77,6 +85,7 @@
             }
             let data = {
                 id: $(this).data('id'),
+                is_ajax: 1,
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa chức vụ ' + name + ' không</span>', function(alert) {
                 if (alert) {
@@ -84,8 +93,15 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()});
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            // Xử lý lỗi khi không đủ quyền truy cập
+                            if (xhr.status == 403) {
+                                // Hiển thị thông báo hoặc thực hiện hành động phù hợp cho người dùng
+                                swalPermission();
+                            } else {
+                                // Xử lý các lỗi khác nếu cần
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -108,6 +124,7 @@
             })
             let data = {
                 arrId,
+                is_ajax: 1,
             };
             swalQuestion(html, function(alert) {
                 if (alert) {
@@ -115,8 +132,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()});
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -132,6 +153,7 @@
             }
             let data = {
                 id: $(this).data('id'),
+                is_ajax: 1,
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa tài khoản ' + name + ' này không</span>', function(alert) {
                 if (alert) {
@@ -139,8 +161,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()});
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -163,6 +189,7 @@
             })
             let data = {
                 arrId,
+                is_ajax: 1,
             };
             swalQuestion(html, function(alert) {
                 if (alert) {
@@ -170,8 +197,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()});
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -562,14 +593,19 @@
             })
             let data = {
                 id_product: $('.id-product').val(),
-                objComponent
+                objComponent,
+                is_ajax: 1,
             }
             callAjax(url, method, data, headers,
                 function(data) {
                     swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                 },
-                function(err) {
-                    console.log(err);
+                function(xhr, status, error) {
+                    if (xhr.status == 403) {
+                        swalPermission();
+                    } else {
+                        console.log(xhr.responseText);
+                    }
                 }
             );
         })
@@ -592,14 +628,19 @@
             let data = {
                 id_product: $('.id-product-recipe').val(),
                 id_recipe: $('.id-recipe').val(),
-                objComponent
+                objComponent,
+                is_ajax: 1,
             }
             callAjax(url, method, data, headers,
                 function(data) {
                     swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                 },
-                function(err) {
-                    console.log(err);
+                function(xhr, status, error) {
+                    if (xhr.status == 403) {
+                        swalPermission();
+                    } else {
+                        console.log(xhr.responseText);
+                    }
                 }
             );
         });
@@ -635,6 +676,7 @@
             }
             let data = {
                 id: id,
+                is_ajax: 1,
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa công thức của sản phẩm ' + name + ' này không?</span>', function(alert) {
                 if (alert) {
@@ -642,8 +684,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -666,6 +712,7 @@
             })
             let data = {
                 arrId,
+                is_ajax: 1
             };
             swalQuestion(html, function(alert) {
                 if (alert) {
@@ -673,8 +720,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -775,6 +826,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
             let formData = new FormData($(this)[0]);
+            formData.append('is_ajax',1);
             callAjax(url, method, formData, headers,
                 function(data) {
                     if (data.res == 'warning') {
@@ -787,8 +839,12 @@
                         swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                     }
                 },
-                function(err) {
-                    console.log(err);
+                function(xhr, status, error) {
+                    if (xhr.status == 403) {
+                        swalPermission();
+                    } else {
+                        console.log(xhr.responseText);
+                    }
                 }, 1);
         });
         //xoa ma khuyen mai
@@ -801,6 +857,7 @@
             }
             let data = {
                 id: id,
+                is_ajax: 1,
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa mã khuyến mãi này không</span>', function(alert) {
                 if (alert) {
@@ -808,8 +865,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -832,6 +893,7 @@
             })
             let data = {
                 arrId,
+                is_ajax: 1,
             };
             swalQuestion(html, function(alert) {
                 if (alert) {
@@ -839,8 +901,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -855,6 +921,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
             let formData = new FormData($(this)[0]);
+            formData.append('is_ajax',1);
             callAjax(url, method, formData, headers,
                 function(data) {
                     if (data.res == 'warning') {
@@ -863,8 +930,12 @@
                         swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                     }
                 },
-                function(err) {
-                    console.log(err);
+                function(xhr, status, error) {
+                    if (xhr.status == 403) {
+                        swalPermission();
+                    } else {
+                        console.log(xhr.responseText);
+                    }
                 }, 1);
         });
         //xoa phi van chuyen
@@ -877,6 +948,7 @@
             }
             let data = {
                 id: id,
+                is_ajax: 1,
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa phí vận chuyển này không?</span>', function(alert) {
                 if (alert) {
@@ -884,8 +956,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -908,6 +984,7 @@
             })
             let data = {
                 arrId,
+                is_ajax: 1
             };
             swalQuestion(html, function(alert) {
                 if (alert) {
@@ -915,8 +992,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -931,6 +1012,7 @@
                 name_supplier: $('.name-update').val(),
                 phone_supplier: $('.phone-update').val(),
                 address_supplier: $('.address-update').val(),
+                is_ajax: 1,
             }
             let headers = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -950,8 +1032,12 @@
                         $('.error-address').text(data.status.address ? data.status.address : '');
                     }
                 },
-                function(err) {
-                    console.log(err);
+                function(xhr, status, error) {
+                    if (xhr.status == 403) {
+                        swalPermission();
+                    } else {
+                        console.log(xhr.responseText);
+                    }
                 }
             );
         })
@@ -965,6 +1051,7 @@
             }
             let data = {
                 id: $(this).data('id'),
+                is_ajax: 1,
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa nhà cung cấp ' + name + ' không</span>', function(alert) {
                 if (alert) {
@@ -972,11 +1059,15 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
-                } else {}
+                }
             });
         })
         //xoa nhieu nha cung cap
@@ -997,6 +1088,7 @@
             html += ' không</span>';
             let data = {
                 arrId,
+                is_ajax: 1,
             };
             swalQuestion(html, function(alert) {
                 if (alert) {
@@ -1004,8 +1096,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -1021,6 +1117,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
             formData.append('content_new', CKEDITOR.instances['ckeditor'].getData())
+            formData.append('is_ajax',1);
             callAjax(url, method, formData, headers,
                 function(data) {
                     // console.log(data);
@@ -1032,8 +1129,12 @@
                         $('.error-content').text(data.status.content_new ? data.status.content_new : '');
                     }
                 },
-                function(err) {
-                    console.log(err);
+                function(xhr, status, error) {
+                    if (xhr.status == 403) {
+                        swalPermission();
+                    } else {
+                        console.log(xhr.responseText);
+                    }
                 }, 
             1);
         })
@@ -1047,6 +1148,7 @@
             }
             let data = {
                 id: id,
+                is_ajax: 1,
             };
             swalQuestion('<span class="fs-16">Bạn có muốn xóa tin tức này không</span>', function(alert) {
                 if (alert) {
@@ -1054,8 +1156,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }
@@ -1078,6 +1184,7 @@
             })
             let data = {
                 arrId,
+                is_ajax: 1,
             };
             swalQuestion(html, function(alert) {
                 if (alert) {
@@ -1085,8 +1192,12 @@
                         function(data) {
                             swalNotification(data.title,data.status,data.icon,() => {location.reload()})
                         },
-                        function(err) {
-                            console.log(err);
+                        function(xhr, status, error) {
+                            if (xhr.status == 403) {
+                                swalPermission();
+                            } else {
+                                console.log(xhr.responseText);
+                            }
                         }
                     );
                 }

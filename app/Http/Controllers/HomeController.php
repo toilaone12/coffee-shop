@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\News;
 use App\Models\Notification;
 use App\Models\Product;
@@ -27,6 +28,7 @@ class HomeController extends Controller
         $notifications = array();
         $isDot = '';
         if(request()->cookie('id_customer')){
+            $customer = Customer::find(request()->cookie('id_customer'));
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();
             $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
             $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
@@ -40,7 +42,8 @@ class HomeController extends Controller
             'news',
             'carts',
             'notifications',
-            'isDot'
+            'isDot',
+            'customer'
         ));
     }
 }
