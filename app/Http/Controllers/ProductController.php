@@ -201,6 +201,7 @@ class ProductController extends Controller
             $gallerys = Gallery::where('id_product',$product->id_product)->limit(4)->get();
             $carts = array();
             $isDot = '';
+            $customer = '';
             $notifications = array();
             if(request()->cookie('id_customer')){
                 $customer = Customer::find(request()->cookie('id_customer'));
@@ -220,6 +221,7 @@ class ProductController extends Controller
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $carts = array();
+        $customer = '';
         $isDot = '';
         $notifications = array();
         if(request()->cookie('id_customer')){

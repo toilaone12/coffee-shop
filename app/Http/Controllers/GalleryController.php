@@ -91,9 +91,9 @@ class GalleryController extends Controller
             $gallery->image_gallery = $image ? $pathStorage.$fileName : $pathStorage.$data['image_original_gallery'];
             $update = $gallery->save();
             if($update){
-                return response()->json(['res' => 'success', 'status' => 'Thay đổi dữ liệu danh mục ảnh thành công']);
+                return response()->json(['res' => 'success', 'title' => 'Danh mục ảnh sản phẩm', 'icon' => 'success', 'status' => 'Thay đổi dữ liệu danh mục ảnh thành công'], 200);
             }else{
-                return response()->json(['res' => 'fail', 'status' => 'Lỗi truy vấn dữ liệu']);
+                return response()->json(['res' => 'fail', 'title' => 'Danh mục ảnh sản phẩm', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu'], 200);
             }
         }else{
             return response()->json(['res' => 'warning', 'status' => $validator->errors()]);
@@ -104,9 +104,38 @@ class GalleryController extends Controller
         $data = $request->all();
         $delete = Gallery::find($data['id'])->delete();
         if($delete){
-            return response()->json(['res' => 'success'],200);
-        }else{
-            return response()->json(['res' => 'fail'],200);
+            return response()->json(['res' => 'success', 'title' => 'Danh mục ảnh sản phẩm', 'icon' => 'success', 'status' => 'Xóa danh mục ảnh thành công'], 200);
+        } else {
+            return response()->json(['res' => 'fail', 'title' => 'Danh mục ảnh sản phẩm', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu'], 200);
+        }
+    }
+
+    function deleteAll(Request $request)
+    {
+        $data = $request->all();
+        $noti = [];
+        // dd($data);
+        foreach ($data['arrId'] as $key => $id) {
+            $gallery = Gallery::where('id_gallery', $id)->first();
+            if ($gallery) {
+                $gallery->delete();
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã xóa danh mục ảnh',
+                    'link' => redirect()->route('gallery.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
+                $noti += ['res' => 'success'];
+            } else {
+                $noti += ['res' => 'fail'];
+            }
+        }
+        if ($noti['res'] == 'success') {
+            return response()->json(['res' => 'success', 'title' => 'Danh mục ảnh sản phẩm', 'icon' => 'success', 'status' => 'Xóa danh mục ảnh thành công'], 200);
+        } else {
+            return response()->json(['res' => 'fail', 'title' => 'Danh mục ảnh sản phẩm', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu'], 200);
         }
     }
 

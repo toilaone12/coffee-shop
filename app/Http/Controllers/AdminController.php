@@ -19,71 +19,76 @@ class AdminController extends Controller
         $title = 'Trang chủ';
         $username = Cookie::get('username');
         $checkOnline = Account::where('id_account',request()->cookie('id_account'))->first();
-        if(isset($username) && $username != '' && $checkOnline->is_online == 1){
-            $isOnline = Account::where('is_online',1)->get();
-            $statistic = Statistic::where('date_statistic',date('Y-m-d'))->first();
-            $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
-            $all = Notification::where('id_account',request()->cookie('id_account'))->get();
-            $dot = false;
-            foreach($all as $noti){
-                if($noti->is_read == 0){
-                    $dot = true;
-                }else{
-                    $dot = false;
-                }
-            }
-            // $order = Order::where('date_updated',date('Y-m-d'))->get();
-            $order = Order::where('date_updated',date('Y-m-d'))->get();
-            $arrDetail = [];
-            $arrOrder = [0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0];
-            $count = 1;
-            foreach($order as $key => $one){
-                if($one->status_order == 3){
-                    $orderDetail = DetailOrder::where("id_order",$one->id_order)->get();
-                    foreach($orderDetail as $key => $detail){
-                        $name = $detail->name_product;
-                        $quantity = $detail->quantity_product;
-                        // Nếu sản phẩm đã tồn tại trong mảng $arrDetail
-                        $existingKey = array_search($name, array_column($arrDetail, 'name')); //array_column: tao 1 mang moi chi co cot name
-                        //existingKey se tra ve key dung
-                        if ($existingKey !== false) {
-                            // Tăng số lượng cho sản phẩm đã tồn tại
-                            $arrDetail[$existingKey]['quantity'] += $quantity;
-                        } else {
-                            // Thêm sản phẩm mới vào mảng
-                            $arrDetail[] = [
-                                'name' => $name,
-                                'quantity' => $quantity,
-                            ];
-                        }
+        if($checkOnline){
+            if(isset($username) && $username != '' && $checkOnline->is_online == 1){
+                $isOnline = Account::where('is_online',1)->get();
+                $statistic = Statistic::where('date_statistic',date('Y-m-d'))->first();
+                $notifications = Notification::where('id_account',request()->cookie('id_account'))->orderBy('id_notification','desc')->limit(7)->get();
+                $all = Notification::where('id_account',request()->cookie('id_account'))->get();
+                $dot = false;
+                foreach($all as $noti){
+                    if($noti->is_read == 0){
+                        $dot = true;
+                    }else{
+                        $dot = false;
                     }
                 }
-                if (array_key_exists($one->status_order, $arrOrder)) {
-                    // Nếu đã tồn tại, tăng giá trị đếm số lượng sản phẩm của trạng thái đó lên 1
-                    $arrOrder[$one->status_order]++;
-                } else {
-                    // Nếu chưa tồn tại, khởi tạo giá trị đếm là 1 cho trạng thái đó
-                    $arrOrder[$one->status_order] = 1;
+                // $order = Order::where('date_updated',date('Y-m-d'))->get();
+                $order = Order::where('date_updated',date('Y-m-d'))->get();
+                $arrDetail = [];
+                $arrOrder = [0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0];
+                $count = 1;
+                foreach($order as $key => $one){
+                    if($one->status_order == 3){
+                        $orderDetail = DetailOrder::where("id_order",$one->id_order)->get();
+                        foreach($orderDetail as $key => $detail){
+                            $name = $detail->name_product;
+                            $quantity = $detail->quantity_product;
+                            // Nếu sản phẩm đã tồn tại trong mảng $arrDetail
+                            $existingKey = array_search($name, array_column($arrDetail, 'name')); //array_column: tao 1 mang moi chi co cot name
+                            //existingKey se tra ve key dung
+                            if ($existingKey !== false) {
+                                // Tăng số lượng cho sản phẩm đã tồn tại
+                                $arrDetail[$existingKey]['quantity'] += $quantity;
+                            } else {
+                                // Thêm sản phẩm mới vào mảng
+                                $arrDetail[] = [
+                                    'name' => $name,
+                                    'quantity' => $quantity,
+                                ];
+                            }
+                        }
+                    }
+                    if (array_key_exists($one->status_order, $arrOrder)) {
+                        // Nếu đã tồn tại, tăng giá trị đếm số lượng sản phẩm của trạng thái đó lên 1
+                        $arrOrder[$one->status_order]++;
+                    } else {
+                        // Nếu chưa tồn tại, khởi tạo giá trị đếm là 1 cho trạng thái đó
+                        $arrOrder[$one->status_order] = 1;
+                    }
                 }
+                $arrFilter = [
+                    '7days' => 'Một tuần trước',
+                    '1month' => 'Một tháng trước',
+                    '3months' => 'Ba tháng trước',
+                ];
+                $arrFilter = collect($arrFilter);
+                $firstDayOfMonth = Carbon::now()->startOfMonth(); // Lấy ngày đầu tiên của tháng này
+                $lastDayOfMonth = Carbon::now()->endOfMonth(); // Lấy ngày cuối cùng của tháng này
+                $statisticMonth = Statistic::whereBetween('date_statistic',[$firstDayOfMonth,$lastDayOfMonth])->get();
+                $allTotal = 0;
+                foreach($statisticMonth as $key => $one){
+                    $allTotal+= $one->price_statistic;
+                }
+                $order = Order::where('date_updated',date('Y-m-d'))->get();
+                // dd($allTotal);
+                return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth','notifications','dot','order','arrOrder'));
+            }else{
+                return redirect()->route('admin.login');
             }
-            $arrFilter = [
-                '7days' => 'Một tuần trước',
-                '1month' => 'Một tháng trước',
-                '3months' => 'Ba tháng trước',
-            ];
-            $arrFilter = collect($arrFilter);
-            $firstDayOfMonth = Carbon::now()->startOfMonth(); // Lấy ngày đầu tiên của tháng này
-            $lastDayOfMonth = Carbon::now()->endOfMonth(); // Lấy ngày cuối cùng của tháng này
-            $statisticMonth = Statistic::whereBetween('date_statistic',[$firstDayOfMonth,$lastDayOfMonth])->get();
-            $allTotal = 0;
-            foreach($statisticMonth as $key => $one){
-                $allTotal+= $one->price_statistic;
-            }
-            $order = Order::where('date_updated',date('Y-m-d'))->get();
-            // dd($allTotal);
-            return view('admin.content', compact('title','isOnline','statistic','allTotal','arrDetail','arrFilter','firstDayOfMonth','notifications','dot','order','arrOrder'));
         }else{
             return redirect()->route('admin.login');
+
         }
     }
 

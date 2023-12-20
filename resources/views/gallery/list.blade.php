@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Hình ảnh sản phẩm</th>
@@ -23,34 +24,18 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td></td>
+                                    <td><input type="checkbox" name="" value="{{$one->id_gallery}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td>
                                         <label for="file-{{$one->id_gallery}}">
-                                            <img
-                                                loading="lazy" 
-                                                src="{{ asset($one->image_gallery) }}" 
-                                                data-name="{{$one->image_gallery}}" 
-                                                class="image-original-{{$one->id_gallery}}" 
-                                                width="220" 
-                                                height="100" 
-                                            >
+                                            <img loading="lazy" src="{{ asset($one->image_gallery) }}" data-name="{{$one->image_gallery}}" class="image-original-{{$one->id_gallery}}" width="220" height="100">
                                         </label>
-                                        <input 
-                                            type="file" 
-                                            class="mt-3 d-none update-gallery" 
-                                            data-gallery="{{$one->id_gallery}}" 
-                                            name="image_gallery" 
-                                            id="file-{{$one->id_gallery}}"
-                                        >
+                                        <input type="file" class="mt-3 d-none update-gallery" data-gallery="{{$one->id_gallery}}" name="image_gallery" id="file-{{$one->id_gallery}}">
                                     </td>
                                     <td>
-                                        <button 
-                                            class="btn btn-danger delete-gallery" 
-                                            data-index="{{$key + 1}}" 
-                                            data-id="{{$one->id_gallery}}"
-                                        >
-                                            <i class="fa-solid fa-trash-can"></i>  
+                                        <button class="btn btn-danger delete-gallery" data-index="{{$key + 1}}" data-id="{{$one->id_gallery}}">
+                                            <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -87,11 +72,13 @@
                 <form action="{{route('gallery.insert')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <?php
+
                     use Illuminate\Support\Facades\Session;
+
                     $message = Session::get('message');
-                    if(isset($message)){
+                    if (isset($message)) {
                         echo $message;
-                        Session::put('message','');
+                        Session::put('message', '');
                     }
                     ?>
                     <div class="modal-body">
@@ -101,7 +88,7 @@
                                 <div class="col-lg-7">
                                     <label>Hình ảnh (<span title="Bắt buộc phải chọn" class="text-danger mx-auto cursor-pointer">*</span>)</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input change-multi-image" name="image_gallery[]"  multiple accept="image/*">
+                                        <input type="file" class="custom-file-input change-multi-image" name="image_gallery[]" multiple accept="image/*">
                                         <label class="custom-file-label" for="inputGroupFile01">Chọn ảnh</label>
                                     </div>
                                     <p class="imagePath" class="mt-5"></p>

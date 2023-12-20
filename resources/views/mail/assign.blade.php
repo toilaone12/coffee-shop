@@ -138,12 +138,12 @@
                         </tr>
                         <tr>
                             <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                <p style="margin: 0;">Đây là tên tài khoản của bạn: {{$username}}</p>
+                                <p style="margin: 0;">Tài khoản của bạn: {{$username}}</p>
                             </td>
                         </tr> <!-- COPY -->
                         <tr>
                             <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                <p style="margin: 0;">Mật khẩu: {{$password}}</p>
+                                <p style="margin: 0;">Mật khẩu sau khi quản lý cấp lại: {{$password}}</p>
                             </td>
                         </tr> <!-- COPY -->
                         <tr>

@@ -100,6 +100,43 @@ class AccountController extends Controller
         }
     }
 
+    function assign(Request $request)
+    {
+        $data = $request->all();
+        $titleMail = 'Cấp mật khẩu cho tài khoản thành công';
+        $account = Account::find($data['id']);
+        $email = $account->email_account;
+        $username = $account->username_account;
+        $randPassword = rand(100000, 999999);
+        $password = $randPassword;
+        $account->password_account = md5($password);
+        $update = $account->save();
+        if($update){
+            $dataMail = [
+                'username' => $username,
+                'email' => $email,
+                'password' => $password
+            ];
+            $mail = Mail::send('mail.assign', $dataMail, function ($message) use ($titleMail, $email) {
+                $message->to($email)->subject($titleMail);
+                $message->from($email, $titleMail);
+            });
+            if ($mail == null) {
+                $noti = [
+                    'id_account' => request()->cookie('id_account'),
+                    'id_customer' => 0,
+                    'content' => 'Bạn đã cấp mật khẩu cho tài khoản "' . $username . '"',
+                    'link' => redirect()->route('account.list')->getTargetUrl(),
+                    'is_read' => 0,
+                ];
+                Notification::create($noti);
+                return response()->json(['res' => 'success', 'title' => 'Cấp mật khẩu cho tài khoản', 'icon' => 'success', 'status' => 'Cấp mật khẩu cho tài khoản thành công'], 200);
+            }
+        }else{
+            return response()->json(['res' => 'error', 'title' => 'Cấp mật khẩu cho tài khoản', 'icon' => 'error', 'status' => 'Lỗi truy vấn'], 200);
+        }
+    }
+
     function updateInfo(Request $request){
         $data = $request->all();
         Validator::make($data,[

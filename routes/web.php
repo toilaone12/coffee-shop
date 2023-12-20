@@ -60,7 +60,8 @@ Route::prefix('admin')->group(function(){
         Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update');
         Route::group(['middleware' => 'auth.roles'],function(){
             Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert');
-            Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete');
+            Route::post('/assign',[AccountController::class, 'assign'])->name('account.assign'); // cap mat khau
+            Route::post('/delete', [AccountController::class, 'delete'])->name('account.delete');
             Route::post('/deleteAll',[AccountController::class, 'deleteAll'])->name('account.deleteAll');
         });
     });
@@ -87,6 +88,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/insert',[GalleryController::class, 'insert'])->name('gallery.insert');
         Route::post('/update',[GalleryController::class, 'update'])->name('gallery.update');
         Route::post('/delete',[GalleryController::class, 'delete'])->name('gallery.delete');
+        Route::post('/delete-all',[GalleryController::class, 'deleteAll'])->name('gallery.deleteAll');
     });
     //Nguyen lieu
     Route::prefix('ingredients')->group(function(){

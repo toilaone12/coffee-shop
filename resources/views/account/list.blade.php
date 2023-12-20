@@ -37,7 +37,8 @@
                                     @endif
                                     @endforeach
                                     <td>
-                                        <button class="btn btn-danger delete-account" data-id="{{$one->id_account}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn d-block btn-primary assign-password mb-2" data-id="{{$one->id_account}}"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn d-block btn-danger delete-account" data-id="{{$one->id_account}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -73,11 +74,13 @@
                 <form action="{{route('account.insert')}}" method="post">
                     @csrf
                     <?php
+
                     use Illuminate\Support\Facades\Session;
+
                     $message = Session::get('message');
-                    if(isset($message)){
+                    if (isset($message)) {
                         echo $message;
-                        Session::put('message','');
+                        Session::put('message', '');
                     }
                     ?>
                     <div class="modal-body">
@@ -135,7 +138,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>

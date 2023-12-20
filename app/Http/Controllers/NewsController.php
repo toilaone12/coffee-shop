@@ -177,6 +177,7 @@ class NewsController extends Controller
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
         $carts = array();
         $isDot = '';
+        $customer = '';
         $notifications = array();
         if(request()->cookie('id_customer')){
             $customer = Customer::find(request()->cookie('id_customer'));

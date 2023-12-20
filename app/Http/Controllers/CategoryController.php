@@ -132,7 +132,7 @@ class CategoryController extends Controller
                                     $review = Review::where('id_product',$product->id_product)->delete();
                                     $noti += ['res' => 'success'];
                                 }else{
-                                    $noti += ['res' => 'error'];
+                                    $noti += ['res' => 'success'];
                                 }
                             }
                         }else{
@@ -152,18 +152,14 @@ class CategoryController extends Controller
                             $review = Review::where('id_product',$product->id_product)->delete();
                             $noti += ['res' => 'success'];
                         }else{
-                            $noti += ['res' => 'error'];
+                            $noti += ['res' => 'success'];
                         }
                     }
                 }else{
                     $noti += ['res' => 'success'];
                 }
             }
-            if($noti['res'] == 'success'){
-                return response()->json(['res' => 'success', 'title' => 'Xoá danh mục', 'icon' => 'success', 'status' => 'Xóa thành công']);
-            }else{
-                return response()->json(['res' => 'fail', 'title' => 'Xoá danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
-            }
+            return response()->json(['res' => 'success', 'title' => 'Xoá danh mục', 'icon' => 'success', 'status' => 'Xóa thành công']);
         }else{
             return response()->json(['res' => 'fail', 'title' => 'Xoá danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
         }
@@ -238,11 +234,11 @@ class CategoryController extends Controller
                 $noti += ['res' => 'success'];
             }
         }
-        if($noti['res'] == 'success'){
-            return response()->json(['res' => 'success', 'title' => 'Xoá danh mục', 'icon' => 'success', 'status' => 'Xóa thành công']);
-        }else{
-            return response()->json(['res' => 'fail', 'title' => 'Xoá danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
-        }
+        return response()->json(['res' => 'success', 'title' => 'Xoá danh mục', 'icon' => 'success', 'status' => 'Xóa thành công']);
+        // if($noti['res'] == 'success'){
+        // }else{
+        //     return response()->json(['res' => 'fail', 'title' => 'Xoá danh mục', 'icon' => 'error', 'status' => 'Lỗi truy vấn dữ liệu']);
+        // }
     }
 
     //page 

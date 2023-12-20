@@ -13,8 +13,8 @@
                 let alert = JSON.parse(textData)[0];
                 let idAdmin = "{{request()->cookie('id_account')}}";
                 console.log(idAdmin);
-                if(alert.id == idAdmin){
-                    swalNotification('Thông báo đặt hàng',alert.text,'success',() => {
+                if (alert.id == idAdmin) {
+                    swalNotification('Thông báo đặt hàng', alert.text, 'success', () => {
                         location.href = alert.link;
                     })
                 }
@@ -55,7 +55,9 @@
             callAjax(url, method, data, headers,
                 function(data) {
                     if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title,data.status,data.icon,() => { location.reload() })
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                         if ($('.error-name').text() != '') {
                             $('.error-name').text('');
                         }
@@ -91,7 +93,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()});
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            });
                         },
                         function(xhr, status, error) {
                             // Xử lý lỗi khi không đủ quyền truy cập
@@ -130,7 +134,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()});
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            });
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -142,6 +148,33 @@
                     );
                 }
             });
+        })
+        //cap mat khau cho tai khoan
+        $('#myTable').on('click', '.assign-password', function() {
+            let id = $(this).data('id');
+            let url = '{{route("account.assign")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let data = {
+                id: id,
+                is_ajax: 1,
+            };
+            callAjax(url, method, data, headers,
+                function(data) {
+                    swalNotification(data.title, data.status, data.icon, () => {
+                        location.reload()
+                    });
+                },
+                function(xhr, status, error) {
+                    if (xhr.status == 403) {
+                        swalPermission();
+                    } else {
+                        console.log(xhr.responseText);
+                    }
+                }
+            );
         })
         //xoa tai khoan
         $('#myTable').on('click', '.delete-account', function() {
@@ -159,7 +192,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()});
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            });
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -195,7 +230,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()});
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            });
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -223,7 +260,9 @@
             callAjax(url, method, data, headers,
                 function(data) {
                     if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                         if ($('.error-name').text() != '') {
                             $('.error-name').text('');
                         }
@@ -252,7 +291,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -284,7 +325,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -308,7 +351,9 @@
             callAjax(url, method, data, headers,
                 function(data) {
                     if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                         if ($('.error-fullname').text() != '' || $('.error-abbreviation').text() != '') {
                             $('.error-fullname').text('');
                             $('.error-abbreviation').text('');
@@ -338,7 +383,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -369,7 +416,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -391,7 +440,9 @@
             callAjax(url, method, formData, headers,
                 function(data) {
                     if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                         if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-subname').text() != '' ||
                             $('.error-quantity').text() != '' || $('.error-price').text() != '') {
                             $('.error-name').text('');
@@ -428,7 +479,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -459,7 +512,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -483,7 +538,41 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+        })
+        $('.delete-all-gallery').click(function() {
+            let arrId = [];
+            let url = '{{route("gallery.deleteAll")}}';
+            let method = "POST";
+            let headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            let html = '<span class="fs-16">Bạn có muốn xóa các ảnh sản phẩm đã chọn không ?</span>';
+            $('input[type="checkbox"]:checked').each(function(k, v) {
+                let id = parseInt($(this).val());
+                arrId.push({
+                    id: id
+                });
+            })
+            let data = {
+                arrId,
+            };
+            swalQuestion(html, function(alert) {
+                if (alert) {
+                    callAjax(url, method, data, headers,
+                        function(data) {
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -505,7 +594,9 @@
                 function(data) {
                     // console.log(data);
                     if (data.res === 'success' || data.res === 'fail') {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                         if ($('.error-name').text() != '' || $('.error-quantity').text() != '') {
                             $('.error-name').text('');
                             $('.error-quantity').text('');
@@ -535,7 +626,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -566,7 +659,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -598,7 +693,9 @@
             }
             callAjax(url, method, data, headers,
                 function(data) {
-                    swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                    swalNotification(data.title, data.status, data.icon, () => {
+                        location.reload()
+                    })
                 },
                 function(xhr, status, error) {
                     if (xhr.status == 403) {
@@ -633,7 +730,9 @@
             }
             callAjax(url, method, data, headers,
                 function(data) {
-                    swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                    swalNotification(data.title, data.status, data.icon, () => {
+                        location.reload()
+                    })
                 },
                 function(xhr, status, error) {
                     if (xhr.status == 403) {
@@ -658,7 +757,7 @@
             callAjax(url, method, data, headers,
                 function(data) {
                     // console.log(data);
-                    swalNotification(data.title,data.status,data.icon,() => {})
+                    swalNotification(data.title, data.status, data.icon, () => {})
                 },
                 function(err) {
                     console.log(err);
@@ -682,7 +781,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -718,7 +819,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -744,7 +847,9 @@
             callAjax(url, method, formData, headers,
                 function(data) {
                     if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                         if ($('.error-image').text() != '' || $('.error-name').text() != '' || $('.error-slug').text() != '') {
                             $('.error-name').text('');
                             $('.error-image').text('');
@@ -776,7 +881,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -808,7 +915,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -826,7 +935,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
             let formData = new FormData($(this)[0]);
-            formData.append('is_ajax',1);
+            formData.append('is_ajax', 1);
             callAjax(url, method, formData, headers,
                 function(data) {
                     if (data.res == 'warning') {
@@ -836,7 +945,9 @@
                         $('.error-discount').text(data.status.discount_coupon);
                         $('.error-time').text(data.status.expiration_time);
                     } else {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                     }
                 },
                 function(xhr, status, error) {
@@ -863,7 +974,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -899,7 +1012,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -921,13 +1036,15 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
             let formData = new FormData($(this)[0]);
-            formData.append('is_ajax',1);
+            formData.append('is_ajax', 1);
             callAjax(url, method, formData, headers,
                 function(data) {
                     if (data.res == 'warning') {
                         $('.error-fee').text(data.status.fee);
                     } else {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                     }
                 },
                 function(xhr, status, error) {
@@ -954,7 +1071,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -990,7 +1109,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -1020,7 +1141,9 @@
             callAjax(url, method, data, headers,
                 function(data) {
                     if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                         if ($('.error-name').text() != '' || $('.error-phone').text() != '' || $('.error-address').text() != '') {
                             $('.error-name').text('');
                             $('.error-phone').text('');
@@ -1057,7 +1180,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -1094,7 +1219,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -1117,12 +1244,14 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
             formData.append('content_new', CKEDITOR.instances['ckeditor'].getData())
-            formData.append('is_ajax',1);
+            formData.append('is_ajax', 1);
             callAjax(url, method, formData, headers,
                 function(data) {
                     // console.log(data);
                     if (data.res === 'success' || data.res === 'error') {
-                        swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                        swalNotification(data.title, data.status, data.icon, () => {
+                            location.reload()
+                        })
                     } else if (data.res === 'warning') {
                         $('.error-image').text(data.status.image_new ? data.status.image_new : '');
                         $('.error-title').text(data.status.title_new ? data.status.title_new : '');
@@ -1135,8 +1264,8 @@
                     } else {
                         console.log(xhr.responseText);
                     }
-                }, 
-            1);
+                },
+                1);
         })
         //xoa tin tuc
         $('#myTable').on('click', '.delete-new', function() {
@@ -1154,7 +1283,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -1190,7 +1321,9 @@
                 if (alert) {
                     callAjax(url, method, data, headers,
                         function(data) {
-                            swalNotification(data.title,data.status,data.icon,() => {location.reload()})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload()
+                            })
                         },
                         function(xhr, status, error) {
                             if (xhr.status == 403) {
@@ -1387,7 +1520,9 @@
                     callAjax(url, method, data, headers,
                         function(data) {
                             // console.log(data);
-                            swalNotification(data.title, data.status, data.icon,() => {location.reload();})
+                            swalNotification(data.title, data.status, data.icon, () => {
+                                location.reload();
+                            })
                         },
                         function(err) {
                             console.log(err);
@@ -1535,9 +1670,9 @@
                 }
             )
         })
-        
+
         //sua danh gia 
-        $('.update-review').submit(function(e){
+        $('.update-review').submit(function(e) {
             e.preventDefault()
             let url = "{{route('review.update')}}";
             let method = "POST";
@@ -1565,7 +1700,7 @@
                 }, 1);
         })
         //tim kiem tuy chon ngay
-        $('.search-date-product').submit(function(e){
+        $('.search-date-product').submit(function(e) {
             e.preventDefault()
             let url = "{{route('order.search')}}";
             let method = "POST";
@@ -1576,18 +1711,18 @@
             callAjax(url, method, formData, headers,
                 function(data) {
                     if (data.res === 'success') {
-                        createChart(data.arrDetail,'Số lượng','myAreaChart')
+                        createChart(data.arrDetail, 'Số lượng', 'myAreaChart')
                         $('.text-quantity-chart').text(`Biểu đồ số lượng sản phẩm đã bán (từ ${data.from} đến ${data.to})`)
                     }
                 },
                 function(err) {
                     console.log(err);
-                }, 
-            1);
+                },
+                1);
         })
         //loc thong ke theo tuy chon
-        $('.filter-quantity-sold').change(function(e){
-            let option = $(this).val(); 
+        $('.filter-quantity-sold').change(function(e) {
+            let option = $(this).val();
             let optionText = $(this).text();
             let url = "{{route('order.filter')}}";
             let method = "POST";
@@ -1600,17 +1735,17 @@
             callAjax(url, method, data, headers,
                 function(data) {
                     if (data.res === 'success') {
-                        createChart(data.arrDetail,'Số lượng','myAreaChart')
+                        createChart(data.arrDetail, 'Số lượng', 'myAreaChart')
                         $('.text-quantity-chart').text(`Biểu đồ số lượng sản phẩm đã bán (từ ${data.from} đến ${data.to})`)
                     }
                 },
                 function(err) {
                     console.log(err);
-                }, 
+                },
             );
         })
         //doc thong bao
-        $(document).on('click','.choose-notification',function(){
+        $(document).on('click', '.choose-notification', function() {
             let id = $(this).data('id');
             let choose = $(this);
             let url = "{{route('notification.one')}}";
@@ -1623,18 +1758,18 @@
             };
             callAjax(url, method, data, headers,
                 function(data) {
-                    if(data.res == 'success'){
+                    if (data.res == 'success') {
                         choose.find('.dot-notification').remove();
-                        if(data.count == 0) $('.dot-bell').remove();
+                        if (data.count == 0) $('.dot-bell').remove();
                     }
                 },
                 function(err) {
                     console.log(err);
-                }, 
+                },
             );
         });
         //xem thong thong bao
-        $(document).on('click','.load-more-notification',function(){
+        $(document).on('click', '.load-more-notification', function() {
             let page = parseInt($(this).data('page')) + 1;
             let load = $(this);
             let id = "{{request()->cookie('id_account')}}";
@@ -1650,15 +1785,15 @@
             };
             callAjax(url, method, data, headers,
                 function(data) {
-                    if(data.res == 'success' && data.count != 0){
+                    if (data.res == 'success' && data.count != 0) {
                         // console.log(data);
-                        formNotification(data.list,data.page,data.count);
+                        formNotification(data.list, data.page, data.count);
                         load.remove();
                     }
                 },
                 function(err) {
                     console.log(err);
-                }, 
+                },
             );
         })
         //kiem tra don hang
@@ -1695,13 +1830,13 @@
         //     var change = $(this);
         //     var currentValue = $(this).data('quantity');
         //     var dataId = $(this).data('id');
-            
+
         //     // Thay thế ô <td> bằng ô <input>
         //     $(this).html('<input type="tel" class="input-quantity form-control" min=1 max='+currentValue+' value="' + currentValue + '" data-id="' + dataId + '">');
-            
+
         //     // Focus vào ô input
         //     $('.input-quantity').focus();
-            
+
         //     // Xử lý khi người dùng blur (click ra khỏi ô input)
         //     $('.input-quantity').on('blur', function() {
         //         var input = $(this);
@@ -1736,29 +1871,28 @@
         //     });
         // })
         //ve ma qr
-        $('.open-qr').on('click', function(){
+        $('.open-qr').on('click', function() {
             let name = $(this).attr('data-name');
             let price = $(this).attr('data-price');
             let code = $(this).attr('data-code');
             let url = "https://api.beta-a2b.work/1/api/qrcode";
             let method = "POST";
             // console.log('Khach hang '+convertVietnameseToEnglish(name)+' thanh toan hoa don #'+code);
-            let headers = {         
-            };
+            let headers = {};
             let data = {
                 bank_bin: 970407,
                 bank_number: 19036433368016,
                 price: price,
-                content: 'Khach hang '+convertVietnameseToEnglish(name)+' thanh toan hoa don #'+code
+                content: 'Khach hang ' + convertVietnameseToEnglish(name) + ' thanh toan hoa don #' + code
             };
             callAjax(url, method, data, headers,
                 function(data) {
                     $('#qrcode').modal('show');
-                    $('.img-qrcode').attr('src',data.link)
+                    $('.img-qrcode').attr('src', data.link)
                 },
                 function(err) {
                     console.log(err);
-                }, 
+                },
             );
         })
     })

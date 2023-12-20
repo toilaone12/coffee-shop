@@ -26,6 +26,7 @@ class HomeController extends Controller
         $news = News::orderBy('updated_at', 'desc')->get();
         $carts = array();
         $notifications = array();
+        $customer = '';
         $isDot = '';
         if(request()->cookie('id_customer')){
             $customer = Customer::find(request()->cookie('id_customer'));
