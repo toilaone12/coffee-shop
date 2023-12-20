@@ -183,13 +183,11 @@ class CustomerController extends Controller
         $validation = Validator::make($data,[
             'fullname' => ['required', 'regex: /^[\p{L}a-zA-Z\s]+$/u'],
             'phone' => ['required', 'regex: /^(03[2-9]|05[6-9]|07[06-9]|08[1-9]|09[0-9]|01[2-9])[0-9]{7}$/'],
-            'email' => ['required'],
         ],[
             'fullname.required' => 'Họ và tên bắt buộc phải điền vào',
             'fullname.regex' => 'Họ và tên phải là chữ cái',
             'phone.required' => 'Số điện thoại bắt buộc phải điền vào',
             'phone.regex' => 'Số điện thoại phải nằm trong phạm vi Việt Nam',
-            'email.required' => 'Email bắt buộc phải điền vào',
         ]);
         if($validation->fails()){
             return response()->json(['res' => 'warning', 'status' => $validation->errors()]);

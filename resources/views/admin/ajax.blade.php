@@ -1782,6 +1782,7 @@
             let data = {
                 id: id,
                 page: page,
+                isCustomer: 0
             };
             callAjax(url, method, data, headers,
                 function(data) {

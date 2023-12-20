@@ -285,10 +285,6 @@ class DetailNoteController extends Controller
             $a = [];
             foreach($list as $key => $one){
                 $existIngredient = Ingredients::where('name_ingredient', $one->name_ingredient)->first();
-                $unitOld = Units::find($ingredient->id_unit);
-                $unitNew = Units::find($one->id_unit);
-                $abbreviationOld = $unitOld->abbreviation_unit;
-                $abbreviationNew = $unitNew->abbreviation_unit;
                 if(!$existIngredient){
                     $db = [
                         'id_unit' => $one->id_unit,
@@ -298,6 +294,10 @@ class DetailNoteController extends Controller
                     $ingredient = Ingredients::create($db);
                     // $ingredient = true;
                 }else{
+                    $unitOld = Units::find($ingredient->id_unit);
+                    $unitNew = Units::find($one->id_unit);
+                    $abbreviationOld = $unitOld->abbreviation_unit;
+                    $abbreviationNew = $unitNew->abbreviation_unit;
                     if ($existIngredient->id_unit === 1 && $one->id_unit == 2) {
                         $one->quantity_ingredient = $this->convertUnit($one->quantity_ingredient, 'g', 'kg');
                     } else if ($existIngredient->id_unit === 2 && $one->id_unit == 1) {

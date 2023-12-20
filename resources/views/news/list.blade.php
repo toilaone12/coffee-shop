@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Ảnh tin tức</th>
@@ -27,6 +28,7 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
+                                    <td></td>
                                     <td><input type="checkbox" value="{{$one->id_new}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td>
@@ -37,13 +39,7 @@
                                     <td style="width: 100px; max-width: 100px;" class="text-truncate content-{{$one->id_new}}">{{$one->content_new}}</td>
                                     <td class="view-{{$one->id_new}}">{{$one->view_new}}</td>
                                     <td>
-                                        <button 
-                                            style="width: 40px; height: 40px;"
-                                            class="btn btn-primary choose-new mb-2" 
-                                            data-id="{{$one->id_new}}" 
-                                            data-toggle="modal" 
-                                            data-target="#updateModal"
-                                            >
+                                        <button style="width: 40px; height: 40px;" class="btn btn-primary choose-new mb-2" data-id="{{$one->id_new}}" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                         <button style="width: 40px; height: 40px;" class="btn btn-danger delete-new" data-id="{{$one->id_new}}"><i class="fa-solid fa-trash-can"></i></button>
@@ -82,11 +78,13 @@
                 <form action="{{route('news.insert')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <?php
+
                     use Illuminate\Support\Facades\Session;
+
                     $message = Session::get('message');
-                    if(isset($message)){
+                    if (isset($message)) {
                         echo $message;
-                        Session::put('message','');
+                        Session::put('message', '');
                     }
                     ?>
                     <div class="modal-body">
@@ -158,7 +156,7 @@
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <div class="row">
-                                <input type="hidden" name="id_new" class="id-new" >
+                                <input type="hidden" name="id_new" class="id-new">
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label>Hình ảnh gốc</label>

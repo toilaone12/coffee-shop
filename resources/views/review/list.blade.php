@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Sản phẩm</th>
@@ -27,6 +28,7 @@
                                 @foreach($list as $key => $one)
                                 @if($one->id_reply == 0)
                                 <tr>
+                                    <td></td>
                                     <td><input type="checkbox" value="{{$one->id_review}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     @foreach($listProduct as $product)
@@ -47,14 +49,7 @@
                                                 <span class="reply-admin-{{$one->id_review}}">
                                                     {{$reply->content_review}}
                                                 </span>
-                                                <button 
-                                                    class="btn btn-success choose-review" 
-                                                    style="width: 40px; height: 40px;" 
-                                                    data-id="{{$one->id_review}}"
-                                                    data-reply="{{$reply->id_review}}" 
-                                                    data-toggle="modal" 
-                                                    data-target="#updateReplyModal"
-                                                >
+                                                <button class="btn btn-success choose-review" style="width: 40px; height: 40px;" data-id="{{$one->id_review}}" data-reply="{{$reply->id_review}}" data-toggle="modal" data-target="#updateReplyModal">
                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                 </button>
                                             </li>
@@ -64,13 +59,7 @@
                                     </td>
                                     <td class="rating-{{$one->id_review}}">{{$one->rating_review}}</td>
                                     <td>
-                                        <button 
-                                            class="btn btn-success reply-review" 
-                                            style="width: 40px; height: 40px;" 
-                                            data-id="{{$one->id_review}}" 
-                                            data-toggle="modal" 
-                                            data-target="#replyModal" {{$one->is_update == 1 ? 'disabled' : ''}}
-                                        >
+                                        <button class="btn btn-success reply-review" style="width: 40px; height: 40px;" data-id="{{$one->id_review}}" data-toggle="modal" data-target="#replyModal" {{$one->is_update == 1 ? 'disabled' : ''}}>
                                             <i class="fa-solid fa-reply"></i>
                                         </button>
                                     </td>
@@ -79,7 +68,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        
+
                     </div>
                     <!-- /.card-body -->
                 </div>

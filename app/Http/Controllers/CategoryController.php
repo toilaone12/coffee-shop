@@ -251,6 +251,7 @@ class CategoryController extends Controller
         $carts = array();
         $notifications = array();
         $isDot = '';
+        $customer = '';
         if(request()->cookie('id_customer')){
             $customer = Customer::find(request()->cookie('id_customer'));
             $carts = Cart::where('id_customer',request()->cookie('id_customer'))->get();

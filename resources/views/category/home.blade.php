@@ -45,10 +45,10 @@
           @foreach($lists as $key => $one)
           <div class="col-md-4 text-center">
             <div class="menu-wrap">
-              <a href="#" class="menu-img img mb-4 image-{{$one->id_product}}" style="background-image: url('{{asset($one->image_product)}}'); height: 215px !important;" data-image="{{asset($one->image_product)}}">
+              <a href="{{route('product.detail',['slug' => $one->slug_product])}}" class="menu-img img mb-4 image-{{$one->id_product}}" style="background-image: url('{{asset($one->image_product)}}'); height: 215px !important;" data-image="{{asset($one->image_product)}}">
               </a>
               <div class="text">
-                <h3><a href="#" class="name-{{$one->id_product}}">{{$one->name_product}}</a></h3>
+                <h3><a href="{{route('product.detail',['slug' => $one->slug_product])}}" class="name-{{$one->id_product}}">{{$one->name_product}}</a></h3>
                 <p class="price price-{{$one->id_product}}"><span>{{number_format($one->price_product,0,',','.')}} đ</span></p>
                 <p>
                   <button type="button" class="btn btn-primary btn-outline-primary open-modal-{{$one->id_product}} product" data-toggle="modal" data-target="#exampleModal" data-id="{{$one->id_product}}">

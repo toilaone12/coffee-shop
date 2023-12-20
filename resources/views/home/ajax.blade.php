@@ -717,7 +717,7 @@
             callAjax(url, method, data, headers,
                 function(data) {
                     if (data.res == 'success') {
-                        // location.href = data.link;
+                        location.href = data.link;
                         // choose.find('.dot-notification').remove();
                         // if(data.count == 0) $('.dot-bell').remove();
                     }

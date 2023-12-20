@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Tên nguyên liệu</th>
@@ -25,23 +26,21 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
+                                    <td></td>
                                     <td><input type="checkbox" value="{{$one->id_ingredient}}" name="" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="name-{{$one->id_ingredient}}">{{$one->name_ingredient}}</td>
                                     @foreach($listUnits as $unit)
                                     @if($unit->id_unit == $one->id_unit)
-                                    <td 
-                                        class="id-{{$one->id_ingredient}}" 
-                                        data-id="{{$one->id_unit}}"
-                                    >
+                                    <td class="id-{{$one->id_ingredient}}" data-id="{{$one->id_unit}}">
                                         {{$unit->fullname_unit}}
                                     </td>
                                     @endif
                                     @endforeach
                                     <td class="quantity-{{$one->id_ingredient}}">{{$one->quantity_ingredient}}</td>
                                     <td>
-                                        <button class="btn btn-primary choose-ingredients" data-id="{{$one->id_ingredient}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button class="btn btn-danger delete-ingredient mt-lg-2" data-id="{{$one->id_ingredient}}"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn d-block btn-primary choose-ingredients" data-id="{{$one->id_ingredient}}" data-toggle="modal" data-target="#updateModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="btn d-block btn-danger delete-ingredient mt-lg-2" data-id="{{$one->id_ingredient}}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach

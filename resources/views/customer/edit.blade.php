@@ -40,7 +40,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="fs-15" for="email">Email (<span title="Bắt buộc phải nhập" class="text-danger mx-auto cursor-pointer">*</span>)</label>
-                                <input type="text" name="email" id="email" value="{{$customer->email_customer}}" style="outline:none" class="border w-100 text-secondary fs-14 px-2 py-1 rounded email-update">
+                                <input type="text" name="email" id="email" value="{{$customer->email_customer}}" disabled style="outline:none" class="disabled border w-100 text-secondary fs-14 px-2 py-1 rounded email-update">
                                 <span class="text-danger error-email fs-12"></span>
                             </div>
                         </div>

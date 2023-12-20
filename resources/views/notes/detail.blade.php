@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Mã phiếu</th>
@@ -29,6 +30,7 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
+                                    <td></td>
                                     <td><input type="checkbox" name="" value="{{$one->id_detail}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="code-{{$one->id_detail}}">{{$one->code_note}}</td>

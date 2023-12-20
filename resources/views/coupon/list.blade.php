@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Tên khuyến mãi</th>
@@ -30,6 +31,7 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
+                                    <td></td>
                                     <td><input type="checkbox" value="{{$one->id_coupon}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="name-{{$one->id_coupon}}">{{$one->name_coupon}}</td>
@@ -41,10 +43,10 @@
                                         {{$one->type_coupon ? 'Giảm theo giá tiền' : 'Giảm theo phần trăm'}}
                                     </td>
                                     <td class="discount-{{$one->id_coupon}}" data-discount="{{$one->discount_coupon}}">
-                                        {{$one->discount_coupon}} đ
+                                        {{$one->type_coupon ? number_format($one->discount_coupon,0,',','.').' đ' : $one->discount_coupon.' %'}}
                                     </td>
                                     <td class="is-buy-{{$one->id_coupon}}" data-buy="{{$one->is_buy ? $one->is_buy : 0}}">
-                                        {{$one->is_buy ? $one->is_buy : 'Không có'}} 
+                                        {{$one->is_buy ? $one->is_buy : 'Không có'}}
                                     </td>
                                     <td class="is-price-{{$one->id_coupon}}" data-price="{{$one->is_price}}">
                                         {{$one->is_price ? $one->is_price : 'Không có'}}

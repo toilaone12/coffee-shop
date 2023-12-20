@@ -1,5 +1,6 @@
 <?php
-    use Illuminate\Support\Str;
+
+use Illuminate\Support\Str;
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
@@ -24,9 +25,7 @@
                             <div class="dropdown-submenu">
                                 @foreach($childCategorys as $child)
                                 @if($child->id_parent_category == $parent->id_category)
-                                <a 
-                                class="dropdown-item p-3 fs-14 text-white" 
-                                href="{{route('category.home',['parent' => $parent->slug_category, 'child' => $child->slug_category])}}">
+                                <a class="dropdown-item p-3 fs-14 text-white" href="{{route('category.home',['parent' => $parent->slug_category, 'child' => $child->slug_category])}}">
                                     {{$child->name_category}}
                                 </a>
                                 @endif
@@ -164,7 +163,7 @@
                             </div>
                             <div class="notification-body overflow-auto">
                                 @foreach($notifications as $noti)
-                                <a href="{{$noti->link}}" class="choose-notification" data-id="{{$noti->id_notification}}">
+                                <a class="choose-notification" data-id="{{$noti->id_notification}}">
                                     <div class="d-flex align-item-center justify-content-between px-3 pt-2 cursor-pointer">
                                         <span class="fs-12 d-block text-secondary">{{date('d/m/Y',strtotime($noti->created_at))}}</span>
                                         @if($noti->is_read == 0)
@@ -172,7 +171,7 @@
                                         @endif
                                     </div>
                                     <div class="border-bottom border-secondary px-3 pb-2 cursor-pointer">
-                                        <a href="{{$noti->link}}" class="text-light fs-14">{{$noti->content}}</a>
+                                        <a class="text-light fs-14 choose-notification" data-id="{{$noti->id_notification}}">{{$noti->content}}</a>
                                     </div>
                                 </a>
                                 @endforeach

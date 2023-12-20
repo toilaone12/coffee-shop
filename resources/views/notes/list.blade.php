@@ -44,20 +44,10 @@
                                     <td class="">{{date('d/m/Y H:i',strtotime($one->created_at))}}</td>
                                     <td>
                                         @if($one->status_note == 0)
-                                        <button 
-                                            style="width:40px;" 
-                                            class="mb-1 btn btn-primary choose-note" 
-                                            data-id="{{$one->id_note}}" 
-                                            data-toggle="modal" 
-                                            data-target="#updateModal"
-                                            >
+                                        <button style="width:40px;" class="mb-1 btn btn-primary choose-note" data-id="{{$one->id_note}}" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
-                                        <button 
-                                            class="btn btn-primary d-block mb-1 export-ingredients"
-                                            data-id="{{$one->id_note}}"
-                                            style="width:40px;"
-                                        >
+                                        <button class="btn btn-primary d-block mb-1 export-ingredients" data-id="{{$one->id_note}}" style="width:40px;">
                                             <i class="fa-solid fa-file-export"></i>
                                         </button>
                                         @endif
@@ -131,11 +121,11 @@
         </div>
     </div>
     <!-- End Modal Insert -->
-    
+
     <!-- Modal Detail Note -->
     <div class="modal fade" id="anotherModal" tabindex="-1" role="dialog" aria-labelledby="anotherModalLabel" aria-hidden="true">
         <!-- Nội dung của modal khác -->
-        <div class="modal-dialog overflow-auto" role="document" style="max-height: 750px; -webkit-overflow-scrolling: touch;">
+        <div class="modal-dialog" role="document" style="max-height: 750px; -webkit-overflow-scrolling: touch;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Nhập chi tiết phiếu hàng (Mã phiếu: <span class="code-detail-note fs-20"></span>)</h5>
@@ -144,12 +134,12 @@
                     </button>
                 </div>
                 <!-- <form method="post"> -->
-                    <div class="modal-body list-detail-note" data-count="" data-code="" data-id="">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary insert-detail-note">Thêm</button>
-                    </div>
+                <div class="modal-body list-detail-note overflow-auto" style="max-height: 500px; -webkit-overflow-scrolling: touch;" data-count="" data-code="" data-id="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary insert-detail-note">Thêm</button>
+                </div>
                 <!-- </form> -->
             </div>
         </div>
@@ -202,7 +192,7 @@
     <!-- Modal Update Detail Note -->
     <div class="modal fade" id="updateAnotherModal" tabindex="-1" role="dialog" aria-labelledby="updateAnotherModalLabel" aria-hidden="true">
         <!-- Nội dung của modal khác -->
-        <div class="modal-dialog overflow-auto" role="document" style="max-height: 750px; -webkit-overflow-scrolling: touch;">
+        <div class="modal-dialog overflow-auto" role="document" style="max-height: 500px; -webkit-overflow-scrolling: touch;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Nhập chi tiết phiếu hàng (Mã phiếu: <span class="code-detail-note fs-20"></span>)</h5>
@@ -211,12 +201,12 @@
                     </button>
                 </div>
                 <!-- <form method="post"> -->
-                    <div class="modal-body list-update-detail-note" data-count="" data-code="" data-id="">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary update-detail-note">Sửa</button>
-                    </div>
+                <div class="modal-body list-update-detail-note overflow-auto" style="max-height: 750px; -webkit-overflow-scrolling: touch;" data-count="" data-code="" data-id="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary update-detail-note">Sửa</button>
+                </div>
                 <!-- </form> -->
             </div>
         </div>

@@ -247,14 +247,21 @@ class OrderController extends Controller
             return redirect()->route('cart.home');
         } else {
             $idCustomer = request()->cookie('id_customer') ? request()->cookie('id_customer') : 0;
-            $customer = request()->cookie('id_customer') ? Customer::find($idCustomer) : [];
+            // $customer = request()->cookie('id_customer') ? Customer::find($idCustomer) : [];
             $list = Cart::where('id_customer', $idCustomer)->get();
             $news = News::orderBy('updated_at', 'desc')->limit(3)->get();
             $carts = array();
             $subtotal = 0;
             $total = 0;
+            $customer = '';
+            $isDot = '';
+            $notifications = array();
+            
             if (request()->cookie('id_customer')) {
                 $carts = Cart::where('id_customer', request()->cookie('id_customer'))->get();
+                $customer = Customer::find(request()->cookie('id_customer'));
+                $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
+                $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
                 foreach ($carts as $key => $one) {
                     $subtotal += intval($one['price_product']);
                 }
@@ -265,11 +272,9 @@ class OrderController extends Controller
                 }
                 $total += $subtotal + intval($order['fee_ship']) - intval($order['fee_discount']);
             }
-            $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification','desc')->limit(7)->get();
-            $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read',0)->orderBy('id_notification','desc')->get();
             $parentCategorys = Category::where('id_parent_category', 0)->get();
             $childCategorys = Category::where('id_parent_category', '!=', 0)->get();
-            return view('order.home', compact('list', 'title', 'parentCategorys', 'childCategorys', 'order', 'subtotal', 'total', 'news', 'notifications', 'isDot'));
+            return view('order.home', compact('list', 'title', 'parentCategorys', 'childCategorys', 'order', 'subtotal', 'total', 'news', 'notifications', 'isDot', 'customer'));
         }
     }
 

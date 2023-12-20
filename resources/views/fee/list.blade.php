@@ -14,6 +14,7 @@
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Chọn</th>
                                     <th>STT</th>
                                     <th>Bán kính</th>
@@ -25,18 +26,14 @@
                             <tbody>
                                 @foreach($list as $key => $one)
                                 <tr>
+                                    <td></td>
                                     <td><input type="checkbox" value="{{$one->id_fee}}" id=""></td>
                                     <td>{{$key + 1}}</td>
                                     <td class="radius-{{$one->id_fee}}">{{$one->radius_fee}} km</td>
                                     <td class="weather-{{$one->id_fee}}">{{$one->weather_condition}}</td>
                                     <td class="fee-{{$one->id_fee}}">{{number_format($one->fee,0,',','.')}}đ</td>
                                     <td>
-                                        <button 
-                                            class="btn btn-primary choose-fee" 
-                                            data-id="{{$one->id_fee}}" 
-                                            data-toggle="modal" 
-                                            data-target="#updateModal"
-                                            >
+                                        <button class="btn btn-primary choose-fee" data-id="{{$one->id_fee}}" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                         <button class="btn btn-danger delete-fee" data-id="{{$one->id_fee}}"><i class="fa-solid fa-trash-can"></i></button>
@@ -75,11 +72,13 @@
                 <form action="{{route('fee.insert')}}" method="post">
                     @csrf
                     <?php
+
                     use Illuminate\Support\Facades\Session;
+
                     $message = Session::get('message');
-                    if(isset($message)){
+                    if (isset($message)) {
                         echo $message;
-                        Session::put('message','');
+                        Session::put('message', '');
                     }
                     ?>
                     <div class="modal-body">

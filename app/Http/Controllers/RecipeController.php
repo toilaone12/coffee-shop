@@ -86,6 +86,7 @@ class RecipeController extends Controller
         $data = $request->all();
         $recipe = Recipe::find($data['id']);
         if($recipe){
+            $recipe->delete();
             $product = Product::find($recipe->id_product);
             $name = $product->name_product;
             $noti = [
@@ -108,6 +109,7 @@ class RecipeController extends Controller
         foreach($data['arrId'] as $key => $id){
             $recipe = Recipe::where('id_recipe',$id)->first();
             if($recipe){
+                $recipe->delete();
                 $product = Product::find($recipe->id_product);
                 $name = $product->name_product;
                 $noti = [

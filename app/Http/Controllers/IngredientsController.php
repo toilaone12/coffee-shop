@@ -94,22 +94,20 @@ class IngredientsController extends Controller
             ];
             Notification::create($noti);
             $recipes = Recipe::whereJsonContains('component_recipe', [['id_ingredient' => $data['id']]])->get();
-            foreach($recipes as $key => $recipe){
-                $idProduct = $recipe->id_product;
-                $delete = $recipe->delete();
-                if($delete){
-                    $product = Product::where('id_product',$idProduct)->delete();
-                    $review = Review::where('id_product',$idProduct)->delete();
-                    $recipe = Recipe::where('id_product',$idProduct)->delete();
-                    $gallery = Gallery::where('id_product',$idProduct)->delete();
+            if($recipes){
+                foreach($recipes as $key => $recipe){
+                    $idProduct = $recipe->id_product;
+                    $delete = $recipe->delete();
+                    if($delete){
+                        $product = Product::where('id_product',$idProduct)->delete();
+                        $review = Review::where('id_product',$idProduct)->delete();
+                        $recipe = Recipe::where('id_product',$idProduct)->delete();
+                        $gallery = Gallery::where('id_product',$idProduct)->delete();
+                    }
                     $noti += ['res' => 'success'];
                 }
             }
-            if($noti['res'] == 'success'){
-                return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Xoá nguyên liệu', 'status' => 'Bạn đã xóa nguyên liệu thành công']);
-            } else {
-                return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Xoá nguyên liệu', 'status' => 'Lỗi truy vấn']);
-            }
+            return response()->json(['res' => 'success', 'icon' => 'success', 'title' => 'Xoá nguyên liệu', 'status' => 'Bạn đã xóa nguyên liệu thành công']);
         } else {
             return response()->json(['res' => 'fail', 'icon' => 'error', 'title' => 'Xoá nguyên liệu', 'status' => 'Lỗi truy vấn']);
         }
@@ -132,16 +130,18 @@ class IngredientsController extends Controller
                     'is_read' => 0,
                 ];
                 Notification::create($noti);
-                $recipes = Recipe::whereJsonContains('component_recipe', [['id_ingredient' => $id]])->get();
-                foreach($recipes as $key => $recipe){
-                    // dd($recipes);
-                    $idProduct = $recipe->id_product;
-                    $delete = $recipe->delete();
-                    if($delete){
-                        $product = Product::where('id_product',$idProduct)->delete();
-                        $review = Review::where('id_product',$idProduct)->delete();
-                        $recipe = Recipe::where('id_product',$idProduct)->delete();
-                        $gallery = Gallery::where('id_product',$idProduct)->delete();
+                $recipes = Recipe::whereJsonContains('component_recipe', [['id_ingredient' => "$ingredient->id_ingredient"]])->get();
+                if($recipes){
+                    foreach($recipes as $key => $recipe){
+                        // dd($recipes);
+                        $idProduct = $recipe->id_product;
+                        $delete = $recipe->delete();
+                        if($delete){
+                            $product = Product::where('id_product',$idProduct)->delete();
+                            $review = Review::where('id_product',$idProduct)->delete();
+                            $recipe = Recipe::where('id_product',$idProduct)->delete();
+                            $gallery = Gallery::where('id_product',$idProduct)->delete();
+                        }
                     }
                 }
                 $noti += ['res' => 'success'];

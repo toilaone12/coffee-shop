@@ -12,6 +12,7 @@ class NotificationController extends Controller
     function one(Request $request){
         $data = $request->all();
         $notification = Notification::find($data['id']);
+        // dd($notification);
         $notification->is_read = 1;
         $update = $notification->update();
         if($update){
@@ -22,12 +23,13 @@ class NotificationController extends Controller
 
     function load(Request $request){
         $data = $request->all();
-        $offset = intval($data['page']) * 3;
+        $offset = intval($data['page']) * 7;
         // DB::enableQueryLog();
         if($data['isCustomer']){
-            $notification = Notification::where('id_customer',$data['id'])->orderBy('id_notification','desc')->skip($offset)->take(3)->get();
+            $notification = Notification::where('id_customer',$data['id'])->orderBy('id_notification','desc')->skip($offset)->take(7)->get();
         }else{
-            $notification = Notification::where('id_account',$data['id'])->orderBy('id_notification','desc')->skip($offset)->take(3)->get();
+            // dd(1);
+            $notification = Notification::where('id_account',$data['id'])->orderBy('id_notification','desc')->skip($offset)->take(7)->get();
         }
         // $db = DB::getQueryLog();
         // dd($db);

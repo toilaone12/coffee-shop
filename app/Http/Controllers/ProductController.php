@@ -197,7 +197,7 @@ class ProductController extends Controller
             $parentCategorys = Category::where('id_parent_category',0)->get();
             $childCategorys = Category::where('id_parent_category','!=',0)->get();
             $relates = Product::where('id_category',$product->id_category)->limit(4)->get();
-            $reviews = Review::where('id_product',$product->id_product)->get();
+            $reviews = Review::where('id_product',$product->id_product)->orderBy('id_review','desc')->get();
             $gallerys = Gallery::where('id_product',$product->id_product)->limit(4)->get();
             $carts = array();
             $isDot = '';

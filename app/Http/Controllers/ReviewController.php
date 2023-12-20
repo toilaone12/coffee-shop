@@ -52,10 +52,11 @@ class ReviewController extends Controller
                 $insert = Review::create($db);
                 if($insert){
                     $customer = Customer::find($data['id_reply']);
+                    // dd($data);
                     $noti = [
                         'id_account' => request()->cookie('id_account'),
                         'id_customer' => 0,
-                        'content' => 'Bạn đã phản hồi nội dung của khách hàng "'.$customer->name_customer.'"',
+                        'content' => 'Bạn đã phản hồi nội dung của khách hàng',
                         'link' => redirect()->route('review.list')->getTargetUrl(),
                         'is_read' => 0,
                     ];
@@ -84,7 +85,7 @@ class ReviewController extends Controller
                 $noti = [
                     'id_account' => request()->cookie('id_account'),
                     'id_customer' => 0,
-                    'content' => 'Bạn đã cập nhật phản hồi nội dung của khách hàng "'.$customer->name_customer.'"',
+                    'content' => 'Bạn đã cập nhật phản hồi nội dung của khách hàng',
                     'link' => redirect()->route('review.list')->getTargetUrl(),
                     'is_read' => 0,
                 ];
