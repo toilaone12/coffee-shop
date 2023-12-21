@@ -20,7 +20,7 @@
                                     <th>Danh mục</th>
                                     <th>Hình ảnh</th>
                                     <th>Tên sản phẩm</th>
-                                    <th>Tiêu đề</th>
+                                    <th width="200">Tiêu đề</th>
                                     <th>Giá cả</th>
                                     <th>Mô tả</th>
                                     <th>Món Best Sellers</th>
@@ -35,9 +35,9 @@
                                     <td>{{$key + 1}}</td>
                                     @foreach($listCate as $key => $cate)
                                     @if($cate->id_category == $one->id_category)
-                                        <td class="id-category-{{$one->id_product}}" data-id="{{$one->id_category}}">
-                                            {{$cate->name_category}}
-                                        </td>
+                                    <td class="id-category-{{$one->id_product}}" data-id="{{$one->id_category}}">
+                                        {{$cate->name_category}}
+                                    </td>
                                     @endif
                                     @endforeach
                                     <td>
@@ -46,7 +46,7 @@
                                     <td class="name-{{$one->id_product}}">{{$one->name_product}}</td>
                                     <td class="subname-{{$one->id_product}}">{{$one->subname_product}}</td>
                                     <td class="price-{{$one->id_product}}">{{$one->price_product}}</td>
-                                    <td class="description-{{$one->id_product}}">{{$one->description_product}}</td>
+                                    <td class="text-truncate description-{{$one->id_product}}">{{$one->description_product}}</td>
                                     <td class="is-special-{{$one->id_product}}" data-special="{{$one->is_special}}">{{$one->is_special ? 'Có' : 'Không'}}</td>
                                     <td>
                                         <button style="width: 45px;" class="btn mb-1 btn-primary choose-product" data-id="{{$one->id_product}}" data-toggle="modal" data-target="#updateModal">
@@ -61,7 +61,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                
+
                             </tbody>
                         </table>
                     </div>
@@ -223,7 +223,7 @@
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <div class="row">
-                                <input type="hidden" name="id_product" class="id-product" >
+                                <input type="hidden" name="id_product" class="id-product">
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label>Hình ảnh gốc</label>

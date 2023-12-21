@@ -5,73 +5,73 @@ chuc nang
 role: da check
 phan quyen: da check cac chuc nang out ra trang chinh
 Route::prefix('admin')->group(function(){
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard'); x
-    Route::get('/login', [AdminController::class, 'login'])->name('admin.login'); x
-    Route::post('/sign-in', [AdminController::class, 'signIn'])->name('admin.signIn'); x
-    Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout'); x
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard'); x x
+    Route::get('/login', [AdminController::class, 'login'])->name('admin.login'); x x
+    Route::post('/sign-in', [AdminController::class, 'signIn'])->name('admin.signIn'); x x
+    Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout'); x x
     //Chức vụ
     Route::prefix('role')->group(function(){
-        Route::get('/list',[RoleController::class, 'list'])->name('role.list'); x
+        Route::get('/list',[RoleController::class, 'list'])->name('role.list'); x x
         Route::group(['middleware' => 'auth.roles'],function(){
-            Route::post('/insert',[RoleController::class, 'insert'])->name('role.insert'); x 
-            Route::post('/update',[RoleController::class, 'update'])->name('role.update'); x
-            Route::post('/delete',[RoleController::class, 'delete'])->name('role.delete'); x
-            Route::post('/delete-all',[RoleController::class, 'deleteAll'])->name('role.deleteAll');x
+            Route::post('/insert',[RoleController::class, 'insert'])->name('role.insert'); x x
+            Route::post('/update',[RoleController::class, 'update'])->name('role.update'); x x
+            Route::post('/delete',[RoleController::class, 'delete'])->name('role.delete'); x x
+            Route::post('/delete-all',[RoleController::class, 'deleteAll'])->name('role.deleteAll');x x
         });
     });
     //Tài khoản
     Route::prefix('account')->group(function(){
-        Route::get('/list',[AccountController::class, 'list'])->name('account.list'); x
-        Route::get('/setting',[AccountController::class, 'setting'])->name('account.setting'); x
-        Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update'); x
+        Route::get('/list',[AccountController::class, 'list'])->name('account.list'); x x
+        Route::get('/setting',[AccountController::class, 'setting'])->name('account.setting'); x x
+        Route::post('/update',[AccountController::class, 'updateInfo'])->name('account.update'); x x
         Route::group(['middleware' => 'auth.roles'],function(){
-            Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert'); x
-            Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete'); x
-            Route::post('/assign',[AccountController::class, 'assign'])->name('account.assign'); // cap mat khau x
-            Route::post('/deleteAll',[AccountController::class, 'deleteAll'])->name('account.deleteAll'); x
-        });
+            Route::post('/insert',[AccountController::class, 'insert'])->name('account.insert'); x x
+            Route::post('/delete',[AccountController::class, 'delete'])->name('account.delete'); x x
+            Route::post('/assign',[AccountController::class, 'assign'])->name('account.assign'); // cap mat khau x x
+            Route::post('/deleteAll',[AccountController::class, 'deleteAll'])->name('account.deleteAll'); x  x
+        }); 
     });
     //Danh muc san pham
     Route::prefix('category')->group(function(){
-        Route::get('/list',[CategoryController::class, 'list'])->name('category.list'); x
-        Route::post('/insert',[CategoryController::class, 'insert'])->name('category.insert'); x
-        Route::post('/update',[CategoryController::class, 'update'])->name('category.update'); x
-        Route::post('/delete',[CategoryController::class, 'delete'])->name('category.delete'); x
-        Route::post('/delete-all',[CategoryController::class, 'deleteAll'])->name('category.deleteAll'); x
+        Route::get('/list',[CategoryController::class, 'list'])->name('category.list'); x x
+        Route::post('/insert',[CategoryController::class, 'insert'])->name('category.insert'); x x
+        Route::post('/update',[CategoryController::class, 'update'])->name('category.update'); x x
+        Route::post('/delete',[CategoryController::class, 'delete'])->name('category.delete'); x X
+        Route::post('/delete-all',[CategoryController::class, 'deleteAll'])->name('category.deleteAll'); x x
         
     });
     //San pham
     Route::prefix('product')->group(function(){
-        Route::get('/list',[ProductController::class, 'list'])->name('product.list'); x
-        Route::post('/insert',[ProductController::class, 'insert'])->name('product.insert'); x
-        Route::post('/update',[ProductController::class, 'update'])->name('product.update'); x 
-        Route::post('/delete',[ProductController::class, 'delete'])->name('product.delete'); x
-        Route::post('/delete-all',[ProductController::class, 'deleteAll'])->name('product.deleteAll'); x
+        Route::get('/list',[ProductController::class, 'list'])->name('product.list'); x x
+        Route::post('/insert',[ProductController::class, 'insert'])->name('product.insert'); x x
+        Route::post('/update',[ProductController::class, 'update'])->name('product.update'); x x
+        Route::post('/delete',[ProductController::class, 'delete'])->name('product.delete'); x x
+        Route::post('/delete-all',[ProductController::class, 'deleteAll'])->name('product.deleteAll'); x x
     });
     //Danh muc anh san pham
     Route::prefix('gallery')->group(function(){
-        Route::get('/list',[GalleryController::class, 'list'])->name('gallery.list'); x
-        Route::post('/insert',[GalleryController::class, 'insert'])->name('gallery.insert'); x
-        Route::post('/update',[GalleryController::class, 'update'])->name('gallery.update'); x
-        Route::post('/delete',[GalleryController::class, 'delete'])->name('gallery.delete'); x
-        Route::post('/delete-all',[GalleryController::class, 'deleteAll'])->name('gallery.deleteAll'); x
+        Route::get('/list',[GalleryController::class, 'list'])->name('gallery.list'); x x
+        Route::post('/insert',[GalleryController::class, 'insert'])->name('gallery.insert'); x x
+        Route::post('/update',[GalleryController::class, 'update'])->name('gallery.update'); x x
+        Route::post('/delete',[GalleryController::class, 'delete'])->name('gallery.delete'); x x
+        Route::post('/delete-all',[GalleryController::class, 'deleteAll'])->name('gallery.deleteAll'); x x
     });
     //Nguyen lieu
     Route::prefix('ingredients')->group(function(){
-        Route::get('/list',[IngredientsController::class, 'list'])->name('ingredients.list'); x
-        Route::post('/update',[IngredientsController::class, 'update'])->name('ingredients.update'); x
-        Route::post('/delete',[IngredientsController::class, 'delete'])->name('ingredients.delete'); x
-        Route::post('/delete-all',[IngredientsController::class, 'deleteAll'])->name('ingredients.deleteAll'); x
+        Route::get('/list',[IngredientsController::class, 'list'])->name('ingredients.list'); x x
+        Route::post('/update',[IngredientsController::class, 'update'])->name('ingredients.update'); x x
+        Route::post('/delete',[IngredientsController::class, 'delete'])->name('ingredients.delete'); x x
+        Route::post('/delete-all',[IngredientsController::class, 'deleteAll'])->name('ingredients.deleteAll'); x x
     });
     //Cong thuc
     Route::prefix('recipe')->group(function(){ 
-        Route::get('/list',[RecipeController::class, 'list'])->name('recipe.list'); x
-        Route::get('/check',[RecipeController::class, 'check'])->name('recipe.check'); x
+        Route::get('/list',[RecipeController::class, 'list'])->name('recipe.list'); x x
+        Route::get('/check',[RecipeController::class, 'check'])->name('recipe.check'); x x
         Route::group(['middleware' => 'auth.roles'],function(){
-            Route::post('/insert',[RecipeController::class, 'insert'])->name('recipe.insert'); x
-            Route::post('/update',[RecipeController::class, 'update'])->name('recipe.update'); x
-            Route::post('/delete',[RecipeController::class, 'delete'])->name('recipe.delete'); x
-            Route::post('/delete-all',[RecipeController::class, 'deleteAll'])->name('recipe.deleteAll'); x
+            Route::post('/insert',[RecipeController::class, 'insert'])->name('recipe.insert'); x x
+            Route::post('/update',[RecipeController::class, 'update'])->name('recipe.update'); x X
+            Route::post('/delete',[RecipeController::class, 'delete'])->name('recipe.delete'); x x
+            Route::post('/delete-all',[RecipeController::class, 'deleteAll'])->name('recipe.deleteAll'); x x
         });
     });
     //Don vi
@@ -83,54 +83,54 @@ Route::prefix('admin')->group(function(){
         Route::post('/delete-all',[UnitsController::class, 'deleteAll'])->name('units.deleteAll'); x
     });
     //Quang cao
-    Route::prefix('slide')->group(function(){
-        Route::get('/list',[SlideController::class, 'list'])->name('slide.list'); x
-        Route::post('/insert',[SlideController::class, 'insert'])->name('slide.insert'); x
-        Route::post('/update',[SlideController::class, 'update'])->name('slide.update'); x
-        Route::post('/delete',[SlideController::class, 'delete'])->name('slide.delete'); x
-        Route::post('/delete-all',[SlideController::class, 'deleteAll'])->name('slide.deleteAll'); x
+    Route::prefix('slide')->group(function(){ 
+        Route::get('/list',[SlideController::class, 'list'])->name('slide.list'); x x
+        Route::post('/insert',[SlideController::class, 'insert'])->name('slide.insert'); x X
+        Route::post('/update',[SlideController::class, 'update'])->name('slide.update'); x x
+        Route::post('/delete',[SlideController::class, 'delete'])->name('slide.delete'); x x
+        Route::post('/delete-all',[SlideController::class, 'deleteAll'])->name('slide.deleteAll'); x x
     });
     //Phi van chuyen
     Route::prefix('fee')->group(function(){
-        Route::get('/list',[FeeController::class, 'list'])->name('fee.list'); x
+        Route::get('/list',[FeeController::class, 'list'])->name('fee.list'); x x
         Route::group(['middleware' => 'auth.roles'],function(){
-            Route::post('/insert',[FeeController::class, 'insert'])->name('fee.insert'); x
-            Route::post('/update',[FeeController::class, 'update'])->name('fee.update'); x
-            Route::post('/delete',[FeeController::class, 'delete'])->name('fee.delete'); x
-            Route::post('/delete-all',[FeeController::class, 'deleteAll'])->name('fee.deleteAll'); x
+            Route::post('/insert',[FeeController::class, 'insert'])->name('fee.insert'); xx
+            Route::post('/update',[FeeController::class, 'update'])->name('fee.update'); xx
+            Route::post('/delete',[FeeController::class, 'delete'])->name('fee.delete'); xx
+            Route::post('/delete-all',[FeeController::class, 'deleteAll'])->name('fee.deleteAll'); xx
         });
     });
     //Nha cung cap
     Route::prefix('supplier')->group(function(){
-        Route::get('/list',[SupplierController::class, 'list'])->name('supplier.list'); x
+        Route::get('/list',[SupplierController::class, 'list'])->name('supplier.list'); x x
         Route::group(['middleware' => 'auth.roles'],function(){
-            Route::post('/insert',[SupplierController::class, 'insert'])->name('supplier.insert'); x
-            Route::post('/update',[SupplierController::class, 'update'])->name('supplier.update'); x
-            Route::post('/delete',[SupplierController::class, 'delete'])->name('supplier.delete'); x
-            Route::post('/delete-all',[SupplierController::class, 'deleteAll'])->name('supplier.deleteAll'); x
+            Route::post('/insert',[SupplierController::class, 'insert'])->name('supplier.insert'); xx
+            Route::post('/update',[SupplierController::class, 'update'])->name('supplier.update'); xx
+            Route::post('/delete',[SupplierController::class, 'delete'])->name('supplier.delete'); xx
+            Route::post('/delete-all',[SupplierController::class, 'deleteAll'])->name('supplier.deleteAll'); xx
         });
     });
     //Khach hang
     Route::prefix('customer')->group(function(){
-        Route::get('/list',[CustomerController::class, 'list'])->name('customer.list'); x
+        Route::get('/list',[CustomerController::class, 'list'])->name('customer.list'); xx
     });
     //Phieu hang
     Route::prefix('notes')->group(function(){
-        Route::get('/list',[NotesController::class, 'list'])->name('notes.list'); x 
-        Route::post('/insert',[NotesController::class, 'insert'])->name('notes.insert'); x
-        Route::post('/update',[NotesController::class, 'update'])->name('notes.update'); x
-        Route::post('/delete',[NotesController::class, 'delete'])->name('notes.delete'); x
-        Route::post('/delete-all',[NotesController::class, 'deleteAll'])->name('notes.deleteAll'); x
+        Route::get('/list',[NotesController::class, 'list'])->name('notes.list'); xx 
+        Route::post('/insert',[NotesController::class, 'insert'])->name('notes.insert'); xx
+        Route::post('/update',[NotesController::class, 'update'])->name('notes.update'); xx
+        Route::post('/delete',[NotesController::class, 'delete'])->name('notes.delete'); xx
+        Route::post('/delete-all',[NotesController::class, 'deleteAll'])->name('notes.deleteAll'); xx
     });
     //Chi tiet phieu hang
     Route::prefix('detail')->group(function(){
-        Route::get('/list',[DetailNoteController::class, 'list'])->name('detail.list'); x
-        Route::post('/insert',[DetailNoteController::class, 'insert'])->name('detail.insert'); x
-        Route::post('/update',[DetailNoteController::class, 'update'])->name('detail.update'); x
-        Route::post('/delete',[DetailNoteController::class, 'delete'])->name('detail.delete'); x
-        Route::post('/delete-all',[DetailNoteController::class, 'deleteAll'])->name('detail.deleteAll'); x
-        Route::get('/print-pdf',[DetailNoteController::class, 'printPDF'])->name('detail.pdf'); x
-        Route::get('/export',[DetailNoteController::class, 'export'])->name('detail.export'); x
+        Route::get('/list',[DetailNoteController::class, 'list'])->name('detail.list'); x x
+        Route::post('/insert',[DetailNoteController::class, 'insert'])->name('detail.insert'); xx
+        Route::post('/update',[DetailNoteController::class, 'update'])->name('detail.update'); xx
+        Route::post('/delete',[DetailNoteController::class, 'delete'])->name('detail.delete'); xx
+        Route::post('/delete-all',[DetailNoteController::class, 'deleteAll'])->name('detail.deleteAll'); xx
+        Route::get('/print-pdf',[DetailNoteController::class, 'printPDF'])->name('detail.pdf'); xx
+        Route::get('/export',[DetailNoteController::class, 'export'])->name('detail.export'); xx
     });
     //Don dat hang
     Route::prefix('order')->group(function(){
@@ -146,91 +146,91 @@ Route::prefix('admin')->group(function(){
     });
     //Ma khuyen mai
     Route::prefix('coupon')->group(function(){
-        Route::get('/list',[CouponController::class, 'list'])->name('coupon.list'); X 
+        Route::get('/list',[CouponController::class, 'list'])->name('coupon.list'); X x
         Route::group(['middleware' => 'auth.roles'],function(){
-            Route::post('/insert',[CouponController::class, 'insert'])->name('coupon.insert'); X
-            Route::post('/update',[CouponController::class, 'update'])->name('coupon.update'); X
-            Route::post('/delete',[CouponController::class, 'delete'])->name('coupon.delete'); X
-            Route::post('/delete-all',[CouponController::class, 'deleteAll'])->name('coupon.deleteAll'); x
+            Route::post('/insert',[CouponController::class, 'insert'])->name('coupon.insert'); Xx
+            Route::post('/update',[CouponController::class, 'update'])->name('coupon.update'); Xx
+            Route::post('/delete',[CouponController::class, 'delete'])->name('coupon.delete'); Xx
+            Route::post('/delete-all',[CouponController::class, 'deleteAll'])->name('coupon.deleteAll'); xx
         });
     });
     //Danh gia
     Route::prefix('review')->group(function(){
-        Route::get('/list',[ReviewController::class, 'list'])->name('review.list'); X
-        Route::post('/reply',[ReviewController::class, 'reply'])->name('review.reply'); x
-        Route::post('/update',[ReviewController::class, 'update'])->name('review.update'); x
+        Route::get('/list',[ReviewController::class, 'list'])->name('review.list'); xx
+        Route::post('/reply',[ReviewController::class, 'reply'])->name('review.reply'); Xx
+        Route::post('/update',[ReviewController::class, 'update'])->name('review.update'); xx
     });
     //Tin tuc
     Route::prefix('news')->group(function(){
-        Route::get('/list',[NewsController::class, 'list'])->name('news.list'); x
+        Route::get('/list',[NewsController::class, 'list'])->name('news.list'); xx
         Route::group(['middleware' => 'auth.roles'],function(){
-            Route::post('/insert',[NewsController::class, 'insert'])->name('news.insert'); X
-            Route::post('/update',[NewsController::class, 'update'])->name('news.update'); x
-            Route::post('/delete',[NewsController::class, 'delete'])->name('news.delete');  X
-            Route::post('/delete-all',[NewsController::class, 'deleteAll'])->name('news.deleteAll'); x
+            Route::post('/insert',[NewsController::class, 'insert'])->name('news.insert'); xx
+            Route::post('/update',[NewsController::class, 'update'])->name('news.update'); Xx
+            Route::post('/delete',[NewsController::class, 'delete'])->name('news.delete');  xx
+            Route::post('/delete-all',[NewsController::class, 'deleteAll'])->name('news.deleteAll'); xx
         });
     });
     //Thong bao
     Route::prefix('notification')->group(function(){
-        Route::post('/one',[NotificationController::class, 'one'])->name('notification.one'); x
-        Route::post('/load',[NotificationController::class, 'load'])->name('notification.load'); x
+        Route::post('/one',[NotificationController::class, 'one'])->name('notification.one'); Xx
+        Route::post('/load',[NotificationController::class, 'load'])->name('notification.load'); xx
     }); 
 });
 //Trang nguoi dung
 Route::prefix('page')->group(function(){
-    Route::get('/',[HomeController::class,'home'])->name('page.home'); x
+    Route::get('/',[HomeController::class,'home'])->name('page.home'); xx
     //danh muc
     Route::prefix('category')->group(function(){
-        Route::get('/{parent}/{child}',[CategoryController::class,'home'])->name('category.home'); x
-        Route::post('/search',[CategoryController::class,'search'])->name('category.search'); x
+        Route::get('/{parent}/{child}',[CategoryController::class,'home'])->name('category.home'); xx
+        Route::post('/search',[CategoryController::class,'search'])->name('category.search'); xx
     });
     //san pham
     Route::prefix('product')->group(function(){
-        Route::get('/menu',[ProductController::class,'menu'])->name('product.menu');  x
-        Route::get('/{slug}',[ProductController::class,'detail'])->name('product.detail'); x
+        Route::get('/menu',[ProductController::class,'menu'])->name('product.menu');  Xx
+        Route::get('/{slug}',[ProductController::class,'detail'])->name('product.detail'); Xx
     });
     //danh gia 
     Route::prefix('review')->group(function(){
-        Route::post('/evalute',[ReviewController::class,'evalute'])->name('review.evalute'); x
+        Route::post('/evalute',[ReviewController::class,'evalute'])->name('review.evalute'); xx
     });
     //khach hang
     Route::prefix('customer')->group(function(){
-        Route::post('/register',[CustomerController::class,'register'])->name('customer.register'); X 
-        Route::post('/login',[CustomerController::class,'login'])->name('customer.login'); x
-        Route::post('/logout',[CustomerController::class,'logout'])->name('customer.logout'); X
-        Route::post('/forgot',[CustomerController::class,'forgot'])->name('customer.forgot'); x
-        Route::get('/home',[CustomerController::class,'home'])->name('customer.home'); x
-        Route::post('/update',[CustomerController::class,'update'])->name('customer.update'); x
-        Route::post('/updatePassword',[CustomerController::class,'updatePassword'])->name('customer.updatePassword'); x
+        Route::post('/register',[CustomerController::class,'register'])->name('customer.register'); X x
+        Route::post('/login',[CustomerController::class,'login'])->name('customer.login'); Xx
+        Route::post('/logout',[CustomerController::class,'logout'])->name('customer.logout'); xx
+        Route::post('/forgot',[CustomerController::class,'forgot'])->name('customer.forgot'); xx
+        Route::get('/home',[CustomerController::class,'home'])->name('customer.home'); Xx
+        Route::post('/update',[CustomerController::class,'update'])->name('customer.update'); Xx
+        Route::post('/updatePassword',[CustomerController::class,'updatePassword'])->name('customer.updatePassword'); xx
     }); 
     //gio hang
     Route::prefix('cart')->group(function(){
-        Route::get('/',[CartController::class,'home'])->name('cart.home'); x
-        Route::get('/delete',[CartController::class,'delete'])->name('cart.delete'); x
-        Route::post('/insert',[CartController::class,'insert'])->name('cart.insert'); x
-        Route::post('/update',[CartController::class,'update'])->name('cart.update'); x
-        Route::post('/updateNote',[CartController::class,'updateNote'])->name('cart.updateNote'); x
+        Route::get('/',[CartController::class,'home'])->name('cart.home'); Xx
+        Route::get('/delete',[CartController::class,'delete'])->name('cart.delete'); xx
+        Route::post('/insert',[CartController::class,'insert'])->name('cart.insert'); Xx
+        Route::post('/update',[CartController::class,'update'])->name('cart.update'); Xx
+        Route::post('/updateNote',[CartController::class,'updateNote'])->name('cart.updateNote'); xx
     });
     //tin tuc
     Route::prefix('blog')->group(function(){
-        Route::get('/',[NewsController::class,'home'])->name('news.home'); x
-        Route::get('/{slug}',[NewsController::class,'detail'])->name('blog.detail'); x
+        Route::get('/',[NewsController::class,'home'])->name('news.home'); Xx
+        Route::get('/{slug}',[NewsController::class,'detail'])->name('blog.detail'); xx
     });
     //phi van chuyen
     Route::prefix('fee')->group(function(){
-        Route::post('/search',[FeeController::class,'search'])->name('fee.search'); x
+        Route::post('/search',[FeeController::class,'search'])->name('fee.search'); xx
     });
     //ma khuyen mai
     Route::prefix('coupon')->group(function(){
-        Route::post('/apply',[CouponController::class,'apply'])->name('coupon.apply'); x
-        Route::get('/',[CouponController::class,'home'])->name('coupon.home'); x
+        Route::post('/apply',[CouponController::class,'apply'])->name('coupon.apply'); xx
+        Route::get('/',[CouponController::class,'home'])->name('coupon.home'); xx
     });
     //dat hang
     Route::prefix('order')->group(function(){
-        Route::get('/',[OrderController::class,'home'])->name('order.home'); X
-        Route::post('/apply',[OrderController::class,'apply'])->name('order.apply'); x
-        Route::post('/order',[OrderController::class,'order'])->name('order.order'); x
-        Route::get('/history',[OrderController::class,'history'])->name('order.history'); x
-        Route::get('/detail/{code}',[OrderController::class,'detail'])->name('order.detail'); x
+        Route::get('/',[OrderController::class,'home'])->name('order.home'); xx
+        Route::post('/apply',[OrderController::class,'apply'])->name('order.apply'); Xx
+        Route::post('/order',[OrderController::class,'order'])->name('order.order'); Xx
+        Route::get('/history',[OrderController::class,'history'])->name('order.history'); Xx
+        Route::get('/detail/{code}',[OrderController::class,'detail'])->name('order.detail'); xx
     });
 });

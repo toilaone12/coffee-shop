@@ -290,6 +290,10 @@ class CategoryController extends Controller
         $lists = Product::where('name_product','like','%'.$keyword.'%')->get();
         $parentCategorys = Category::where('id_parent_category',0)->get();
         $childCategorys = Category::where('id_parent_category','!=',0)->get();
+        $customer = Customer::find(request()->cookie('id_customer'));
+        $carts = Cart::where('id_customer', request()->cookie('id_customer'))->get();
+        $notifications = Notification::where('id_customer', request()->cookie('id_customer'))->orderBy('id_notification', 'desc')->limit(7)->get();
+        $isDot = Notification::where('id_customer', request()->cookie('id_customer'))->where('is_read', 0)->orderBy('id_notification', 'desc')->get();
         $arrayProductInCategory = [];
         foreach($childCategorys as $key => $child){
             $productChild = Product::where('id_category',$child->id_category)->get();
@@ -306,6 +310,6 @@ class CategoryController extends Controller
         }
         // dd($arrayProductInCategory);
         $listChilds = collect($arrayProductInCategory);
-        return view('category.home',compact('lists','title','parentCategorys','childCategorys','listChilds'));
+        return view('category.home',compact('lists','title','parentCategorys','childCategorys','listChilds','isDot','notifications','customer','carts'));
     }
 }
